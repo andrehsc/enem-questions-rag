@@ -1,0 +1,782 @@
+# TeachersHub OpenAPI Specification v1
+# Generated from: http://localhost:8080/swagger/v1/swagger.json
+# Generation Date: 2025-10-11
+# 
+# This specification documents the complete TeachersHub API
+# including authentication, lesson plans, assessments, and testing endpoints
+
+openapi: 3.0.1
+info:
+  title: TeachersHub API
+  description: |
+    TeachersHub is a comprehensive platform designed to enhance teacher productivity, 
+    lesson planning, and educational resource management. This API provides endpoints
+    for authentication, lesson plan management, assessment creation, and testing utilities.
+    
+    ## Features
+    - JWT-based authentication
+    - Lesson plan CRUD operations
+    - Assessment management
+    - Teacher profile management
+    - Pagination support
+    
+    ## Base URL
+    - Development: http://localhost:8080
+    
+  version: v1
+  contact:
+    name: TeachersHub API Support
+  license:
+    name: MIT
+paths:
+  /api/assessments:
+    get:
+      tags:
+      - Assessments
+      parameters:
+      - name: page
+        in: query
+        style: form
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: pageSize
+        in: query
+        style: form
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AssessmentDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AssessmentDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AssessmentDto'
+    post:
+      tags:
+      - Assessments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAssessmentDto'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CreateAssessmentDto'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/CreateAssessmentDto'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AssessmentDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentDto'
+  /api/assessments/{id}:
+    get:
+      tags:
+      - Assessments
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AssessmentDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentDto'
+    put:
+      tags:
+      - Assessments
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAssessmentDto'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAssessmentDto'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/UpdateAssessmentDto'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AssessmentDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentDto'
+    delete:
+      tags:
+      - Assessments
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Success
+  /api/Auth/register:
+    post:
+      tags:
+      - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDto'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDto'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/RegisterDto'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AuthResponseDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponseDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponseDto'
+  /api/Auth/login:
+    post:
+      tags:
+      - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AuthResponseDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponseDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponseDto'
+  /api/Auth/me:
+    get:
+      tags:
+      - Auth
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/TeacherDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeacherDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/TeacherDto'
+  /api/lesson-plans:
+    get:
+      tags:
+      - LessonPlans
+      parameters:
+      - name: page
+        in: query
+        style: form
+        schema:
+          type: integer
+          format: int32
+          default: 1
+      - name: pageSize
+        in: query
+        style: form
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LessonPlanDto'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LessonPlanDto'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LessonPlanDto'
+    post:
+      tags:
+      - LessonPlans
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLessonPlanDto'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CreateLessonPlanDto'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/CreateLessonPlanDto'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/LessonPlanDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonPlanDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/LessonPlanDto'
+  /api/lesson-plans/{id}:
+    get:
+      tags:
+      - LessonPlans
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/LessonPlanDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonPlanDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/LessonPlanDto'
+    put:
+      tags:
+      - LessonPlans
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLessonPlanDto'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLessonPlanDto'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/UpdateLessonPlanDto'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/LessonPlanDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonPlanDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/LessonPlanDto'
+    delete:
+      tags:
+      - LessonPlans
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Success
+  /health:
+    get:
+      tags:
+      - TeachersHub.Api
+      responses:
+        '200':
+          description: Success
+  /auth/test:
+    get:
+      tags:
+      - TeachersHub.Api
+      responses:
+        '200':
+          description: Success
+  /api/test-lesson-plans/status:
+    get:
+      tags:
+      - TestLessonPlans
+      responses:
+        '200':
+          description: Success
+  /api/test-lesson-plans/ensure-teacher:
+    post:
+      tags:
+      - TestLessonPlans
+      responses:
+        '200':
+          description: Success
+  /api/test-lesson-plans/create:
+    post:
+      tags:
+      - TestLessonPlans
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLessonPlanDto'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CreateLessonPlanDto'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/CreateLessonPlanDto'
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/LessonPlanDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LessonPlanDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/LessonPlanDto'
+  /api/test-lesson-plans/list:
+    get:
+      tags:
+      - TestLessonPlans
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    AssessmentDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        teacherId:
+          type: string
+          format: uuid
+        title:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestionDto'
+          nullable: true
+      additionalProperties: false
+    AuthResponseDto:
+      type: object
+      properties:
+        token:
+          type: string
+          nullable: true
+        teacher:
+          $ref: '#/components/schemas/TeacherDto'
+      additionalProperties: false
+    CreateAssessmentDto:
+      type: object
+      properties:
+        title:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateQuestionDto'
+          nullable: true
+      additionalProperties: false
+    CreateLessonPlanDto:
+      required:
+      - title
+      type: object
+      properties:
+        title:
+          maxLength: 200
+          minLength: 0
+          type: string
+        objectives:
+          maxLength: 2000
+          minLength: 0
+          type: string
+          nullable: true
+        activities:
+          maxLength: 5000
+          minLength: 0
+          type: string
+          nullable: true
+        resources:
+          maxLength: 2000
+          minLength: 0
+          type: string
+          nullable: true
+        scheduledAt:
+          type: string
+          format: date-time
+          nullable: true
+      additionalProperties: false
+    CreateOptionDto:
+      type: object
+      properties:
+        text:
+          type: string
+          nullable: true
+        isCorrect:
+          type: boolean
+        order:
+          type: integer
+          format: int32
+      additionalProperties: false
+    CreateQuestionDto:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/QuestionType'
+        prompt:
+          type: string
+          nullable: true
+        answerKey:
+          type: string
+          nullable: true
+        order:
+          type: integer
+          format: int32
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateOptionDto'
+          nullable: true
+      additionalProperties: false
+    LessonPlanDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        teacherId:
+          type: string
+          format: uuid
+        title:
+          type: string
+          nullable: true
+        objectives:
+          type: string
+          nullable: true
+        activities:
+          type: string
+          nullable: true
+        resources:
+          type: string
+          nullable: true
+        scheduledAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    LoginDto:
+      type: object
+      properties:
+        email:
+          type: string
+          nullable: true
+        password:
+          type: string
+          nullable: true
+      additionalProperties: false
+    OptionDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        questionId:
+          type: string
+          format: uuid
+        text:
+          type: string
+          nullable: true
+        isCorrect:
+          type: boolean
+        order:
+          type: integer
+          format: int32
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      additionalProperties: false
+    QuestionDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        assessmentId:
+          type: string
+          format: uuid
+        type:
+          $ref: '#/components/schemas/QuestionType'
+        prompt:
+          type: string
+          nullable: true
+        answerKey:
+          type: string
+          nullable: true
+        order:
+          type: integer
+          format: int32
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/OptionDto'
+          nullable: true
+      additionalProperties: false
+    QuestionType:
+      enum:
+      - 1
+      - 2
+      - 3
+      type: integer
+      format: int32
+    RegisterDto:
+      type: object
+      properties:
+        email:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        password:
+          type: string
+          nullable: true
+      additionalProperties: false
+    TeacherDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+      additionalProperties: false
+    UpdateAssessmentDto:
+      type: object
+      properties:
+        title:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateQuestionDto'
+          nullable: true
+      additionalProperties: false
+    UpdateLessonPlanDto:
+      required:
+      - title
+      type: object
+      properties:
+        title:
+          maxLength: 200
+          minLength: 0
+          type: string
+        objectives:
+          maxLength: 2000
+          minLength: 0
+          type: string
+          nullable: true
+        activities:
+          maxLength: 5000
+          minLength: 0
+          type: string
+          nullable: true
+        resources:
+          maxLength: 2000
+          minLength: 0
+          type: string
+          nullable: true
+        scheduledAt:
+          type: string
+          format: date-time
+          nullable: true
+      additionalProperties: false
+    UpdateOptionDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        text:
+          type: string
+          nullable: true
+        isCorrect:
+          type: boolean
+        order:
+          type: integer
+          format: int32
+      additionalProperties: false
+    UpdateQuestionDto:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        type:
+          $ref: '#/components/schemas/QuestionType'
+        prompt:
+          type: string
+          nullable: true
+        answerKey:
+          type: string
+          nullable: true
+        order:
+          type: integer
+          format: int32
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateOptionDto'
+          nullable: true
+      additionalProperties: false
+  securitySchemes:
+    Bearer:
+      type: http
+      description: Enter 'Bearer' followed by a space and the JWT token.
+      scheme: Bearer
+      bearerFormat: JWT
+security:
+- Bearer: []
