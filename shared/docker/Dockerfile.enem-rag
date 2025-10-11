@@ -1,0 +1,53 @@
+# ENEM RAG Service Dockerfile
+# Using EXACT configuration from 00-dev-credentials.md
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies including curl for health checks
+RUN apt-get update && apt-get install -y \
+    curl \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for better caching
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install additional ML dependencies
+RUN pip install --no-cache-dir \
+    sentence-transformers \
+    torch \
+    transformers \
+    scikit-learn \
+    numpy \
+    pandas
+
+# Copy application code
+COPY . .
+
+# Create necessary directories
+RUN mkdir -p /app/cache /app/logs /app/models
+
+# Set environment variables consistent with credentials
+ENV PYTHONPATH=/app
+ENV DB_HOST=postgres
+ENV DB_PORT=5432
+ENV DB_NAME=teachershub_enem
+ENV DB_USER=enem_rag_service
+ENV DB_PASSWORD=enem123
+ENV REDIS_HOST=redis
+ENV REDIS_PORT=6379
+ENV REDIS_DB=1
+
+# Use exact port from credentials reference
+EXPOSE 8000
+
+# Health check endpoint
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Run FastAPI with uvicorn
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

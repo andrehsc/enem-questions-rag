@@ -52,15 +52,15 @@ async def check_database_connection():
         
         DATABASE_CONFIG = {
             'host': os.getenv('DB_HOST', 'localhost'),
-            'port': os.getenv('DB_PORT', 5432),
-            'database': os.getenv('DB_NAME', 'enem_rag'),
-            'user': os.getenv('DB_USER', 'postgres'),
-            'password': os.getenv('DB_PASS', 'postgres123')
+            'port': os.getenv('DB_PORT', 5433),
+            'database': os.getenv('DB_NAME', 'teachershub_enem'),
+            'user': os.getenv('DB_USER', 'enem_rag_service'),
+            'password': os.getenv('DB_PASS', 'enem123')
         }
         
         conn = psycopg2.connect(**DATABASE_CONFIG)
         cursor = conn.cursor()
-        cursor.execute("SELECT COUNT(*) FROM questoes")
+        cursor.execute("SELECT COUNT(*) FROM enem_questions.questions")
         count = cursor.fetchone()[0]
         cursor.close()
         conn.close()
@@ -187,7 +187,7 @@ async def generate_system_report():
         "API Endpoints": await test_api_endpoints()
     }
     
-    logger.info("\ní³Š RESUMO:")
+    logger.info("\n=== RESUMO:")
     
     total_checks = len(checks)
     passed_checks = sum(1 for status in checks.values() if status)
@@ -196,10 +196,10 @@ async def generate_system_report():
         status_symbol = "âœ“" if status else "âœ—"
         logger.info(f"   {status_symbol} {check_name}")
     
-    logger.info(f"\ní¾¯ STATUS GERAL: {passed_checks}/{total_checks} verificaÃ§Ãµes OK")
+    logger.info(f"\nï¿½ï¿½ï¿½ STATUS GERAL: {passed_checks}/{total_checks} verificaÃ§Ãµes OK")
     
     if passed_checks == total_checks:
-        logger.info("í¾‰ SISTEMA TOTALMENTE OPERACIONAL!")
+        logger.info("ï¿½ï¿½ï¿½ SISTEMA TOTALMENTE OPERACIONAL!")
         return_code = 0
     elif passed_checks >= total_checks * 0.7:
         logger.warning("âš  SISTEMA PARCIALMENTE OPERACIONAL")
@@ -208,7 +208,7 @@ async def generate_system_report():
         logger.error("âŒ SISTEMA COM PROBLEMAS CRÃTICOS")
         return_code = 2
     
-    logger.info("\ní³ PRÃ“XIMOS PASSOS:")
+    logger.info("\nï¿½ï¿½ï¿½ PRÃ“XIMOS PASSOS:")
     
     if not checks["DependÃªncias Python"]:
         logger.info("   1. Instalar dependÃªncias: pip install -r requirements.txt")

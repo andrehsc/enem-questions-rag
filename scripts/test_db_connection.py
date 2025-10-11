@@ -26,10 +26,10 @@ def test_connection():
         # Connection parameters
         conn_params = {
             'host': os.getenv('POSTGRES_HOST', 'localhost'),
-            'port': os.getenv('POSTGRES_PORT', '5432'),
-            'database': os.getenv('POSTGRES_DB', 'enem_questions_rag'),
-            'user': os.getenv('POSTGRES_USER', 'enem_user'),
-            'password': os.getenv('POSTGRES_PASSWORD', 'enem_password_2024')
+            'port': os.getenv('POSTGRES_PORT', '5433'),
+            'database': os.getenv('POSTGRES_DB', 'teachershub_enem'),
+            'user': os.getenv('POSTGRES_USER', 'enem_rag_service'),
+            'password': os.getenv('POSTGRES_PASSWORD', 'enem123')
         }
         
         print(f"📡 Connecting to: {conn_params['user']}@{conn_params['host']}:{conn_params['port']}/{conn_params['database']}")
@@ -59,10 +59,10 @@ def test_schema():
     try:
         conn_params = {
             'host': os.getenv('POSTGRES_HOST', 'localhost'),
-            'port': os.getenv('POSTGRES_PORT', '5432'),
-            'database': os.getenv('POSTGRES_DB', 'enem_questions_rag'),
-            'user': os.getenv('POSTGRES_USER', 'enem_user'),
-            'password': os.getenv('POSTGRES_PASSWORD', 'enem_password_2024')
+            'port': os.getenv('POSTGRES_PORT', '5433'),
+            'database': os.getenv('POSTGRES_DB', 'teachershub_enem'),
+            'user': os.getenv('POSTGRES_USER', 'enem_rag_service'),
+            'password': os.getenv('POSTGRES_PASSWORD', 'enem123')
         }
         
         with psycopg2.connect(**conn_params) as conn:

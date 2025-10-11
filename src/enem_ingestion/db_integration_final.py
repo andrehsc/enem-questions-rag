@@ -5,7 +5,7 @@ from datetime import datetime
 from pathlib import Path
 import logging
 
-from src.enem_ingestion.parser import EnemPDFParser
+from .parser import EnemPDFParser
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +13,7 @@ class DatabaseIntegration:
     """Database integration for ENEM questions"""
     
     def __init__(self):
-        self.connection_url = "postgresql://postgres:postgres123@localhost:5432/enem_rag"
+        self.connection_url = "postgresql://enem_rag_service:enem123@localhost:5433/teachershub_enem"
         self.connection = psycopg2.connect(self.connection_url, cursor_factory=RealDictCursor)
         self.parser = EnemPDFParser()
         

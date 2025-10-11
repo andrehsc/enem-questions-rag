@@ -42,15 +42,15 @@ async def check_database_connection():
         
         DATABASE_CONFIG = {
             'host': 'localhost',
-            'port': 5432,
-            'database': 'enem_rag',
-            'user': 'postgres',
-            'password': 'postgres123'
+            'port': 5433,
+            'database': 'teachershub_enem',
+            'user': 'enem_rag_service',
+            'password': 'enem123'
         }
         
         conn = psycopg2.connect(**DATABASE_CONFIG)
         cursor = conn.cursor()
-        cursor.execute("SELECT COUNT(*) FROM questoes")
+        cursor.execute("SELECT COUNT(*) FROM enem_questions.questions")
         count = cursor.fetchone()[0]
         cursor.close()
         conn.close()

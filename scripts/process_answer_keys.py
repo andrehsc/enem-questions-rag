@@ -19,7 +19,7 @@ class AnswerKeyProcessor:
     """Processador de gabaritos ENEM"""
     
     def __init__(self):
-        self.connection_url = "postgresql://postgres:postgres123@localhost:5432/enem_rag"
+        self.connection_url = "postgresql://enem_rag_service:enem123@localhost:5433/teachershub_enem"
         self.parser = EnemPDFParser()
     
     def get_connection(self):

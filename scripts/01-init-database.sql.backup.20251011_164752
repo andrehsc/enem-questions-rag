@@ -4,11 +4,11 @@
 -- ========================================
 
 -- Configurar encoding e locale
-ALTER DATABASE teachershub_enem SET client_encoding TO 'UTF8';
-ALTER DATABASE teachershub_enem SET lc_messages TO 'en_US.UTF-8';
-ALTER DATABASE teachershub_enem SET lc_monetary TO 'en_US.UTF-8';
-ALTER DATABASE teachershub_enem SET lc_numeric TO 'en_US.UTF-8';
-ALTER DATABASE teachershub_enem SET lc_time TO 'en_US.UTF-8';
+ALTER DATABASE enem_questions_rag SET client_encoding TO 'UTF8';
+ALTER DATABASE enem_questions_rag SET lc_messages TO 'en_US.UTF-8';
+ALTER DATABASE enem_questions_rag SET lc_monetary TO 'en_US.UTF-8';
+ALTER DATABASE enem_questions_rag SET lc_numeric TO 'en_US.UTF-8';
+ALTER DATABASE enem_questions_rag SET lc_time TO 'en_US.UTF-8';
 
 -- Criar extensões necessárias
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

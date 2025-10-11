@@ -1,92 +1,77 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Script de ingestao completa do ENEM RAG com relatorio detalhado.
-
-Este script processa todos os arquivos de questoes (PV) e gabaritos (GB)
-disponiveis e gera um relatorio completo com metricas de importacao.
+Script de Ingestão Completa ENEM - Questões e Gabaritos
+Processa todos os PDFs disponíveis (PV e GB) para criar base completa.
 """
 
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from pathlib import Path
 import sys
-import time
 from datetime import datetime
-import json
+import time
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_completed
+import multiprocessing
+import threading
+import re
 
 # Adicionar src ao path
-sys.path.append('src')
-sys.path.append('.')
+sys.path.append(str(Path(__file__).parent.parent / 'src'))
 
-from src.enem_ingestion.db_integration_final import DatabaseIntegration
+from enem_ingestion.db_integration_final import DatabaseIntegration
 
 class FullIngestionProcessor:
-    """Processador completo de ingestao ENEM"""
+    """Processador completo de ingestão ENEM"""
     
     def __init__(self):
-        self.connection_url = "postgresql://postgres:postgres123@localhost:5432/enem_rag"
+        self.connection_url = "postgresql://enem_rag_service:enem123@localhost:5433/teachershub_enem"
         self.db_integration = DatabaseIntegration()
-        self.report = {
-            'start_time': datetime.now(),
-            'end_time': None,
-            'files_processed': {
-                'questions': [],
-                'answer_keys': []
-            },
-            'metrics': {
-                'total_files_found': 0,
-                'total_files_processed': 0,
-                'total_questions_parsed': 0,
-                'total_questions_inserted': 0,
-                'total_alternatives_expected': 0,
-                'total_alternatives_inserted': 0,
-                'total_answer_keys_parsed': 0,
-                'total_answer_keys_inserted': 0,
-                'success_rate_questions': 0,
-                'success_rate_alternatives': 0,
-                'processing_time_seconds': 0
-            },
-            'errors': [],
-            'by_year': {},
-            'by_subject': {}
-        }
-    
+        
     def get_connection(self):
         return psycopg2.connect(self.connection_url, cursor_factory=RealDictCursor)
     
-    def find_all_files(self):
-        """Encontrar todos os arquivos PV (questoes) e GB (gabaritos)"""
+    def find_question_files(self):
+        """Encontrar todos os arquivos de questão (PV)"""
         base_path = Path("data/downloads")
-        
-        question_files = list(base_path.glob("*/*PV*.pdf"))
-        answer_files = list(base_path.glob("*/*GB*.pdf"))
-        
-        # Ordenar por ano e nome
-        question_files.sort(key=lambda x: (x.parts[-2], x.name))
-        answer_files.sort(key=lambda x: (x.parts[-2], x.name))
-        
-        return question_files, answer_files
+        files = []
+        for year_dir in base_path.iterdir():
+            if year_dir.is_dir() and year_dir.name.isdigit():
+                pv_files = list(year_dir.glob("*PV*.pdf"))
+                files.extend(pv_files)
+        return sorted(files)
+    
+    def find_answer_files(self):
+        """Encontrar todos os arquivos de gabarito (GB)"""
+        base_path = Path("data/downloads")
+        files = []
+        for year_dir in base_path.iterdir():
+            if year_dir.is_dir() and year_dir.name.isdigit():
+                gb_files = list(year_dir.glob("*GB*.pdf"))
+                files.extend(gb_files)
+        return sorted(files)
     
     def clear_database(self):
-        """Limpar banco de dados antes da ingestao completa"""
-        print("Limpando banco de dados...")
-        
-        with self.get_connection() as conn:
-            with conn.cursor() as cur:
-                cur.execute("DELETE FROM question_alternatives")
-                cur.execute("DELETE FROM answer_keys")
-                cur.execute("DELETE FROM questions")
-                cur.execute("DELETE FROM exam_metadata")
-            conn.commit()
-        
-        print("OK: Banco de dados limpo")
+        """Limpar tabelas antes da ingestão"""
+        try:
+            with self.get_connection() as conn:
+                with conn.cursor() as cur:
+                    print("Limpando banco de dados...")
+                    cur.execute("TRUNCATE TABLE question_alternatives CASCADE")
+                    cur.execute("TRUNCATE TABLE answer_keys CASCADE")
+                    cur.execute("TRUNCATE TABLE questions CASCADE")
+                    cur.execute("TRUNCATE TABLE exam_metadata CASCADE")
+                    conn.commit()
+                    print("Database cleared successfully!")
+        except Exception as e:
+            print(f"Error clearing database: {e}")
+            raise
     
     def process_question_files(self, question_files):
-        """Processar todos os arquivos de questoes"""
-        print(f"\nProcessando {len(question_files)} arquivos de questoes...")
-        
-        processed = 0
+        """Processar arquivos de questão com tratamento robusto de erros"""
+        total_success = 0
+        total_failed = 0
+        failed_files = []
         
         for i, file_path in enumerate(question_files, 1):
             print(f"\n[{i}/{len(question_files)}] Processando: {file_path.name}")
@@ -95,263 +80,605 @@ class FullIngestionProcessor:
                 result = self.db_integration.process_pdf_file(file_path)
                 
                 if result['success']:
-                    questions_parsed = result.get('questions_parsed', 0)
-                    questions_inserted = result.get('questions_inserted', 0)
-                    
-                    file_info = {
-                        'filename': file_path.name,
-                        'year': file_path.parts[-2],
-                        'questions_parsed': questions_parsed,
-                        'questions_inserted': questions_inserted,
-                        'success': True
-                    }
-                    
-                    self.report['files_processed']['questions'].append(file_info)
-                    self.report['metrics']['total_questions_parsed'] += questions_parsed
-                    self.report['metrics']['total_questions_inserted'] += questions_inserted
-                    self.report['metrics']['total_alternatives_expected'] += questions_inserted * 5
-                    
-                    processed += 1
-                    
-                    print(f"  OK: {questions_inserted}/{questions_parsed} questoes importadas")
-                    
+                    questions_inserted = result['questions_inserted']
+                    print(f"  OK: {questions_inserted}/{result['questions_parsed']} questoes importadas")
+                    total_success += questions_inserted
                 else:
-                    error_info = {
-                        'filename': file_path.name,
-                        'error': result.get('error', 'Unknown error'),
-                        'type': 'question_processing'
-                    }
-                    self.report['errors'].append(error_info)
-                    print(f"  ERRO: {result.get('error', 'Unknown')}")
-            
-            except Exception as e:
-                error_info = {
-                    'filename': file_path.name,
-                    'error': str(e),
-                    'type': 'question_processing_exception'
-                }
-                self.report['errors'].append(error_info)
-                print(f"  EXCECAO: {e}")
-        
-        self.report['metrics']['total_files_processed'] = processed
-        print(f"\nArquivos de questoes processados: {processed}/{len(question_files)}")
-    
-    def process_answer_files(self, answer_files):
-        """Processar todos os arquivos de gabaritos"""
-        print(f"\nProcessando {len(answer_files)} arquivos de gabaritos...")
-        
-        # Importar o processador de gabaritos localmente
-        import importlib.util
-        spec = importlib.util.spec_from_file_location("process_answer_keys", "scripts/process_answer_keys.py")
-        answer_module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(answer_module)
-        AnswerKeyProcessor = answer_module.AnswerKeyProcessor
-        
-        answer_processor = AnswerKeyProcessor()
-        processed = 0
-        
-        for i, file_path in enumerate(answer_files, 1):
-            print(f"\n[{i}/{len(answer_files)}] Processando gabarito: {file_path.name}")
-            
-            try:
-                inserted_count = answer_processor.process_answer_key_file(file_path)
-                
-                if inserted_count > 0:
-                    file_info = {
-                        'filename': file_path.name,
-                        'year': file_path.parts[-2],
-                        'answers_inserted': inserted_count,
-                        'success': True
-                    }
+                    print(f"  ERRO: {result['error']}")
+                    total_failed += 1
+                    failed_files.append(file_path.name)
                     
-                    self.report['files_processed']['answer_keys'].append(file_info)
-                    self.report['metrics']['total_answer_keys_inserted'] += inserted_count
-                    processed += 1
-                    
-                    print(f"  OK: {inserted_count} gabaritos importados")
-                else:
-                    print(f"  AVISO: Nenhum gabarito importado")
-            
+            except KeyboardInterrupt:
+                print(f"  INTERROMPIDO pelo usuário")
+                break
             except Exception as e:
-                error_info = {
-                    'filename': file_path.name,
-                    'error': str(e),
-                    'type': 'answer_processing_exception'
+                print(f"  EXCEPTION: {str(e)}")
+                total_failed += 1
+                failed_files.append(file_path.name)
+                continue
+        
+        return {
+            'success': total_success,
+            'failed': total_failed,
+            'failed_files': failed_files
+        }
+    
+    def process_single_file_worker(self, file_path):
+        """Worker function para processamento paralelo de um único arquivo"""
+        try:
+            # Criar nova instância do DatabaseIntegration para thread safety
+            db_integration = DatabaseIntegration()
+            result = db_integration.process_pdf_file(file_path)
+            
+            if result['success']:
+                return {
+                    'file': file_path.name,
+                    'success': True,
+                    'questions_parsed': result['questions_parsed'],
+                    'questions_inserted': result['questions_inserted'],
+                    'processing_time': time.time()
                 }
-                self.report['errors'].append(error_info)
-                print(f"  EXCECAO: {e}")
-        
-        print(f"\nArquivos de gabaritos processados: {processed}/{len(answer_files)}")
+            else:
+                return {
+                    'file': file_path.name,
+                    'success': False,
+                    'error': result['error']
+                }
+        except Exception as e:
+            return {
+                'file': file_path.name,
+                'success': False,
+                'error': str(e)
+            }
     
-    def calculate_final_metrics(self):
-        """Calcular metricas finais do banco de dados"""
-        print("\nCalculando metricas finais...")
+    def process_question_files_parallel(self, question_files, max_workers=None):
+        """Processar arquivos de questão em paralelo com threads"""
+        if max_workers is None:
+            # Usar número de CPUs disponíveis, mas limitado para não sobrecarregar o banco
+            max_workers = min(multiprocessing.cpu_count(), 4)
         
-        with self.get_connection() as conn:
-            with conn.cursor() as cur:
-                # Contar alternativas reais no banco
-                cur.execute("SELECT COUNT(*) FROM question_alternatives")
-                actual_alternatives = cur.fetchone()[0]
-                self.report['metrics']['total_alternatives_inserted'] = actual_alternatives
-                
-                # Contar gabaritos reais
-                cur.execute("SELECT COUNT(*) FROM answer_keys")
-                actual_answers = cur.fetchone()[0]
-                self.report['metrics']['total_answer_keys_parsed'] = actual_answers
-                
-                # Metricas por ano
-                cur.execute("""
-                    SELECT 
-                        em.year,
-                        COUNT(DISTINCT em.id) as files,
-                        COUNT(q.id) as questions,
-                        COUNT(qa.id) as alternatives,
-                        COUNT(ak.id) as answers
-                    FROM exam_metadata em
-                    LEFT JOIN questions q ON em.id = q.exam_metadata_id
-                    LEFT JOIN question_alternatives qa ON q.id = qa.question_id
-                    LEFT JOIN answer_keys ak ON em.id = ak.exam_metadata_id
-                    GROUP BY em.year
-                    ORDER BY em.year
-                """)
-                
-                for row in cur.fetchall():
-                    self.report['by_year'][row['year']] = {
-                        'files': row['files'],
-                        'questions': row['questions'],
-                        'alternatives': row['alternatives'],
-                        'answers': row['answers']
-                    }
-                
-                # Metricas por materia
-                cur.execute("""
-                    SELECT 
-                        CASE 
-                            WHEN subject LIKE '%LINGUAGENS%' THEN 'Linguagens'
-                            WHEN subject LIKE '%HUMANAS%' THEN 'Ciencias Humanas'
-                            WHEN subject LIKE '%NATUREZA%' THEN 'Ciencias da Natureza'
-                            WHEN subject LIKE '%MATEMATICA%' THEN 'Matematica'
-                            ELSE subject
-                        END as materia,
-                        COUNT(*) as questions
-                    FROM questions
-                    GROUP BY subject
-                    ORDER BY questions DESC
-                """)
-                
-                for row in cur.fetchall():
-                    self.report['by_subject'][row['materia']] = row['questions']
+        print(f"Processando {len(question_files)} arquivos com {max_workers} workers paralelos...")
         
-        # Calcular taxas de sucesso
-        if self.report['metrics']['total_questions_parsed'] > 0:
-            self.report['metrics']['success_rate_questions'] = (
-                self.report['metrics']['total_questions_inserted'] / 
-                self.report['metrics']['total_questions_parsed'] * 100
-            )
+        total_success = 0
+        total_failed = 0
+        failed_files = []
+        results = []
         
-        if self.report['metrics']['total_alternatives_expected'] > 0:
-            self.report['metrics']['success_rate_alternatives'] = (
-                self.report['metrics']['total_alternatives_inserted'] / 
-                self.report['metrics']['total_alternatives_expected'] * 100
-            )
+        start_time = time.time()
+        
+        # Usar ThreadPoolExecutor para I/O bound tasks (PDF parsing + DB operations)
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            # Submeter todas as tarefas
+            future_to_file = {
+                executor.submit(self.process_single_file_worker, file_path): file_path
+                for file_path in question_files
+            }
+            
+            # Processar resultados conforme completam
+            for i, future in enumerate(as_completed(future_to_file), 1):
+                file_path = future_to_file[future]
+                
+                try:
+                    result = future.result()
+                    results.append(result)
+                    
+                    if result['success']:
+                        questions_inserted = result['questions_inserted']
+                        total_success += questions_inserted
+                        print(f"[{i}/{len(question_files)}] ✓ {result['file']}: {questions_inserted}/{result['questions_parsed']} questões")
+                    else:
+                        total_failed += 1
+                        failed_files.append(result['file'])
+                        print(f"[{i}/{len(question_files)}] ✗ {result['file']}: {result['error']}")
+                        
+                except Exception as e:
+                    total_failed += 1
+                    failed_files.append(file_path.name)
+                    print(f"[{i}/{len(question_files)}] ✗ {file_path.name}: Exception: {e}")
+        
+        processing_time = time.time() - start_time
+        
+        print(f"\nProcessamento paralelo concluído em {processing_time:.1f}s")
+        print(f"Taxa: {len(question_files)/processing_time:.1f} arquivos/segundo")
+        
+        return {
+            'success': total_success,
+            'failed': total_failed,
+            'failed_files': failed_files,
+            'processing_time': processing_time,
+            'results': results
+        }
     
-    def generate_report(self):
-        """Gerar relatorio final detalhado"""
-        self.report['end_time'] = datetime.now()
-        self.report['metrics']['processing_time_seconds'] = (
-            self.report['end_time'] - self.report['start_time']
-        ).total_seconds()
+    def process_question_files_batched(self, question_files, batch_size=8, max_workers=None):
+        """Processar arquivos em lotes para controlar carga no banco"""
+        if max_workers is None:
+            max_workers = min(multiprocessing.cpu_count(), 4)
         
-        print("\n" + "=" * 80)
-        print("RELATORIO FINAL DE INGESTAO ENEM RAG")
-        print("=" * 80)
+        print(f"Processando {len(question_files)} arquivos em lotes de {batch_size} com {max_workers} workers...")
         
-        # Resumo geral
-        print(f"\nTEMPO DE PROCESSAMENTO: {self.report['metrics']['processing_time_seconds']:.1f} segundos")
-        print(f"PERIODO: {self.report['start_time'].strftime('%Y-%m-%d %H:%M:%S')} - {self.report['end_time'].strftime('%H:%M:%S')}")
+        total_success = 0
+        total_failed = 0
+        failed_files = []
+        all_results = []
         
-        # Metricas principais
-        m = self.report['metrics']
-        print(f"\nMETRICAS PRINCIPAIS:")
-        print(f"   Arquivos encontrados: {len(self.report['files_processed']['questions']) + len(self.report['files_processed']['answer_keys'])}")
-        print(f"   Arquivos processados: {m['total_files_processed']}")
-        print(f"   Questoes parseadas: {m['total_questions_parsed']}")
-        print(f"   Questoes inseridas: {m['total_questions_inserted']}")
-        print(f"   Alternativas esperadas: {m['total_alternatives_expected']}")
-        print(f"   Alternativas inseridas: {m['total_alternatives_inserted']}")
-        print(f"   Gabaritos inseridos: {m['total_answer_keys_inserted']}")
+        # Dividir arquivos em lotes
+        batches = [question_files[i:i+batch_size] for i in range(0, len(question_files), batch_size)]
         
-        # Taxas de sucesso
-        print(f"\nTAXAS DE SUCESSO:")
-        print(f"   Questoes: {m['success_rate_questions']:.1f}%")
-        print(f"   Alternativas: {m['success_rate_alternatives']:.1f}%")
+        for batch_num, batch in enumerate(batches, 1):
+            print(f"\n--- LOTE {batch_num}/{len(batches)} ({len(batch)} arquivos) ---")
+            
+            result = self.process_question_files_parallel(batch, max_workers)
+            
+            total_success += result['success']
+            total_failed += result['failed']
+            failed_files.extend(result['failed_files'])
+            all_results.extend(result['results'])
+            
+            # Pequena pausa entre lotes para não sobrecarregar
+            if batch_num < len(batches):
+                print("Pausa de 2s entre lotes...")
+                time.sleep(2)
         
-        # Por ano
-        print(f"\nDADOS POR ANO:")
-        for year, data in self.report['by_year'].items():
-            print(f"   {year}: {data['files']} arquivos, {data['questions']} questoes, {data['alternatives']} alternativas, {data['answers']} gabaritos")
-        
-        # Por materia
-        print(f"\nDADOS POR MATERIA:")
-        for subject, count in self.report['by_subject'].items():
-            print(f"   {subject}: {count} questoes")
-        
-        # Erros
-        if self.report['errors']:
-            print(f"\nERROS ENCONTRADOS ({len(self.report['errors'])}):")
-            for error in self.report['errors'][:10]:  # Mostrar so os primeiros 10
-                print(f"   {error['filename']}: {error['error'][:60]}...")
-        else:
-            print(f"\nNENHUM ERRO ENCONTRADO!")
-        
-        # Salvar relatorio em JSON
-        report_file = f"reports/ingestion_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        Path("reports").mkdir(exist_ok=True)
-        
-        # Converter datetime para string para JSON
-        report_copy = self.report.copy()
-        report_copy['start_time'] = self.report['start_time'].isoformat()
-        report_copy['end_time'] = self.report['end_time'].isoformat()
-        
-        with open(report_file, 'w', encoding='utf-8') as f:
-            json.dump(report_copy, f, ensure_ascii=False, indent=2)
-        
-        print(f"\nRelatorio salvo em: {report_file}")
-        print("=" * 80)
-        
-        return self.report
+        return {
+            'success': total_success,
+            'failed': total_failed,
+            'failed_files': failed_files,
+            'results': all_results
+        }
     
-    def run_full_ingestion(self, clear_db=True):
-        """Executar ingestao completa"""
-        print("INICIANDO INGESTAO COMPLETA DO ENEM RAG")
+    def get_matching_exam_metadata_id(self, gabarito_filename):
+        """Encontrar exam_metadata_id correspondente ao gabarito"""
+        try:
+            # Converter GB para PV: 2020_GB_impresso_D1_CD2.pdf -> 2020_PV_impresso_D1_CD2.pdf
+            pv_filename = gabarito_filename.replace('_GB_', '_PV_')
+            
+            with self.get_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("SELECT id FROM exam_metadata WHERE pdf_filename = %s", (pv_filename,))
+                    result = cur.fetchone()
+                    return result['id'] if result else None
+        except Exception as e:
+            print(f"Error finding matching exam metadata: {e}")
+            return None
+    
+    def extract_answers_from_gabarito(self, file_path):
+        """Extrair respostas do arquivo de gabarito usando pdfplumber"""
+        try:
+            import pdfplumber
+            answers = {}
+            
+            with pdfplumber.open(file_path) as pdf:
+                for page in pdf.pages:
+                    text = page.extract_text()
+                    if not text:
+                        continue
+                    
+                    # Processar linha por linha
+                    lines = text.split('\n')
+                    
+                    for line in lines:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        
+                        # Patterns para formato tabular de gabarito
+                        # Exemplos: "1 C C 46 C", "2 A D 47 E", etc.
+                        patterns = [
+                            # Pattern principal: número + letra(s) + número + letra
+                            r'(\d+)\s+([ABCDE])\s+(?:[ABCDE]\s+)?(\d+)\s+([ABCDE])',
+                            # Pattern simples: número + letra
+                            r'(\d+)\s+([ABCDE])(?:\s|$)',
+                            # Pattern com múltiplas colunas
+                            r'(\d+)\s+([ABCDE])\s+([ABCDE])',
+                        ]
+                        
+                        for pattern in patterns:
+                            matches = re.findall(pattern, line)
+                            for match in matches:
+                                if len(match) == 4:  # Pattern com 2 questões
+                                    q1, a1, q2, a2 = match
+                                    try:
+                                        num1, num2 = int(q1), int(q2)
+                                        if 1 <= num1 <= 180:
+                                            answers[num1] = a1
+                                        if 1 <= num2 <= 180:
+                                            answers[num2] = a2
+                                    except ValueError:
+                                        continue
+                                elif len(match) == 3:  # Pattern com inglês/espanhol
+                                    q, a1, a2 = match
+                                    try:
+                                        num = int(q)
+                                        if 1 <= num <= 180:
+                                            # Usar primeira resposta (inglês por padrão)
+                                            answers[num] = a1
+                                    except ValueError:
+                                        continue
+                                elif len(match) == 2:  # Pattern simples
+                                    q, a = match
+                                    try:
+                                        num = int(q)
+                                        if 1 <= num <= 180:
+                                            answers[num] = a
+                                    except ValueError:
+                                        continue
+                        
+                        # Pattern adicional para linhas com múltiplas respostas
+                        # Ex: "1 C 2 A 3 D"
+                        multi_pattern = r'(\d+)\s+([ABCDE])'
+                        multi_matches = re.findall(multi_pattern, line)
+                        for q_str, a in multi_matches:
+                            try:
+                                num = int(q_str)
+                                if 1 <= num <= 180:
+                                    answers[num] = a
+                            except ValueError:
+                                continue
+            
+            return answers
+            
+        except Exception as e:
+            print(f"Error extracting answers from {file_path}: {e}")
+            return {}
+    
+    def process_single_gabarito_worker(self, file_path):
+        """Worker function para processamento paralelo de um gabarito"""
+        try:
+            # Encontrar exam_metadata correspondente
+            exam_metadata_id = self.get_matching_exam_metadata_id(file_path.name)
+            if not exam_metadata_id:
+                return {
+                    'file': file_path.name,
+                    'success': False,
+                    'error': 'Exam metadata not found',
+                    'answers_inserted': 0
+                }
+            
+            # Extrair respostas do gabarito
+            answers = self.extract_answers_from_gabarito(file_path)
+            if not answers:
+                return {
+                    'file': file_path.name,
+                    'success': False,
+                    'error': 'No answers extracted',
+                    'answers_inserted': 0
+                }
+            
+            # Inserir respostas no banco
+            inserted_count = self.insert_answer_keys(answers, exam_metadata_id)
+            
+            return {
+                'file': file_path.name,
+                'success': True,
+                'answers_extracted': len(answers),
+                'answers_inserted': inserted_count,
+            }
+            
+        except Exception as e:
+            return {
+                'file': file_path.name,
+                'success': False,
+                'error': str(e),
+                'answers_inserted': 0
+            }
+    
+    def insert_answer_keys(self, answers, exam_metadata_id):
+        """Inserir gabaritos na tabela answer_keys"""
+        inserted_count = 0
+        
+        try:
+            with self.get_connection() as conn:
+                with conn.cursor() as cur:
+                    # Obter year e exam_type do exam_metadata
+                    cur.execute("""
+                        SELECT year, exam_type FROM exam_metadata 
+                        WHERE id = %s
+                    """, (exam_metadata_id,))
+                    
+                    exam_info = cur.fetchone()
+                    if not exam_info:
+                        print(f"Exam metadata not found for ID: {exam_metadata_id}")
+                        return 0
+                    
+                    exam_year, exam_type = exam_info['year'], exam_info['exam_type'] or 'ENEM'
+                    
+                    for question_num, correct_answer in answers.items():
+                        try:
+                            # Verificar se já existe
+                            cur.execute("""
+                                SELECT id FROM answer_keys 
+                                WHERE exam_metadata_id = %s AND question_number = %s
+                            """, (exam_metadata_id, question_num))
+                            
+                            if cur.fetchone():
+                                # Atualizar existente
+                                cur.execute("""
+                                    UPDATE answer_keys 
+                                    SET correct_answer = %s
+                                    WHERE exam_metadata_id = %s AND question_number = %s
+                                """, (correct_answer, exam_metadata_id, question_num))
+                            else:
+                                # Inserir novo
+                                cur.execute("""
+                                    INSERT INTO answer_keys (exam_year, exam_type, question_number, correct_answer, exam_metadata_id)
+                                    VALUES (%s, %s, %s, %s, %s)
+                                """, (
+                                    exam_year,
+                                    exam_type,
+                                    question_num,
+                                    correct_answer,
+                                    exam_metadata_id
+                                ))
+                            inserted_count += 1
+                        except Exception as insert_e:
+                            print(f"Error inserting question {question_num}: {insert_e}")
+                            break
+                    
+                    conn.commit()
+                    
+        except Exception as e:
+            print(f"Error inserting answer keys: {e}")
+            
+        return inserted_count
+    
+    def process_answer_files_parallel(self, answer_files, max_workers=None):
+        """Processar arquivos de gabarito em paralelo"""
+        if max_workers is None:
+            max_workers = min(multiprocessing.cpu_count(), 4)
+        
+        print(f"Processando {len(answer_files)} gabaritos com {max_workers} workers paralelos...")
+        
+        total_success = 0
+        total_failed = 0
+        failed_files = []
+        results = []
+        
+        start_time = time.time()
+        
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_file = {
+                executor.submit(self.process_single_gabarito_worker, file_path): file_path
+                for file_path in answer_files
+            }
+            
+            for i, future in enumerate(as_completed(future_to_file), 1):
+                file_path = future_to_file[future]
+                
+                try:
+                    result = future.result()
+                    results.append(result)
+                    
+                    if result['success']:
+                        answers_inserted = result['answers_inserted']
+                        total_success += answers_inserted
+                        print(f"[{i}/{len(answer_files)}] ✓ {result['file']}: {answers_inserted}/{result['answers_extracted']} respostas")
+                    else:
+                        total_failed += 1
+                        failed_files.append(result['file'])
+                        print(f"[{i}/{len(answer_files)}] ✗ {result['file']}: {result['error']}")
+                        
+                except Exception as e:
+                    total_failed += 1
+                    failed_files.append(file_path.name)
+                    print(f"[{i}/{len(answer_files)}] ✗ {file_path.name}: Exception: {e}")
+        
+        processing_time = time.time() - start_time
+        print(f"\nProcessamento de gabaritos concluído em {processing_time:.1f}s")
+        
+        return {
+            'success': total_success,
+            'failed': total_failed,
+            'failed_files': failed_files,
+            'processing_time': processing_time,
+            'results': results
+        }
+    
+    def process_answer_files_batched(self, answer_files, batch_size=8, max_workers=None):
+        """Processar gabaritos em lotes"""
+        if max_workers is None:
+            max_workers = min(multiprocessing.cpu_count(), 4)
+        
+        print(f"Processando {len(answer_files)} gabaritos em lotes de {batch_size} com {max_workers} workers...")
+        
+        total_success = 0
+        total_failed = 0
+        failed_files = []
+        all_results = []
+        
+        # Dividir arquivos em lotes
+        batches = [answer_files[i:i+batch_size] for i in range(0, len(answer_files), batch_size)]
+        
+        for batch_num, batch in enumerate(batches, 1):
+            print(f"\n--- LOTE GABARITOS {batch_num}/{len(batches)} ({len(batch)} arquivos) ---")
+            
+            result = self.process_answer_files_parallel(batch, max_workers)
+            
+            total_success += result['success']
+            total_failed += result['failed']
+            failed_files.extend(result['failed_files'])
+            all_results.extend(result['results'])
+            
+            # Pequena pausa entre lotes
+            if batch_num < len(batches):
+                print("Pausa de 1s entre lotes...")
+                time.sleep(1)
+        
+        return {
+            'success': total_success,
+            'failed': total_failed,
+            'failed_files': failed_files,
+            'results': all_results
+        }
+    
+    def run_full_ingestion(self, clear_db=False, parallel=True, max_workers=None, batch_size=8, process_answers=True):
+        """Executar ingestão completa de questões"""
+        print("INICIANDO INGESTÃO COMPLETA DO ENEM RAG")
         print("=" * 80)
         
         # Encontrar arquivos
-        question_files, answer_files = self.find_all_files()
-        self.report['metrics']['total_files_found'] = len(question_files) + len(answer_files)
+        question_files = self.find_question_files()
+        answer_files = self.find_answer_files() if process_answers else []
         
         print(f"Arquivos encontrados:")
-        print(f"   Questoes (PV): {len(question_files)}")
-        print(f"   Gabaritos (GB): {len(answer_files)}")
+        print(f"   Questões (PV): {len(question_files)}")
+        if process_answers:
+            print(f"   Gabaritos (GB): {len(answer_files)}")
         
         # Limpar banco se solicitado
         if clear_db:
             self.clear_database()
         
-        # Processar questoes
-        self.process_question_files(question_files)
+        # Processar questões
+        print("\n" + "="*50)
+        if parallel:
+            print(f"PROCESSANDO QUESTÕES (PARALELO - {max_workers or 'auto'} workers, lotes de {batch_size})")
+        else:
+            print("PROCESSANDO QUESTÕES (SEQUENCIAL)")
+        print("="*50)
         
-        # Processar gabaritos
-        self.process_answer_files(answer_files)
+        if parallel:
+            question_results = self.process_question_files_batched(
+                question_files, 
+                batch_size=batch_size, 
+                max_workers=max_workers
+            )
+        else:
+            question_results = self.process_question_files(question_files)
         
-        # Calcular metricas finais
-        self.calculate_final_metrics()
+        # Processar gabaritos se solicitado
+        answer_results = None
+        if process_answers and answer_files:
+            print("\n" + "="*50)
+            if parallel:
+                print(f"PROCESSANDO GABARITOS (PARALELO - {max_workers or 'auto'} workers, lotes de {batch_size})")
+            else:
+                print("PROCESSANDO GABARITOS (SEQUENCIAL)")
+            print("="*50)
+            
+            if parallel:
+                answer_results = self.process_answer_files_batched(
+                    answer_files,
+                    batch_size=batch_size,
+                    max_workers=max_workers
+                )
+            else:
+                # Implementar versão sequencial se necessário
+                answer_results = {'success': 0, 'failed': 0, 'failed_files': []}
         
-        # Gerar relatorio
-        return self.generate_report()
+        # Relatório final
+        print("\n" + "="*50)
+        print("RELATÓRIO FINAL")
+        print("="*50)
+        print(f"Questões processadas: {question_results['success']}")
+        print(f"Questões falharam: {question_results['failed']}")
+        
+        if answer_results:
+            print(f"Gabaritos processados: {answer_results['success']}")
+            print(f"Gabaritos falharam: {answer_results['failed']}")
+        
+        if question_results['failed_files']:
+            print(f"\nArquivos de questão com problema:")
+            for file in question_results['failed_files']:
+                print(f"  - {file}")
+        
+        if answer_results and answer_results['failed_files']:
+            print(f"\nArquivos de gabarito com problema:")
+            for file in answer_results['failed_files']:
+                print(f"  - {file}")
+        
+        # Verificar dados finais
+        self.verify_final_data()
+        
+        return {
+            'questions': question_results,
+            'answers': answer_results
+        }
+    
+    def verify_final_data(self):
+        """Verificar dados finais no banco"""
+        try:
+            with self.get_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("""
+                        SELECT 
+                            'exam_metadata' as tabela, 
+                            COUNT(*) as registros
+                        FROM exam_metadata
+                        UNION ALL
+                        SELECT 'questions', COUNT(*) FROM questions
+                        UNION ALL  
+                        SELECT 'question_alternatives', COUNT(*) FROM question_alternatives
+                        UNION ALL
+                        SELECT 'answer_keys', COUNT(*) FROM answer_keys
+                        ORDER BY tabela
+                    """)
+                    
+                    results = cur.fetchall()
+                    print(f"\nDADOS FINAIS NO BANCO:")
+                    for row in results:
+                        print(f"  {row['tabela']}: {row['registros']}")
+                        
+        except Exception as e:
+            print(f"Erro verificando dados finais: {e}")
 
 if __name__ == "__main__":
     processor = FullIngestionProcessor()
     
-    # Executar ingestao completa
-    report = processor.run_full_ingestion(clear_db=True)
+    # Configurações de processamento paralelo
+    parallel = True          # Usar processamento paralelo
+    max_workers = 4          # Número de workers (threads) 
+    batch_size = 8           # Arquivos por lote
+    clear_db = False         # Continuar de onde parou
+    process_questions = False # Já temos as questões processadas
+    process_answers = True    # Processar apenas gabaritos agora
+    
+    print(f"Configuração:")
+    print(f"  Paralelo: {parallel}")
+    print(f"  Workers: {max_workers}")
+    print(f"  Batch size: {batch_size}")
+    print(f"  Clear DB: {clear_db}")
+    print(f"  Processar questões: {process_questions}")
+    print(f"  Processar gabaritos: {process_answers}")
+    print()
+    
+    # Executar ingestao de gabaritos apenas
+    if process_questions:
+        report = processor.run_full_ingestion(
+            clear_db=clear_db,
+            parallel=parallel,
+            max_workers=max_workers,
+            batch_size=batch_size,
+            process_answers=process_answers
+        )
+    else:
+        # Processar apenas gabaritos
+        print("PROCESSANDO APENAS GABARITOS")
+        print("=" * 80)
+        
+        answer_files = processor.find_answer_files()
+        print(f"Gabaritos encontrados: {len(answer_files)}")
+        
+        if answer_files:
+            print("\n" + "="*50)
+            print(f"PROCESSANDO GABARITOS (PARALELO - {max_workers} workers, lotes de {batch_size})")
+            print("="*50)
+            
+            answer_results = processor.process_answer_files_batched(
+                answer_files,
+                batch_size=batch_size,
+                max_workers=max_workers
+            )
+            
+            print("\n" + "="*50)
+            print("RELATÓRIO FINAL - GABARITOS")
+            print("="*50)
+            print(f"Gabaritos processados: {answer_results['success']}")
+            print(f"Gabaritos falharam: {answer_results['failed']}")
+            
+            if answer_results['failed_files']:
+                print(f"\nArquivos com problema:")
+                for file in answer_results['failed_files']:
+                    print(f"  - {file}")
+            
+            # Verificar dados finais
+            processor.verify_final_data()

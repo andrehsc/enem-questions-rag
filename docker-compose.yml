@@ -2,7 +2,7 @@ services:
   # PostgreSQL Database - Shared between TeachersHub and ENEM services
   postgres:
     image: postgres:16
-    container_name: teachershub-postgres
+    container_name: teachershub-enem-postgres
     environment:
       POSTGRES_DB: teachershub_enem
       POSTGRES_USER: postgres
@@ -13,7 +13,7 @@ services:
       - ./shared/database/init:/docker-entrypoint-initdb.d
       - ./database/complete-init.sql:/docker-entrypoint-initdb.d/99-enem-legacy.sql
     ports:
-      - "5432:5432"
+      - "5433:5432"  # Porta externa 5433 para evitar conflito com TeachersHub (5432)
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d teachershub_enem"]
       interval: 10s
@@ -21,14 +21,14 @@ services:
       retries: 5
       start_period: 30s
     networks:
-      - teachershub-network
+      - teachershub-enem-network
 
   # Redis Cache - Shared for embeddings and session cache
   redis:
     image: redis:7-alpine
-    container_name: teachershub-redis
+    container_name: teachershub-enem-redis
     ports:
-      - "6379:6379"
+      - "6380:6379"  # Porta externa 6380 para evitar conflito com TeachersHub (6379)
     volumes:
       - redis_data:/data
     healthcheck:
@@ -39,14 +39,14 @@ services:
       start_period: 10s
     command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
     networks:
-      - teachershub-network
+      - teachershub-enem-network
 
   # TeachersHub .NET API - Main orchestrator
   teachershub-api:
     build: 
       context: ./teachershub-integration
       dockerfile: shared/docker/Dockerfile.teachershub
-    container_name: teachershub-api
+    container_name: teachershub-enem-api
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:5000
@@ -58,7 +58,7 @@ services:
       JWT__Issuer: "TeachersHub.ENEM.Api"
       JWT__Audience: "TeachersHub.ENEM.Client"
     ports:
-      - "5000:5000"
+      - "5001:5000"  # Porta externa 5001 para evitar conflito com TeachersHub Monitor (5000)
     depends_on:
       postgres:
         condition: service_healthy
@@ -68,7 +68,7 @@ services:
       - ./teachershub-integration:/app/src
       - teachershub_logs:/app/logs
     networks:
-      - teachershub-network
+      - teachershub-enem-network
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
@@ -82,7 +82,7 @@ services:
     build: 
       context: ./python-ml-services/rag-service
       dockerfile: ../../shared/docker/Dockerfile.enem-rag
-    container_name: enem-rag-service
+    container_name: teachershub-enem-rag
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
@@ -97,7 +97,7 @@ services:
       EMBEDDINGS_MODEL: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
       MAX_QUESTIONS_PER_REQUEST: 50
     ports:
-      - "8000:8000"
+      - "8001:8000"  # Porta externa 8001 para evitar conflito com TeachersHub Backend (8080)
     depends_on:
       postgres:
         condition: service_healthy
@@ -109,7 +109,7 @@ services:
       - embeddings_cache:/app/cache
       - enem_logs:/app/logs
     networks:
-      - teachershub-network
+      - teachershub-enem-network
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
@@ -131,9 +131,9 @@ volumes:
     driver: local
 
 networks:
-  teachershub-network:
+  teachershub-enem-network:
     driver: bridge
-    name: teachershub-network
+    name: teachershub-enem-network
     ipam:
       config:
-        - subnet: 172.20.0.0/16
+        - subnet: 172.21.0.0/16  # Subnet diferente para evitar conflito (TeachersHub usa 172.18.0.0/16)

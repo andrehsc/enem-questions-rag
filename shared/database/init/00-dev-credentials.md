@@ -17,15 +17,21 @@
 - **Issuer**: TeachersHub.ENEM.Api
 - **Audience**: TeachersHub.ENEM.Client
 
-## Service Ports
-- **TeachersHub API**: 5000
-- **ENEM RAG Service**: 8000
-- **PostgreSQL**: 5432
-- **Redis**: 6379
+## Service Ports (External/Host Ports)
+- **TeachersHub API**: 5001 (external) -> 5000 (internal)
+- **ENEM RAG Service**: 8001 (external) -> 8000 (internal)
+- **PostgreSQL**: 5433 (external) -> 5432 (internal)
+- **Redis**: 6380 (external) -> 6379 (internal)
 
 ## Network Configuration
-- **Network Name**: teachershub-network
-- **Subnet**: 172.20.0.0/16
+- **Network Name**: teachershub-enem-network
+- **Subnet**: 172.21.0.0/16
+
+## Container Names
+- **PostgreSQL**: teachershub-enem-postgres
+- **Redis**: teachershub-enem-redis
+- **TeachersHub API**: teachershub-enem-api
+- **ENEM RAG Service**: teachershub-enem-rag
 
 ## Environment Variables Template
 ```env
@@ -49,9 +55,32 @@ JWT_AUDIENCE=TeachersHub.ENEM.Client
 REDIS_HOST=redis
 REDIS_PORT=6379
 
-# Services
-TEACHERSHUB_API_PORT=5000
-ENEM_RAG_PORT=8000
+# Services (External Ports)
+TEACHERSHUB_API_PORT=5001
+ENEM_RAG_PORT=8001
+POSTGRES_PORT=5433
+REDIS_PORT=6380
 ```
 
 **CRITICAL**: Never change these credentials during development. Always reference this file.
+
+## Migration Information
+
+### ENEM Scripts Migration
+Os scripts de ingestão ENEM foram atualizados para usar a nova arquitetura híbrida:
+
+**Antes (Legacy):**
+- Database: `enem_questions_rag`
+- User: `enem_user` / `enem_password_2024`
+- Port: `5432`
+- Schema: `public`
+
+**Depois (Híbrido):**
+- Database: `teachershub_enem`
+- User: `enem_rag_service` / `enem123`
+- Port: `5433` (external)
+- Schema: `enem_questions`
+
+### Migration Scripts
+- **`./migrate-enem-scripts.sh`** - Atualiza todos os scripts e configurações
+- **`./reingest-enem-data.sh`** - Reexecuta ingestão completa no novo schema

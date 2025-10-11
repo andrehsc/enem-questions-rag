@@ -39,8 +39,8 @@ start_db() {
     echo -e "${GREEN}🚀 Starting ENEM PostgreSQL Database...${NC}"
     docker-compose up -d
     echo -e "${GREEN}✅ Database started successfully!${NC}"
-    echo -e "${BLUE}📊 Adminer web interface: http://localhost:8080${NC}"
-    echo -e "${BLUE}🔗 Database URL: postgresql://enem_user:enem_password_2024@localhost:5432/enem_questions_rag${NC}"
+    echo -e "${BLUE}📊 Adminer web interface: http://localhost:8081${NC}"
+    echo -e "${BLUE}🔗 Database URL: postgresql://enem_user:enem_password_2024@localhost:5433/enem_questions_rag${NC}"
 }
 
 stop_db() {
