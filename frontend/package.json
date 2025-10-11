@@ -1,0 +1,21 @@
+{
+  "name": "enem-rag-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for ENEM RAG System",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "python -m http.server 3000 --directory dist"
+  },
+  "dependencies": {
+    "vue": "^3.3.4",
+    "axios": "^1.6.0",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.4.0",
+    "vite": "^4.4.5"
+  }
+}

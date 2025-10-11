@@ -1,8 +1,8 @@
-# í¾“ ENEM Questions RAG System
+# ï¿½ï¿½ï¿½ ENEM Questions RAG System
 
 Sistema RAG (Retrieval-Augmented Generation) completo para questÃµes do ENEM com FastAPI, PostgreSQL e documentaÃ§Ã£o Swagger automÃ¡tica.
 
-## í³‹ VisÃ£o Geral
+## ï¿½ï¿½ï¿½ VisÃ£o Geral
 
 Este projeto implementa um sistema completo para processamento, armazenamento e acesso Ã s questÃµes do ENEM (Exame Nacional do Ensino MÃ©dio). O sistema inclui:
 
@@ -12,30 +12,30 @@ Este projeto implementa um sistema completo para processamento, armazenamento e 
 - **Interface web** interativa para exploraÃ§Ã£o dos dados
 - **Docker** para deployment simplificado
 
-## íº€ Funcionalidades Principais
+## ï¿½ï¿½ï¿½ Funcionalidades Principais
 
-### í³š Processamento de Dados
+### ï¿½ï¿½ï¿½ Processamento de Dados
 - âœ… **2.452 questÃµes** processadas (2020-2024)
 - âœ… **12.260 alternativas** categorizadas
 - âœ… **4.633 gabaritos** com respostas corretas
 - âœ… **MÃºltiplos anos** e tipos de aplicaÃ§Ã£o
 - âœ… **Metadados completos** (matÃ©rias, anos, tipos)
 
-### í´ API REST Completa
+### ï¿½ï¿½ï¿½ API REST Completa
 - **Busca paginada** com filtros avanÃ§ados
 - **Filtros por ano, matÃ©ria, tipo** de exame
 - **EstatÃ­sticas detalhadas** do conjunto de dados
 - **DocumentaÃ§Ã£o Swagger** interativa
 - **Respostas JSON** estruturadas
 
-### í¿—ï¸ Infraestrutura
+### ï¿½ï¿½ï¿½ï¸ Infraestrutura
 - **FastAPI** para alta performance
 - **PostgreSQL** com busca textual otimizada
 - **Docker Compose** para orchestraÃ§Ã£o
 - **CORS** configurado para integraÃ§Ã£o frontend
 - **Health checks** para monitoramento
 
-## í³Š Dados DisponÃ­veis
+## ï¿½ï¿½ï¿½ Dados DisponÃ­veis
 
 | Categoria | Quantidade | DescriÃ§Ã£o |
 |-----------|------------|-----------|
@@ -45,7 +45,7 @@ Este projeto implementa um sistema completo para processamento, armazenamento e 
 | **Anos** | 2020-2024 | 5 anos de provas do ENEM |
 | **MatÃ©rias** | 2 principais | CiÃªncias Humanas, Linguagens |
 
-## í» ï¸ Tecnologias Utilizadas
+## ï¿½ï¿½ï¿½ï¸ Tecnologias Utilizadas
 
 ### Backend
 - **Python 3.11+**
@@ -65,12 +65,16 @@ Este projeto implementa um sistema completo para processamento, armazenamento e 
 - **ReDoc** - DocumentaÃ§Ã£o alternativa
 - **HTML/CSS/JS** - Interface web customizada
 
-## íº€ InÃ­cio RÃ¡pido
+## ğŸš€ InÃ­cio RÃ¡pido
 
-### PrÃ©-requisitos
-- Docker e Docker Compose
+### ğŸ³ ExecuÃ§Ã£o com Docker (Recomendado)
+
+#### PrÃ©-requisitos
+- Docker Desktop instalado e rodando
+- Docker Compose
 - Git
-- Python 3.11+ (para desenvolvimento local)
+
+#### InstruÃ§Ãµes Completas para Subir a Infraestrutura
 
 ### 1. Clone o RepositÃ³rio
 ```bash
@@ -78,45 +82,172 @@ git clone https://github.com/andrehsc/enem-questions-rag.git
 cd enem-questions-rag
 ```
 
-### 2. Configure o Ambiente
+### 2. Verificar Docker
 ```bash
-# Copie o arquivo de exemplo
-cp .env.example .env
+# Verificar se Docker estÃ¡ funcionando
+docker --version
+docker-compose --version
 
-# Edite as variÃ¡veis conforme necessÃ¡rio
-# DB_HOST=postgres
-# DB_PORT=5432
-# DB_NAME=enem_rag
-# DB_USER=postgres
-# DB_PASSWORD=postgres123
+# Se houver erro, reinicie o Docker Desktop
 ```
 
-### 3. Execute com Docker
+### 3. Subir Infraestrutura Completa
 ```bash
-# Suba os serviÃ§os
+# Subir todos os serviÃ§os (PostgreSQL + Redis + API)
 docker-compose up -d
 
-# Aguarde a inicializaÃ§Ã£o (30-60 segundos)
+# Acompanhar logs da inicializaÃ§Ã£o
 docker-compose logs -f
+
+# Verificar status dos containers
+docker-compose ps
 ```
 
-### 4. Acesse a API
+### 4. Aguardar InicializaÃ§Ã£o
+- **PostgreSQL**: ~10-15 segundos para estar ready
+- **Redis**: ~5 segundos
+- **API**: ~20-30 segundos (aguarda DB + instala deps)
+
+### 5. Acessar a AplicaÃ§Ã£o
 - **API Principal**: http://localhost:8000
 - **Swagger UI**: http://localhost:8000/docs
 - **ReDoc**: http://localhost:8000/redoc
 - **Health Check**: http://localhost:8000/health
+- **EstatÃ­sticas**: http://localhost:8000/stats
 
-## í³– Uso da API
+### 6. Comandos Ãšteis do Docker
+
+#### Gerenciamento de Containers
+```bash
+# Parar todos os serviÃ§os
+docker-compose down
+
+# Parar e remover volumes (limpa dados)
+docker-compose down -v
+
+# Reconstruir apÃ³s mudanÃ§as no cÃ³digo
+docker-compose up --build
+
+# Reiniciar um serviÃ§o especÃ­fico
+docker-compose restart api
+```
+
+#### Logs e Debugging
+```bash
+# Ver logs de todos os serviÃ§os
+docker-compose logs -f
+
+# Logs de serviÃ§o especÃ­fico
+docker-compose logs api
+docker-compose logs postgres
+docker-compose logs redis
+
+# Ãšltimas 50 linhas de log
+docker-compose logs --tail=50 api
+```
+
+#### Executar Comandos nos Containers
+```bash
+# Acessar container da API
+docker-compose exec api bash
+
+# Acessar PostgreSQL
+docker-compose exec postgres psql -U postgres -d enem_rag
+
+# Acessar Redis
+docker-compose exec redis redis-cli
+
+# Testar conectividade
+docker-compose exec api ping postgres
+docker-compose exec api ping redis
+```
+
+### 7. Troubleshooting
+
+#### Containers nÃ£o sobem
+```bash
+# Limpar sistema Docker
+docker-compose down -v
+docker system prune -f
+docker-compose up --build
+
+# Verificar espaÃ§o em disco
+docker system df
+```
+
+#### API nÃ£o responde
+```bash
+# Verificar logs da API
+docker-compose logs api
+
+# Testar conectividade com DB
+docker-compose exec api python -c "
+import psycopg2
+try:
+    conn = psycopg2.connect(host='postgres', user='postgres', password='postgres123', database='enem_rag')
+    print('âœ… Conectado ao PostgreSQL')
+    conn.close()
+except Exception as e:
+    print(f'âŒ Erro PostgreSQL: {e}')
+"
+
+# Verificar Redis
+docker-compose exec api python -c "
+import redis
+try:
+    r = redis.Redis(host='redis', port=6379, db=0)
+    r.ping()
+    print('âœ… Conectado ao Redis')
+except Exception as e:
+    print(f'âŒ Erro Redis: {e}')
+"
+```
+
+#### Docker Desktop Issues
+```bash
+# Reiniciar Docker Desktop
+# Windows: Clicar com botÃ£o direito no Ã­cone Docker Desktop > Restart
+# Ou via PowerShell (como Admin):
+Restart-Service *docker*
+```
+
+### ğŸ  ExecuÃ§Ã£o Local (Desenvolvimento)
+
+#### Para desenvolvimento sem Docker:
+
+```bash
+# 1. Instalar dependÃªncias
+cd api/
+pip install -r requirements.txt
+
+# 2. Configurar variÃ¡veis de ambiente
+export DB_HOST=localhost
+export DB_PORT=5432
+export DB_NAME=enem_rag
+export DB_USER=postgres
+export DB_PASS=postgres123
+export REDIS_HOST=localhost
+export REDIS_PORT=6379
+
+# 3. Executar PostgreSQL e Redis localmente
+
+# 4. Executar API
+python fastapi_app.py
+# ou
+uvicorn fastapi_app:app --reload --host 0.0.0.0 --port 8000
+```
+
+## ï¿½ï¿½ï¿½ Uso da API
 
 ### Endpoints Principais
 
-#### í³Š EstatÃ­sticas Gerais
+#### ï¿½ï¿½ï¿½ EstatÃ­sticas Gerais
 ```bash
 GET /stats
 ```
 Retorna estatÃ­sticas completas sobre questÃµes, alternativas e gabaritos.
 
-#### í´ Buscar QuestÃµes
+#### ï¿½ï¿½ï¿½ Buscar QuestÃµes
 ```bash
 # Busca bÃ¡sica com paginaÃ§Ã£o
 GET /questions?page=1&size=10
@@ -131,7 +262,7 @@ GET /questions?subject=ciencias_humanas
 GET /questions?year=2023&subject=linguagens&size=20
 ```
 
-#### í¿¥ Status da API
+#### ï¿½ï¿½ï¿½ Status da API
 ```bash
 GET /health
 ```
@@ -171,7 +302,7 @@ GET /health
 }
 ```
 
-## í´§ Desenvolvimento
+## ï¿½ï¿½ï¿½ Desenvolvimento
 
 ### Estrutura do Projeto
 ```
@@ -239,7 +370,7 @@ python scripts/process_all_answer_keys.py
 2. Execute o script de ingestÃ£o
 3. Verifique os logs para questÃµes processadas
 
-## í·ª Testes
+## ï¿½ï¿½ï¿½ Testes
 
 ```bash
 # Testes unitÃ¡rios
@@ -252,7 +383,7 @@ curl http://localhost:8000/health
 curl "http://localhost:8000/questions?size=5"
 ```
 
-## í³ˆ Performance
+## ï¿½ï¿½ï¿½ Performance
 
 - **QuestÃµes por segundo**: ~100 (processamento)
 - **Consultas por segundo**: ~1000 (API)
@@ -260,7 +391,7 @@ curl "http://localhost:8000/questions?size=5"
 - **Uso de memÃ³ria**: ~500MB (total)
 - **Tamanho do banco**: ~50MB (sem PDFs)
 
-## í´’ SeguranÃ§a
+## ï¿½ï¿½ï¿½ SeguranÃ§a
 
 - ValidaÃ§Ã£o de entrada com Pydantic
 - SanitizaÃ§Ã£o de queries SQL
@@ -268,7 +399,7 @@ curl "http://localhost:8000/questions?size=5"
 - VariÃ¡veis de ambiente para credenciais
 - Rate limiting disponÃ­vel (nÃ£o implementado)
 
-## íº€ Deploy em ProduÃ§Ã£o
+## ï¿½ï¿½ï¿½ Deploy em ProduÃ§Ã£o
 
 ### Docker Compose (Recomendado)
 ```bash
@@ -288,7 +419,7 @@ API_HOST=0.0.0.0
 API_PORT=8000
 ```
 
-## í´ ContribuiÃ§Ã£o
+## ï¿½ï¿½ï¿½ ContribuiÃ§Ã£o
 
 1. Fork o projeto
 2. Crie uma branch (`git checkout -b feature/nova-funcionalidade`)
@@ -302,7 +433,7 @@ API_PORT=8000
 - Commits: Conventional Commits
 - Testes: pytest com coverage > 80%
 
-## í³ Changelog
+## ï¿½ï¿½ï¿½ Changelog
 
 ### v2.0.0 (2024-10-11)
 - âœ… IngestÃ£o completa de 54 arquivos ENEM
@@ -317,17 +448,17 @@ API_PORT=8000
 - âœ… API inicial
 - âœ… Banco PostgreSQL
 
-## í³„ LicenÃ§a
+## ï¿½ï¿½ï¿½ LicenÃ§a
 
 Este projeto estÃ¡ licenciado sob a LicenÃ§a MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
-## í³ Contato
+## ï¿½ï¿½ï¿½ Contato
 
 - **Autor**: Andre Henrique
 - **GitHub**: [@andrehsc](https://github.com/andrehsc)
 - **Email**: contato@exemplo.com
 
-## í¹ Agradecimentos
+## ï¿½ï¿½ï¿½ Agradecimentos
 
 - **INEP** - Pelos dados pÃºblicos do ENEM
 - **FastAPI** - Framework web excepcional
