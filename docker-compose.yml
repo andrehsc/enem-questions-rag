@@ -1,30 +1,32 @@
 services:
-  # PostgreSQL Database
+  # PostgreSQL Database - Shared between TeachersHub and ENEM services
   postgres:
-    image: postgres:15
-    container_name: enem-postgres
+    image: postgres:16
+    container_name: teachershub-postgres
     environment:
-      POSTGRES_DB: enem_rag
+      POSTGRES_DB: teachershub_enem
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres123
       POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./database/complete-init.sql:/docker-entrypoint-initdb.d/01-complete-init.sql
+      - ./shared/database/init:/docker-entrypoint-initdb.d
+      - ./database/complete-init.sql:/docker-entrypoint-initdb.d/99-enem-legacy.sql
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d enem_rag"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d teachershub_enem"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 30s
     networks:
-      - enem-network
+      - teachershub-network
 
-  # Redis Cache
+  # Redis Cache - Shared for embeddings and session cache
   redis:
     image: redis:7-alpine
-    container_name: enem-redis
+    container_name: teachershub-redis
     ports:
       - "6379:6379"
     volumes:
@@ -34,25 +36,66 @@ services:
       interval: 10s
       timeout: 3s
       retries: 5
-    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+      start_period: 10s
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
     networks:
-      - enem-network
+      - teachershub-network
 
-  # ENEM Questions API
-  api:
+  # TeachersHub .NET API - Main orchestrator
+  teachershub-api:
     build: 
-      context: ./api
-      dockerfile: Dockerfile
-    container_name: enem-api
+      context: ./teachershub-integration
+      dockerfile: shared/docker/Dockerfile.teachershub
+    container_name: teachershub-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:5000
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=teachershub_enem;Username=teachershub_app;Password=teachershub123"
+      ConnectionStrings__EnemConnection: "Host=postgres;Port=5432;Database=teachershub_enem;Username=enem_rag_service;Password=enem123"
+      Redis__ConnectionString: "redis:6379"
+      EnemServices__RagServiceUrl: "http://enem-rag-service:8000"
+      JWT__SecretKey: "TeachersHub-ENEM-Integration-Secret-Key-2024"
+      JWT__Issuer: "TeachersHub.ENEM.Api"
+      JWT__Audience: "TeachersHub.ENEM.Client"
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./teachershub-integration:/app/src
+      - teachershub_logs:/app/logs
+    networks:
+      - teachershub-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ENEM RAG Service - Python ML microservice
+  enem-rag-service:
+    build: 
+      context: ./python-ml-services/rag-service
+      dockerfile: ../../shared/docker/Dockerfile.enem-rag
+    container_name: enem-rag-service
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_NAME: enem_rag
-      DB_USER: postgres
-      DB_PASSWORD: postgres123
+      DB_NAME: teachershub_enem
+      DB_USER: enem_rag_service
+      DB_PASSWORD: enem123
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      REDIS_DB: 0
+      REDIS_DB: 1
+      FASTAPI_ENV: development
+      LOG_LEVEL: DEBUG
+      EMBEDDINGS_MODEL: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+      MAX_QUESTIONS_PER_REQUEST: 50
     ports:
       - "8000:8000"
     depends_on:
@@ -61,15 +104,36 @@ services:
       redis:
         condition: service_healthy
     volumes:
-      - ./api:/app
+      - ./python-ml-services/rag-service:/app
+      - ./api:/app/legacy  # Mount legacy API for migration reference
+      - embeddings_cache:/app/cache
+      - enem_logs:/app/logs
     networks:
-      - enem-network
+      - teachershub-network
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 volumes:
   postgres_data:
+    driver: local
   redis_data:
+    driver: local
+  teachershub_logs:
+    driver: local
+  enem_logs:
+    driver: local
+  embeddings_cache:
+    driver: local
 
 networks:
-  enem-network:
+  teachershub-network:
     driver: bridge
+    name: teachershub-network
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

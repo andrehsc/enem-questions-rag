@@ -1,4 +1,19 @@
 markdownExploder: true
+
+# === CONFIGURAÇÕES GLOBAIS BMAD ===
+globalSettings:
+  language: pt-BR
+  communicationStyle: portuguese-brazilian
+  credentialsPolicy: strict-consistency
+  credentialsFile: shared/database/init/00-dev-credentials.md
+
+# === CONFIGURAÇÕES DE CREDENCIAIS CONSISTENTES ===
+credentialsManagement:
+  enforceConsistency: true
+  referenceFile: shared/database/init/00-dev-credentials.md
+  mandatoryValidation: true
+  blockOnInconsistency: true
+
 qa:
   qaLocation: docs/qa
 prd:
@@ -17,6 +32,7 @@ devLoadAlwaysFiles:
   - docs/architecture/coding-standards.md
   - docs/architecture/tech-stack.md
   - docs/architecture/source-tree.md
+  - shared/database/init/00-dev-credentials.md
 devDebugLog: .ai/debug-log.md
 devStoryLocation: docs/stories
 slashPrefix: BMad
