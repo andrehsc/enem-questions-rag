@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    container_name: enem-postgres
+    environment:
+      POSTGRES_DB: enem_rag
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/complete-init.sql:/docker-entrypoint-initdb.d/01-complete-init.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d enem_rag"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - enem-network
+
+  # ENEM Questions API
+  api:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: enem-api
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: enem_rag
+      DB_USER: postgres
+      DB_PASSWORD: postgres123
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./api:/app
+    networks:
+      - enem-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  enem-network:
+    driver: bridge
