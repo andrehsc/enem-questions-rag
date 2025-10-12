@@ -49,11 +49,14 @@ class QuestionBaseInterface:
 
 @strawberry.type
 class QuestionSummaryType:
-    """Tipo GraphQL para resumo de questões"""
+    """Tipo GraphQL para resumo de questões com dados completos opcionais"""
     id: str
     question_text: str
     subject: str
     year: int
+    has_images: Optional[bool] = None
+    exam_metadata: Optional[ExamMetadataType] = None
+    alternatives: Optional[List[QuestionAlternativeType]] = None
 
 
 @strawberry.type
@@ -102,11 +105,17 @@ class QuestionFiltersInput:
     - subject: Filtrar por matéria (ex: "Matemática")
     - search: Busca textual no conteúdo da questão
     - has_images: Filtrar questões com/sem imagens
+    - pdf_filename: Filtrar por arquivo PDF específico (ex: "2020_PV_impresso_D2_CD5.pdf")
+    - caderno: Filtrar por caderno específico (ex: "CD5")
+    - day: Filtrar por dia da prova (1 ou 2)
     """
     year: Optional[int] = None
     subject: Optional[str] = None
     search: Optional[str] = None
     has_images: Optional[bool] = None
+    pdf_filename: Optional[str] = None
+    caderno: Optional[str] = None
+    day: Optional[int] = None
 
 
 @strawberry.input

@@ -102,8 +102,12 @@ class DatabaseService:
     def get_questions_summary(self, page: int = 1, size: int = 20, 
                             year: Optional[int] = None, 
                             subject: Optional[str] = None,
-                            caderno: Optional[str] = None) -> Tuple[List[Dict], int]:
-        """Obter resumo paginado das questões"""
+                            caderno: Optional[str] = None,
+                            pdf_filename: Optional[str] = None,
+                            day: Optional[int] = None,
+                            search: Optional[str] = None,
+                            has_images: Optional[bool] = None) -> Tuple[List[Dict], int]:
+        """Obter resumo paginado das questões com filtros expandidos"""
         with self.get_connection() as conn:
             with conn.cursor() as cur:
                 # Construir WHERE clause
@@ -117,6 +121,24 @@ class DatabaseService:
                 if subject:
                     where_conditions.append("q.subject ILIKE %s")
                     params.append(f"%{subject}%")
+                
+                if pdf_filename:
+                    where_conditions.append("em.pdf_filename = %s")
+                    params.append(pdf_filename)
+                
+                if day:
+                    where_conditions.append("em.day = %s")
+                    params.append(day)
+                
+                if search:
+                    where_conditions.append("q.question_text ILIKE %s")
+                    params.append(f"%{search}%")
+                
+                if has_images is not None:
+                    if has_images:
+                        where_conditions.append("q.image_path IS NOT NULL AND q.image_path != ''")
+                    else:
+                        where_conditions.append("(q.image_path IS NULL OR q.image_path = '')")
                 
                 if caderno:
                     where_conditions.append("em.caderno = %s")
