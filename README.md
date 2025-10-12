@@ -1,470 +1,207 @@
-# ��� ENEM Questions RAG System
+# ENEM Questions RAG System ���
 
-Sistema RAG (Retrieval-Augmented Generation) completo para questões do ENEM com FastAPI, PostgreSQL e documentação Swagger automática.
+Sistema RAG (Retrieval-Augmented Generation) completo para questões do ENEM 2020-2024 com extração e processamento de imagens.
 
-## ��� Visão Geral
+## ��� Status do Sistema
 
-Este projeto implementa um sistema completo para processamento, armazenamento e acesso às questões do ENEM (Exame Nacional do Ensino Médio). O sistema inclui:
+✅ **Sistema Totalmente Funcional**
+- 108 PDFs ENEM processados (2020-2024)
+- 54 exames | 2.532 questões | 12.660 alternativas | 4.856 gabaritos | 1.417 imagens
+- Performance otimizada: 8 workers paralelos, batch size 12
+- Sistema completo de backups e restauração
 
-- **Extração automática** de questões e gabaritos de PDFs oficiais do ENEM
-- **API REST** moderna com FastAPI e documentação Swagger
-- **Banco de dados** PostgreSQL otimizado para busca textual
-- **Interface web** interativa para exploração dos dados
-- **Docker** para deployment simplificado
+## ���️ Arquitetura
 
-## ��� Funcionalidades Principais
-
-### ��� Processamento de Dados
-- ✅ **2.452 questões** processadas (2020-2024)
-- ✅ **12.260 alternativas** categorizadas
-- ✅ **4.633 gabaritos** com respostas corretas
-- ✅ **Múltiplos anos** e tipos de aplicação
-- ✅ **Metadados completos** (matérias, anos, tipos)
-
-### ��� API REST Completa
-- **Busca paginada** com filtros avançados
-- **Filtros por ano, matéria, tipo** de exame
-- **Estatísticas detalhadas** do conjunto de dados
-- **Documentação Swagger** interativa
-- **Respostas JSON** estruturadas
-
-### ���️ Infraestrutura
-- **FastAPI** para alta performance
-- **PostgreSQL** com busca textual otimizada
-- **Docker Compose** para orchestração
-- **CORS** configurado para integração frontend
-- **Health checks** para monitoramento
-
-## ��� Dados Disponíveis
-
-| Categoria | Quantidade | Descrição |
-|-----------|------------|-----------|
-| **Questões** | 2.452 | Questões completas com enunciados |
-| **Alternativas** | 12.260 | Opções A, B, C, D, E categorizadas |
-| **Gabaritos** | 4.633 | Respostas corretas vinculadas |
-| **Anos** | 2020-2024 | 5 anos de provas do ENEM |
-| **Matérias** | 2 principais | Ciências Humanas, Linguagens |
-
-## ���️ Tecnologias Utilizadas
-
-### Backend
-- **Python 3.11+**
-- **FastAPI** - Framework web moderno e rápido
-- **PostgreSQL 15** - Banco de dados relacional
-- **Pydantic** - Validação e serialização de dados
-- **PDFPlumber** - Extração de texto de PDFs
-- **psycopg2** - Driver PostgreSQL para Python
-
-### DevOps
-- **Docker & Docker Compose** - Containerização
-- **Uvicorn** - Servidor ASGI para FastAPI
-- **Git** - Controle de versão
-
-### Frontend/Docs
-- **Swagger UI** - Documentação interativa da API
-- **ReDoc** - Documentação alternativa
-- **HTML/CSS/JS** - Interface web customizada
-
-## 🚀 Início Rápido
-
-### 🐳 Execução com Docker (Recomendado)
-
-#### Pré-requisitos
-- Docker Desktop instalado e rodando
-- Docker Compose
-- Git
-
-#### Instruções Completas para Subir a Infraestrutura
-
-### 1. Clone o Repositório
-```bash
-git clone https://github.com/andrehsc/enem-questions-rag.git
-cd enem-questions-rag
-```
-
-### 2. Verificar Docker
-```bash
-# Verificar se Docker está funcionando
-docker --version
-docker-compose --version
-
-# Se houver erro, reinicie o Docker Desktop
-```
-
-### 3. Subir Infraestrutura Completa
-```bash
-# Subir todos os serviços (PostgreSQL + Redis + API)
-docker-compose up -d
-
-# Acompanhar logs da inicialização
-docker-compose logs -f
-
-# Verificar status dos containers
-docker-compose ps
-```
-
-### 4. Aguardar Inicialização
-- **PostgreSQL**: ~10-15 segundos para estar ready
-- **Redis**: ~5 segundos
-- **API**: ~20-30 segundos (aguarda DB + instala deps)
-
-### 5. Acessar a Aplicação
-- **API Principal**: http://localhost:8000
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
-- **Health Check**: http://localhost:8000/health
-- **Estatísticas**: http://localhost:8000/stats
-
-### 6. Comandos Úteis do Docker
-
-#### Gerenciamento de Containers
-```bash
-# Parar todos os serviços
-docker-compose down
-
-# Parar e remover volumes (limpa dados)
-docker-compose down -v
-
-# Reconstruir após mudanças no código
-docker-compose up --build
-
-# Reiniciar um serviço específico
-docker-compose restart api
-```
-
-#### Logs e Debugging
-```bash
-# Ver logs de todos os serviços
-docker-compose logs -f
-
-# Logs de serviço específico
-docker-compose logs api
-docker-compose logs postgres
-docker-compose logs redis
-
-# Últimas 50 linhas de log
-docker-compose logs --tail=50 api
-```
-
-#### Executar Comandos nos Containers
-```bash
-# Acessar container da API
-docker-compose exec api bash
-
-# Acessar PostgreSQL
-docker-compose exec postgres psql -U postgres -d enem_rag
-
-# Acessar Redis
-docker-compose exec redis redis-cli
-
-# Testar conectividade
-docker-compose exec api ping postgres
-docker-compose exec api ping redis
-```
-
-### 7. Troubleshooting
-
-#### Containers não sobem
-```bash
-# Limpar sistema Docker
-docker-compose down -v
-docker system prune -f
-docker-compose up --build
-
-# Verificar espaço em disco
-docker system df
-```
-
-#### API não responde
-```bash
-# Verificar logs da API
-docker-compose logs api
-
-# Testar conectividade com DB
-docker-compose exec api python -c "
-import psycopg2
-try:
-    conn = psycopg2.connect(host='postgres', user='postgres', password='postgres123', database='enem_rag')
-    print('✅ Conectado ao PostgreSQL')
-    conn.close()
-except Exception as e:
-    print(f'❌ Erro PostgreSQL: {e}')
-"
-
-# Verificar Redis
-docker-compose exec api python -c "
-import redis
-try:
-    r = redis.Redis(host='redis', port=6379, db=0)
-    r.ping()
-    print('✅ Conectado ao Redis')
-except Exception as e:
-    print(f'❌ Erro Redis: {e}')
-"
-```
-
-#### Docker Desktop Issues
-```bash
-# Reiniciar Docker Desktop
-# Windows: Clicar com botão direito no ícone Docker Desktop > Restart
-# Ou via PowerShell (como Admin):
-Restart-Service *docker*
-```
-
-### 🏠 Execução Local (Desenvolvimento)
-
-#### Para desenvolvimento sem Docker:
-
-```bash
-# 1. Instalar dependências
-cd api/
-pip install -r requirements.txt
-
-# 2. Configurar variáveis de ambiente
-export DB_HOST=localhost
-export DB_PORT=5432
-export DB_NAME=enem_rag
-export DB_USER=postgres
-export DB_PASS=postgres123
-export REDIS_HOST=localhost
-export REDIS_PORT=6379
-
-# 3. Executar PostgreSQL e Redis localmente
-
-# 4. Executar API
-python fastapi_app.py
-# ou
-uvicorn fastapi_app:app --reload --host 0.0.0.0 --port 8000
-```
-
-## ��� Uso da API
-
-### Endpoints Principais
-
-#### ��� Estatísticas Gerais
-```bash
-GET /stats
-```
-Retorna estatísticas completas sobre questões, alternativas e gabaritos.
-
-#### ��� Buscar Questões
-```bash
-# Busca básica com paginação
-GET /questions?page=1&size=10
-
-# Filtrar por ano
-GET /questions?year=2024&size=5
-
-# Filtrar por matéria
-GET /questions?subject=ciencias_humanas
-
-# Combinar filtros
-GET /questions?year=2023&subject=linguagens&size=20
-```
-
-#### ��� Status da API
-```bash
-GET /health
-```
-
-### Exemplos de Resposta
-
-#### Estatísticas
-```json
-{
-  "total_questions": 2452,
-  "total_alternatives": 12260,
-  "total_answer_keys": 4633,
-  "years_available": [2024, 2023, 2022, 2021, 2020],
-  "exam_types": ["regular", "reaplicacao_PPL"],
-  "subjects": ["ciencias_humanas", "linguagens"]
-}
-```
-
-#### Questões
-```json
-{
-  "items": [
-    {
-      "id": "uuid-da-questao",
-      "exam_year": 2024,
-      "exam_type": "regular",
-      "number": 123,
-      "subject": "ciencias_humanas",
-      "correct_answer": "C",
-      "statement_preview": "Texto da questão..."
-    }
-  ],
-  "total": 2452,
-  "page": 1,
-  "size": 10,
-  "has_next": true
-}
-```
-
-## ��� Desenvolvimento
-
-### Estrutura do Projeto
 ```
 enem-questions-rag/
-├── api/                    # API FastAPI
-│   ├── fastapi_app.py     # Aplicação principal
-│   └── requirements.txt   # Dependências da API
-├── database/              # Scripts SQL
-│   ├── init.sql          # Schema inicial
-│   └── complete-init.sql # Schema completo
-├── scripts/               # Scripts de processamento
-│   ├── full_ingestion_report.py    # Ingestão completa
-│   ├── process_answer_keys.py      # Processamento de gabaritos
-│   └── test_answer_keys.py         # Testes
-├── src/                   # Código fonte Python
-│   └── enem_ingestion/   # Módulo de ingestão
-├── data/                  # Dados (ignorado no git)
-│   └── downloads/        # PDFs do ENEM
-├── docker-compose.yml     # Orchestração Docker
-└── README.md             # Documentação
+├── src/enem_ingestion/          # Core do sistema de ingestão
+│   ├── database_integration.py  # Conexão e operações com PostgreSQL
+│   ├── pdf_processor.py         # Processamento de PDFs
+│   ├── content_extractor.py     # Extração de questões e alternativas
+│   └── image_extractor.py       # Extração e processamento de imagens
+├── scripts/                     # Scripts de execução
+│   ├── full_ingestion_report.py # Ingestão completa com relatórios
+│   └── test_*.py               # Scripts de teste e validação
+├── data/
+│   ├── downloads/              # PDFs ENEM organizados por ano
+│   └── extracted_images/       # Imagens extraídas (ignorado no git)
+├── backups/                    # Backups completos do sistema
+└── docker-compose.yml          # PostgreSQL containerizado
 ```
 
-### Configuração Local
+## ��� Quick Start
 
-#### 1. Ambiente Python
+### 1. Configuração do Ambiente
+
 ```bash
-# Criar ambiente virtual
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# ou
-venv\Scripts\activate     # Windows
+# Clone o repositório
+git clone https://github.com/andrehsc/enem-questions-rag.git
+cd enem-questions-rag
 
-# Instalar dependências
+# Instale dependências
 pip install -r requirements.txt
+
+# Inicie o PostgreSQL
+docker-compose up -d
 ```
 
-#### 2. Banco de Dados
+### 2. Execute a Ingestão Completa
+
 ```bash
-# Iniciar PostgreSQL via Docker
-docker-compose up -d postgres
-
-# Executar migrations
-psql -h localhost -U postgres -d enem_rag -f database/complete-init.sql
-```
-
-#### 3. Executar API
-```bash
-cd api
-uvicorn fastapi_app:app --reload --host 0.0.0.0 --port 8000
-```
-
-### Processamento de Dados
-
-#### Ingestão Completa
-```bash
-# Processar todos os PDFs
+# Processamento completo com relatórios
 python scripts/full_ingestion_report.py
-
-# Processar apenas gabaritos
-python scripts/process_all_answer_keys.py
 ```
 
-#### Adicionar Novos PDFs
-1. Coloque os PDFs em `data/downloads/YYYY/`
-2. Execute o script de ingestão
-3. Verifique os logs para questões processadas
-
-## ��� Testes
+### 3. Verifique os Resultados
 
 ```bash
-# Testes unitários
-python -m pytest tests/
+# Teste a extração de imagens
+python scripts/test_image_extraction.py
 
-# Teste da API
-curl http://localhost:8000/health
-
-# Teste de busca
-curl "http://localhost:8000/questions?size=5"
+# Validação completa do sistema
+python scripts/test_complete_ingestion.py
 ```
 
-## ��� Performance
+## ��� Performance e Otimizações
 
-- **Questões por segundo**: ~100 (processamento)
-- **Consultas por segundo**: ~1000 (API)
-- **Tempo de inicialização**: ~30-60 segundos
-- **Uso de memória**: ~500MB (total)
-- **Tamanho do banco**: ~50MB (sem PDFs)
+- **Processamento Paralelo**: 8 workers simultâneos
+- **Batch Processing**: Lotes de 12 itens para operações em massa
+- **Deduplicação**: Hash MD5 para evitar imagens duplicadas
+- **Conversão de Cores**: CMYK → RGB automática para compatibilidade
+- **Coordenadas**: Ordenação por posição Y para sequência correta
 
-## ��� Segurança
+## ���️ Schema do Banco de Dados
 
-- Validação de entrada com Pydantic
-- Sanitização de queries SQL
-- CORS configurado adequadamente
-- Variáveis de ambiente para credenciais
-- Rate limiting disponível (não implementado)
+```sql
+-- Schema: enem_questions
+CREATE TABLE exam_metadata (
+    id SERIAL PRIMARY KEY,
+    filename VARCHAR(255) UNIQUE,
+    year INTEGER,
+    exam_type VARCHAR(50),
+    day INTEGER,
+    color_code VARCHAR(10)
+);
 
-## ��� Deploy em Produção
+CREATE TABLE questions (
+    id SERIAL PRIMARY KEY,
+    exam_id INTEGER REFERENCES exam_metadata(id),
+    question_number INTEGER,
+    question_text TEXT,
+    subject VARCHAR(100)
+);
 
-### Docker Compose (Recomendado)
+CREATE TABLE alternatives (
+    id SERIAL PRIMARY KEY,
+    question_id INTEGER REFERENCES questions(id),
+    letter CHAR(1),
+    text TEXT
+);
+
+CREATE TABLE answer_keys (
+    id SERIAL PRIMARY KEY,
+    exam_id INTEGER REFERENCES exam_metadata(id),
+    question_number INTEGER,
+    correct_answer CHAR(1)
+);
+
+CREATE TABLE question_images (
+    id SERIAL PRIMARY KEY,
+    question_id INTEGER REFERENCES questions(id),
+    image_filename VARCHAR(255),
+    image_path VARCHAR(500),
+    page_number INTEGER,
+    image_hash VARCHAR(32)
+);
+```
+
+## ��� Sistema de Backups
+
+### Backup Completo
 ```bash
-# Produção
-docker-compose -f docker-compose.prod.yml up -d
+# Dentro do container
+docker-compose exec postgres pg_dump -U postgres -d enem_questions > backup_complete.sql
 
-# Com load balancer
-docker-compose -f docker-compose.prod.yml -f docker-compose.lb.yml up -d
+# Restauração
+docker-compose exec -T postgres psql -U postgres -d enem_questions < backup_complete.sql
 ```
 
-### Variáveis de Ambiente
-```bash
-# .env para produção
-DB_HOST=postgres-prod
-DB_PASSWORD=senha-segura-aqui
-API_HOST=0.0.0.0
-API_PORT=8000
+### Backups Disponíveis
+- `backups/2025-01-11/enem_questions_complete_backup.sql` (146MB)
+- `backups/2025-01-11/enem_questions_schema_only.sql` (9.1KB)
+- Script automatizado: `backups/2025-01-11/restore_backup.sh`
+
+## ���️ Processamento de Imagens
+
+O sistema extrai imagens automaticamente durante a ingestão:
+
+```python
+# Configuração da extração
+image_extractor = ImageExtractor(
+    output_dir="data/extracted_images",
+    database_config={
+        'host': 'localhost',
+        'port': 5433,
+        'user': 'postgres',
+        'password': 'postgres123',
+        'database': 'enem_questions'
+    }
+)
+
+# Extração com conversão CMYK→RGB
+images = image_extractor.extract_images_from_pdf(pdf_path, exam_id)
 ```
 
-## ��� Contribuição
+## ��� Tecnologias Utilizadas
+
+- **Python 3.8+**: Linguagem principal
+- **PostgreSQL 16**: Banco de dados principal
+- **Docker & Docker Compose**: Containerização
+- **PyMuPDF (fitz)**: Processamento de PDFs
+- **Pillow (PIL)**: Processamento de imagens
+- **ThreadPoolExecutor**: Processamento paralelo
+- **Regex**: Extração de padrões de texto
+
+## ��� Casos de Uso
+
+1. **Análise de Questões**: Consultas SQL complexas sobre padrões das questões
+2. **Sistema RAG**: Base de conhecimento para LLMs
+3. **Análise de Imagens**: Processamento de gráficos e diagramas
+4. **Estudos Estatísticos**: Análise longitudinal das provas ENEM
+5. **Aplicações Educacionais**: Sistemas de ensino adaptativos
+
+## ��� Estatísticas Detalhadas
+
+| Métrica | Valor |
+|---------|-------|
+| **Anos Cobertos** | 2020-2024 |
+| **Total de Arquivos** | 108 PDFs |
+| **Provas Processadas** | 54 exames |
+| **Questões Extraídas** | 2.532 questões |
+| **Alternativas** | 12.660 opções |
+| **Gabaritos** | 4.856 respostas |
+| **Imagens Processadas** | 1.417 imagens |
+| **Tamanho do Backup** | 146MB |
+
+## ��� Contribuição
 
 1. Fork o projeto
-2. Crie uma branch (`git checkout -b feature/nova-funcionalidade`)
-3. Commit suas mudanças (`git commit -am 'Adiciona nova funcionalidade'`)
-4. Push para a branch (`git push origin feature/nova-funcionalidade`)
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
-### Padrões de Código
-- Python: PEP 8
-- Docstrings: Google Style
-- Commits: Conventional Commits
-- Testes: pytest com coverage > 80%
+## ��� Licença
 
-## ��� Changelog
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
-### v2.0.0 (2024-10-11)
-- ✅ Ingestão completa de 54 arquivos ENEM
-- ✅ 2.452 questões processadas
-- ✅ 4.633 gabaritos carregados
-- ✅ API FastAPI com Swagger
-- ✅ Docker Compose completo
-- ✅ Interface web interativa
+## ��� Links Úteis
 
-### v1.0.0 (2024-10-10)
-- ✅ Sistema básico de ingestão
-- ✅ API inicial
-- ✅ Banco PostgreSQL
-
-## ��� Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
-## ��� Contato
-
-- **Autor**: Andre Henrique
-- **GitHub**: [@andrehsc](https://github.com/andrehsc)
-- **Email**: contato@exemplo.com
-
-## ��� Agradecimentos
-
-- **INEP** - Pelos dados públicos do ENEM
-- **FastAPI** - Framework web excepcional
-- **PostgreSQL** - Banco de dados robusto
-- **Comunidade Python** - Ferramentas e bibliotecas
+- [INEP - Instituto Nacional de Estudos e Pesquisas Educacionais](https://www.gov.br/inep/pt-br)
+- [Provas e Gabaritos ENEM](https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [PyMuPDF Documentation](https://pymupdf.readthedocs.io/)
 
 ---
 
-⭐ **Se este projeto foi útil, considere dar uma estrela!** ⭐
+**Desenvolvido com ❤️ para a comunidade educacional brasileira**
