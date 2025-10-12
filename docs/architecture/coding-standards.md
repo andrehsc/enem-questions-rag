@@ -340,6 +340,16 @@ def get_questions_by_filters(
 
 ## Testes
 
+### Metodologia TDD (Test-Driven Development)
+**OBRIGATÓRIO para agentes desenvolvedores**: Seguir workflow TDD Red-Green-Blue
+
+Para implementação completa de TDD, consulte: [`docs/architecture/tdd-workflow.md`](./tdd-workflow.md)
+
+**Ciclo resumido**:
+1. **🔴 RED**: Escrever teste que falha (define comportamento)
+2. **🟢 GREEN**: Implementar mínimo para passar (funcionalidade básica)
+3. **🔵 BLUE**: Refatorar mantendo testes passando (qualidade)
+
 ### Estrutura de Testes
 - **Unit Tests**: Testam componentes isolados
 - **Integration Tests**: Testam integração entre componentes
@@ -356,6 +366,18 @@ def test_get_question_by_id_invalid_id_raises_validation_error():
 
 def test_get_question_by_id_not_found_raises_not_found_error():
     pass
+
+# Padrão AAA obrigatório
+def test_save_question_valid_data_returns_success():
+    # Arrange
+    question = Question(id="123", text="Test", subject="MATH", year=2024)
+    repository = QuestionRepository(mock_db)
+    
+    # Act
+    result = repository.save(question)
+    
+    # Assert
+    assert result is True
 ```
 
 ## Logging
