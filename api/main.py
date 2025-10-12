@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-API FastAPI para ENEM Questions RAG - Demo
+API FastAPI para ENEM Questions RAG - Integrada com PostgreSQL
 """
 
 from fastapi import FastAPI, HTTPException, Query, Path
@@ -17,6 +17,7 @@ from models import (
     StatsResponse, HealthResponse, ExamMetadata, 
     QuestionAlternative, AnswerKey
 )
+from database import DatabaseService
 
 # Configuração da aplicação
 app = FastAPI(
@@ -35,6 +36,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Instanciar serviço de banco de dados
+db_service = DatabaseService()
 
 # Dados simulados para demonstração
 sample_questions = [
@@ -150,79 +154,124 @@ async def root():
 @app.get("/health")
 async def health():
     """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "database_connected": True,
-        "total_questions": len(sample_questions),
-        "timestamp": "2024-10-11"
-    }
+    try:
+        db_connected, total_questions = db_service.health_check()
+        return {
+            "status": "healthy" if db_connected else "unhealthy",
+            "database_connected": db_connected,
+            "total_questions": total_questions,
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "database_connected": False,
+            "total_questions": 0,
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }
 
 @app.get("/stats")
 async def get_stats():
     """Estatísticas gerais do sistema"""
-    return {
-        "total_questions": len(sample_questions),
-        "total_alternatives": sum(len(q["alternatives"]) for q in sample_questions),
-        "total_answer_keys": len([q for q in sample_questions if q["answer_key"]]),
-        "years_available": [2023],
-        "exam_types": ["ENEM"],
-        "subjects": ["Ciências Humanas"]
-    }
+    try:
+        stats = db_service.get_stats()
+        return stats
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao obter estatísticas: {str(e)}")
 
 @app.get("/questions")
 async def list_questions(
     page: int = Query(1, ge=1, description="Número da página"),
     size: int = Query(20, ge=1, le=100, description="Itens por página"),
     year: Optional[int] = Query(None, description="Filtrar por ano"),
-    subject: Optional[str] = Query(None, description="Filtrar por matéria")
+    subject: Optional[str] = Query(None, description="Filtrar por matéria"),
+    caderno: Optional[str] = Query(None, description="Filtrar por caderno")
 ):
     """Listar questões com paginação e filtros"""
-    filtered_questions = sample_questions
-    
-    # Aplicar filtros
-    if year:
-        filtered_questions = [q for q in filtered_questions if q["exam_year"] == year]
-    if subject and "answer_key" in sample_questions[0]:
-        filtered_questions = [q for q in filtered_questions if q["answer_key"]["subject"] == subject]
-    
-    total = len(filtered_questions)
-    start = (page - 1) * size
-    end = start + size
-    page_questions = filtered_questions[start:end]
-    
-    # Converter para formato de resumo
-    questions_list = []
-    for q in page_questions:
-        questions_list.append({
-            "id": q["id"],
-            "exam_year": q["exam_year"],
-            "exam_type": q["exam_type"],
-            "number": q["number"],
-            "subject": q["answer_key"]["subject"] if q["answer_key"] else None,
-            "correct_answer": q["answer_key"]["correct_answer"] if q["answer_key"] else None,
-            "statement_preview": q["statement"][:100] + "..." if len(q["statement"]) > 100 else q["statement"]
-        })
-    
-    pages = math.ceil(total / size) if total > 0 else 1
+    try:
+        questions, total = db_service.get_questions_summary(
+            page=page, 
+            size=size, 
+            year=year, 
+            subject=subject,
+            caderno=caderno
+        )
         
-    return {
-        "items": questions_list,
-        "total": total,
-        "page": page,
-        "size": size,
-        "pages": pages
-    }
+        # Converter para formato de resposta
+        questions_list = []
+        for q in questions:
+            questions_list.append({
+                "id": q["id"],
+                "exam_year": q["year"],
+                "exam_type": "ENEM",
+                "number": q["question_number"],
+                "subject": q["subject"],
+                "correct_answer": q["correct_answer"],
+                "statement_preview": q["statement_preview"] + "..." if q["statement_preview"] else ""
+            })
+        
+        pages = math.ceil(total / size) if total > 0 else 1
+            
+        return {
+            "items": questions_list,
+            "total": total,
+            "page": page,
+            "size": size,
+            "pages": pages,
+            "has_next": page < pages,
+            "has_prev": page > 1
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao listar questões: {str(e)}")
 
 @app.get("/questions/{question_id}")
-async def get_question(question_id: int):
+async def get_question(question_id: str):
     """Obter questão completa por ID"""
-    # Procurar questão nos dados mockados
-    question = next((q for q in sample_questions if q["id"] == question_id), None)
+    try:
+        question_data = db_service.get_question_by_id(question_id)
     
-    if not question:
-        raise HTTPException(status_code=404, detail="Questão não encontrada")
-    
-    return question
+        if not question_data:
+            raise HTTPException(status_code=404, detail="Questão não encontrada")
+        
+        question = question_data['question']
+        alternatives = question_data['alternatives']
+        answer_key = question_data['answer_key']
+        
+        # Formatar resposta
+        formatted_alternatives = []
+        for i, alt in enumerate(alternatives, 1):
+            formatted_alternatives.append({
+                "id": alt["id"],
+                "letter": alt["letter"],
+                "text": alt["text"],
+                "order": i
+            })
+        
+        response = {
+            "id": question["id"],
+            "exam_year": question["year"],
+            "exam_type": "ENEM",
+            "number": question["question_number"], 
+            "statement": question["question_text"],
+            "alternatives": formatted_alternatives,
+            "answer_key": {
+                "id": answer_key["id"] if answer_key else None,
+                "correct_answer": answer_key["correct_answer"] if answer_key else None,
+                "subject": question["subject"] if question else None,
+                "language_option": None
+            } if answer_key else None,
+            "metadata": {
+                "exam_year": question["year"],
+                "exam_type": "ENEM",
+                "application_type": question["application_type"],
+                "language": "PORTUGUÊS"
+            }
+        }
+        
+        return response
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao buscar questão: {str(e)}")
 
 @app.get("/search")
 async def search_questions(

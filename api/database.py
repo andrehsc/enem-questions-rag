@@ -34,7 +34,7 @@ class DatabaseService:
         try:
             with self.get_connection() as conn:
                 with conn.cursor() as cur:
-                    cur.execute("SELECT COUNT(*) as count FROM questions")
+                    cur.execute("SELECT COUNT(*) as count FROM enem_questions.questions")
                     result = cur.fetchone()
                     return True, result['count']
         except Exception:
@@ -45,20 +45,20 @@ class DatabaseService:
         with self.get_connection() as conn:
             with conn.cursor() as cur:
                 # Contadores principais
-                cur.execute("SELECT COUNT(*) as count FROM questions")
+                cur.execute("SELECT COUNT(*) as count FROM enem_questions.questions")
                 total_questions = cur.fetchone()['count']
                 
-                cur.execute("SELECT COUNT(*) as count FROM question_alternatives")
+                cur.execute("SELECT COUNT(*) as count FROM enem_questions.question_alternatives")
                 total_alternatives = cur.fetchone()['count']
                 
-                cur.execute("SELECT COUNT(*) as count FROM answer_keys")
+                cur.execute("SELECT COUNT(*) as count FROM enem_questions.answer_keys")
                 total_answer_keys = cur.fetchone()['count']
                 
                 # Questões por ano
                 cur.execute("""
                     SELECT em.year, COUNT(q.id) as count
-                    FROM exam_metadata em
-                    LEFT JOIN questions q ON em.id = q.exam_metadata_id
+                    FROM enem_questions.exam_metadata em
+                    LEFT JOIN enem_questions.questions q ON em.id = q.exam_metadata_id
                     GROUP BY em.year
                     ORDER BY em.year
                 """)
@@ -75,7 +75,7 @@ class DatabaseService:
                             ELSE subject
                         END as subject_clean,
                         COUNT(*) as count
-                    FROM questions
+                    FROM enem_questions.questions
                     GROUP BY subject
                     ORDER BY count DESC
                 """)
@@ -84,7 +84,7 @@ class DatabaseService:
                 # Distribuição de respostas
                 cur.execute("""
                     SELECT correct_answer, COUNT(*) as count
-                    FROM answer_keys
+                    FROM enem_questions.answer_keys
                     GROUP BY correct_answer
                     ORDER BY correct_answer
                 """)
@@ -134,10 +134,10 @@ class DatabaseService:
                         em.day,
                         em.caderno,
                         ak.correct_answer,
-                        LEFT(q.statement, 100) as statement_preview
-                    FROM questions q
-                    JOIN exam_metadata em ON q.exam_metadata_id = em.id
-                    LEFT JOIN answer_keys ak ON em.id = ak.exam_metadata_id AND q.question_number = ak.question_number
+                        LEFT(q.question_text, 100) as statement_preview
+                    FROM enem_questions.questions q
+                    JOIN enem_questions.exam_metadata em ON q.exam_metadata_id = em.id
+                    LEFT JOIN enem_questions.answer_keys ak ON em.id = ak.exam_metadata_id AND q.question_number = ak.question_number
                     {where_clause}
                     ORDER BY em.year DESC, em.day, em.caderno, q.question_number
                     LIMIT %s OFFSET %s
@@ -152,8 +152,8 @@ class DatabaseService:
                 # Contar total
                 count_query = f"""
                     SELECT COUNT(*) as count
-                    FROM questions q
-                    JOIN exam_metadata em ON q.exam_metadata_id = em.id
+                    FROM enem_questions.questions q
+                    JOIN enem_questions.exam_metadata em ON q.exam_metadata_id = em.id
                     {where_clause}
                 """
                 
@@ -175,16 +175,14 @@ class DatabaseService:
                         em.day,
                         em.caderno,
                         em.application_type,
-                        em.accessibility,
+                        em.language,
                         em.file_type,
                         em.pdf_filename,
                         em.pdf_path,
-                        em.file_size,
-                        em.pages_count,
                         em.created_at as metadata_created_at,
                         em.updated_at as metadata_updated_at
-                    FROM questions q
-                    JOIN exam_metadata em ON q.exam_metadata_id = em.id
+                    FROM enem_questions.questions q
+                    JOIN enem_questions.exam_metadata em ON q.exam_metadata_id = em.id
                     WHERE q.id = %s
                 """, (question_id,))
                 
@@ -194,18 +192,18 @@ class DatabaseService:
                 
                 # Alternativas
                 cur.execute("""
-                    SELECT id, letter, text, alternative_order
-                    FROM question_alternatives
+                    SELECT id, alternative_letter as letter, alternative_text as text
+                    FROM enem_questions.question_alternatives
                     WHERE question_id = %s
-                    ORDER BY alternative_order
+                    ORDER BY alternative_letter
                 """, (question_id,))
                 
                 alternatives = cur.fetchall()
                 
                 # Gabarito
                 cur.execute("""
-                    SELECT id, question_number, correct_answer, subject, language_option
-                    FROM answer_keys
+                    SELECT id, question_number, correct_answer
+                    FROM enem_questions.answer_keys
                     WHERE exam_metadata_id = %s AND question_number = %s
                 """, (question['metadata_id'], question['question_number']))
                 

@@ -29,4 +29,4 @@ USER appuser
 EXPOSE 8000
 
 # Comando para iniciar a aplicação FastAPI
-CMD ["uvicorn", "fastapi_app:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
