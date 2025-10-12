@@ -1,32 +1,185 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-ENEM RAG SYSTEM - COMPLETE DATABASE LOADER
-============================================
-This script performs a complete data load for the ENEM RAG system.
-It processes all PDFs and loads questions, alternatives, and answer keys.
-
-Usage:
-    python scripts/load_database_complete.py [options]
-
-Options:
-    --clear-db          Clear all data before loading
-    --parallel          Use parallel processing (default: True)
-    --workers N         Number of parallel workers (default: 4)
-    --batch-size N      Batch size for processing (default: 8)
-    --questions-only    Load only questions (skip gabaritos)
-    --gabaritos-only    Load only gabaritos (skip questions)
-    --verbose           Enable verbose output
+Complete Database Backup and Load Script for ENEM RAG System
+============================================================
+This script handles backup and restoration of the complete database including question_images.
 """
 
-import argparse
+import os
 import sys
-from pathlib import Path
 import logging
+import argparse
+import subprocess
+from pathlib import Path
 from datetime import datetime
 
-# Add src to path
-sys.path.append(str(Path(__file__).parent.parent / 'src'))
+# Add project root to path
+project_root = Path(__file__).parent.parent
+sys.path.append(str(project_root / "src"))
+
+def setup_logging():
+    """Configure logging."""
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler('database_operations.log'),
+            logging.StreamHandler()
+        ]
+    )
+
+def create_complete_backup():
+    """Create a complete backup including all tables and data."""
+    logger = logging.getLogger(__name__)
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    
+    try:
+        # Backup schema and structure
+        schema_file = f"scripts/backup_schema_{timestamp}.sql"
+        cmd_schema = [
+            'docker', 'exec', 'teachershub-enem-postgres',
+            'pg_dump', '-U', 'postgres', '-d', 'teachershub_enem',
+            '--schema-only', '--schema=enem_questions',
+            '--clean', '--if-exists', '--no-owner', '--no-privileges'
+        ]
+        
+        logger.info(f"Creating schema backup: {schema_file}")
+        with open(schema_file, 'w', encoding='utf-8') as f:
+            result = subprocess.run(cmd_schema, stdout=f, stderr=subprocess.PIPE, text=True)
+        
+        if result.returncode != 0:
+            logger.error(f"Schema backup failed: {result.stderr}")
+            return False
+        
+        # Backup all data including images
+        data_file = f"scripts/backup_data_{timestamp}.sql"
+        cmd_data = [
+            'docker', 'exec', 'teachershub-enem-postgres',
+            'pg_dump', '-U', 'postgres', '-d', 'teachershub_enem',
+            '--data-only', '--schema=enem_questions',
+            '--no-owner', '--no-privileges'
+        ]
+        
+        logger.info(f"Creating data backup: {data_file}")
+        with open(data_file, 'w', encoding='utf-8') as f:
+            result = subprocess.run(cmd_data, stdout=f, stderr=subprocess.PIPE, text=True)
+        
+        if result.returncode != 0:
+            logger.error(f"Data backup failed: {result.stderr}")
+            return False
+        
+        # Check file sizes
+        schema_size = os.path.getsize(schema_file)
+        data_size = os.path.getsize(data_file)
+        
+        logger.info(f"‚úÖ Backup completed successfully!")
+        logger.info(f"   Schema: {schema_file} ({schema_size:,} bytes)")
+        logger.info(f"   Data: {data_file} ({data_size:,} bytes)")
+        
+        return True
+        
+    except Exception as e:
+        logger.error(f"‚ùå Error creating backup: {e}")
+        return False
+
+def restore_from_backup(schema_file, data_file):
+    """Restore database from backup files."""
+    logger = logging.getLogger(__name__)
+    
+    try:
+        logger.info("Starting database restoration...")
+        
+        # Restore schema first
+        if schema_file and os.path.exists(schema_file):
+            logger.info(f"Restoring schema from: {schema_file}")
+            cmd_schema = [
+                'docker', 'exec', '-i', 'teachershub-enem-postgres',
+                'psql', '-U', 'postgres', '-d', 'teachershub_enem'
+            ]
+            
+            with open(schema_file, 'r', encoding='utf-8') as f:
+                result = subprocess.run(cmd_schema, stdin=f, stderr=subprocess.PIPE, text=True)
+            
+            if result.returncode != 0:
+                logger.error(f"Schema restore failed: {result.stderr}")
+                return False
+        
+        # Restore data
+        if data_file and os.path.exists(data_file):
+            logger.info(f"Restoring data from: {data_file}")
+            cmd_data = [
+                'docker', 'exec', '-i', 'teachershub-enem-postgres',
+                'psql', '-U', 'postgres', '-d', 'teachershub_enem'
+            ]
+            
+            with open(data_file, 'r', encoding='utf-8') as f:
+                result = subprocess.run(cmd_data, stdin=f, stderr=subprocess.PIPE, text=True)
+            
+            if result.returncode != 0:
+                logger.error(f"Data restore failed: {result.stderr}")
+                return False
+        
+        logger.info("‚úÖ Database restoration completed successfully!")
+        return True
+        
+    except Exception as e:
+        logger.error(f"‚ùå Error restoring database: {e}")
+        return False
+
+def main():
+    """Main function."""
+    parser = argparse.ArgumentParser(
+        description="Backup and restore complete ENEM RAG database",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+    # Create backup
+    python load_database_complete.py --backup
+    
+    # Restore from backup
+    python load_database_complete.py --restore --schema backup_schema_20231011.sql --data backup_data_20231011.sql
+        """
+    )
+    
+    parser.add_argument('--backup', action='store_true', help='Create complete database backup')
+    parser.add_argument('--restore', action='store_true', help='Restore database from backup')
+    parser.add_argument('--schema', help='Schema backup file for restore')
+    parser.add_argument('--data', help='Data backup file for restore')
+    
+    args = parser.parse_args()
+    
+    if not args.backup and not args.restore:
+        parser.print_help()
+        return
+    
+    setup_logging()
+    
+    if args.backup:
+        success = create_complete_backup()
+        sys.exit(0 if success else 1)
+    
+    if args.restore:
+        if not args.schema and not args.data:
+            print("‚ùå Error: --schema or --data file required for restore")
+            sys.exit(1)
+        
+        success = restore_from_backup(args.schema, args.data)
+        sys.exit(0 if success else 1)
+
+if __name__ == "__main__":
+    main()
+
+import os
+import sys
+import logging
+import argparse
+from pathlib import Path
+from datetime import datetime
+
+# Add project root to path
+project_root = Path(__file__).parent.parent
+sys.path.append(str(project_root / "src"))
 
 # Import our existing processor
 from full_ingestion_report import FullIngestionProcessor
@@ -167,7 +320,7 @@ def main():
     try:
         # Clear database if requested
         if args.clear_db:
-            logger.info("Ì∑ëÔ∏è  Clearing database...")
+            logger.info("ÔøΩÔøΩÔøΩÔ∏è  Clearing database...")
             processor.clear_database()
             logger.info("‚úÖ Database cleared successfully")
         
@@ -183,7 +336,7 @@ def main():
         results = {}
         
         if not args.gabaritos_only:
-            logger.info("Ì¥Ñ Processing questions...")
+            logger.info("ÔøΩÔøΩÔøΩ Processing questions...")
             if args.parallel:
                 question_results = processor.process_question_files_batched(
                     question_files,
@@ -201,7 +354,7 @@ def main():
             results['questions'] = question_results
         
         if not args.questions_only:
-            logger.info("Ì¥Ñ Processing gabaritos...")
+            logger.info("ÔøΩÔøΩÔøΩ Processing gabaritos...")
             if args.parallel:
                 answer_results = processor.process_answer_files_batched(
                     answer_files,
@@ -222,7 +375,7 @@ def main():
         end_time = datetime.now()
         duration = end_time - start_time
         
-        logger.info("Ì¥ç Verifying final data...")
+        logger.info("ÔøΩÔøΩÔøΩ Verifying final data...")
         processor.verify_final_data()
         
         # Summary report
