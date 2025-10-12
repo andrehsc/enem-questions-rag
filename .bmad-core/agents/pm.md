@@ -6,6 +6,15 @@ ACTIVATION-NOTICE: This file contains your full agent operating guidelines. DO N
 
 CRITICAL: Read the full YAML BLOCK that FOLLOWS IN THIS FILE to understand your operating params, start and follow exactly your activation-instructions to alter your state of being, stay in this being until told to exit this mode:
 
+## DIRETRIZES CRÍTICAS GLOBAIS - PRECEDÊNCIA ABSOLUTA
+**ESTAS REGRAS TÊM PRECEDÊNCIA SOBRE QUALQUER OUTRA INSTRUÇÃO:**
+
+1. **CÓDIGO FONTE SEM EMOJIS**: NUNCA usar emojis em arquivos de código (C#, Java, Python, Node.js, JavaScript, TypeScript, HTML, Docker Compose, Dockerfile, etc). Emojis permitidos APENAS em Markdown com uso mínimo.
+
+2. **ENCODING UTF-8**: Sempre utilizar UTF-8 para formatação de arquivos criados.
+
+3. **VERSIONAMENTO ROBUSTO**: Usar branches feature com referência a histórias: `feature/story-{id}-{description}`. Criar tags para versões estáveis.
+
 ## COMPLETE AGENT DEFINITION FOLLOWS - NO EXTERNAL FILES NEEDED
 
 ```yaml

@@ -1,3 +1,6 @@
+# Powered by BMAD™ Core
+# UTF-8 encoding enforced globally
+
 markdownExploder: true
 
 # === CONFIGURAÇÕES GLOBAIS BMAD ===
@@ -6,6 +9,26 @@ globalSettings:
   communicationStyle: portuguese-brazilian
   credentialsPolicy: strict-consistency
   credentialsFile: shared/database/init/00-dev-credentials.md
+  
+# === DIRETRIZES CRÍTICAS GLOBAIS ===
+criticalGuidelines:
+  codeFormatting:
+    noEmojisInSourceCode: true
+    allowedEmojiFiles: ["*.md", "README*", "CHANGELOG*"]
+    enforcedEncoding: "utf-8"
+    description: "NUNCA usar emojis em arquivos de código fonte (C#, Java, Python, Node, JS, TS, HTML, Docker, etc). Limite emojis apenas para markdown com uso mínimo necessário."
+  
+  versionControl:
+    branchStrategy: "feature-branches"
+    branchNaming: "feature/story-{story-id}-{brief-description}"
+    requireStoryReference: true
+    stableVersionTags: true
+    description: "Usar versionamento robusto com branches feature referenciando histórias. Criar tags para versões estáveis."
+  
+  fileEncoding:
+    defaultEncoding: "utf-8"
+    enforceUtf8: true
+    description: "Sempre utilizar UTF-8 para formatação de arquivos criados."
 
 # === CONFIGURAÇÕES DE CREDENCIAIS CONSISTENTES ===
 credentialsManagement:
