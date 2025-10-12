@@ -30,6 +30,112 @@ criticalGuidelines:
     enforceUtf8: true
     description: "Sempre utilizar UTF-8 para formatação de arquivos criados."
 
+# === DIRETRIZES PARA AGENTES DESENVOLVEDORES ===
+developerAgentGuidelines:
+  status: "MANDATÓRIO"
+  version: "1.0"
+  enforcementLevel: "CRITICAL"
+  
+  encodingSafety:
+    prohibitedCommands: ["cat > *.py", "echo > *.py", "here-docs for Python files"]
+    mandatoryTools: ["replace_string_in_file", "write_file"]
+    requiredHeaders: 
+      - "#!/usr/bin/env python3"
+      - "# -*- coding: utf-8 -*-"
+    validation: "Sempre validar encoding UTF-8 antes de commit"
+    description: "Prevenir problemas de encoding recorrentes usando apenas ferramentas aprovadas"
+
+  reuseFirst:
+    mandatorySequence:
+      - "list_dir: Mapear estrutura existente"
+      - "grep_search: Buscar implementações similares" 
+      - "semantic_search: Encontrar código relacionado"
+      - "read_file: Analisar implementações existentes"
+    
+    reusePriorities:
+      P1: "Scripts existentes - Modificar ao invés de recriar"
+      P2: "Configurações Docker - Usar docker-compose.yml existente"
+      P3: "Conexões DB - Reusar DatabaseIntegration"
+      P4: "APIs/GraphQL - Expandir schemas existentes"
+      P5: "Test Suites - Adicionar aos testes existentes"
+    
+    documentation:
+      required: ["README.md updates", "Code comments", "Usage examples", "API documentation"]
+      description: "Documentação obrigatória para todas as modificações"
+
+  dockerFirst:
+    availableContainers:
+      postgres: 
+        name: "teachershub-enem-postgres"
+        port: 5433
+        user: "enem_rag_service"
+        database: "teachershub_enem"
+      api:
+        name: "enem-api"
+        port: 8001
+        type: "FastAPI + GraphQL"
+    
+    mandatoryWorkflow:
+      - "docker ps: Verificar containers ativos"
+      - "docker-compose up -d: Subir serviços se necessário"
+      - "docker exec -it: Executar comandos em containers"
+      - "docker logs: Debug através de logs"
+    
+    prohibitedBehaviors:
+      - "Aplicações na máquina local sem justificativa"
+      - "Instalar dependências localmente quando há containers"
+      - "Ignorar containers existentes funcionais"
+      - "Criar instâncias duplicadas"
+    
+    exceptions:
+      confirmationRequired: true
+      question: "Devo executar fora do Docker?"
+      validCases: ["Scripts de análise específicos", "Ferramentas pontuais de desenvolvimento"]
+
+  qualityGates:
+    preCommitChecklist:
+      - "Encoding: Headers UTF-8 presentes?"
+      - "Reuso: Implementações existentes investigadas?"
+      - "Docker: Testes executados em containers?"
+      - "Docs: README/comentários atualizados?"
+      - "Performance: Impacto validado?"
+    
+    validationTools:
+      - "scripts/validate_environment.py"
+    
+    metrics:
+      encodingCoverage: "100%"
+      dockerUsage: "95%"
+      documentation: "90%"
+    
+    enforcement:
+      rejectionPolicy: "Contribuições não-conformes serão rejeitadas"
+      correctionRequired: "Correção obrigatória antes da aceitação"
+      escalation: "Review adicional para violações recorrentes"
+
+  projectResources:
+    utilityScripts:
+      - "reprocess_2024_data.py: Reprocessamento otimizado"
+      - "analyze_2024_quality.py: Análise de qualidade"
+      - "test_parser_2024.py: Testes 2024"
+      - "test_day2_parser.py: Testes matemática/ciências"
+    
+    databaseSchema:
+      - "enem_questions.exam_metadata: Metadados dos exames"
+      - "enem_questions.questions: Questões extraídas"
+      - "enem_questions.question_alternatives: Alternativas A-E"
+      - "enem_questions.answer_keys: Gabaritos oficiais"
+    
+    testSuites:
+      - "tests/test_parser.py: Parser principal"
+      - "tests/test_text_normalizer.py: Normalização"
+      - "tests/test_*.py: Suites especializadas"
+    
+    documentation:
+      mainGuide: ".github/CONTRIBUTING.md"
+      quickReference: "docs/development/QUICK_REFERENCE.md"
+      agentGuidelines: "docs/development/AGENT_GUIDELINES.md"
+
 # === CONFIGURAÇÕES TDD (TEST-DRIVEN DEVELOPMENT) ===
 tddWorkflow:
   mandatoryForDevelopers: true

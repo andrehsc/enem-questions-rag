@@ -86,17 +86,24 @@ class GraphQLQuestionService(QuestionServiceInterface):
         try:
             # Mapear filtros GraphQL para parâmetros do DatabaseService
             year = filters.year if filters else None
-            subject = None
-            if filters and filters.subject:
-                # Mapear subject para formato do banco
-                subject = filters.subject
+            subject = filters.subject if filters and filters.subject else None
+            caderno = filters.caderno if filters and filters.caderno else None
+            pdf_filename = filters.pdf_filename if filters and filters.pdf_filename else None
+            day = filters.day if filters and filters.day else None
+            search = filters.search if filters and filters.search else None
+            has_images = filters.has_images if filters and filters.has_images is not None else None
             
             # O método retorna tupla (questions, total)
             questions_list, total_count = self._db_service.get_questions_summary(
                 page=page,
                 size=limit,
                 year=year,
-                subject=subject
+                subject=subject,
+                caderno=caderno,
+                pdf_filename=pdf_filename,
+                day=day,
+                search=search,
+                has_images=has_images
             )
             
             # Converter para tipos GraphQL
@@ -158,12 +165,28 @@ class GraphQLQuestionService(QuestionServiceInterface):
         Converter dados do banco para tipo GraphQL QuestionSummaryType
         Responsabilidade única: transformação de dados resumidos
         """
+        # Metadados do exame se disponíveis
+        exam_metadata = None
+        if question_data.get('caderno') or question_data.get('day'):
+            from graphql_types import ExamMetadataType
+            exam_metadata = ExamMetadataType(
+                id=f"exam-{question_data.get('year', 0)}",
+                year=question_data.get('year', 0),
+                day=question_data.get('day', 0),
+                caderno=question_data.get('caderno', ''),
+                application_type=question_data.get('application_type', 'regular'),
+                accessibility=False  # Campo padrão
+            )
+        
         # Mapear campos do banco para GraphQL
         return QuestionSummaryType(
             id=str(question_data.get('id', '')),
             question_text=question_data.get('statement_preview', '') or question_data.get('question_text', ''),
             subject=self._clean_subject_name(question_data.get('subject', '')),
-            year=question_data.get('year', 0)  # Campo correto do get_questions_summary
+            year=question_data.get('year', 0),
+            has_images=bool(question_data.get('has_images', False)),
+            exam_metadata=exam_metadata,
+            alternatives=None  # Não carregamos alternativas no summary por performance
         )
     
     def _clean_subject_name(self, subject: str) -> str:

@@ -3,6 +3,31 @@
 """
 Script de Ingestão Completa ENEM - Questões e Gabaritos
 Processa todos os PDFs disponíveis (PV e GB) para criar base completa.
+
+EXEMPLOS DE USO:
+
+1. Processar tudo (padrão):
+   python scripts/full_ingestion_report.py
+
+2. Processar apenas lote 1:
+   python scripts/full_ingestion_report.py --question-batches "1"
+
+3. Processar lotes específicos (1, 4, 5):
+   python scripts/full_ingestion_report.py --question-batches "1,4,5"
+
+4. Processar apenas gabaritos, lotes 2 e 3:
+   python scripts/full_ingestion_report.py --no-questions --answer-batches "2,3"
+
+5. Processar sem limpar banco, lotes específicos:
+   python scripts/full_ingestion_report.py --no-clear --question-batches "1,2"
+
+6. Processar com configurações personalizadas:
+   python scripts/full_ingestion_report.py --workers 4 --batch-size 8 --question-batches "1,3"
+
+OBSERVAÇÕES:
+- Os logs de erros específicos são salvos em data/extraction/<timestamp>/
+- Cada arquivo PDF terá seu próprio arquivo de erro com sufixo "-errors.txt"
+- Os logs no console são otimizados para mostrar apenas informações essenciais
 """
 
 import psycopg2
@@ -15,6 +40,10 @@ from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor, as_compl
 import multiprocessing
 import threading
 import re
+import logging
+import os
+import argparse
+from io import StringIO
 
 # Import image extraction capabilities
 try:
@@ -28,6 +57,34 @@ sys.path.append(str(Path(__file__).parent.parent / 'src'))
 
 from enem_ingestion.db_integration_final import DatabaseIntegration
 
+
+class ExtractorLogHandler:
+    """Gerenciador de logs de extração com saída por arquivo"""
+    
+    def __init__(self, output_dir: Path):
+        self.output_dir = output_dir
+        self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.extraction_start = datetime.now().strftime('%Y%m%d_%H%M%S')
+        self.errors_dir = self.output_dir / self.extraction_start
+        self.errors_dir.mkdir(exist_ok=True)
+        self.file_handlers = {}
+        
+    def get_error_file(self, pdf_filename: str) -> Path:
+        """Obter arquivo de erro para um PDF específico"""
+        error_filename = f"{pdf_filename}-errors.txt"
+        return self.errors_dir / error_filename
+    
+    def log_file_error(self, pdf_filename: str, error_message: str):
+        """Logar erro específico do arquivo em seu dump de erros"""
+        error_file = self.get_error_file(pdf_filename)
+        
+        with open(error_file, 'a', encoding='utf-8') as f:
+            f.write(f"{error_message}\n")
+    
+    def get_extraction_dir(self) -> Path:
+        """Retornar diretório de extração atual"""
+        return self.errors_dir
+
 class FullIngestionProcessor:
     """Processador completo de ingestão ENEM"""
     
@@ -37,15 +94,18 @@ class FullIngestionProcessor:
         self.db_integration = DatabaseIntegration(connection_url=self.connection_url)
         self.extract_images = extract_images and IMAGES_AVAILABLE
         
+        # Initialize log handler for extraction errors
+        self.log_handler = ExtractorLogHandler(Path("data/extraction"))
+        
         # Initialize image extractor if available
         if self.extract_images:
             images_dir = Path("data/extracted_images")
             self.image_extractor = ImageExtractor(output_dir=images_dir)
-            print("✅ Extração de imagens habilitada")
+            print("OK - Extracao de imagens habilitada")
         else:
             self.image_extractor = None
             if extract_images and not IMAGES_AVAILABLE:
-                print("⚠️  Extração de imagens desabilitada - instale PyMuPDF e Pillow")
+                print("AVISO - Extracao de imagens desabilitada - instale PyMuPDF e Pillow")
         
     def get_connection(self):
         return psycopg2.connect(self.connection_url, cursor_factory=RealDictCursor)
@@ -82,9 +142,9 @@ class FullIngestionProcessor:
                     cur.execute("TRUNCATE TABLE enem_questions.questions CASCADE")
                     cur.execute("TRUNCATE TABLE enem_questions.exam_metadata CASCADE")
                     conn.commit()
-                    print("✅ Base de dados limpa com sucesso!")
+                    print("OK - Base de dados limpa com sucesso!")
         except Exception as e:
-            print(f"❌ Erro limpando banco: {e}")
+            print(f"ERRO - Erro limpando banco: {e}")
             raise
     
     def process_question_files(self, question_files):
@@ -143,21 +203,27 @@ class FullIngestionProcessor:
         try:
             # Criar nova instância do DatabaseIntegration para thread safety usando admin credentials
             db_integration = DatabaseIntegration(connection_url=self.connection_url)
-            result = db_integration.process_pdf_file(file_path)
+            
+            # Capturar logs de parsing errors para arquivo específico
+            old_log_handler = self._setup_file_logging(file_path.name)
+            
+            try:
+                result = db_integration.process_pdf_file(file_path)
+            finally:
+                # Restaurar logging original
+                self._restore_logging(old_log_handler)
             
             images_processed = 0
             
             if result['success']:
                 # Se o processamento de questões foi bem-sucedido, extrair e armazenar imagens
                 if self.extract_images and result['questions_inserted'] > 0:
-                    print(f"Iniciando extração de imagens para {file_path.name}...")
                     try:
                         images_processed = self.extract_and_store_images(file_path, [])
-                        print(f"Imagens processadas para {file_path.name}: {images_processed}")
+                        # Não logar detalhes de imagens - será incluído no log de conclusão
                     except Exception as img_e:
-                        print(f"Warning: Failed to extract images from {file_path.name}: {img_e}")
-                        import traceback
-                        traceback.print_exc()
+                        # Log image extraction errors to file, not console
+                        self.log_handler.log_file_error(file_path.name, f"Image extraction error: {img_e}")
                 
                 return {
                     'file': file_path.name,
@@ -168,6 +234,8 @@ class FullIngestionProcessor:
                     'processing_time': time.time()
                 }
             else:
+                # Log critical errors that stop processing
+                self.log_handler.log_file_error(file_path.name, f"Critical processing error: {result['error']}")
                 return {
                     'file': file_path.name,
                     'success': False,
@@ -175,12 +243,44 @@ class FullIngestionProcessor:
                     'images_processed': 0
                 }
         except Exception as e:
+            # Log critical errors that stop processing
+            self.log_handler.log_file_error(file_path.name, f"Critical exception: {e}")
             return {
                 'file': file_path.name,
                 'success': False,
                 'error': str(e),
                 'images_processed': 0
             }
+    
+    def _setup_file_logging(self, pdf_filename: str):
+        """Configurar logging para capturar erros do parser em arquivo específico"""
+        # Capturar logs do parser para arquivo específico
+        class FileErrorCapture(logging.Handler):
+            def __init__(self, log_handler, pdf_filename):
+                super().__init__()
+                self.log_handler = log_handler
+                self.pdf_filename = pdf_filename
+                
+            def emit(self, record):
+                if record.levelno >= logging.WARNING:
+                    message = self.format(record)
+                    # Filtrar apenas logs de parsing de alternativas/questões
+                    if any(keyword in message for keyword in [
+                        'alternatives', 'Skipping question', 'Expected 5 alternatives',
+                        'Found only', 'not in alphabetical order'
+                    ]):
+                        self.log_handler.log_file_error(self.pdf_filename, message)
+        
+        # Adicionar handler temporário
+        file_handler = FileErrorCapture(self.log_handler, pdf_filename)
+        parser_logger = logging.getLogger('enem_ingestion.parser')
+        parser_logger.addHandler(file_handler)
+        return file_handler
+    
+    def _restore_logging(self, file_handler):
+        """Restaurar configuração de logging original"""
+        parser_logger = logging.getLogger('enem_ingestion.parser')
+        parser_logger.removeHandler(file_handler)
     
     def process_question_files_parallel(self, question_files, max_workers=None):
         """Processar arquivos de questão em paralelo com threads"""
@@ -198,6 +298,15 @@ class FullIngestionProcessor:
         start_time = time.time()
         
         # Usar ThreadPoolExecutor para I/O bound tasks (PDF parsing + DB operations)
+        # Log resumido dos arquivos sendo processados
+        for file_path in question_files:
+            print(f"Processing: {file_path.name}")
+        
+        # Log início de extração de imagens se habilitado
+        if self.extract_images:
+            for file_path in question_files:
+                print(f"Iniciando extração de imagens para {file_path.name}...")
+        
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
             # Submeter todas as tarefas
             future_to_file = {
@@ -215,22 +324,25 @@ class FullIngestionProcessor:
                     
                     if result['success']:
                         questions_inserted = result['questions_inserted']
+                        questions_parsed = result['questions_parsed']
                         images_processed = result.get('images_processed', 0)
                         total_success += questions_inserted
                         
+                        # Log format otimizado
                         if images_processed > 0:
-                            print(f"[{i}/{len(question_files)}] ✓ {result['file']}: {questions_inserted}/{result['questions_parsed']} questões, {images_processed} imagens")
+                            print(f"[{i}/{len(question_files)}] OK {result['file']}: {questions_inserted}/{questions_parsed} questoes, {images_processed}/{images_processed} imagens")
                         else:
-                            print(f"[{i}/{len(question_files)}] ✓ {result['file']}: {questions_inserted}/{result['questions_parsed']} questões")
+                            print(f"[{i}/{len(question_files)}] OK {result['file']}: {questions_inserted}/{questions_parsed} questoes")
                     else:
                         total_failed += 1
                         failed_files.append(result['file'])
-                        print(f"[{i}/{len(question_files)}] ✗ {result['file']}: {result['error']}")
+                        # Apenas log de falha crítica - detalhes foram para arquivo
+                        print(f"[{i}/{len(question_files)}] ERRO {result['file']}: FALHA CRITICA")
                         
                 except Exception as e:
                     total_failed += 1
                     failed_files.append(file_path.name)
-                    print(f"[{i}/{len(question_files)}] ✗ {file_path.name}: Exception: {e}")
+                    print(f"[{i}/{len(question_files)}] ERRO {file_path.name}: EXCECAO CRITICA")
         
         processing_time = time.time() - start_time
         
@@ -245,23 +357,44 @@ class FullIngestionProcessor:
             'results': results
         }
     
-    def process_question_files_batched(self, question_files, batch_size=8, max_workers=None):
+    def process_question_files_batched(self, question_files, batch_size=8, max_workers=None, selected_batches=None):
         """Processar arquivos em lotes para controlar carga no banco"""
         if max_workers is None:
             max_workers = min(multiprocessing.cpu_count(), 8)
         
-        print(f"Processando {len(question_files)} arquivos em lotes de {batch_size} com {max_workers} workers...")
+        # Dividir arquivos em lotes
+        batches = [question_files[i:i+batch_size] for i in range(0, len(question_files), batch_size)]
+        
+        # Filtrar lotes específicos se solicitado
+        if selected_batches is not None:
+            filtered_batches = []
+            for batch_idx in selected_batches:
+                if 1 <= batch_idx <= len(batches):
+                    filtered_batches.append((batch_idx, batches[batch_idx - 1]))
+                else:
+                    print(f"AVISO - Lote {batch_idx} nao existe (maximo: {len(batches)})")
+            batches = filtered_batches
+            print(f"Processando lotes específicos: {selected_batches}")
+        else:
+            # Manter formato original para compatibilidade
+            batches = [(i + 1, batch) for i, batch in enumerate(batches)]
+            print(f"Processando {len(question_files)} arquivos em lotes de {batch_size} com {max_workers} workers...")
         
         total_success = 0
         total_failed = 0
         failed_files = []
         all_results = []
         
-        # Dividir arquivos em lotes
-        batches = [question_files[i:i+batch_size] for i in range(0, len(question_files), batch_size)]
-        
-        for batch_num, batch in enumerate(batches, 1):
-            print(f"\n--- LOTE {batch_num}/{len(batches)} ({len(batch)} arquivos) ---")
+        for batch_num, batch in batches:
+            # Calcular total de lotes corretamente
+            if selected_batches is None:
+                total_batches = len([x for x, _ in batches])  # Total de lotes processados
+            else:
+                # Dividir arquivos em lotes para calcular total correto
+                all_batches = [question_files[i:i+batch_size] for i in range(0, len(question_files), batch_size)]
+                total_batches = len(all_batches)
+            
+            print(f"\n--- LOTE {batch_num}/{total_batches} ({len(batch)} arquivos) ---")
             
             result = self.process_question_files_parallel(batch, max_workers)
             
@@ -270,8 +403,15 @@ class FullIngestionProcessor:
             failed_files.extend(result['failed_files'])
             all_results.extend(result['results'])
             
+            # Log resumido do processamento do lote
+            processing_time = result.get('processing_time', 0)
+            if processing_time > 0:
+                print(f"Concluído em {processing_time:.1f}s - Taxa: {len(batch)/processing_time:.1f} arquivos/s")
+            
             # Pequena pausa entre lotes para não sobrecarregar
-            if batch_num < len(batches):
+            # Verificar se não é o último lote sendo processado
+            is_last_batch = (batch_num == batches[-1][0]) if batches else True
+            if not is_last_batch:
                 print("Pausa de 2s entre lotes...")
                 time.sleep(2)
         
@@ -380,37 +520,48 @@ class FullIngestionProcessor:
     def process_single_gabarito_worker(self, file_path):
         """Worker function para processamento paralelo de um gabarito"""
         try:
-            # Encontrar exam_metadata correspondente
-            exam_metadata_id = self.get_matching_exam_metadata_id(file_path.name)
-            if not exam_metadata_id:
+            # Capturar logs de parsing errors para arquivo específico
+            old_log_handler = self._setup_file_logging(file_path.name)
+            
+            try:
+                # Encontrar exam_metadata correspondente
+                exam_metadata_id = self.get_matching_exam_metadata_id(file_path.name)
+                if not exam_metadata_id:
+                    self.log_handler.log_file_error(file_path.name, "Exam metadata not found")
+                    return {
+                        'file': file_path.name,
+                        'success': False,
+                        'error': 'Exam metadata not found',
+                        'answers_inserted': 0
+                    }
+                
+                # Extrair respostas do gabarito
+                answers = self.extract_answers_from_gabarito(file_path)
+                if not answers:
+                    self.log_handler.log_file_error(file_path.name, "No answers extracted from file")
+                    return {
+                        'file': file_path.name,
+                        'success': False,
+                        'error': 'No answers extracted',
+                        'answers_inserted': 0
+                    }
+                
+                # Inserir respostas no banco
+                inserted_count = self.insert_answer_keys(answers, exam_metadata_id)
+                
                 return {
                     'file': file_path.name,
-                    'success': False,
-                    'error': 'Exam metadata not found',
-                    'answers_inserted': 0
+                    'success': True,
+                    'answers_extracted': len(answers),
+                    'answers_inserted': inserted_count,
                 }
-            
-            # Extrair respostas do gabarito
-            answers = self.extract_answers_from_gabarito(file_path)
-            if not answers:
-                return {
-                    'file': file_path.name,
-                    'success': False,
-                    'error': 'No answers extracted',
-                    'answers_inserted': 0
-                }
-            
-            # Inserir respostas no banco
-            inserted_count = self.insert_answer_keys(answers, exam_metadata_id)
-            
-            return {
-                'file': file_path.name,
-                'success': True,
-                'answers_extracted': len(answers),
-                'answers_inserted': inserted_count,
-            }
-            
+            finally:
+                # Restaurar logging original
+                self._restore_logging(old_log_handler)
+                
         except Exception as e:
+            # Log critical errors to file
+            self.log_handler.log_file_error(file_path.name, f"Critical gabarito error: {e}")
             return {
                 'file': file_path.name,
                 'success': False,
@@ -506,17 +657,19 @@ class FullIngestionProcessor:
                     
                     if result['success']:
                         answers_inserted = result['answers_inserted']
+                        answers_extracted = result['answers_extracted']
                         total_success += answers_inserted
-                        print(f"[{i}/{len(answer_files)}] ✓ {result['file']}: {answers_inserted}/{result['answers_extracted']} respostas")
+                        print(f"[{i}/{len(answer_files)}] OK {result['file']}: {answers_inserted}/{answers_extracted} respostas")
                     else:
                         total_failed += 1
                         failed_files.append(result['file'])
-                        print(f"[{i}/{len(answer_files)}] ✗ {result['file']}: {result['error']}")
+                        # Log apenas falha crítica - detalhes foram para arquivo
+                        print(f"[{i}/{len(answer_files)}] ERRO {result['file']}: FALHA CRITICA")
                         
                 except Exception as e:
                     total_failed += 1
                     failed_files.append(file_path.name)
-                    print(f"[{i}/{len(answer_files)}] ✗ {file_path.name}: Exception: {e}")
+                    print(f"[{i}/{len(answer_files)}] ERRO {file_path.name}: EXCECAO CRITICA")
         
         processing_time = time.time() - start_time
         print(f"\nProcessamento de gabaritos concluído em {processing_time:.1f}s")
@@ -529,23 +682,44 @@ class FullIngestionProcessor:
             'results': results
         }
     
-    def process_answer_files_batched(self, answer_files, batch_size=8, max_workers=None):
+    def process_answer_files_batched(self, answer_files, batch_size=8, max_workers=None, selected_batches=None):
         """Processar gabaritos em lotes"""
         if max_workers is None:
             max_workers = min(multiprocessing.cpu_count(), 8)
         
-        print(f"Processando {len(answer_files)} gabaritos em lotes de {batch_size} com {max_workers} workers...")
+        # Dividir arquivos em lotes
+        batches = [answer_files[i:i+batch_size] for i in range(0, len(answer_files), batch_size)]
+        
+        # Filtrar lotes específicos se solicitado
+        if selected_batches is not None:
+            filtered_batches = []
+            for batch_idx in selected_batches:
+                if 1 <= batch_idx <= len(batches):
+                    filtered_batches.append((batch_idx, batches[batch_idx - 1]))
+                else:
+                    print(f"AVISO - Lote gabarito {batch_idx} nao existe (maximo: {len(batches)})")
+            batches = filtered_batches
+            print(f"Processando lotes de gabaritos específicos: {selected_batches}")
+        else:
+            # Manter formato original para compatibilidade
+            batches = [(i + 1, batch) for i, batch in enumerate(batches)]
+            print(f"Processando {len(answer_files)} gabaritos em lotes de {batch_size} com {max_workers} workers...")
         
         total_success = 0
         total_failed = 0
         failed_files = []
         all_results = []
         
-        # Dividir arquivos em lotes
-        batches = [answer_files[i:i+batch_size] for i in range(0, len(answer_files), batch_size)]
-        
-        for batch_num, batch in enumerate(batches, 1):
-            print(f"\n--- LOTE GABARITOS {batch_num}/{len(batches)} ({len(batch)} arquivos) ---")
+        for batch_num, batch in batches:
+            # Calcular total de lotes corretamente
+            if selected_batches is None:
+                total_batches = len([x for x, _ in batches])  # Total de lotes processados
+            else:
+                # Dividir arquivos em lotes para calcular total correto
+                all_batches = [answer_files[i:i+batch_size] for i in range(0, len(answer_files), batch_size)]
+                total_batches = len(all_batches)
+            
+            print(f"\n--- LOTE GABARITOS {batch_num}/{total_batches} ({len(batch)} arquivos) ---")
             
             result = self.process_answer_files_parallel(batch, max_workers)
             
@@ -554,8 +728,15 @@ class FullIngestionProcessor:
             failed_files.extend(result['failed_files'])
             all_results.extend(result['results'])
             
+            # Log resumido do processamento do lote para gabaritos
+            processing_time = result.get('processing_time', 0)
+            if processing_time > 0:
+                print(f"Concluído em {processing_time:.1f}s")
+            
             # Pequena pausa entre lotes
-            if batch_num < len(batches):
+            # Verificar se não é o último lote sendo processado
+            is_last_batch = (batch_num == batches[-1][0]) if batches else True
+            if not is_last_batch:
                 print("Pausa de 1s entre lotes...")
                 time.sleep(1)
         
@@ -566,7 +747,8 @@ class FullIngestionProcessor:
             'results': all_results
         }
     
-    def run_full_ingestion(self, clear_db=False, parallel=True, max_workers=None, batch_size=8, process_answers=True):
+    def run_full_ingestion(self, clear_db=False, parallel=True, max_workers=None, batch_size=8, 
+                          process_answers=True, selected_question_batches=None, selected_answer_batches=None):
         """Executar ingestão completa de questões"""
         print("INICIANDO INGESTÃO COMPLETA DO ENEM RAG")
         print("=" * 80)
@@ -579,6 +761,12 @@ class FullIngestionProcessor:
         print(f"   Questões (PV): {len(question_files)}")
         if process_answers:
             print(f"   Gabaritos (GB): {len(answer_files)}")
+        
+        # Log dos lotes selecionados se especificados
+        if selected_question_batches:
+            print(f"   Lotes de questões selecionados: {selected_question_batches}")
+        if selected_answer_batches:
+            print(f"   Lotes de gabaritos selecionados: {selected_answer_batches}")
         
         # Limpar banco se solicitado
         if clear_db:
@@ -596,7 +784,8 @@ class FullIngestionProcessor:
             question_results = self.process_question_files_batched(
                 question_files, 
                 batch_size=batch_size, 
-                max_workers=max_workers
+                max_workers=max_workers,
+                selected_batches=selected_question_batches
             )
         else:
             question_results = self.process_question_files(question_files)
@@ -615,7 +804,8 @@ class FullIngestionProcessor:
                 answer_results = self.process_answer_files_batched(
                     answer_files,
                     batch_size=batch_size,
-                    max_workers=max_workers
+                    max_workers=max_workers,
+                    selected_batches=selected_answer_batches
                 )
             else:
                 # Implementar versão sequencial se necessário
@@ -644,6 +834,9 @@ class FullIngestionProcessor:
         
         # Verificar dados finais
         self.verify_final_data()
+        
+        # Log final do diretório de extrações
+        print(f"\nLogs de extração salvos em: {self.log_handler.get_extraction_dir()}")
         
         return {
             'questions': question_results,
@@ -700,11 +893,12 @@ class FullIngestionProcessor:
                         )
                         total_images += stored_count
                         
-                        print(f"  Stored {stored_count} images for question {first_question_id}")
+                        # Log removido - será mostrado no resumo final do arquivo
                         
                         conn.commit()
                     else:
-                        print(f"  No questions found for {pdf_path.name} or no unique images to store")
+                        # Log removido - será mostrado no resumo final do arquivo
+                        pass
             
         except Exception as e:
             print(f"Error extracting images from {pdf_path}: {e}")
@@ -740,15 +934,59 @@ class FullIngestionProcessor:
         except Exception as e:
             print(f"Erro verificando dados finais: {e}")
 
+def parse_arguments():
+    """Parse argumentos da linha de comando"""
+    parser = argparse.ArgumentParser(description='Ingestão completa ENEM - Questões e Gabaritos')
+    
+    parser.add_argument('--no-parallel', action='store_true', 
+                       help='Desabilitar processamento paralelo')
+    parser.add_argument('--workers', type=int, default=8,
+                       help='Número de workers paralelos (padrão: 8)')
+    parser.add_argument('--batch-size', type=int, default=12,
+                       help='Tamanho do lote (padrão: 12)')
+    parser.add_argument('--no-clear', action='store_true',
+                       help='Não limpar banco antes de processar')
+    parser.add_argument('--no-questions', action='store_true',
+                       help='Não processar questões')
+    parser.add_argument('--no-answers', action='store_true',
+                       help='Não processar gabaritos')
+    parser.add_argument('--no-images', action='store_true',
+                       help='Desabilitar extração de imagens')
+    parser.add_argument('--question-batches', type=str,
+                       help='Lotes específicos de questões para processar (ex: "1,3,5" ou "2")')
+    parser.add_argument('--answer-batches', type=str,
+                       help='Lotes específicos de gabaritos para processar (ex: "1,3,5" ou "2")')
+    
+    return parser.parse_args()
+
+def parse_batch_list(batch_str):
+    """Parse string de lotes em lista de inteiros"""
+    if not batch_str:
+        return None
+    
+    try:
+        batches = [int(x.strip()) for x in batch_str.split(',')]
+        return batches
+    except ValueError:
+        print(f"ERRO - Formato invalido para lotes: {batch_str}")
+        print("Use formato: '1,3,5' ou '2'")
+        sys.exit(1)
+
 if __name__ == "__main__":
-    # Configurações de processamento paralelo
-    parallel = True          # Usar processamento paralelo
-    max_workers = 8          # Número de workers (threads) - AUMENTADO para acelerar
-    batch_size = 12          # Arquivos por lote - AUMENTADO para melhor throughput
-    clear_db = True          # Limpar base para começar do zero
-    process_questions = True  # Processar questões
-    process_answers = True    # Processar gabaritos
-    extract_images = True     # ✅ ATIVAR extração de imagens das questões
+    args = parse_arguments()
+    
+    # Configurações baseadas nos argumentos
+    parallel = not args.no_parallel
+    max_workers = args.workers
+    batch_size = args.batch_size
+    clear_db = not args.no_clear
+    process_questions = not args.no_questions
+    process_answers = not args.no_answers
+    extract_images = not args.no_images
+    
+    # Parse dos lotes específicos
+    selected_question_batches = parse_batch_list(args.question_batches)
+    selected_answer_batches = parse_batch_list(args.answer_batches)
     
     processor = FullIngestionProcessor(extract_images=extract_images)
     
@@ -760,16 +998,22 @@ if __name__ == "__main__":
     print(f"  Processar questões: {process_questions}")
     print(f"  Processar gabaritos: {process_answers}")
     print(f"  Extrair imagens: {extract_images}")
+    if selected_question_batches:
+        print(f"  Lotes questões: {selected_question_batches}")
+    if selected_answer_batches:
+        print(f"  Lotes gabaritos: {selected_answer_batches}")
     print()
     
-    # Executar ingestao de gabaritos apenas
+    # Executar ingestão
     if process_questions:
         report = processor.run_full_ingestion(
             clear_db=clear_db,
             parallel=parallel,
             max_workers=max_workers,
             batch_size=batch_size,
-            process_answers=process_answers
+            process_answers=process_answers,
+            selected_question_batches=selected_question_batches,
+            selected_answer_batches=selected_answer_batches
         )
     else:
         # Processar apenas gabaritos
@@ -787,7 +1031,8 @@ if __name__ == "__main__":
             answer_results = processor.process_answer_files_batched(
                 answer_files,
                 batch_size=batch_size,
-                max_workers=max_workers
+                max_workers=max_workers,
+                selected_batches=selected_answer_batches
             )
             
             print("\n" + "="*50)

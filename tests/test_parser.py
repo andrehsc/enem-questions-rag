@@ -1,14 +1,17 @@
-"""Tests for the ENEM PDF parser module."""
+"""Test module for ENEM PDF parser."""
 
 import pytest
 from pathlib import Path
-from unittest.mock import Mock, patch, mock_open
+from unittest.mock import Mock, patch, MagicMock
 
 from src.enem_ingestion.parser import (
-    EnemPDFParser, QuestionMetadata, AnswerKey, Question,
-    ExamType, Subject, LanguageOption
+    EnemPDFParser, 
+    QuestionMetadata, 
+    Subject, 
+    ExamType,
+    LanguageOption
 )
-
+from src.enem_ingestion.text_normalizer import EnemTextNormalizer
 
 class TestEnemPDFParser:
     """Test cases for EnemPDFParser."""

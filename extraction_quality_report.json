@@ -1,0 +1,71 @@
+{
+  "analysis_summary": {
+    "files_analyzed": 2,
+    "total_issues_found": 2,
+    "common_problems": [
+      [
+        "unusual_chars",
+        2
+      ]
+    ],
+    "recommendations": [
+      "Desenvolver pipeline de OCR para imagens com texto"
+    ]
+  },
+  "individual_results": [
+    {
+      "pdf_file": "2020_PV_impresso_D1_CD1.pdf",
+      "pages": 32,
+      "raw_text_quality": {
+        "status": "good",
+        "total_chars": 70,
+        "issues": [
+          "unusual_chars: 2 occurrences"
+        ],
+        "encoding_problems": 2,
+        "suspicious_patterns": [
+          "*",
+          "*"
+        ]
+      },
+      "questions_found": 93,
+      "alternatives_quality": {
+        "total_questions": 93,
+        "questions_with_5_alternatives": 93,
+        "questions_with_incomplete_alternatives": 0,
+        "average_alternative_length": 65.33118279569892,
+        "problematic_alternatives": []
+      },
+      "images_found": 69,
+      "encoding_issues": [],
+      "parsing_issues": []
+    },
+    {
+      "pdf_file": "2020_PV_impresso_D1_CD2.pdf",
+      "pages": 32,
+      "raw_text_quality": {
+        "status": "good",
+        "total_chars": 76,
+        "issues": [
+          "unusual_chars: 2 occurrences"
+        ],
+        "encoding_problems": 2,
+        "suspicious_patterns": [
+          "*",
+          "*"
+        ]
+      },
+      "questions_found": 93,
+      "alternatives_quality": {
+        "total_questions": 93,
+        "questions_with_5_alternatives": 93,
+        "questions_with_incomplete_alternatives": 0,
+        "average_alternative_length": 64.79784946236559,
+        "problematic_alternatives": []
+      },
+      "images_found": 69,
+      "encoding_issues": [],
+      "parsing_issues": []
+    }
+  ]
+}
