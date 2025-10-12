@@ -351,17 +351,41 @@ class EnemPDFParser:
             page_width = page.width
             page_height = page.height
             
-            # First try: Standard column extraction
-            # Define column boundaries (approximate)
-            left_column = page.crop((0, 0, page_width * 0.5, page_height))
-            right_column = page.crop((page_width * 0.5, 0, page_width, page_height))
+            # First, check for 2022-2023 format with central separator pollution
+            full_text_sample = self._extract_text_robust(page)[:2000]  # Sample to check
+            has_separator_pollution = (
+                ('2202 MENE' in full_text_sample) or  # 2022 format separator
+                ('enem2022' in full_text_sample.lower()) or
+                ('enem 2022' in full_text_sample.lower()) or
+                ('2023 MENE' in full_text_sample) or
+                ('enem2023' in full_text_sample.lower())
+            )
             
-            # Extract text from each column with different methods
-            left_text = self._extract_text_robust(left_column)
-            right_text = self._extract_text_robust(right_column)
-            
-            # Combine columns
-            combined_text = left_text + "\n" + right_text
+            if has_separator_pollution:
+                logger.debug("Detected 2022-2023 format with central separator - using enhanced extraction")
+                
+                # Use wider margins to avoid separator contamination
+                margin = page_width * 0.08  # 8% margin from center
+                left_column = page.crop((0, 0, page_width * 0.5 - margin, page_height))
+                right_column = page.crop((page_width * 0.5 + margin, 0, page_width, page_height))
+                
+                left_text = self._extract_text_robust(left_column)
+                right_text = self._extract_text_robust(right_column)
+                
+                # Clean separator pollution
+                left_text = self._clean_separator_pollution(left_text)
+                right_text = self._clean_separator_pollution(right_text)
+                
+                combined_text = left_text + "\n\n" + right_text
+            else:
+                # Standard column extraction
+                left_column = page.crop((0, 0, page_width * 0.5, page_height))
+                right_column = page.crop((page_width * 0.5, 0, page_width, page_height))
+                
+                left_text = self._extract_text_robust(left_column)
+                right_text = self._extract_text_robust(right_column)
+                
+                combined_text = left_text + "\n" + right_text
             
             # If extraction seems poor (too short or too repetitive), try alternative method
             if len(combined_text.strip()) < 100 or self._is_text_too_repetitive(combined_text):
@@ -433,8 +457,8 @@ class EnemPDFParser:
         """
         Extract alternatives from ENEM question text.
         
-        Enhanced version for 2024 format with better text cleaning
-        and alternative detection.
+        Enhanced version for all years (2020-2024) with better text cleaning
+        and alternative detection, including special handling for 2022-2023 layouts.
         
         Args:
             question_text: Raw question text
@@ -444,8 +468,11 @@ class EnemPDFParser:
         """
         alternatives_dict = {}
         
-        # Pre-clean the text to remove 2024 artifacts before processing
+        # Pre-clean the text to remove artifacts before processing
         clean_text = self._pre_clean_alternatives_text(question_text)
+        
+        # Detect likely year from artifacts in text (for format-specific strategies)
+        likely_year = self._detect_year_from_text(clean_text)
         
         # Strategy 1: Search for pattern where single letter appears at start of line or after space
         # This handles ENEM's format where alternatives are like "A criticar o tipo" or "B rever o desempenho"
@@ -559,14 +586,25 @@ class EnemPDFParser:
                                 alternatives_dict[letter] = f"{letter}) {text}"
                                 break
         
+        # Strategy 5: Enhanced 2022-2023 specific extraction (PRIORITY for these years)
+        if likely_year in [2022, 2023]:
+            # For 2022-2023, try specific strategies first and use them if successful
+            temp_alternatives = self._extract_alternatives_2022_2023(question_text, {})
+            if len(temp_alternatives) >= 4:  # If 2022-2023 strategy finds most alternatives
+                logger.debug(f"Using 2022-2023 specific extraction: {len(temp_alternatives)} alternatives found")
+                alternatives_dict.update(temp_alternatives)
+            elif len(alternatives_dict) < 5:  # Fallback if not enough found
+                alternatives_dict = self._extract_alternatives_2022_2023(question_text, alternatives_dict)
+        
         # Build final list in alphabetical order, ensuring no duplicates
         final_alternatives = []
         
         for letter in 'ABCDE':
             if letter in alternatives_dict:
                 alt_text = alternatives_dict[letter]
-                # Final cleanup and validation
-                if alt_text and len(alt_text.strip()) > 3:  # Must have letter + ") " + content
+                # Final cleanup and validation - more lenient for 2022-2023
+                min_length = 10 if likely_year in [2022, 2023] else 3
+                if alt_text and len(alt_text.strip()) > min_length:
                     final_alternatives.append(alt_text)
             else:
                 logger.debug(f"Missing alternative {letter} in question")
@@ -589,6 +627,157 @@ class EnemPDFParser:
             logger.debug(f"Found {len(clean_alternatives)} alternatives: {[alt.split(')')[0] + ')' for alt in clean_alternatives]}")
         
         return clean_alternatives
+
+    def _detect_year_from_text(self, text: str) -> int:
+        """Detect likely year from text artifacts and format patterns."""
+        # Check for explicit year markers first
+        if 'ENEM2024' in text or '4202MENE' in text:
+            return 2024
+        elif any(marker in text for marker in ['2023', 'ENEM 2023']):
+            return 2023
+        elif any(marker in text for marker in ['2022', 'ENEM 2022']):
+            return 2022
+        elif any(marker in text for marker in ['2021', 'ENEM 2021']):
+            return 2021
+        elif any(marker in text for marker in ['2020', 'ENEM 2020']):
+            return 2020
+        
+        # Check for format patterns specific to 2022-2023
+        import re
+        # Pattern 1: Compact double letters (AA, BB, CC)
+        compact_double_pattern = r'([A-E])\1\s+'
+        compact_matches = re.findall(compact_double_pattern, text)
+        
+        # Pattern 2: Spaced double letters (A A, B B, C C)  
+        spaced_double_pattern = r'([A-E])\s+\1\s+'
+        spaced_matches = re.findall(spaced_double_pattern, text)
+        
+        if len(compact_matches) >= 3 or len(spaced_matches) >= 3:
+            return 2022  # This pattern is characteristic of 2022-2023
+        
+        return 2024  # Default to most recent format
+
+    def _extract_alternatives_2022_2023(self, question_text: str, existing_alternatives: dict) -> dict:
+        """
+        Enhanced extraction specifically for 2022-2023 format challenges.
+        These years have different layouts and require more flexible parsing.
+        """
+        alternatives_dict = existing_alternatives.copy()
+        
+        # Strategy 5A: Double letter format specific to 2022-2023 (AA, BB, CC, DD, EE)
+        # This pattern handles intercalated text by stopping at punctuation
+        double_letter_compact_pattern = r'([A-E])\1\s+([^.!?]+[.!?]?)'
+        matches = re.findall(double_letter_compact_pattern, question_text, re.MULTILINE)
+        for letter, text in matches:
+            if letter not in alternatives_dict:
+                clean_text = self._clean_alternative_text(text.strip())
+                # Remove trailing punctuation if it's followed by uppercase (likely next sentence)
+                clean_text = re.sub(r'[.!?]\s*$', '', clean_text)
+                # Ensure minimum quality
+                if len(clean_text) >= 5 and not re.match(r'^[A-Z\s]*$', clean_text):
+                    alternatives_dict[letter] = f"{letter}) {clean_text}"
+        
+        # Strategy 5B: Spaced double letter format (A A, B B, C C, etc.)
+        double_letter_spaced_pattern = r'([A-E])\s+\1\s+([^A-E]{15,300}?)(?=\n[A-E]\s+[A-E]\s+|\nQUESTÃO|$)'
+        matches = re.findall(double_letter_spaced_pattern, question_text, re.MULTILINE | re.DOTALL)
+        for letter, text in matches:
+            if letter not in alternatives_dict:
+                clean_text = self._clean_alternative_text(text.strip())
+                # Remove any trailing content after sentence-ending punctuation
+                clean_text = re.sub(r'[.!?]\s*[A-Z].*$', '.', clean_text)
+                if len(clean_text) >= 8:  # More reasonable threshold
+                    alternatives_dict[letter] = f"{letter}) {clean_text}"
+        
+        # Strategy 5C: Look for alternatives with parentheses format: (A) text, (B) text
+        parentheses_pattern = r'\(([A-E])\)\s*([^()]+?)(?=\([A-E]\)|$)'
+        matches = re.findall(parentheses_pattern, question_text, re.DOTALL)
+        for letter, text in matches:
+            if letter not in alternatives_dict:
+                clean_text = self._clean_alternative_text(text.strip())
+                if len(clean_text) >= 3:
+                    alternatives_dict[letter] = f"{letter}) {clean_text}"
+        
+        # Strategy 5D: Look for alternatives separated by newlines with letter at start
+        lines = [line.strip() for line in question_text.split('\n') if line.strip()]
+        for i, line in enumerate(lines):
+            match = re.match(r'^([A-E])[.)]\s*(.+)', line)
+            if match and match.group(1) not in alternatives_dict:
+                letter = match.group(1)
+                text = match.group(2)
+                
+                # Collect continuation lines until next alternative or end
+                for j in range(i + 1, min(i + 3, len(lines))):
+                    next_line = lines[j]
+                    if re.match(r'^[A-E][.)]', next_line):
+                        break
+                    if len(next_line) > 3 and not re.match(r'^(QUESTÃO|Página)', next_line):
+                        text += ' ' + next_line
+                
+                clean_text = self._clean_alternative_text(text.strip())
+                if len(clean_text) >= 3:
+                    alternatives_dict[letter] = f"{letter}) {clean_text}"
+        
+        # Strategy 5E: Relaxed single-letter detection for sparse layouts
+        words = question_text.split()
+        for i, word in enumerate(words):
+            if word in 'ABCDE' and word not in alternatives_dict:
+                if i + 1 < len(words):
+                    # Be more permissive about what constitutes valid alternative text
+                    alt_text = []
+                    j = i + 1
+                    while j < len(words) and len(alt_text) < 20:  # Limit to prevent runaway
+                        if words[j] in 'ABCDE' and j + 1 < len(words):
+                            # Check if this is likely another alternative
+                            if (len(alt_text) > 0 and 
+                                not words[j + 1].startswith(('http', 'www', 'QUESTÃO', 'Página'))):
+                                break
+                        alt_text.append(words[j])
+                        j += 1
+                    
+                    if len(alt_text) >= 1:  # Very permissive for 2022-2023
+                        text = ' '.join(alt_text).strip()
+                        clean_text = self._clean_alternative_text(text)
+                        if len(clean_text) >= 2:  # Allow shorter alternatives
+                            alternatives_dict[word] = f"{word}) {clean_text}"
+        
+        return alternatives_dict
+
+    def _clean_separator_pollution(self, text: str) -> str:
+        """
+        Clean separator pollution from 2022-2023 PDFs.
+        
+        These formats have repeated "enem2022"/"enem2023" or "2202 MENE"/"3202 MENE" 
+        patterns in the center that interfere with text extraction.
+        
+        Args:
+            text: Raw extracted text
+            
+        Returns:
+            Cleaned text with separator pollution removed
+        """
+        if not text:
+            return text
+        
+        # Remove common separator patterns
+        patterns_to_remove = [
+            r'2202\s*MENE\s*',  # 2022 format
+            r'MENE\s*2202\s*',  # 2022 format variant
+            r'3202\s*MENE\s*',  # 2023 format (if exists)
+            r'MENE\s*3202\s*',  # 2023 format variant
+            r'enem\s*2022\s*',  # Direct enem2022
+            r'enem\s*2023\s*',  # Direct enem2023
+            r'\*\d{6}[A-Z]{2}\d?\*',  # Barcode patterns like *010275AM2*
+        ]
+        
+        cleaned_text = text
+        for pattern in patterns_to_remove:
+            cleaned_text = re.sub(pattern, ' ', cleaned_text, flags=re.IGNORECASE)
+        
+        # Remove excessive whitespace created by cleaning
+        cleaned_text = re.sub(r'\s+', ' ', cleaned_text)
+        cleaned_text = re.sub(r'\n\s*\n\s*\n', '\n\n', cleaned_text)  # Max 2 consecutive newlines
+        
+        return cleaned_text.strip()
 
     def _clean_question_text(self, text: str) -> str:
         """
