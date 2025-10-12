@@ -32,8 +32,9 @@ class FullIngestionProcessor:
     """Processador completo de ingestão ENEM"""
     
     def __init__(self, extract_images=False):
-        self.connection_url = "postgresql://enem_rag_service:enem123@localhost:5433/teachershub_enem"
-        self.db_integration = DatabaseIntegration()
+        # Usar admin do PostgreSQL para operações de ingestão completa
+        self.connection_url = "postgresql://postgres:postgres123@localhost:5433/teachershub_enem"
+        self.db_integration = DatabaseIntegration(connection_url=self.connection_url)
         self.extract_images = extract_images and IMAGES_AVAILABLE
         
         # Initialize image extractor if available
@@ -75,14 +76,15 @@ class FullIngestionProcessor:
             with self.get_connection() as conn:
                 with conn.cursor() as cur:
                     print("Limpando banco de dados...")
-                    cur.execute("TRUNCATE TABLE question_alternatives CASCADE")
-                    cur.execute("TRUNCATE TABLE answer_keys CASCADE")
-                    cur.execute("TRUNCATE TABLE questions CASCADE")
-                    cur.execute("TRUNCATE TABLE exam_metadata CASCADE")
+                    cur.execute("TRUNCATE TABLE enem_questions.question_images CASCADE")
+                    cur.execute("TRUNCATE TABLE enem_questions.question_alternatives CASCADE")
+                    cur.execute("TRUNCATE TABLE enem_questions.answer_keys CASCADE")
+                    cur.execute("TRUNCATE TABLE enem_questions.questions CASCADE")
+                    cur.execute("TRUNCATE TABLE enem_questions.exam_metadata CASCADE")
                     conn.commit()
-                    print("Database cleared successfully!")
+                    print("✅ Base de dados limpa com sucesso!")
         except Exception as e:
-            print(f"Error clearing database: {e}")
+            print(f"❌ Erro limpando banco: {e}")
             raise
     
     def process_question_files(self, question_files):
@@ -99,7 +101,22 @@ class FullIngestionProcessor:
                 
                 if result['success']:
                     questions_inserted = result['questions_inserted']
-                    print(f"  OK: {questions_inserted}/{result['questions_parsed']} questoes importadas")
+                    
+                    # Extrair e armazenar imagens se habilitado e questões foram inseridas
+                    images_processed = 0
+                    if self.extract_images and questions_inserted > 0:
+                        print(f"  Iniciando extração de imagens para {file_path.name}...")
+                        try:
+                            images_processed = self.extract_and_store_images(file_path, [])
+                            print(f"  Imagens processadas: {images_processed}")
+                        except Exception as img_e:
+                            print(f"  Warning: Failed to extract images: {img_e}")
+                    
+                    if images_processed > 0:
+                        print(f"  OK: {questions_inserted}/{result['questions_parsed']} questoes + {images_processed} imagens importadas")
+                    else:
+                        print(f"  OK: {questions_inserted}/{result['questions_parsed']} questoes importadas")
+                    
                     total_success += questions_inserted
                 else:
                     print(f"  ERRO: {result['error']}")
@@ -124,36 +141,52 @@ class FullIngestionProcessor:
     def process_single_file_worker(self, file_path):
         """Worker function para processamento paralelo de um único arquivo"""
         try:
-            # Criar nova instância do DatabaseIntegration para thread safety
-            db_integration = DatabaseIntegration()
+            # Criar nova instância do DatabaseIntegration para thread safety usando admin credentials
+            db_integration = DatabaseIntegration(connection_url=self.connection_url)
             result = db_integration.process_pdf_file(file_path)
             
+            images_processed = 0
+            
             if result['success']:
+                # Se o processamento de questões foi bem-sucedido, extrair e armazenar imagens
+                if self.extract_images and result['questions_inserted'] > 0:
+                    print(f"Iniciando extração de imagens para {file_path.name}...")
+                    try:
+                        images_processed = self.extract_and_store_images(file_path, [])
+                        print(f"Imagens processadas para {file_path.name}: {images_processed}")
+                    except Exception as img_e:
+                        print(f"Warning: Failed to extract images from {file_path.name}: {img_e}")
+                        import traceback
+                        traceback.print_exc()
+                
                 return {
                     'file': file_path.name,
                     'success': True,
                     'questions_parsed': result['questions_parsed'],
                     'questions_inserted': result['questions_inserted'],
+                    'images_processed': images_processed,
                     'processing_time': time.time()
                 }
             else:
                 return {
                     'file': file_path.name,
                     'success': False,
-                    'error': result['error']
+                    'error': result['error'],
+                    'images_processed': 0
                 }
         except Exception as e:
             return {
                 'file': file_path.name,
                 'success': False,
-                'error': str(e)
+                'error': str(e),
+                'images_processed': 0
             }
     
     def process_question_files_parallel(self, question_files, max_workers=None):
         """Processar arquivos de questão em paralelo com threads"""
         if max_workers is None:
             # Usar número de CPUs disponíveis, mas limitado para não sobrecarregar o banco
-            max_workers = min(multiprocessing.cpu_count(), 4)
+            max_workers = min(multiprocessing.cpu_count(), 8)
         
         print(f"Processando {len(question_files)} arquivos com {max_workers} workers paralelos...")
         
@@ -182,8 +215,13 @@ class FullIngestionProcessor:
                     
                     if result['success']:
                         questions_inserted = result['questions_inserted']
+                        images_processed = result.get('images_processed', 0)
                         total_success += questions_inserted
-                        print(f"[{i}/{len(question_files)}] ✓ {result['file']}: {questions_inserted}/{result['questions_parsed']} questões")
+                        
+                        if images_processed > 0:
+                            print(f"[{i}/{len(question_files)}] ✓ {result['file']}: {questions_inserted}/{result['questions_parsed']} questões, {images_processed} imagens")
+                        else:
+                            print(f"[{i}/{len(question_files)}] ✓ {result['file']}: {questions_inserted}/{result['questions_parsed']} questões")
                     else:
                         total_failed += 1
                         failed_files.append(result['file'])
@@ -210,7 +248,7 @@ class FullIngestionProcessor:
     def process_question_files_batched(self, question_files, batch_size=8, max_workers=None):
         """Processar arquivos em lotes para controlar carga no banco"""
         if max_workers is None:
-            max_workers = min(multiprocessing.cpu_count(), 4)
+            max_workers = min(multiprocessing.cpu_count(), 8)
         
         print(f"Processando {len(question_files)} arquivos em lotes de {batch_size} com {max_workers} workers...")
         
@@ -252,7 +290,7 @@ class FullIngestionProcessor:
             
             with self.get_connection() as conn:
                 with conn.cursor() as cur:
-                    cur.execute("SELECT id FROM exam_metadata WHERE pdf_filename = %s", (pv_filename,))
+                    cur.execute("SELECT id FROM enem_questions.exam_metadata WHERE pdf_filename = %s", (pv_filename,))
                     result = cur.fetchone()
                     return result['id'] if result else None
         except Exception as e:
@@ -389,7 +427,7 @@ class FullIngestionProcessor:
                 with conn.cursor() as cur:
                     # Obter year e exam_type do exam_metadata
                     cur.execute("""
-                        SELECT year, exam_type FROM exam_metadata 
+                        SELECT year, exam_type FROM enem_questions.exam_metadata 
                         WHERE id = %s
                     """, (exam_metadata_id,))
                     
@@ -404,21 +442,21 @@ class FullIngestionProcessor:
                         try:
                             # Verificar se já existe
                             cur.execute("""
-                                SELECT id FROM answer_keys 
+                                SELECT id FROM enem_questions.answer_keys 
                                 WHERE exam_metadata_id = %s AND question_number = %s
                             """, (exam_metadata_id, question_num))
                             
                             if cur.fetchone():
                                 # Atualizar existente
                                 cur.execute("""
-                                    UPDATE answer_keys 
+                                    UPDATE enem_questions.answer_keys 
                                     SET correct_answer = %s
                                     WHERE exam_metadata_id = %s AND question_number = %s
                                 """, (correct_answer, exam_metadata_id, question_num))
                             else:
                                 # Inserir novo
                                 cur.execute("""
-                                    INSERT INTO answer_keys (exam_year, exam_type, question_number, correct_answer, exam_metadata_id)
+                                    INSERT INTO enem_questions.answer_keys (exam_year, exam_type, question_number, correct_answer, exam_metadata_id)
                                     VALUES (%s, %s, %s, %s, %s)
                                 """, (
                                     exam_year,
@@ -442,7 +480,7 @@ class FullIngestionProcessor:
     def process_answer_files_parallel(self, answer_files, max_workers=None):
         """Processar arquivos de gabarito em paralelo"""
         if max_workers is None:
-            max_workers = min(multiprocessing.cpu_count(), 4)
+            max_workers = min(multiprocessing.cpu_count(), 8)
         
         print(f"Processando {len(answer_files)} gabaritos com {max_workers} workers paralelos...")
         
@@ -494,7 +532,7 @@ class FullIngestionProcessor:
     def process_answer_files_batched(self, answer_files, batch_size=8, max_workers=None):
         """Processar gabaritos em lotes"""
         if max_workers is None:
-            max_workers = min(multiprocessing.cpu_count(), 4)
+            max_workers = min(multiprocessing.cpu_count(), 8)
         
         print(f"Processando {len(answer_files)} gabaritos em lotes de {batch_size} com {max_workers} workers...")
         
@@ -640,30 +678,33 @@ class FullIngestionProcessor:
             
             # Store images in database
             with self.get_connection() as conn:
-                image_handler = DatabaseImageHandler(conn)
+                image_handler = DatabaseImageHandler(self.connection_url)
                 
-                # For now, associate all images with the first question
-                # In future, could implement smarter association based on position
-                if questions_data and unique_images:
-                    first_question_id = questions_data[0].get('id')
-                    if first_question_id:
+                # Get questions from this PDF to associate images
+                with conn.cursor() as cur:
+                    cur.execute("""
+                        SELECT q.id 
+                        FROM enem_questions.questions q
+                        JOIN enem_questions.exam_metadata em ON q.exam_metadata_id = em.id
+                        WHERE em.pdf_filename = %s
+                        ORDER BY q.question_number
+                        LIMIT 1
+                    """, (pdf_path.name,))
+                    
+                    question_result = cur.fetchone()
+                    
+                    if question_result and unique_images:
+                        first_question_id = question_result['id']
                         stored_count = image_handler.store_question_images(
                             first_question_id, unique_images
                         )
                         total_images += stored_count
                         
-                        # Update question to mark it has images
-                        with conn.cursor() as cur:
-                            cur.execute("""
-                                UPDATE questions 
-                                SET has_images = TRUE, 
-                                    images_description = %s
-                                WHERE id = %s
-                            """, (
-                                f"{len(unique_images)} imagens extraídas",
-                                first_question_id
-                            ))
+                        print(f"  Stored {stored_count} images for question {first_question_id}")
+                        
                         conn.commit()
+                    else:
+                        print(f"  No questions found for {pdf_path.name} or no unique images to store")
             
         except Exception as e:
             print(f"Error extracting images from {pdf_path}: {e}")
@@ -679,15 +720,15 @@ class FullIngestionProcessor:
                         SELECT 
                             'exam_metadata' as tabela, 
                             COUNT(*) as registros
-                        FROM exam_metadata
+                        FROM enem_questions.exam_metadata
                         UNION ALL
-                        SELECT 'questions', COUNT(*) FROM questions
+                        SELECT 'questions', COUNT(*) FROM enem_questions.questions
                         UNION ALL  
-                        SELECT 'question_alternatives', COUNT(*) FROM question_alternatives
+                        SELECT 'question_alternatives', COUNT(*) FROM enem_questions.question_alternatives
                         UNION ALL
-                        SELECT 'answer_keys', COUNT(*) FROM answer_keys
+                        SELECT 'answer_keys', COUNT(*) FROM enem_questions.answer_keys
                         UNION ALL
-                        SELECT 'question_images', COUNT(*) FROM question_images
+                        SELECT 'question_images', COUNT(*) FROM enem_questions.question_images
                         ORDER BY tabela
                     """)
                     
@@ -702,12 +743,12 @@ class FullIngestionProcessor:
 if __name__ == "__main__":
     # Configurações de processamento paralelo
     parallel = True          # Usar processamento paralelo
-    max_workers = 4          # Número de workers (threads) 
-    batch_size = 8           # Arquivos por lote
-    clear_db = False         # Continuar de onde parou
-    process_questions = False # Já temos as questões processadas
-    process_answers = True    # Processar apenas gabaritos agora
-    extract_images = False    # Extrair imagens das questões (requer PyMuPDF e Pillow)
+    max_workers = 8          # Número de workers (threads) - AUMENTADO para acelerar
+    batch_size = 12          # Arquivos por lote - AUMENTADO para melhor throughput
+    clear_db = True          # Limpar base para começar do zero
+    process_questions = True  # Processar questões
+    process_answers = True    # Processar gabaritos
+    extract_images = True     # ✅ ATIVAR extração de imagens das questões
     
     processor = FullIngestionProcessor(extract_images=extract_images)
     

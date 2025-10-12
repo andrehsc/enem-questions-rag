@@ -1,0 +1,634 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Script de Ingestão Completa ENEM - Questões e Gabaritos
+Processa todos os PDFs disponíveis (PV e GB) para criar base completa.
+"""
+
+import psycopg2
+from psycopg2.extras import RealDictCursor
+from pathlib import Path
+import sys
+from datetime import datetime
+
+# Adicionar src ao path
+sys.path.append(str(Path(__file__).parent.parent / 'src'))
+
+from enem_ingestion.db_integration_final import DatabaseIntegration
+
+class FullIngestionProcessor:
+    """Processador completo de ingestão ENEM"""
+    
+    def __init__(self):
+        self.connection_url = "postgresql://enem_rag_service:enem123@localhost:5433/teachershub_enem"
+        self.db_integration = DatabaseIntegration()
+        
+    def get_connection(self):
+        return psycopg2.connect(self.connection_url, cursor_factory=RealDictCursor)
+    
+    def find_question_files(self):
+        """Encontrar todos os arquivos de questão (PV)"""
+        base_path = Path("data/downloads")
+        files = []
+        for year_dir in base_path.iterdir():
+            if year_dir.is_dir() and year_dir.name.isdigit():
+                pv_files = list(year_dir.glob("*PV*.pdf"))
+                files.extend(pv_files)
+        return sorted(files)
+    
+    def clear_database(self):
+        """Limpar tabelas antes da ingestão"""
+        try:
+            with self.get_connection() as conn:
+                with conn.cursor() as cur:
+                    print("Limpando banco de dados...")
+                    cur.execute("TRUNCATE TABLE question_alternatives CASCADE")
+                    cur.execute("TRUNCATE TABLE answer_keys CASCADE")
+                    cur.execute("TRUNCATE TABLE questions CASCADE")
+                    cur.execute("TRUNCATE TABLE exam_metadata CASCADE")
+                    conn.commit()
+                    print("Database cleared successfully!")
+        except Exception as e:
+            print(f"Error clearing database: {e}")
+            raise
+    
+    def process_question_files(self, question_files):
+        """Processar arquivos de questão com tratamento robusto de erros"""
+        total_success = 0
+        total_failed = 0
+        failed_files = []
+        
+        for i, file_path in enumerate(question_files, 1):
+            print(f"\n[{i}/{len(question_files)}] Processando: {file_path.name}")
+            
+            try:
+                result = self.db_integration.process_pdf_file(file_path)
+                
+                if result['success']:
+                    questions_inserted = result['questions_inserted']
+                    print(f"  OK: {questions_inserted}/{result['questions_parsed']} questoes importadas")
+                    total_success += questions_inserted
+                else:
+                    print(f"  ERRO: {result['error']}")
+                    total_failed += 1
+                    failed_files.append(file_path.name)
+                    
+            except KeyboardInterrupt:
+                print(f"  INTERROMPIDO pelo usuário")
+                break
+            except Exception as e:
+                print(f"  EXCEPTION: {str(e)}")
+                total_failed += 1
+                failed_files.append(file_path.name)
+                continue
+        
+        return {
+            'success': total_success,
+            'failed': total_failed,
+            'failed_files': failed_files
+        }
+    
+    def process_answer_files(self, answer_files):
+        """Processar arquivos de gabarito"""
+        total_success = 0
+        total_failed = 0
+        failed_files = []
+        
+        for i, file_path in enumerate(answer_files, 1):
+            print(f"\n[{i}/{len(answer_files)}] Processando Gabarito: {file_path.name}")
+            
+            try:
+                result = self.process_single_answer_file(file_path)
+                
+                if result['success']:
+                    answers_inserted = result['answers_inserted']
+                    print(f"  OK: {answers_inserted} gabaritos importados")
+                    total_success += answers_inserted
+                else:
+                    print(f"  ERRO: {result['error']}")
+                    total_failed += 1
+                    failed_files.append(file_path.name)
+                    
+            except KeyboardInterrupt:
+                print(f"  INTERROMPIDO pelo usuário")
+                break
+            except Exception as e:
+                print(f"  EXCEPTION: {str(e)}")
+                total_failed += 1
+                failed_files.append(file_path.name)
+                continue
+        
+        return {
+            'success': total_success,
+            'failed': total_failed,
+            'failed_files': failed_files
+        }
+    
+    def get_matching_exam_metadata_id(self, gabarito_filename):
+        """Encontrar exam_metadata_id correspondente ao gabarito"""
+        try:
+            # Converter GB para PV: 2020_GB_impresso_D1_CD2.pdf -> 2020_PV_impresso_D1_CD2.pdf
+            pv_filename = gabarito_filename.replace('_GB_', '_PV_')
+            
+            with self.get_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("SELECT id FROM exam_metadata WHERE pdf_filename = %s", (pv_filename,))
+                    result = cur.fetchone()
+                    return result['id'] if result else None
+        except Exception as e:
+            print(f"Error finding matching exam metadata: {e}")
+            return None
+    
+    def process_single_answer_file(self, file_path):
+        """Processar um único arquivo de gabarito"""
+        try:
+            # Encontrar exam_metadata correspondente
+            exam_metadata_id = self.get_matching_exam_metadata_id(file_path.name)
+            if not exam_metadata_id:
+                return {'success': False, 'error': 'Exam metadata not found'}
+            
+            # Parse do gabarito (implementação simplificada - pode ser expandida)
+            answers = self.parse_answer_file(file_path)
+            if not answers:
+                return {'success': False, 'error': 'No answers parsed'}
+            
+            # Inserir gabaritos
+            inserted_count = self.insert_answer_keys(answers, exam_metadata_id)
+            
+            return {
+                'success': True,
+                'answers_parsed': len(answers),
+                'answers_inserted': inserted_count
+            }
+            
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+    
+    def parse_answer_file(self, file_path):
+        """Parse básico de arquivo de gabarito - pode ser expandido"""
+        try:
+            # Esta é uma implementação básica - pode ser melhorada
+            # Por enquanto, vamos extrair patterns de resposta do texto
+            
+            questions = self.parser.parse_questions(file_path)
+            answers = []
+            
+            # Processar texto procurando patterns de gabarito
+            # Pattern típico: "1. A", "2. B", etc.
+            for question in questions:
+                if question.text:
+                    # Buscar patterns de resposta no texto
+                    answer_matches = re.findall(r'(\d+)\s*[.\-\s]*([ABCDE])', question.text)
+                    for match in answer_matches:
+                        question_num, answer_letter = match
+                        answers.append({
+                            'question_number': int(question_num),
+                            'correct_answer': answer_letter
+                        })
+            
+            return answers
+            
+        except Exception as e:
+            print(f"Error parsing answer file {file_path}: {e}")
+            return []
+    
+    def insert_answer_keys(self, answers, exam_metadata_id):
+        """Inserir gabaritos na tabela answer_keys"""
+        inserted_count = 0
+        
+        try:
+            with self.get_connection() as conn:
+                with conn.cursor() as cur:
+                    for answer in answers:
+                        # Buscar question_id correspondiente
+                        cur.execute("""
+                            SELECT id FROM questions 
+                            WHERE exam_metadata_id = %s AND question_number = %s
+                        """, (exam_metadata_id, answer['question_number']))
+                        
+                        question_result = cur.fetchone()
+                        if question_result:
+                            cur.execute("""
+                                INSERT INTO answer_keys (id, exam_metadata_id, question_id, question_number, correct_answer)
+                                VALUES (%s, %s, %s, %s, %s)
+                                ON CONFLICT (exam_metadata_id, question_number) DO UPDATE SET
+                                correct_answer = EXCLUDED.correct_answer
+                            """, (
+                                str(uuid.uuid4()),
+                                exam_metadata_id,
+                                question_result['id'],
+                                answer['question_number'],
+                                answer['correct_answer']
+                            ))
+                            inserted_count += 1
+                    
+                    conn.commit()
+                    
+        except Exception as e:
+            print(f"Error inserting answer keys: {e}")
+            
+        return inserted_count
+
+import psycopg2
+from psycopg2.extras import RealDictCursor
+from pathlib import Path
+import sys
+import time
+from datetime import datetime
+import json
+
+# Adicionar src ao path
+project_root = Path(__file__).parent.parent
+sys.path.append(str(project_root / 'src'))
+sys.path.append(str(project_root))
+
+from src.enem_ingestion.db_integration_final import DatabaseIntegration
+
+class FullIngestionProcessor:
+    """Processador completo de ingestao ENEM"""
+    
+    def __init__(self):
+        self.connection_url = "postgresql://enem_rag_service:enem123@localhost:5433/teachershub_enem"
+        self.db_integration = DatabaseIntegration()
+        self.report = {
+            'start_time': datetime.now(),
+            'end_time': None,
+            'files_processed': {
+                'questions': [],
+                'answer_keys': []
+            },
+            'metrics': {
+                'total_files_found': 0,
+                'total_files_processed': 0,
+                'total_questions_parsed': 0,
+                'total_questions_inserted': 0,
+                'total_alternatives_expected': 0,
+                'total_alternatives_inserted': 0,
+                'total_answer_keys_parsed': 0,
+                'total_answer_keys_inserted': 0,
+                'success_rate_questions': 0,
+                'success_rate_alternatives': 0,
+                'processing_time_seconds': 0
+            },
+            'errors': [],
+            'by_year': {},
+            'by_subject': {}
+        }
+    
+    def get_connection(self):
+        return psycopg2.connect(self.connection_url, cursor_factory=RealDictCursor)
+    
+    def find_all_files(self):
+        """Encontrar todos os arquivos PV (questoes) e GB (gabaritos)"""
+        base_path = Path("data/downloads")
+        
+        question_files = list(base_path.glob("*/*PV*.pdf"))
+        answer_files = list(base_path.glob("*/*GB*.pdf"))
+        
+        # Ordenar por ano e nome
+        question_files.sort(key=lambda x: (x.parts[-2], x.name))
+        answer_files.sort(key=lambda x: (x.parts[-2], x.name))
+        
+        return question_files, answer_files
+    
+    def clear_database(self):
+        """Limpar banco de dados antes da ingestao completa"""
+        print("Limpando banco de dados...")
+        
+        with self.get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute("DELETE FROM question_alternatives")
+                cur.execute("DELETE FROM answer_keys")
+                cur.execute("DELETE FROM questions")
+                cur.execute("DELETE FROM exam_metadata")
+            conn.commit()
+        
+        print("OK: Banco de dados limpo")
+    
+    def process_question_files(self, question_files):
+        """Processar todos os arquivos de questoes"""
+        print(f"\nProcessando {len(question_files)} arquivos de questoes...")
+        
+        processed = 0
+        
+        for i, file_path in enumerate(question_files, 1):
+            print(f"\n[{i}/{len(question_files)}] Processando: {file_path.name}")
+            
+            try:
+                result = self.db_integration.process_pdf_file(file_path)
+                
+                if result['success']:
+                    questions_parsed = result.get('questions_parsed', 0)
+                    questions_inserted = result.get('questions_inserted', 0)
+                    
+                    file_info = {
+                        'filename': file_path.name,
+                        'year': file_path.parts[-2],
+                        'questions_parsed': questions_parsed,
+                        'questions_inserted': questions_inserted,
+                        'success': True
+                    }
+                    
+                    self.report['files_processed']['questions'].append(file_info)
+                    self.report['metrics']['total_questions_parsed'] += questions_parsed
+                    self.report['metrics']['total_questions_inserted'] += questions_inserted
+                    self.report['metrics']['total_alternatives_expected'] += questions_inserted * 5
+                    
+                    processed += 1
+                    
+                    print(f"  OK: {questions_inserted}/{questions_parsed} questoes importadas")
+                    
+                else:
+                    error_info = {
+                        'filename': file_path.name,
+                        'error': result.get('error', 'Unknown error'),
+                        'type': 'question_processing'
+                    }
+                    self.report['errors'].append(error_info)
+                    print(f"  ERRO: {result.get('error', 'Unknown')}")
+            
+            except Exception as e:
+                error_info = {
+                    'filename': file_path.name,
+                    'error': str(e),
+                    'type': 'question_processing_exception'
+                }
+                self.report['errors'].append(error_info)
+                print(f"  EXCECAO: {e}")
+        
+        self.report['metrics']['total_files_processed'] = processed
+        print(f"\nArquivos de questoes processados: {processed}/{len(question_files)}")
+    
+    def process_answer_files(self, answer_files):
+        """Processar todos os arquivos de gabaritos"""
+        print(f"\nProcessando {len(answer_files)} arquivos de gabaritos...")
+        
+        # Importar o processador de gabaritos localmente
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("process_answer_keys", "scripts/process_answer_keys.py")
+        answer_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(answer_module)
+        AnswerKeyProcessor = answer_module.AnswerKeyProcessor
+        
+        answer_processor = AnswerKeyProcessor()
+        processed = 0
+        
+        for i, file_path in enumerate(answer_files, 1):
+            print(f"\n[{i}/{len(answer_files)}] Processando gabarito: {file_path.name}")
+            
+            try:
+                inserted_count = answer_processor.process_answer_key_file(file_path)
+                
+                if inserted_count > 0:
+                    file_info = {
+                        'filename': file_path.name,
+                        'year': file_path.parts[-2],
+                        'answers_inserted': inserted_count,
+                        'success': True
+                    }
+                    
+                    self.report['files_processed']['answer_keys'].append(file_info)
+                    self.report['metrics']['total_answer_keys_inserted'] += inserted_count
+                    processed += 1
+                    
+                    print(f"  OK: {inserted_count} gabaritos importados")
+                else:
+                    print(f"  AVISO: Nenhum gabarito importado")
+            
+            except Exception as e:
+                error_info = {
+                    'filename': file_path.name,
+                    'error': str(e),
+                    'type': 'answer_processing_exception'
+                }
+                self.report['errors'].append(error_info)
+                print(f"  EXCECAO: {e}")
+        
+        print(f"\nArquivos de gabaritos processados: {processed}/{len(answer_files)}")
+    
+    def calculate_final_metrics(self):
+        """Calcular metricas finais do banco de dados"""
+        print("\nCalculando metricas finais...")
+        
+        with self.get_connection() as conn:
+            with conn.cursor() as cur:
+                # Contar alternativas reais no banco
+                cur.execute("SELECT COUNT(*) FROM question_alternatives")
+                actual_alternatives = cur.fetchone()[0]
+                self.report['metrics']['total_alternatives_inserted'] = actual_alternatives
+                
+                # Contar gabaritos reais
+                cur.execute("SELECT COUNT(*) FROM answer_keys")
+                actual_answers = cur.fetchone()[0]
+                self.report['metrics']['total_answer_keys_parsed'] = actual_answers
+                
+                # Metricas por ano
+                cur.execute("""
+                    SELECT 
+                        em.year,
+                        COUNT(DISTINCT em.id) as files,
+                        COUNT(q.id) as questions,
+                        COUNT(qa.id) as alternatives,
+                        COUNT(ak.id) as answers
+                    FROM exam_metadata em
+                    LEFT JOIN questions q ON em.id = q.exam_metadata_id
+                    LEFT JOIN question_alternatives qa ON q.id = qa.question_id
+                    LEFT JOIN answer_keys ak ON em.id = ak.exam_metadata_id
+                    GROUP BY em.year
+                    ORDER BY em.year
+                """)
+                
+                for row in cur.fetchall():
+                    self.report['by_year'][row['year']] = {
+                        'files': row['files'],
+                        'questions': row['questions'],
+                        'alternatives': row['alternatives'],
+                        'answers': row['answers']
+                    }
+                
+                # Metricas por materia
+                cur.execute("""
+                    SELECT 
+                        CASE 
+                            WHEN subject LIKE '%LINGUAGENS%' THEN 'Linguagens'
+                            WHEN subject LIKE '%HUMANAS%' THEN 'Ciencias Humanas'
+                            WHEN subject LIKE '%NATUREZA%' THEN 'Ciencias da Natureza'
+                            WHEN subject LIKE '%MATEMATICA%' THEN 'Matematica'
+                            ELSE subject
+                        END as materia,
+                        COUNT(*) as questions
+                    FROM questions
+                    GROUP BY subject
+                    ORDER BY questions DESC
+                """)
+                
+                for row in cur.fetchall():
+                    self.report['by_subject'][row['materia']] = row['questions']
+        
+        # Calcular taxas de sucesso
+        if self.report['metrics']['total_questions_parsed'] > 0:
+            self.report['metrics']['success_rate_questions'] = (
+                self.report['metrics']['total_questions_inserted'] / 
+                self.report['metrics']['total_questions_parsed'] * 100
+            )
+        
+        if self.report['metrics']['total_alternatives_expected'] > 0:
+            self.report['metrics']['success_rate_alternatives'] = (
+                self.report['metrics']['total_alternatives_inserted'] / 
+                self.report['metrics']['total_alternatives_expected'] * 100
+            )
+    
+    def generate_report(self):
+        """Gerar relatorio final detalhado"""
+        self.report['end_time'] = datetime.now()
+        self.report['metrics']['processing_time_seconds'] = (
+            self.report['end_time'] - self.report['start_time']
+        ).total_seconds()
+        
+        print("\n" + "=" * 80)
+        print("RELATORIO FINAL DE INGESTAO ENEM RAG")
+        print("=" * 80)
+        
+        # Resumo geral
+        print(f"\nTEMPO DE PROCESSAMENTO: {self.report['metrics']['processing_time_seconds']:.1f} segundos")
+        print(f"PERIODO: {self.report['start_time'].strftime('%Y-%m-%d %H:%M:%S')} - {self.report['end_time'].strftime('%H:%M:%S')}")
+        
+        # Metricas principais
+        m = self.report['metrics']
+        print(f"\nMETRICAS PRINCIPAIS:")
+        print(f"   Arquivos encontrados: {len(self.report['files_processed']['questions']) + len(self.report['files_processed']['answer_keys'])}")
+        print(f"   Arquivos processados: {m['total_files_processed']}")
+        print(f"   Questoes parseadas: {m['total_questions_parsed']}")
+        print(f"   Questoes inseridas: {m['total_questions_inserted']}")
+        print(f"   Alternativas esperadas: {m['total_alternatives_expected']}")
+        print(f"   Alternativas inseridas: {m['total_alternatives_inserted']}")
+        print(f"   Gabaritos inseridos: {m['total_answer_keys_inserted']}")
+        
+        # Taxas de sucesso
+        print(f"\nTAXAS DE SUCESSO:")
+        print(f"   Questoes: {m['success_rate_questions']:.1f}%")
+        print(f"   Alternativas: {m['success_rate_alternatives']:.1f}%")
+        
+        # Por ano
+        print(f"\nDADOS POR ANO:")
+        for year, data in self.report['by_year'].items():
+            print(f"   {year}: {data['files']} arquivos, {data['questions']} questoes, {data['alternatives']} alternativas, {data['answers']} gabaritos")
+        
+        # Por materia
+        print(f"\nDADOS POR MATERIA:")
+        for subject, count in self.report['by_subject'].items():
+            print(f"   {subject}: {count} questoes")
+        
+        # Erros
+        if self.report['errors']:
+            print(f"\nERROS ENCONTRADOS ({len(self.report['errors'])}):")
+            for error in self.report['errors'][:10]:  # Mostrar so os primeiros 10
+                print(f"   {error['filename']}: {error['error'][:60]}...")
+        else:
+            print(f"\nNENHUM ERRO ENCONTRADO!")
+        
+        # Salvar relatorio em JSON
+        report_file = f"reports/ingestion_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        Path("reports").mkdir(exist_ok=True)
+        
+        # Converter datetime para string para JSON
+        report_copy = self.report.copy()
+        report_copy['start_time'] = self.report['start_time'].isoformat()
+        report_copy['end_time'] = self.report['end_time'].isoformat()
+        
+        with open(report_file, 'w', encoding='utf-8') as f:
+            json.dump(report_copy, f, ensure_ascii=False, indent=2)
+        
+        print(f"\nRelatorio salvo em: {report_file}")
+        print("=" * 80)
+        
+        return self.report
+    
+    def run_full_ingestion(self, clear_db=True):
+        """Executar ingestao completa de questões e gabaritos"""
+        print("INICIANDO INGESTÃO COMPLETA DO ENEM RAG")
+        print("=" * 80)
+        
+        # Encontrar arquivos
+        question_files = self.find_question_files()
+        answer_files = self.find_answer_files()
+        
+        print(f"Arquivos encontrados:")
+        print(f"   Questões (PV): {len(question_files)}")
+        print(f"   Gabaritos (GB): {len(answer_files)}")
+        
+        # Limpar banco se solicitado
+        if clear_db:
+            self.clear_database()
+        
+        # Processar questões
+        print("\n" + "="*50)
+        print("FASE 1: PROCESSANDO QUESTÕES")
+        print("="*50)
+        question_results = self.process_question_files(question_files)
+        
+        # Processar gabaritos
+        print("\n" + "="*50)
+        print("FASE 2: PROCESSANDO GABARITOS")
+        print("="*50)
+        answer_results = self.process_answer_files(answer_files)
+        
+        # Relatório final
+        print("\n" + "="*50)
+        print("RELATÓRIO FINAL")
+        print("="*50)
+        print(f"Questões processadas: {question_results['success']}")
+        print(f"Questões falharam: {question_results['failed']}")
+        print(f"Gabaritos processados: {answer_results['success']}")
+        print(f"Gabaritos falharam: {answer_results['failed']}")
+        
+        if question_results['failed_files']:
+            print(f"\nArquivos de questão com problema:")
+            for file in question_results['failed_files']:
+                print(f"  - {file}")
+        
+        if answer_results['failed_files']:
+            print(f"\nArquivos de gabarito com problema:")
+            for file in answer_results['failed_files']:
+                print(f"  - {file}")
+        
+        # Verificar dados finais
+        self.verify_final_data()
+        
+        return {
+            'questions': question_results,
+            'answers': answer_results
+        }
+    
+    def verify_final_data(self):
+        """Verificar dados finais no banco"""
+        try:
+            with self.get_connection() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("""
+                        SELECT 
+                            'exam_metadata' as tabela, 
+                            COUNT(*) as registros
+                        FROM exam_metadata
+                        UNION ALL
+                        SELECT 'questions', COUNT(*) FROM questions
+                        UNION ALL  
+                        SELECT 'question_alternatives', COUNT(*) FROM question_alternatives
+                        UNION ALL
+                        SELECT 'answer_keys', COUNT(*) FROM answer_keys
+                        ORDER BY tabela
+                    """)
+                    
+                    results = cur.fetchall()
+                    print(f"\nDADOS FINAIS NO BANCO:")
+                    for row in results:
+                        print(f"  {row['tabela']}: {row['registros']}")
+                        
+        except Exception as e:
+            print(f"Erro verificando dados finais: {e}")
+
+if __name__ == "__main__":
+    processor = FullIngestionProcessor()
+    
+    # Executar ingestao completa
+    report = processor.run_full_ingestion(clear_db=True)

@@ -1,31 +1,275 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Teste Completo de Carga Integrada ENEM
+Full Production Ingestion Script for ENEM Questions
+==================================================
+This script performs complete ingestion of all ENEM files in the downloads folder
+including questões (PV), gabaritos (GB), and image extraction.
 """
 
+import os
 import sys
+import logging
+import glob
+import time
 import psycopg2
-from psycopg2.extras import RealDictCursor
 from pathlib import Path
 from datetime import datetime
-import time
+from typing import List, Dict, Optional
+from psycopg2.extras import RealDictCursor
 
-# Adicionar src ao path
-sys.path.append(str(Path(__file__).parent.parent / 'src'))
+# Add project root to path
+project_root = Path(__file__).parent.parent
+sys.path.append(str(project_root / "src"))
 
 from enem_ingestion.db_integration_final import DatabaseIntegration
 from enem_ingestion.image_extractor import ImageExtractor, DatabaseImageHandler
 
 CONNECTION_URL = "postgresql://enem_rag_service:enem_rag_password@localhost:5433/teachershub_enem"
 
-class CompleteIngestionTester:
-    """Testador completo de ingestão ENEM"""
+# Configuração de logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('full_production_ingestion.log'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
+
+class FullProductionIngestion:
+    """Classe para realizar ingestão completa de produção."""
     
     def __init__(self):
+        """Inicializa o sistema de ingestão."""
         self.db_integration = DatabaseIntegration()
         self.image_extractor = ImageExtractor()
         self.db_image_handler = DatabaseImageHandler(CONNECTION_URL)
+        
+        # Estatísticas
+        self.stats = {
+            'files_processed': 0,
+            'questions_processed': 0,
+            'questions_inserted': 0,
+            'alternatives_inserted': 0,
+            'answer_keys_inserted': 0,
+            'images_extracted': 0,
+            'images_stored': 0,
+            'errors': 0,
+            'start_time': datetime.now()
+        }
+    
+    def get_all_pdf_files(self, downloads_dir: str = "data/downloads") -> Dict[str, List[str]]:
+        """Obtém todos os arquivos PDF separados por tipo."""
+        pv_files = glob.glob(os.path.join(downloads_dir, "**/*PV*.pdf"), recursive=True)
+        gb_files = glob.glob(os.path.join(downloads_dir, "**/*GB*.pdf"), recursive=True)
+        
+        # Ordenar por ano e caderno
+        pv_files.sort()
+        gb_files.sort()
+        
+        return {
+            'questions': pv_files,
+            'answers': gb_files
+        }
+    
+    def process_question_file(self, pdf_path: str) -> Dict:
+        """Processa um arquivo de questões (PV)."""
+        logger.info(f"Processando questões: {os.path.basename(pdf_path)}")
+        
+        try:
+            # Processar PDF usando o sistema existente
+            result = self.db_integration.process_pdf_file(Path(pdf_path))
+            
+            if result and result.get('success', False):
+                self.stats['questions_processed'] += result.get('questions_parsed', 0)
+                self.stats['questions_inserted'] += result.get('questions_inserted', 0)
+                self.stats['alternatives_inserted'] += result.get('alternatives_inserted', 0)
+                
+                # Extrair e armazenar imagens se houver questões
+                if result.get('questions_inserted', 0) > 0:
+                    images_result = self.extract_and_store_images(pdf_path)
+                    self.stats['images_extracted'] += images_result.get('images_extracted', 0)
+                    self.stats['images_stored'] += images_result.get('images_stored', 0)
+                
+                return result
+            else:
+                return {'success': False, 'error': 'Processing failed'}
+                
+        except Exception as e:
+            logger.error(f"Erro processando {pdf_path}: {e}")
+            self.stats['errors'] += 1
+            return {'success': False, 'error': str(e)}
+    
+    def process_answer_file(self, pdf_path: str) -> Dict:
+        """Processa um arquivo de gabaritos (GB)."""
+        logger.info(f"Processando gabaritos: {os.path.basename(pdf_path)}")
+        
+        try:
+            # Processar gabaritos usando o sistema existente
+            result = self.db_integration.process_pdf_file(Path(pdf_path))
+            
+            if result and result.get('success', False):
+                self.stats['answer_keys_inserted'] += result.get('answer_keys_processed', 0)
+                return result
+            else:
+                return {'success': False, 'error': 'Processing failed'}
+                
+        except Exception as e:
+            logger.error(f"Erro processando gabaritos {pdf_path}: {e}")
+            self.stats['errors'] += 1
+            return {'success': False, 'error': str(e)}
+    
+    def extract_and_store_images(self, pdf_path: str) -> Dict:
+        """Extrai e armazena imagens de um PDF."""
+        try:
+            # Extrair imagens do PDF
+            images = self.image_extractor.extract_images_from_pdf(pdf_path)
+            
+            if not images:
+                return {'images_extracted': 0, 'images_stored': 0}
+            
+            logger.info(f"Extraídas {len(images)} imagens de {os.path.basename(pdf_path)}")
+            
+            # Buscar questões relacionadas a este PDF para associar imagens
+            conn = psycopg2.connect(CONNECTION_URL, cursor_factory=RealDictCursor)
+            cursor = conn.cursor()
+            
+            # Extrair ano do nome do arquivo
+            filename = os.path.basename(pdf_path)
+            year = filename.split('_')[0]
+            
+            cursor.execute("""
+                SELECT q.id FROM enem_questions.questions q
+                JOIN enem_questions.exam_metadata em ON q.exam_metadata_id = em.id
+                WHERE em.pdf_filename = %s
+                ORDER BY q.question_number
+                LIMIT 1
+            """, (filename,))
+            
+            question_result = cursor.fetchone()
+            images_stored = 0
+            
+            if question_result and images:
+                # Associar imagens à primeira questão encontrada
+                question_id = str(question_result['id'])
+                stored_count = self.db_image_handler.store_question_images(question_id, images)
+                images_stored = stored_count
+                logger.info(f"Armazenadas {stored_count} imagens para questão {question_id}")
+            
+            conn.close()
+            
+            return {
+                'images_extracted': len(images),
+                'images_stored': images_stored
+            }
+            
+        except Exception as e:
+            logger.error(f"Erro extraindo imagens de {pdf_path}: {e}")
+            return {'images_extracted': 0, 'images_stored': 0}
+    
+    def print_progress(self, current: int, total: int, file_type: str, filename: str):
+        """Imprime progresso da operação."""
+        progress = (current / total) * 100
+        elapsed = datetime.now() - self.stats['start_time']
+        
+        print(f"\n{'='*60}")
+        print(f"PROGRESSO: {current}/{total} ({progress:.1f}%)")
+        print(f"TIPO: {file_type}")
+        print(f"ARQUIVO: {filename}")
+        print(f"TEMPO DECORRIDO: {elapsed}")
+        print(f"QUESTÕES: {self.stats['questions_processed']} processadas, {self.stats['questions_inserted']} inseridas")
+        print(f"ALTERNATIVAS: {self.stats['alternatives_inserted']} inseridas")
+        print(f"GABARITOS: {self.stats['answer_keys_inserted']} inseridos")
+        print(f"IMAGENS: {self.stats['images_extracted']} extraídas, {self.stats['images_stored']} armazenadas")
+        print(f"ERROS: {self.stats['errors']}")
+        print(f"{'='*60}")
+    
+    def run_full_ingestion(self):
+        """Executa ingestão completa de todos os arquivos."""
+        logger.info("INICIANDO INGESTÃO COMPLETA DE PRODUÇÃO")
+        logger.info(f"Iniciado em: {self.stats['start_time']}")
+        
+        try:
+            # Obter todos os arquivos
+            files = self.get_all_pdf_files()
+            total_files = len(files['questions']) + len(files['answers'])
+            
+            logger.info(f"Total de arquivos encontrados: {total_files}")
+            logger.info(f"  - Questões (PV): {len(files['questions'])}")
+            logger.info(f"  - Gabaritos (GB): {len(files['answers'])}")
+            
+            current_file = 0
+            
+            # Processar arquivos de questões
+            logger.info("\n📝 PROCESSANDO ARQUIVOS DE QUESTÕES...")
+            for pdf_path in files['questions']:
+                current_file += 1
+                filename = os.path.basename(pdf_path)
+                self.print_progress(current_file, total_files, "QUESTÕES", filename)
+                
+                result = self.process_question_file(pdf_path)
+                self.stats['files_processed'] += 1
+                
+                if not result['success']:
+                    logger.error(f"❌ Falha: {filename} - {result.get('error', 'Unknown error')}")
+                else:
+                    logger.info(f"✅ Sucesso: {filename}")
+                
+                # Pequena pausa para não sobrecarregar
+                time.sleep(0.5)
+            
+            # Processar arquivos de gabaritos
+            logger.info("\n🎯 PROCESSANDO ARQUIVOS DE GABARITOS...")
+            for pdf_path in files['answers']:
+                current_file += 1
+                filename = os.path.basename(pdf_path)
+                self.print_progress(current_file, total_files, "GABARITOS", filename)
+                
+                result = self.process_answer_file(pdf_path)
+                self.stats['files_processed'] += 1
+                
+                if not result['success']:
+                    logger.error(f"❌ Falha: {filename} - {result.get('error', 'Unknown error')}")
+                else:
+                    logger.info(f"✅ Sucesso: {filename}")
+                
+                # Pequena pausa para não sobrecarregar
+                time.sleep(0.5)
+            
+            # Estatísticas finais
+            self.print_final_statistics()
+            
+        except Exception as e:
+            logger.error(f"Erro na ingestão completa: {e}")
+            raise
+    
+    def print_final_statistics(self):
+        """Imprime estatísticas finais."""
+        end_time = datetime.now()
+        duration = end_time - self.stats['start_time']
+        
+        print(f"\n{'='*80}")
+        print(f"INGESTÃO COMPLETA FINALIZADA!")
+        print(f"{'='*80}")
+        print(f"TEMPO TOTAL: {duration}")
+        print(f"INÍCIO: {self.stats['start_time']}")
+        print(f"FIM: {end_time}")
+        print(f"\nESTATÍSTICAS FINAIS:")
+        print(f"  📁 Arquivos processados: {self.stats['files_processed']}")
+        print(f"  📝 Questões processadas: {self.stats['questions_processed']}")
+        print(f"  ✅ Questões inseridas: {self.stats['questions_inserted']}")
+        print(f"  📋 Alternativas inseridas: {self.stats['alternatives_inserted']}")
+        print(f"  🎯 Gabaritos inseridos: {self.stats['answer_keys_inserted']}")
+        print(f"  🖼️  Imagens extraídas: {self.stats['images_extracted']}")
+        print(f"  💾 Imagens armazenadas: {self.stats['images_stored']}")
+        print(f"  ❌ Erros: {self.stats['errors']}")
+        print(f"{'='*80}")
+        
+        # Log final
+        logger.info("INGESTÃO COMPLETA FINALIZADA COM SUCESSO!")
+        logger.info(f"Estatísticas: {self.stats}")
         
     def get_database_stats(self):
         """Obtém estatísticas atuais do banco"""
@@ -177,18 +421,23 @@ class CompleteIngestionTester:
             print(f"  {table}: {count} registros")
 
 def main():
-    """Função principal"""
-    tester = CompleteIngestionTester()
+    """Função principal."""
+    print("🚀 INGESTÃO COMPLETA DE PRODUÇÃO - ENEM RAG SYSTEM 🚀")
+    print("=" * 60)
     
-    if len(sys.argv) > 1:
-        # Testar arquivo específico
-        pdf_path = sys.argv[1]
-        success = tester.test_single_pdf_complete_flow(pdf_path)
-        return 0 if success else 1
-    else:
-        # Teste abrangente
-        success = tester.run_comprehensive_test()
-        return 0 if success else 1
+    try:
+        ingestion = FullProductionIngestion()
+        ingestion.run_full_ingestion()
+        print("\n✅ PROCESSO CONCLUÍDO COM SUCESSO!")
+        return 0
+    except KeyboardInterrupt:
+        print("\n\n⚠️ INTERROMPIDO PELO USUÁRIO")
+        logger.info("Processo interrompido pelo usuário")
+        return 1
+    except Exception as e:
+        print(f"\n\n❌ ERRO FATAL: {e}")
+        logger.error(f"Erro fatal na ingestão: {e}")
+        return 1
 
 if __name__ == "__main__":
     sys.exit(main())

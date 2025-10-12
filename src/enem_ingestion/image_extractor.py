@@ -109,8 +109,12 @@ class ImageExtractor:
                     pil_image = Image.open(io.BytesIO(image_bytes))
                     width, height = pil_image.size
                     
+                    # Convert CMYK to RGB if necessary
+                    if pil_image.mode == 'CMYK':
+                        pil_image = pil_image.convert('RGB')
+                    
                     # Convert to PNG for consistency (optional)
-                    if image_ext.lower() != 'png':
+                    if image_ext.lower() != 'png' or pil_image.mode == 'CMYK':
                         png_buffer = io.BytesIO()
                         pil_image.save(png_buffer, format='PNG')
                         image_bytes = png_buffer.getvalue()
@@ -277,7 +281,7 @@ class DatabaseImageHandler:
             with self.connection.cursor() as cur:
                 # Clear existing images for this question
                 cur.execute("""
-                    DELETE FROM question_images WHERE question_id = %s
+                    DELETE FROM enem_questions.question_images WHERE question_id = %s
                 """, (question_id,))
                 
                 deleted_count = cur.rowcount
@@ -287,7 +291,7 @@ class DatabaseImageHandler:
                 # Insert new images using UPSERT to handle any race conditions
                 for img in images:
                     cur.execute("""
-                        INSERT INTO question_images (
+                        INSERT INTO enem_questions.question_images (
                             id, question_id, image_sequence, image_data, 
                             image_format, image_width, image_height, 
                             image_size_bytes, extracted_at
@@ -341,7 +345,7 @@ class DatabaseImageHandler:
                         id, image_sequence, image_format, 
                         image_width, image_height, image_size_bytes,
                         extracted_at
-                    FROM question_images 
+                    FROM enem_questions.question_images 
                     WHERE question_id = %s 
                     ORDER BY image_sequence
                 """, (question_id,))
@@ -365,7 +369,7 @@ class DatabaseImageHandler:
         try:
             with self.connection.cursor() as cur:
                 cur.execute("""
-                    SELECT image_data FROM question_images WHERE id = %s
+                    SELECT image_data FROM enem_questions.question_images WHERE id = %s
                 """, (image_id,))
                 
                 result = cur.fetchone()

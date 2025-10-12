@@ -1,0 +1,184 @@
+# ENEM Questions RAG Pipeline
+
+Pipeline automatizado para ingestão de questões do ENEM no PostgreSQL, preparado para uso com RAG (Retrieval-Augmented Generation) e Semantic Kernel.
+
+## Visão Geral
+
+Este projeto implementa um sistema completo para:
+- Download automatizado de provas do ENEM dos últimos 5 anos (INEP)
+- Parsing e extração de questões, alternativas, gabaritos e metadados
+- Armazenamento estruturado no PostgreSQL
+- Preparação para integração com TeachersHub e busca semântica
+
+## Funcionalidades
+
+- ✅ Download automatizado de arquivos do INEP
+- ✅ Cache de downloads para evitar re-downloads
+- ✅ Parsing de PDFs e HTML das provas
+- ✅ Extração estruturada de questões e alternativas
+- ✅ Schema otimizado no PostgreSQL
+- ✅ Preparação para embeddings e busca semântica
+- ✅ Testes unitários e de integração
+- ✅ Logging e auditoria de processamento
+
+## Requisitos
+
+- Python 3.9+
+- PostgreSQL 12+
+- Dependências listadas em `requirements.txt`
+
+## Instalação
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/andrehsc/enem-questions-rag.git
+cd enem-questions-rag
+```
+
+2. Crie um ambiente virtual:
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# ou
+venv\Scripts\activate  # Windows
+```
+
+3. Instale as dependências:
+```bash
+pip install -r requirements.txt
+```
+
+4. Configure as variáveis de ambiente:
+```bash
+cp .env.example .env
+# Edite o arquivo .env com suas configurações
+```
+
+5. Configure o banco PostgreSQL:
+```bash
+# Execute o script de inicialização do banco
+python scripts/init_database.py
+```
+
+## Uso
+
+### Pipeline Completo
+
+Execute o pipeline completo para todos os anos:
+```bash
+python scripts/run_ingestion.py
+```
+
+### Processamento Específico
+
+Processe apenas um ano específico:
+```bash
+python scripts/run_ingestion.py --year 2024
+```
+
+### Verificação do Status
+
+Verifique o status do processamento:
+```bash
+python scripts/check_status.py
+```
+
+## Estrutura do Projeto
+
+```
+├── src/enem_ingestion/          # Código principal
+│   ├── __init__.py
+│   ├── config.py                # Configurações
+│   ├── database.py              # Modelos do banco
+│   ├── downloader.py            # Download de arquivos
+│   ├── parser.py                # Parsing de questões
+│   └── ingestion.py             # Pipeline de ingestão
+├── tests/                       # Testes
+├── scripts/                     # Scripts utilitários
+├── data/                        # Dados e cache
+├── config/                      # Arquivos de configuração
+└── docs/                        # Documentação
+```
+
+## Schema do Banco de Dados
+
+### Tabelas Principais
+
+- `exam_years`: Anos das provas e metadados
+- `subjects`: Disciplinas (Matemática, Linguagens, etc.)
+- `questions`: Questões com texto e contexto
+- `alternatives`: Alternativas das questões
+- `answer_keys`: Gabaritos oficiais
+- `processing_logs`: Logs de auditoria
+
+### Preparação para RAG
+
+O schema inclui campos preparados para:
+- Armazenamento de embeddings vetoriais
+- Indexação semântica
+- Integração com Semantic Kernel
+- Busca por similaridade
+
+## Testes
+
+Execute os testes:
+```bash
+pytest
+```
+
+Com cobertura:
+```bash
+pytest --cov=src --cov-report=html
+```
+
+## Integração com TeachersHub
+
+O projeto foi desenvolvido considerando integração futura com o TeachersHub:
+- Schema compatível com PostgreSQL já utilizado
+- Estrutura de dados padronizada
+- API REST planejada para interoperabilidade
+
+## Desenvolvimento
+
+### Configuração do Ambiente de Desenvolvimento
+
+```bash
+pip install -e .[dev]
+```
+
+### Formatação de Código
+
+```bash
+black src tests
+```
+
+### Linting
+
+```bash
+flake8 src tests
+mypy src
+```
+
+## Contribuição
+
+1. Fork o projeto
+2. Crie uma branch para sua feature
+3. Commit suas mudanças
+4. Push para a branch
+5. Abra um Pull Request
+
+## Licença
+
+MIT License. Veja [LICENSE](LICENSE) para detalhes.
+
+## Roadmap
+
+- [ ] Implementação da API REST
+- [ ] Integração com Ollama para embeddings
+- [ ] Busca semântica com Semantic Kernel
+- [ ] Interface web para consultas
+- [ ] Integração com TeachersHub
+
+## Suporte
+
+Para dúvidas e suporte, abra uma [issue](https://github.com/andrehsc/enem-questions-rag/issues) no GitHub.
