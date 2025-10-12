@@ -19,6 +19,14 @@ from models import (
 )
 from database import DatabaseService
 
+# GraphQL imports
+try:
+    from strawberry.fastapi import GraphQLRouter
+    from graphql_resolvers import schema
+    GRAPHQL_AVAILABLE = True
+except ImportError:
+    GRAPHQL_AVAILABLE = False
+
 # Configuração da aplicação
 app = FastAPI(
     title="ENEM Questions RAG API",
@@ -39,6 +47,11 @@ app.add_middleware(
 
 # Instanciar serviço de banco de dados
 db_service = DatabaseService()
+
+# Configurar GraphQL se disponível (AC1: GraphQL endpoint is available at `/graphql`)
+if GRAPHQL_AVAILABLE:
+    graphql_app = GraphQLRouter(schema, graphql_ide="graphiql")
+    app.include_router(graphql_app, prefix="/graphql", tags=["GraphQL"])
 
 # Dados simulados para demonstração
 sample_questions = [
