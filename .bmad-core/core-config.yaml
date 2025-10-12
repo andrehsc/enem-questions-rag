@@ -30,6 +30,77 @@ criticalGuidelines:
     enforceUtf8: true
     description: "Sempre utilizar UTF-8 para formatação de arquivos criados."
 
+# === CONFIGURAÇÕES TDD (TEST-DRIVEN DEVELOPMENT) ===
+tddWorkflow:
+  mandatoryForDevelopers: true
+  cyclePhases: ["RED", "GREEN", "BLUE"]
+  redPhase:
+    description: "Escrever teste que falha definindo comportamento esperado"
+    rules:
+      - "Teste deve ter nome descritivo: test_[method]_[scenario]_[expected]"
+      - "Usar padrão AAA (Arrange-Act-Assert)"
+      - "Testar UM comportamento específico por teste"
+      - "Executar teste e CONFIRMAR falha antes de continuar"
+  greenPhase:
+    description: "Implementar mínimo necessário para fazer teste passar"
+    rules:
+      - "Implementação mais simples possível"
+      - "NÃO otimizar prematuramente"
+      - "NÃO adicionar funcionalidades extras"
+      - "Executar teste e CONFIRMAR sucesso"
+  bluePhase:
+    description: "Refatorar para melhorar qualidade mantendo testes passando"
+    rules:
+      - "Aplicar princípios SOLID"
+      - "Eliminar duplicação (DRY)"
+      - "Melhorar nomes e estrutura"
+      - "Executar TODOS os testes e confirmar que passam"
+  qualityGates:
+    minimumCoverage: 90
+    maxTestExecutionTime: 100  # milliseconds
+    mandatoryPatterns:
+      - "Interface First: definir contratos antes da implementação"
+      - "Mock Dependencies: isolar unidade sob teste"
+      - "Fast Tests: execução rápida e determinística"
+    validation:
+      - "Coverage >90%"
+      - "Todos os testes passando"
+      - "Princípios SOLID aplicados"
+      - "Encoding UTF-8"
+      - "Sem emojis em código fonte"
+  
+  # Templates TDD por tipo de componente
+  templates:
+    apiEndpoint:
+      interface: "[ComponentName]ControllerInterface"
+      class: "[ComponentName]Controller"
+      testPattern: "test_[method]_[scenario]_[expected_result]"
+      dependencies: ["FastAPI", "Pydantic", "HTTPException"]
+    service:
+      interface: "[ComponentName]ServiceInterface"
+      class: "[ComponentName]Service"
+      testPattern: "test_[method]_[scenario]_[expected_result]"
+      dependencies: ["Business Logic", "Domain Models"]
+    repository:
+      interface: "[ComponentName]RepositoryInterface"
+      class: "[ComponentName]Repository"
+      testPattern: "test_[method]_[scenario]_[expected_result]"
+      dependencies: ["Database", "ORM", "Models"]
+  
+  # Fluxo obrigatório para agentes desenvolvedores
+  mandatoryWorkflow:
+    - "1. Criar interface com contratos bem definidos"
+    - "2. Criar classe vazia implementando interface"
+    - "3. Configurar dependências e imports"
+    - "4. Criar classe de teste com fixtures"
+    - "5. RED: Escrever teste que falha"
+    - "6. Executar teste e confirmar falha"
+    - "7. GREEN: Implementar mínimo necessário"
+    - "8. Executar teste e confirmar sucesso"
+    - "9. Repetir 5-8 para cada comportamento"
+    - "10. BLUE: Refatorar mantendo testes passando"
+    - "11. Executar todos os testes finais"
+
 # === CONFIGURAÇÕES DE CREDENCIAIS CONSISTENTES ===
 credentialsManagement:
   enforceConsistency: true
@@ -55,6 +126,8 @@ devLoadAlwaysFiles:
   - docs/architecture/coding-standards.md
   - docs/architecture/tech-stack.md
   - docs/architecture/source-tree.md
+  - docs/architecture/tdd-workflow.md
+  - docs/architecture/tdd-agent-prompt-template.md
   - shared/database/init/00-dev-credentials.md
 devDebugLog: .ai/debug-log.md
 devStoryLocation: docs/stories
