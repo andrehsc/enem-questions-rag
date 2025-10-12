@@ -16,6 +16,13 @@ import multiprocessing
 import threading
 import re
 
+# Import image extraction capabilities
+try:
+    from enem_ingestion.image_extractor import ImageExtractor, DatabaseImageHandler
+    IMAGES_AVAILABLE = True
+except ImportError:
+    IMAGES_AVAILABLE = False
+
 # Adicionar src ao path
 sys.path.append(str(Path(__file__).parent.parent / 'src'))
 
@@ -24,9 +31,20 @@ from enem_ingestion.db_integration_final import DatabaseIntegration
 class FullIngestionProcessor:
     """Processador completo de ingestão ENEM"""
     
-    def __init__(self):
+    def __init__(self, extract_images=False):
         self.connection_url = "postgresql://enem_rag_service:enem123@localhost:5433/teachershub_enem"
         self.db_integration = DatabaseIntegration()
+        self.extract_images = extract_images and IMAGES_AVAILABLE
+        
+        # Initialize image extractor if available
+        if self.extract_images:
+            images_dir = Path("data/extracted_images")
+            self.image_extractor = ImageExtractor(output_dir=images_dir)
+            print("✅ Extração de imagens habilitada")
+        else:
+            self.image_extractor = None
+            if extract_images and not IMAGES_AVAILABLE:
+                print("⚠️  Extração de imagens desabilitada - instale PyMuPDF e Pillow")
         
     def get_connection(self):
         return psycopg2.connect(self.connection_url, cursor_factory=RealDictCursor)
@@ -594,6 +612,64 @@ class FullIngestionProcessor:
             'answers': answer_results
         }
     
+    def extract_and_store_images(self, pdf_path: Path, questions_data: list) -> int:
+        """
+        Extract and store images for questions from a PDF.
+        
+        Args:
+            pdf_path: Path to the PDF file  
+            questions_data: List of question data with IDs
+            
+        Returns:
+            Number of images processed
+        """
+        if not self.extract_images or not self.image_extractor:
+            return 0
+        
+        total_images = 0
+        
+        try:
+            # Extract all images from PDF
+            all_images = self.image_extractor.extract_images_from_pdf(pdf_path)
+            
+            if not all_images:
+                return 0
+            
+            # Deduplicate images
+            unique_images = self.image_extractor.deduplicate_images(all_images)
+            
+            # Store images in database
+            with self.get_connection() as conn:
+                image_handler = DatabaseImageHandler(conn)
+                
+                # For now, associate all images with the first question
+                # In future, could implement smarter association based on position
+                if questions_data and unique_images:
+                    first_question_id = questions_data[0].get('id')
+                    if first_question_id:
+                        stored_count = image_handler.store_question_images(
+                            first_question_id, unique_images
+                        )
+                        total_images += stored_count
+                        
+                        # Update question to mark it has images
+                        with conn.cursor() as cur:
+                            cur.execute("""
+                                UPDATE questions 
+                                SET has_images = TRUE, 
+                                    images_description = %s
+                                WHERE id = %s
+                            """, (
+                                f"{len(unique_images)} imagens extraídas",
+                                first_question_id
+                            ))
+                        conn.commit()
+            
+        except Exception as e:
+            print(f"Error extracting images from {pdf_path}: {e}")
+        
+        return total_images
+
     def verify_final_data(self):
         """Verificar dados finais no banco"""
         try:
@@ -610,6 +686,8 @@ class FullIngestionProcessor:
                         SELECT 'question_alternatives', COUNT(*) FROM question_alternatives
                         UNION ALL
                         SELECT 'answer_keys', COUNT(*) FROM answer_keys
+                        UNION ALL
+                        SELECT 'question_images', COUNT(*) FROM question_images
                         ORDER BY tabela
                     """)
                     
@@ -622,8 +700,6 @@ class FullIngestionProcessor:
             print(f"Erro verificando dados finais: {e}")
 
 if __name__ == "__main__":
-    processor = FullIngestionProcessor()
-    
     # Configurações de processamento paralelo
     parallel = True          # Usar processamento paralelo
     max_workers = 4          # Número de workers (threads) 
@@ -631,6 +707,9 @@ if __name__ == "__main__":
     clear_db = False         # Continuar de onde parou
     process_questions = False # Já temos as questões processadas
     process_answers = True    # Processar apenas gabaritos agora
+    extract_images = False    # Extrair imagens das questões (requer PyMuPDF e Pillow)
+    
+    processor = FullIngestionProcessor(extract_images=extract_images)
     
     print(f"Configuração:")
     print(f"  Paralelo: {parallel}")
@@ -639,6 +718,7 @@ if __name__ == "__main__":
     print(f"  Clear DB: {clear_db}")
     print(f"  Processar questões: {process_questions}")
     print(f"  Processar gabaritos: {process_answers}")
+    print(f"  Extrair imagens: {extract_images}")
     print()
     
     # Executar ingestao de gabaritos apenas

@@ -45,6 +45,8 @@ class QuestionMetadata:
     caderno: str  # CD1, CD2, etc.
     application_type: str  # regular, reaplicacao_PPL, etc.
     accessibility: Optional[str] = None  # libras, braille_ledor, PPL, etc.
+    language: Optional[str] = None  # portuguese, spanish, english, etc.
+    exam_type: Optional[str] = None  # ENEM, PPL, etc.
 
 
 @dataclass  
@@ -108,6 +110,8 @@ class EnemPDFParser:
         caderno = None
         application_type = "regular"
         accessibility = None
+        language = "portuguese"  # Default language
+        exam_type = "ENEM"  # Default exam type
         
         for i, part in enumerate(parts):
             if part.startswith('D') and len(part) == 2:
@@ -119,6 +123,15 @@ class EnemPDFParser:
             elif part == 'PPL':
                 if application_type != "reaplicacao_PPL":
                     accessibility = "PPL"
+                exam_type = "PPL"
+            elif part == 'impresso':
+                exam_type = "ENEM"
+            elif part == 'digital':
+                exam_type = "ENEM_DIGITAL"
+            elif 'espanhol' in part.lower():
+                language = "spanish"
+            elif 'ingles' in part.lower():
+                language = "english"
         
         # Detect accessibility types from caderno number
         if caderno:
@@ -131,12 +144,18 @@ class EnemPDFParser:
             elif cd_num == 10 or cd_num == 12:
                 accessibility = "libras"
         
+        # Determine language from filename context
+        if 'braile_e_ledor' in name:
+            accessibility = "braille_ledor"
+        
         return QuestionMetadata(
             year=year,
             day=day or 1,
             caderno=caderno or "CD1",
             application_type=application_type,
-            accessibility=accessibility
+            accessibility=accessibility,
+            language=language,
+            exam_type=exam_type
         )
     
     def parse_answer_key(self, pdf_path: Union[str, Path]) -> List[AnswerKey]:

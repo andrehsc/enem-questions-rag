@@ -52,16 +52,19 @@ class DatabaseIntegration:
                 
                 cur.execute("""
                     INSERT INTO exam_metadata (
-                        id, year, day, caderno, application_type, 
-                        file_type, pdf_filename, pdf_path, created_at, updated_at
+                        id, year, exam_type, application_type, language,
+                        day, caderno, file_type, pdf_filename, pdf_path, 
+                        created_at, updated_at
                     )
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """, (
                     exam_metadata_id,
                     metadata.year,
+                    metadata.exam_type,
+                    metadata.application_type,
+                    metadata.language,
                     metadata.day,
                     metadata.caderno,
-                    metadata.application_type,
                     'caderno_questoes',
                     pdf_filename,
                     str(pdf_path),
@@ -79,7 +82,7 @@ class DatabaseIntegration:
             return None
     
     def insert_questions(self, questions, exam_metadata_id):
-        """Insert questions with correct schema"""
+        """Insert questions with correct schema including exam_id"""
         inserted_count = 0
         
         for question in questions:
@@ -87,15 +90,20 @@ class DatabaseIntegration:
                 with self.connection.cursor(cursor_factory=RealDictCursor) as cur:
                     question_id = str(uuid.uuid4())
                     
-                    # Use correct table schema
+                    # Generate sequential exam_id if not exists
+                    cur.execute("SELECT COALESCE(MAX(exam_id), 0) + 1 FROM questions")
+                    next_exam_id = cur.fetchone()[0]
+                    
+                    # Use correct table schema with exam_id
                     cur.execute("""
                         INSERT INTO questions (
-                            id, question_number, question_text, subject, 
+                            id, exam_id, question_number, question_text, subject, 
                             exam_metadata_id, created_at, updated_at
                         )
-                        VALUES (%s, %s, %s, %s, %s, %s, %s)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
                     """, (
                         question_id,
+                        next_exam_id,
                         question.number,
                         question.text,
                         str(question.subject) if question.subject else 'General',
