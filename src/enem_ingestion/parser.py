@@ -2,7 +2,8 @@
 Parser module for ENEM exam PDFs.
 
 This module handles parsing of ENEM exam PDFs to extract questions,
-alternatives, answer keys, and metadata.
+alternatives, answer keys, and metadata with integrated text normalization
+for encoding issues (mojibake correction).
 """
 
 import logging
@@ -13,6 +14,8 @@ from dataclasses import dataclass
 from enum import Enum
 
 import pdfplumber
+
+from .text_normalizer import normalize_enem_text
 
 logger = logging.getLogger(__name__)
 
@@ -289,18 +292,28 @@ class EnemPDFParser:
                         # Show what we found for debugging
                         logger.debug(f"Question {q_num} alternatives: {[alt[:30] + '...' for alt in alternatives]}")
                     
-                    # Pad with empty alternatives if needed (temporary for debugging)
-                    while len(alternatives) < 5:
-                        missing_letter = ['A', 'B', 'C', 'D', 'E'][len(alternatives)]
-                        alternatives.append(f"{missing_letter}) [Alternative not found]")
+                    # Remove duplicates and fix ordering
+                    clean_alternatives = []
+                    letters_used = set()
                     
-                    # Validate alternatives are in correct order (A, B, C, D, E)
-                    expected_order = ['A', 'B', 'C', 'D', 'E']
-                    actual_order = [alt[0] for alt in alternatives]
-                    if actual_order != expected_order:
-                        logger.warning(f"Question {q_num}: Alternatives not in alphabetical order: {actual_order}")
-                        # Sort alternatives to ensure correct order
-                        alternatives = sorted(alternatives, key=lambda x: x[0])
+                    # First pass: collect unique alternatives in order
+                    for letter in ['A', 'B', 'C', 'D', 'E']:
+                        for alt in alternatives:
+                            if alt.startswith(f"{letter})") and letter not in letters_used:
+                                clean_alternatives.append(alt)
+                                letters_used.add(letter)
+                                break
+                    
+                    # Pad with placeholders for missing alternatives
+                    for letter in ['A', 'B', 'C', 'D', 'E']:
+                        if letter not in letters_used:
+                            clean_alternatives.append(f"{letter}) [Alternative not found]")
+                    
+                    # Sort to ensure correct order
+                    alternatives = sorted(clean_alternatives, key=lambda x: x[0])
+                    
+                    if len(set([alt[0] for alt in alternatives])) != 5:
+                        logger.warning(f"Question {q_num}: Still has duplicate letters after cleanup")
                     
                     # Determine subject based on question number and day
                     subject = self._determine_subject(q_num, metadata.day)
@@ -324,9 +337,8 @@ class EnemPDFParser:
         """
         Extract text from a page respecting column layout.
         
-        ENEM PDFs typically have 2 columns. This method reads:
-        1. Left column from top to bottom
-        2. Right column from top to bottom
+        Enhanced version for 2024 format with better column detection
+        and text extraction methods.
         
         Args:
             page: pdfplumber page object
@@ -339,32 +351,90 @@ class EnemPDFParser:
             page_width = page.width
             page_height = page.height
             
+            # First try: Standard column extraction
             # Define column boundaries (approximate)
             left_column = page.crop((0, 0, page_width * 0.5, page_height))
             right_column = page.crop((page_width * 0.5, 0, page_width, page_height))
             
-            # Extract text from each column
-            left_text = left_column.extract_text() or ""
-            right_text = right_column.extract_text() or ""
+            # Extract text from each column with different methods
+            left_text = self._extract_text_robust(left_column)
+            right_text = self._extract_text_robust(right_column)
             
-            # Combine column texts
-            combined_text = left_text
-            if right_text.strip():
-                combined_text += "\n" + right_text
-                
+            # Combine columns
+            combined_text = left_text + "\n" + right_text
+            
+            # If extraction seems poor (too short or too repetitive), try alternative method
+            if len(combined_text.strip()) < 100 or self._is_text_too_repetitive(combined_text):
+                logger.debug("Column extraction poor, trying full page extraction")
+                combined_text = self._extract_text_robust(page)
+            
             return combined_text
             
         except Exception as e:
-            logger.warning(f"Failed to extract text by columns, falling back to default: {e}")
-            # Fallback to default extraction
-            return page.extract_text() or ""
+            logger.warning(f"Column extraction failed: {e}, falling back to full page")
+            return self._extract_text_robust(page)
+
+    def _extract_text_robust(self, page_or_crop) -> str:
+        """
+        Robust text extraction with multiple fallback methods.
+        
+        Args:
+            page_or_crop: pdfplumber page or cropped page object
+            
+        Returns:
+            str: Extracted text
+        """
+        try:
+            # Method 1: Standard extraction
+            text = page_or_crop.extract_text() or ""
+            
+            # Method 2: If text is too short, try with different layout settings
+            if len(text.strip()) < 50:
+                text = page_or_crop.extract_text(layout=True) or ""
+            
+            # Method 3: If still poor, try character-level extraction
+            if len(text.strip()) < 50:
+                chars = page_or_crop.chars
+                if chars:
+                    text = ' '.join([char['text'] for char in chars])
+                    
+            return text
+            
+        except Exception as e:
+            logger.warning(f"Text extraction failed: {e}")
+            return ""
+
+    def _is_text_too_repetitive(self, text: str) -> bool:
+        """
+        Check if text has too much repetition (indicates extraction problems).
+        
+        Args:
+            text: Text to check
+            
+        Returns:
+            bool: True if text appears too repetitive
+        """
+        if not text or len(text) < 100:
+            return True
+            
+        # Check for repetitive patterns
+        words = text.split()
+        if len(words) < 10:
+            return True
+            
+        # Count unique words vs total words
+        unique_words = set(words)
+        repetition_ratio = len(unique_words) / len(words)
+        
+        # If less than 30% unique words, it's probably repetitive/garbled
+        return repetition_ratio < 0.3
     
     def _extract_alternatives(self, question_text: str) -> List[str]:
         """
         Extract alternatives from ENEM question text.
         
-        ENEM PDFs have a unique format where alternatives appear as single letters
-        followed by text, often without clear separators.
+        Enhanced version for 2024 format with better text cleaning
+        and alternative detection.
         
         Args:
             question_text: Raw question text
@@ -374,16 +444,23 @@ class EnemPDFParser:
         """
         alternatives_dict = {}
         
+        # Pre-clean the text to remove 2024 artifacts before processing
+        clean_text = self._pre_clean_alternatives_text(question_text)
+        
         # Strategy 1: Search for pattern where single letter appears at start of line or after space
         # This handles ENEM's format where alternatives are like "A criticar o tipo" or "B rever o desempenho"
         
         # Split text into words and look for single letters followed by text
-        words = question_text.split()
+        words = clean_text.split()
         
         for i, word in enumerate(words):
             # Look for isolated single letters A-E
             if word in 'ABCDE' and i + 1 < len(words):
                 letter = word
+                
+                # Skip if this letter was already found (avoid duplicates)
+                if letter in alternatives_dict:
+                    continue
                 
                 # Collect text for this alternative until we hit another letter or end
                 alt_words = []
@@ -396,21 +473,27 @@ class EnemPDFParser:
                     if (next_word in 'ABCDE' and 
                         j + 1 < len(words) and 
                         len(words[j + 1]) > 2 and
-                        not words[j + 1].startswith(('http', 'www', '2020', '201', '202'))):
+                        not words[j + 1].startswith(('http', 'www', '2020', '201', '202', 'ENEM', 'REDAÇÃO'))):
                         break
                     
-                    if re.match(r'^(QUESTÃO|LC\s*-|Página|\*\d+)', next_word):
+                    if re.match(r'^(QUESTÃO|LC\s*-|Página|\*\d+|ENEM2024|4202MENE)', next_word):
+                        break
+                    
+                    # Skip repetitive patterns common in 2024
+                    if re.match(r'^(ENEM2024|4202MENE|\d{2}::\d{2}::\d{2})', next_word):
                         break
                         
                     alt_words.append(next_word)
                     j += 1
                 
                 # Create alternative if we have enough text
-                if len(alt_words) >= 3:  # At least 3 words
+                if len(alt_words) >= 1:  # Even more permissive for math/science questions
                     alt_text = ' '.join(alt_words).strip()
-                    # Clean up common artifacts
-                    alt_text = re.sub(r'\s+', ' ', alt_text)
-                    alternatives_dict[letter] = f"{letter}) {alt_text}"
+                    # Enhanced cleanup for 2024 artifacts
+                    alt_text = self._clean_alternative_text(alt_text)
+                    # More permissive validation - accept single meaningful words
+                    if len(alt_text.strip()) >= 3:  # At least 3 characters
+                        alternatives_dict[letter] = f"{letter}) {alt_text}"
         
         # Strategy 2: Line-based approach for cases where Strategy 1 misses some
         if len(alternatives_dict) < 5:
@@ -455,28 +538,51 @@ class EnemPDFParser:
                         # Clean up and validate
                         text = re.sub(r'\s+', ' ', text)
                         text = re.sub(r'[.]*$', '', text)  # Remove trailing dots
-                        if len(text.split()) >= 3:
+                        if len(text.split()) >= 2:  # More permissive
                             alternatives_dict[letter] = f"{letter}) {text}"
+
+        # Strategy 4: Special handling for math/science questions (numbers, formulas)
+        if len(alternatives_dict) < 5:
+            # Look for alternatives that might be just numbers or short formulas
+            for letter in 'ABCDE':
+                if letter not in alternatives_dict:
+                    # More flexible pattern that captures math expressions, numbers, single words
+                    pattern = f'{letter}\\s+([^A-E\\n]{{1,50}}?)(?=\\s*[A-E]\\s|\\n\\n|QUESTÃO|LC\\s*-|$)'
+                    matches = re.findall(pattern, question_text, re.DOTALL)
+                    if matches:
+                        for match in matches:
+                            text = match.strip()
+                            # Clean and validate
+                            text = self._clean_alternative_text(text)
+                            # Accept even short answers for math (like "2π", "0,5", etc.)
+                            if len(text.strip()) >= 1 and text.strip() not in alternatives_dict.values():
+                                alternatives_dict[letter] = f"{letter}) {text}"
+                                break
         
         # Build final list in alphabetical order, ensuring no duplicates
         final_alternatives = []
-        used_letters = set()
         
         for letter in 'ABCDE':
-            if letter in alternatives_dict and letter not in used_letters:
-                final_alternatives.append(alternatives_dict[letter])
-                used_letters.add(letter)
+            if letter in alternatives_dict:
+                alt_text = alternatives_dict[letter]
+                # Final cleanup and validation
+                if alt_text and len(alt_text.strip()) > 3:  # Must have letter + ") " + content
+                    final_alternatives.append(alt_text)
             else:
                 logger.debug(f"Missing alternative {letter} in question")
         
-        # Remove any duplicates that might have slipped through
-        seen_letters = set()
+        # Remove any problematic duplicates by content similarity
         clean_alternatives = []
+        seen_contents = set()
+        
         for alt in final_alternatives:
-            letter = alt[0] if alt else ''
-            if letter not in seen_letters:
-                clean_alternatives.append(alt)
-                seen_letters.add(letter)
+            if alt and len(alt) > 3:
+                alt_content = alt[3:].strip().lower()  # Remove "X) " prefix for comparison
+                if alt_content not in seen_contents and len(alt_content) > 0:
+                    clean_alternatives.append(alt)
+                    seen_contents.add(alt_content)
+                else:
+                    logger.debug(f"Skipping duplicate/empty alternative: {alt[:50]}...")
         
         # Log results for debugging
         if len(clean_alternatives) > 0:
@@ -488,14 +594,48 @@ class EnemPDFParser:
         """
         Clean and normalize question text.
         
+        Applies text normalization to fix encoding issues (mojibake)
+        and then performs standard PDF artifact cleanup with enhanced
+        cleaning for 2024 ENEM format issues.
+        
         Args:
-            text: Raw question text
+            text: Raw question text extracted from PDF
             
         Returns:
-            Cleaned question text
+            str: Cleaned and normalized question text
         """
         if not text:
             return ""
+        
+        # Apply text normalization for encoding issues (mojibake correction)
+        text = normalize_enem_text(text)
+        
+        # ENHANCED CLEANING FOR 2024 FORMAT ISSUES
+        # Remove repetitive ENEM2024 patterns (more comprehensive)
+        text = re.sub(r'(ENEM2024)+', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'(4202MENE)+', '', text, flags=re.IGNORECASE)
+        text = re.sub(r'ENEM20E4', '', text, flags=re.IGNORECASE)
+        
+        # Remove repetitive year patterns
+        text = re.sub(r'(\d{4}){3,}', '', text)
+        
+        # Remove repetitive time patterns like 1177::5522::4488
+        text = re.sub(r'(\d{2}::\d{2}::\d{2})+', '', text)
+        
+        # Remove repetitive coding patterns and subject headers at end
+        text = re.sub(r'(CD\d+\s*)+', '', text)
+        text = re.sub(r'(REDAÇÃO\s*1100//0099//\d{8}\s*\d{2}::\d{2}::\d{2})+', '', text)
+        text = re.sub(r'\s+(LINGUAGENS,\s*CÓDIGOS|CIÊNCIAS\s*HUMANAS|MATEMÁTICA).*$', '', text, flags=re.IGNORECASE)
+        
+        # Remove trailing subject and technology patterns
+        text = re.sub(r'\s+\d+\s+(LINGUAGENS|CÓDIGOS|TECNOLOGIAS|CIÊNCIAS|HUMANAS|NATUREZA|MATEMÁTICA).*$', '', text, flags=re.IGNORECASE)
+        
+        # Remove repetitive single letters/numbers at end
+        text = re.sub(r'\s+[A-Z0-9]\s*$', '', text)
+        text = re.sub(r'([A-Z0-9E]{8,})$', '', text)  # Remove long repetitive sequences at end
+        
+        # Remove trailing numbers that look like page/section markers
+        text = re.sub(r'\s+\d{1,2}\s*$', '', text)
         
         # Remove excessive whitespace
         text = re.sub(r'\s+', ' ', text)
@@ -509,6 +649,73 @@ class EnemPDFParser:
         
         # Clean up common PDF artifacts
         text = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]', '', text)
+        
+        # Final cleanup - remove trailing repetitive characters
+        text = re.sub(r'([A-Z0-9])\1{5,}$', '', text)
+        
+        return text.strip()
+
+    def _pre_clean_alternatives_text(self, text: str) -> str:
+        """
+        Pre-clean text before alternative extraction to remove 2024 artifacts.
+        
+        Args:
+            text: Raw question text
+            
+        Returns:
+            str: Pre-cleaned text ready for alternative extraction
+        """
+        # Remove repetitive ENEM2024 patterns that interfere with parsing
+        text = re.sub(r'(ENEM2024){2,}', ' ', text, flags=re.IGNORECASE)
+        text = re.sub(r'(4202MENE){2,}', ' ', text, flags=re.IGNORECASE)
+        
+        # Remove time patterns
+        text = re.sub(r'\d{2}::\d{2}::\d{2}', ' ', text)
+        
+        # Remove coding artifacts
+        text = re.sub(r'REDAÇÃO\s*1100//0099//\d{8}', ' ', text)
+        text = re.sub(r'CÓDIGOS\s*E\s*SUAS\s*TECNOLOGIAS', ' ', text)
+        
+        # Normalize spacing
+        text = re.sub(r'\s+', ' ', text)
+        
+        return text.strip()
+
+    def _clean_alternative_text(self, text: str) -> str:
+        """
+        Clean individual alternative text removing 2024 specific artifacts.
+        
+        Args:
+            text: Raw alternative text
+            
+        Returns:
+            str: Cleaned alternative text
+        """
+        # Remove trailing artifacts common in 2024
+        text = re.sub(r'(ENEM2024|4202MENE|ENEM20E4|REDAÇÃO).*$', '', text, flags=re.IGNORECASE)
+        
+        # Remove subject headers that appear in alternatives
+        text = re.sub(r'(LINGUAGENS,\s*CÓDIGOS|CIÊNCIAS\s*HUMANAS|MATEMÁTICA).*$', '', text, flags=re.IGNORECASE)
+        
+        # Remove repetitive patterns at the end
+        text = re.sub(r'([A-Z0-9])\1{3,}$', '', text)
+        
+        # Remove time codes
+        text = re.sub(r'\d{2}::\d{2}::\d{2}.*$', '', text)
+        
+        # Remove numbers/codes at the end
+        text = re.sub(r'\s+\d{8,}.*$', '', text)
+        text = re.sub(r'\s+\d{1,2}\s*$', '', text)  # Remove trailing page numbers
+        
+        # Clean up spacing and punctuation
+        text = re.sub(r'\s+', ' ', text)
+        text = re.sub(r'\s*\.$', '.', text)  # Fix spacing before period
+        
+        # Remove incomplete words at the end (common artifacts)
+        words = text.split()
+        if words and len(words[-1]) <= 2 and words[-1].isupper():
+            words = words[:-1]
+            text = ' '.join(words)
         
         return text.strip()
 

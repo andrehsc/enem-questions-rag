@@ -27,7 +27,11 @@ class DatabaseIntegration:
     def insert_exam_metadata(self, pdf_path):
         """Insert exam metadata"""
         try:
-            pdf_filename = pdf_path.name
+            # Handle both string and Path objects
+            if isinstance(pdf_path, str):
+                pdf_filename = Path(pdf_path).name
+            else:
+                pdf_filename = pdf_path.name
             
             # Clean existing data
             with self.connection.cursor(cursor_factory=RealDictCursor) as cur:
@@ -144,7 +148,7 @@ class DatabaseIntegration:
     def process_pdf_file(self, pdf_path):
         """Process PDF file"""
         try:
-            print(f"Processing: {pdf_path.name}")
+            # Log removido - já é feito no full_ingestion_report.py
             
             questions = self.parser.parse_questions(pdf_path)
             print(f"Parsed {len(questions)} questions")
