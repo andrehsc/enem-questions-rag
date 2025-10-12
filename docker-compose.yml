@@ -10,7 +10,6 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./shared/database/init:/docker-entrypoint-initdb.d
       - ./database/complete-init.sql:/docker-entrypoint-initdb.d/99-enem-legacy.sql
     ports:
       - "5433:5432"  # Porta externa 5433 para evitar conflito com TeachersHub (5432)
@@ -41,42 +40,6 @@ services:
     networks:
       - teachershub-enem-network
 
-  # TeachersHub .NET API - Main orchestrator
-  teachershub-api:
-    build: 
-      context: ./teachershub-integration
-      dockerfile: shared/docker/Dockerfile.teachershub
-    container_name: teachershub-enem-api
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_URLS: http://+:5000
-      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=teachershub_enem;Username=teachershub_app;Password=teachershub123"
-      ConnectionStrings__EnemConnection: "Host=postgres;Port=5432;Database=teachershub_enem;Username=enem_rag_service;Password=enem123"
-      Redis__ConnectionString: "redis:6379"
-      EnemServices__RagServiceUrl: "http://enem-rag-service:8000"
-      JWT__SecretKey: "TeachersHub-ENEM-Integration-Secret-Key-2024"
-      JWT__Issuer: "TeachersHub.ENEM.Api"
-      JWT__Audience: "TeachersHub.ENEM.Client"
-    ports:
-      - "5001:5000"  # Porta externa 5001 para evitar conflito com TeachersHub Monitor (5000)
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    volumes:
-      - ./teachershub-integration:/app/src
-      - teachershub_logs:/app/logs
-    networks:
-      - teachershub-enem-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-
   # ENEM RAG API - Python FastAPI service
   enem-rag-api:
     build: 
@@ -84,12 +47,12 @@ services:
       dockerfile: Dockerfile
     container_name: teachershub-enem-rag-api
     environment:
-      DATABASE_URL: postgresql://enem_rag_service:enem123@postgres:5432/teachershub_enem
+      DATABASE_URL: postgresql://postgres:postgres123@postgres:5432/teachershub_enem
       DB_HOST: postgres
       DB_PORT: 5432
       DB_NAME: teachershub_enem
-      DB_USER: enem_rag_service
-      DB_PASSWORD: enem123
+      DB_USER: postgres
+      DB_PASSWORD: postgres123
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_DB: 1

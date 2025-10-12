@@ -208,13 +208,13 @@ class TestGraphQLNestedQueries:
     @patch('database.DatabaseService.get_question_by_id')
     def test_nested_question_with_metadata_returns_related_data(self, mock_get_question, client):
         """
-        GREEN PHASE: Teste query aninhada com questão e metadados (implementação mínima)
-        AC3: Schema supports nested queries (e.g., question with related questions, exam metadata)
+        ENHANCED: Teste query aninhada completa com metadados e alternativas
+        AC3: Schema supports nested queries (question with exam metadata and alternatives)
         """
         # Arrange - Mock database response
         mock_get_question.return_value = {
             'id': 'test-uuid-nested',
-            'question_text': 'Questão com metadados',
+            'question_text': 'Questão com metadados completos',
             'subject': 'História',
             'year': 2023,
             'has_images': False,
@@ -231,6 +231,24 @@ class TestGraphQLNestedQueries:
                         questionText
                         subject
                         year
+                        examMetadata {
+                            id
+                            year
+                            day
+                            caderno
+                            applicationType
+                            accessibility
+                        }
+                        alternatives {
+                            letter
+                            text
+                            isCorrect
+                        }
+                        links {
+                            rel
+                            href
+                            method
+                        }
                     }
                 }
             """
@@ -239,9 +257,34 @@ class TestGraphQLNestedQueries:
         # Act
         response = client.post("/graphql", json=graphql_query)
         
-        # Assert - GREEN PHASE: implementação mínima sem nested queries ainda
+        # Assert - ENHANCED: validação completa de nested queries
         assert response.status_code == 200
         data = response.json()["data"]
         question = data["question"]
+        
+        # Validar campos básicos
         assert question["id"] == "test-uuid-nested"
         assert question["subject"] == "História"
+        assert question["year"] == 2023
+        
+        # Validar nested exam metadata
+        assert "examMetadata" in question
+        exam_metadata = question["examMetadata"]
+        assert exam_metadata["year"] == 2023
+        assert exam_metadata["day"] == 1
+        assert exam_metadata["caderno"] == "CD1"
+        
+        # Validar nested alternatives
+        assert "alternatives" in question
+        alternatives = question["alternatives"]
+        assert len(alternatives) == 5
+        assert alternatives[0]["letter"] == "A"
+        assert alternatives[1]["isCorrect"] == True  # B é a correta
+        
+        # Validar HATEOAS links
+        assert "links" in question
+        links = question["links"]
+        assert len(links) == 3
+        assert any(link["rel"] == "self" for link in links)
+        assert any(link["rel"] == "alternatives" for link in links)
+        assert any(link["rel"] == "exam" for link in links)
