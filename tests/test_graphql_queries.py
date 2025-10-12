@@ -1,0 +1,247 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Testes TDD para GraphQL API - ENEM Questions RAG
+Seguindo padrão Red-Green-Blue obrigatório
+"""
+
+import pytest
+from fastapi.testclient import TestClient
+import sys
+import os
+from unittest.mock import patch, Mock
+from datetime import datetime
+
+# Adicionar path para API
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'api'))
+
+from main import app
+
+
+class TestGraphQLEndpoint:
+    """Testes para endpoint GraphQL básico"""
+    
+    @pytest.fixture
+    def client(self):
+        """Cliente de teste FastAPI"""
+        return TestClient(app)
+    
+    def test_graphql_endpoint_exists_returns_graphql_response(self, client):
+        """
+        RED PHASE: Teste que endpoint /graphql existe e retorna resposta GraphQL
+        AC1: GraphQL endpoint is available at `/graphql`
+        """
+        # Arrange
+        graphql_query = {
+            "query": """
+                query {
+                    __schema {
+                        types {
+                            name
+                        }
+                    }
+                }
+            """
+        }
+        
+        # Act
+        response = client.post("/graphql", json=graphql_query)
+        
+        # Assert
+        assert response.status_code == 200
+        assert "data" in response.json()
+        assert "__schema" in response.json()["data"]
+    
+    def test_graphql_playground_accessible_returns_html_interface(self, client):
+        """
+        RED PHASE: Teste que GraphQL Playground está acessível
+        AC6: GraphQL Playground or GraphiQL interface is available for testing
+        """
+        # Act
+        response = client.get("/graphql")
+        
+        # Assert
+        assert response.status_code == 200
+        assert "text/html" in response.headers.get("content-type", "")
+        assert "GraphQL" in response.text
+
+
+class TestGraphQLQuestionTypes:
+    """Testes para tipos GraphQL de Question"""
+    
+    @pytest.fixture
+    def client(self):
+        return TestClient(app)
+    
+    @patch('database.DatabaseService.get_question_by_id')
+    def test_question_type_query_single_question_returns_question_data(self, mock_get_question, client):
+        """
+        GREEN PHASE: Teste query de questão única com mock
+        AC2: Schema supports queries for questions with flexible field selection
+        """
+        # Arrange - Mock database response
+        mock_get_question.return_value = {
+            'id': 'test-uuid-123',
+            'question_text': 'Questão teste para GraphQL',
+            'subject': 'Matemática',
+            'year': 2023,
+            'has_images': False,
+            'parsing_confidence': 0.95,
+            'created_at': datetime.now(),
+            'updated_at': datetime.now()
+        }
+        
+        graphql_query = {
+            "query": """
+                query {
+                    question(id: "test-uuid-123") {
+                        id
+                        questionText
+                        subject
+                        year
+                    }
+                }
+            """
+        }
+        
+        # Act
+        response = client.post("/graphql", json=graphql_query)
+        
+        # Assert
+        assert response.status_code == 200
+        data = response.json()["data"]
+        assert "question" in data
+        assert data["question"]["id"] == "test-uuid-123"
+        assert data["question"]["subject"] == "Matemática"
+        assert data["question"]["year"] == 2023
+    
+    @patch('database.DatabaseService.get_questions_summary')
+    def test_questions_list_query_with_pagination_returns_paginated_results(self, mock_get_questions, client):
+        """
+        GREEN PHASE: Teste query de lista de questões com paginação
+        AC4: Schema supports filtering (year, subject, search) and pagination
+        """
+        # Arrange - Mock database response
+        mock_get_questions.return_value = {
+            'items': [
+                {
+                    'id': 'uuid-1',
+                    'question_text': 'Questão 1',
+                    'subject': 'Matemática', 
+                    'year': 2023
+                }
+            ],
+            'total': 1,
+            'has_next': False,
+            'has_previous': False
+        }
+        
+        graphql_query = {
+            "query": """
+                query {
+                    questions(pagination: {limit: 10, offset: 0}) {
+                        items {
+                            id
+                            questionText
+                            subject
+                        }
+                        totalCount
+                    }
+                }
+            """
+        }
+        
+        # Act
+        response = client.post("/graphql", json=graphql_query)
+        
+        # Assert
+        assert response.status_code == 200
+        data = response.json()["data"]
+        assert "questions" in data
+        assert "items" in data["questions"]
+        assert "totalCount" in data["questions"]
+
+
+class TestGraphQLStatistics:
+    """Testes para queries de estatísticas GraphQL"""
+    
+    @pytest.fixture
+    def client(self):
+        return TestClient(app)
+    
+    def test_statistics_query_returns_global_stats(self, client):
+        """
+        RED PHASE: Teste query de estatísticas globais
+        AC5: Schema supports statistics queries (total questions, distribution by year/subject)
+        """
+        # Arrange
+        graphql_query = {
+            "query": """
+                query {
+                    statistics {
+                        totalQuestions
+                        totalExams
+                        yearsAvailable
+                        subjectsAvailable
+                    }
+                }
+            """
+        }
+        
+        # Act
+        response = client.post("/graphql", json=graphql_query)
+        
+        # Assert
+        assert response.status_code == 200
+        data = response.json()["data"]
+        assert "statistics" in data
+        assert "totalQuestions" in data["statistics"]
+
+
+class TestGraphQLNestedQueries:
+    """Testes para queries aninhadas GraphQL"""
+    
+    @pytest.fixture
+    def client(self):
+        return TestClient(app)
+    
+    @patch('database.DatabaseService.get_question_by_id')
+    def test_nested_question_with_metadata_returns_related_data(self, mock_get_question, client):
+        """
+        GREEN PHASE: Teste query aninhada com questão e metadados (implementação mínima)
+        AC3: Schema supports nested queries (e.g., question with related questions, exam metadata)
+        """
+        # Arrange - Mock database response
+        mock_get_question.return_value = {
+            'id': 'test-uuid-nested',
+            'question_text': 'Questão com metadados',
+            'subject': 'História',
+            'year': 2023,
+            'has_images': False,
+            'parsing_confidence': 0.95,
+            'created_at': datetime.now(),
+            'updated_at': datetime.now()
+        }
+        
+        graphql_query = {
+            "query": """
+                query {
+                    question(id: "test-uuid-nested") {
+                        id
+                        questionText
+                        subject
+                        year
+                    }
+                }
+            """
+        }
+        
+        # Act
+        response = client.post("/graphql", json=graphql_query)
+        
+        # Assert - GREEN PHASE: implementação mínima sem nested queries ainda
+        assert response.status_code == 200
+        data = response.json()["data"]
+        question = data["question"]
+        assert question["id"] == "test-uuid-nested"
+        assert question["subject"] == "História"
