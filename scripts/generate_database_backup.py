@@ -2,273 +2,255 @@
 # -*- coding: utf-8 -*-
 """
 ENEM RAG System - Database Backup Generator
-============================================
-Generates a complete SQL backup script of the current database state.
-This can be used to restore the database to its current state.
+==========================================
+Generates a complete SQL backup of the current database state.
 """
 
+import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from datetime import datetime
-from pathlib import Path
-import argparse
 import sys
+from pathlib import Path
 
-class DatabaseBackupGenerator:
-    """Generates SQL backup scripts from live database"""
+# Database configuration
+DB_CONFIG = {
+    'host': 'localhost',
+    'port': 5433,
+    'database': 'teachershub_enem',
+    'user': 'enem_rag_service',
+    'password': 'enem_rag_password'
+}
+
+def create_backup_directory():
+    """Create backup directory if it doesn't exist."""
+    backup_dir = Path("backups")
+    backup_dir.mkdir(exist_ok=True)
+    return backup_dir
+
+def escape_sql_string(value):
+    """Escape string values for SQL."""
+    if value is None:
+        return 'NULL'
+    if isinstance(value, str):
+        # Escape single quotes by doubling them
+        escaped = value.replace("'", "''")
+        return f"'{escaped}'"
+    elif isinstance(value, bool):
+        return 'TRUE' if value else 'FALSE'
+    elif isinstance(value, (int, float)):
+        return str(value)
+    elif isinstance(value, bytes):
+        # Convert bytes to hex format for BYTEA
+        return f"'\\x{value.hex()}'"
+    else:
+        return f"'{str(value)}'"
+
+def get_table_info(cursor):
+    """Get information about all tables.""" 
+    cursor.execute("""
+        SELECT DISTINCT tablename 
+        FROM pg_tables 
+        WHERE schemaname IN ('public', 'enem_questions')
+        ORDER BY tablename;
+    """)
+    return [row['tablename'] for row in cursor.fetchall()]
+
+def get_table_columns(cursor, table_name):
+    """Get column information for a table."""
+    cursor.execute("""
+        SELECT column_name, data_type, is_nullable
+        FROM information_schema.columns
+        WHERE table_name = %s AND table_schema IN ('public', 'enem_questions')
+        ORDER BY ordinal_position;
+    """, (table_name,))
+    return cursor.fetchall()
+
+def backup_table_data(cursor, table_name, output_file, batch_size=1000):
+    """Backup data from a single table."""
+    print(f"Backing up table: {table_name}")
     
-    def __init__(self, connection_url: str):
-        self.connection_url = connection_url
-        
-    def get_connection(self):
-        """Get database connection"""
-        return psycopg2.connect(self.connection_url, cursor_factory=RealDictCursor)
+    # Get total count
+    cursor.execute(f"SELECT COUNT(*) FROM {table_name}")
+    result = cursor.fetchone()
+    total_rows = result['count'] if isinstance(result, dict) else result[0]
     
-    def generate_backup_script(self, output_file: Path, include_data: bool = True):
-        """Generate complete backup SQL script"""
+    if total_rows == 0:
+        print(f"  - No data in {table_name}")
+        return 0
+    
+    print(f"  - Total rows: {total_rows}")
+    
+    # Get column names
+    columns_info = get_table_columns(cursor, table_name)
+    column_names = [col['column_name'] for col in columns_info]
+    columns_str = ', '.join(column_names)
+    
+    # Write table header
+    output_file.write(f"\n-- Backup data for table: {table_name}\n")
+    output_file.write(f"-- Total rows: {total_rows}\n")
+    
+    # Process in batches
+    offset = 0
+    total_processed = 0
+    
+    while offset < total_rows:
+        first_column = column_names[0]
+        cursor.execute(f"""
+            SELECT {columns_str} 
+            FROM {table_name} 
+            ORDER BY {first_column}
+            LIMIT %s OFFSET %s
+        """, (batch_size, offset))
         
-        with open(output_file, 'w', encoding='utf-8') as f:
+        rows = cursor.fetchall()
+        if not rows:
+            break
+        
+        # Generate INSERT statements
+        for row in rows:
+            values = [escape_sql_string(value) for value in row]
+            values_str = ', '.join(values)
+            
+            insert_sql = f"INSERT INTO {table_name} ({columns_str}) VALUES ({values_str});\n"
+            output_file.write(insert_sql)
+        
+        total_processed += len(rows)
+        offset += batch_size
+        
+        # Progress update
+        progress = (total_processed / total_rows) * 100
+        print(f"  - Progress: {total_processed}/{total_rows} ({progress:.1f}%)")
+    
+    return total_processed
+
+def get_database_statistics(cursor):
+    """Get comprehensive database statistics."""
+    stats = {}
+    
+    tables = get_table_info(cursor)
+    
+    for table in tables:
+        cursor.execute(f"SELECT COUNT(*) FROM {table}")
+        result = cursor.fetchone()
+        count = result['count'] if isinstance(result, dict) else result[0]
+        stats[table] = count
+    
+    return stats
+
+def generate_backup():
+    """Generate complete database backup."""
+    print("ENEM RAG Database Backup Generator")
+    print("=" * 40)
+    
+    # Create backup directory
+    backup_dir = create_backup_directory()
+    
+    # Generate filename with timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    backup_filename = backup_dir / f"enem_rag_backup_{timestamp}.sql"
+    
+    print(f"Backup file: {backup_filename}")
+    
+    try:
+        # Connect to database
+        print("Connecting to database...")
+        conn = psycopg2.connect(**DB_CONFIG)
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        
+        # Get database statistics
+        print("Collecting database statistics...")
+        stats = get_database_statistics(cursor)
+        
+        # Create backup file
+        print("Creating backup file...")
+        with open(backup_filename, 'w', encoding='utf-8') as f:
             # Write header
-            f.write(self._get_header())
+            f.write("-- ENEM RAG Database Backup\n")
+            f.write(f"-- Generated: {datetime.now()}\n")
+            f.write(f"-- Database: {DB_CONFIG['database']}\n")
+            f.write("-- \n")
+            f.write("-- This backup contains all data from the ENEM RAG system\n")
+            f.write("-- Use with restore_database.sh for restoration\n")
+            f.write("--\n\n")
             
-            # Write schema recreation (optional - assumes schema exists)
-            f.write("\n-- ================================================================\n")
-            f.write("-- SCHEMA VERIFICATION\n")
-            f.write("-- ================================================================\n\n")
-            f.write("-- Verify tables exist, create if missing\n")
-            f.write("-- (Assumes schema was created with create_database_complete.sql)\n\n")
+            # Write statistics
+            f.write("-- DATABASE STATISTICS\n")
+            f.write("-- ====================\n")
+            total_records = 0
+            for table, count in stats.items():
+                f.write(f"-- {table}: {count} records\n")
+                total_records += count
+            f.write(f"-- TOTAL RECORDS: {total_records}\n")
+            f.write("--\n\n")
             
-            if include_data:
-                # Generate data for each table in dependency order
-                tables = ['exam_metadata', 'questions', 'question_alternatives', 'answer_keys', 'question_images']
+            # Disable constraints during restore
+            f.write("-- Disable foreign key constraints for faster restore\n")
+            f.write("SET session_replication_role = replica;\n\n")
+            
+            # Backup each table
+            tables = get_table_info(cursor)
+            total_backed_up = 0
+            
+            for table in tables:
+                if stats[table] > 0:
+                    rows_backed_up = backup_table_data(cursor, table, f)
+                    total_backed_up += rows_backed_up
+            
+            # Re-enable constraints
+            f.write("\n-- Re-enable foreign key constraints\n")
+            f.write("SET session_replication_role = DEFAULT;\n")
+            
+            # Update sequences (for auto-increment fields)
+            f.write("\n-- Update sequences\n")
+            try:
+                cursor.execute("""
+                    SELECT sequence_name 
+                    FROM information_schema.sequences 
+                    WHERE sequence_schema IN ('public', 'enem_questions')
+                """)
                 
-                for table in tables:
-                    f.write(f"\n-- ================================================================\n")
-                    f.write(f"-- DATA BACKUP - {table.upper()}\n")
-                    f.write(f"-- ================================================================\n\n")
-                    
-                    # Get table data
-                    data_sql = self._generate_table_data(table)
-                    f.write(data_sql)
-                    f.write("\n")
+                sequences = cursor.fetchall()
+                for seq in sequences:
+                    seq_name = seq['sequence_name'] if isinstance(seq, dict) else seq[0]
+                    table_name = seq_name.replace('_id_seq', '')
+                    f.write(f"SELECT setval('{seq_name}', (SELECT COALESCE(MAX(id), 0) + 1 FROM {table_name}), false);\n")
+            except Exception as seq_error:
+                print(f"Warning: Could not update sequences: {seq_error}")
+                f.write("-- Sequence update skipped due to error\n")
             
-            # Write footer
-            f.write(self._get_footer())
-            
-        print(f"‚úÖ Backup script generated: {output_file}")
+            f.write("\n-- Backup completed successfully\n")
         
-    def _get_header(self) -> str:
-        """Generate SQL header"""
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        return f"""-- ================================================================
--- ENEM RAG SYSTEM - COMPLETE DATABASE BACKUP
--- ================================================================
--- Generated: {timestamp}
--- Contains complete backup of database state for restoration
--- 
--- Usage:
---   psql -U enem_rag_service -d teachershub_enem -f scripts/backup_current_database.sql
--- 
--- Prerequisites:
---   - Database and schema must exist
---   - Run create_database_complete.sql first if starting fresh
--- ================================================================
-
--- Disable triggers and constraints during restore for performance
-SET session_replication_role = replica;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-
--- Start transaction
-BEGIN;
-
-"""
+        print("\nBackup Summary:")
+        print("=" * 20)
+        print(f"Tables backed up: {len([t for t in tables if stats[t] > 0])}")
+        print(f"Total records: {total_backed_up}")
+        print(f"Backup file: {backup_filename}")
+        print(f"File size: {backup_filename.stat().st_size / 1024 / 1024:.2f} MB")
+        
+        print("\nDatabase Statistics:")
+        print("=" * 20)
+        for table, count in sorted(stats.items()):
+            if count > 0:
+                print(f"{table}: {count} records")
+        
+        print(f"\nBackup completed successfully!")
+        print(f"Use this command to restore:")
+        print(f"./scripts/restore_database.sh {backup_filename}")
+        
+    except psycopg2.Error as e:
+        print(f"Database error: {e}")
+        return 1
+    except Exception as e:
+        print(f"Error: {e}")
+        import traceback
+        traceback.print_exc()
+        return 1
+    finally:
+        if 'conn' in locals():
+            conn.close()
     
-    def _get_footer(self) -> str:
-        """Generate SQL footer"""
-        return """
--- Re-enable triggers and constraints
-SET session_replication_role = DEFAULT;
-
--- Update sequences to correct values
-SELECT setval('answer_keys_id_seq', COALESCE((SELECT MAX(id) FROM answer_keys), 1));
-
--- Commit transaction
-COMMIT;
-
--- Final verification
-DO $$
-DECLARE
-    exam_count INTEGER;
-    question_count INTEGER;
-    alternative_count INTEGER;
-    answer_count INTEGER;
-    image_count INTEGER;
-BEGIN
-    SELECT COUNT(*) INTO exam_count FROM exam_metadata;
-    SELECT COUNT(*) INTO question_count FROM questions;
-    SELECT COUNT(*) INTO alternative_count FROM question_alternatives;
-    SELECT COUNT(*) INTO answer_count FROM answer_keys;
-    SELECT COUNT(*) INTO image_count FROM question_images;
-    
-    RAISE NOTICE '=== DATABASE RESTORE COMPLETED ===';
-    RAISE NOTICE 'Exam metadata: % records', exam_count;
-    RAISE NOTICE 'Questions: % records', question_count;
-    RAISE NOTICE 'Question alternatives: % records', alternative_count;
-    RAISE NOTICE 'Answer keys: % records', answer_count;
-    RAISE NOTICE 'Question images: % records', image_count;
-    RAISE NOTICE '=================================';
-END $$;
-"""
-    
-    def _generate_table_data(self, table_name: str) -> str:
-        """Generate INSERT statements for a table"""
-        try:
-            with self.get_connection() as conn:
-                with conn.cursor() as cur:
-                    # Get table structure
-                    cur.execute(f"""
-                        SELECT column_name, data_type 
-                        FROM information_schema.columns 
-                        WHERE table_name = %s 
-                        ORDER BY ordinal_position
-                    """, (table_name,))
-                    
-                    columns = cur.fetchall()
-                    if not columns:
-                        return f"-- No columns found for table {table_name}\n"
-                    
-                    column_names = [col['column_name'] for col in columns]
-                    
-                    # Get row count
-                    cur.execute(f"SELECT COUNT(*) as count FROM {table_name}")
-                    row_count = cur.fetchone()['count']
-                    
-                    if row_count == 0:
-                        return f"-- No data found in table {table_name}\n"
-                    
-                    # Clear existing data
-                    sql_output = f"-- Clear existing data\nTRUNCATE TABLE {table_name} {'CASCADE' if table_name == 'exam_metadata' else ''};\n\n"
-                    sql_output += f"-- Insert {row_count} records\n"
-                    
-                    # Get all data
-                    cur.execute(f"SELECT * FROM {table_name} ORDER BY id")
-                    rows = cur.fetchall()
-                    
-                    if rows:
-                        # Generate INSERT statements in batches
-                        batch_size = 100
-                        for i in range(0, len(rows), batch_size):
-                            batch = rows[i:i + batch_size]
-                            
-                            sql_output += f"INSERT INTO {table_name} ({', '.join(column_names)}) VALUES\n"
-                            
-                            value_strings = []
-                            for row in batch:
-                                values = []
-                                for col_name in column_names:
-                                    value = row[col_name]
-                                    if value is None:
-                                        values.append('NULL')
-                                    elif isinstance(value, str):
-                                        # Escape single quotes
-                                        escaped_value = value.replace("'", "''")
-                                        values.append(f"'{escaped_value}'")
-                                    elif isinstance(value, bytes):
-                                        # Handle binary data (images)
-                                        values.append(f"'\\x{value.hex()}'")
-                                    elif isinstance(value, bool):
-                                        values.append('TRUE' if value else 'FALSE')
-                                    else:
-                                        values.append(str(value))
-                                
-                                value_strings.append(f"({', '.join(values)})")
-                            
-                            sql_output += ',\n'.join(value_strings)
-                            sql_output += ";\n\n"
-                    
-                    return sql_output
-                    
-        except Exception as e:
-            return f"-- Error generating data for table {table_name}: {e}\n"
-    
-    def generate_data_only_script(self, output_file: Path):
-        """Generate script with only data (no schema)"""
-        self.generate_backup_script(output_file, include_data=True)
-    
-    def get_database_stats(self) -> dict:
-        """Get current database statistics"""
-        stats = {}
-        try:
-            with self.get_connection() as conn:
-                with conn.cursor() as cur:
-                    # Get counts for each table
-                    tables = ['exam_metadata', 'questions', 'question_alternatives', 'answer_keys', 'question_images']
-                    
-                    for table in tables:
-                        cur.execute(f"SELECT COUNT(*) as count FROM {table}")
-                        result = cur.fetchone()
-                        stats[table] = result['count'] if result else 0
-                    
-                    # Get additional stats
-                    cur.execute("SELECT COUNT(DISTINCT year) as years FROM exam_metadata")
-                    result = cur.fetchone()
-                    stats['distinct_years'] = result['years'] if result else 0
-                    
-                    cur.execute("SELECT COUNT(DISTINCT subject) as subjects FROM questions")
-                    result = cur.fetchone()
-                    stats['distinct_subjects'] = result['subjects'] if result else 0
-                    
-        except Exception as e:
-            print(f"Error getting database stats: {e}")
-            
-        return stats
-
-def main():
-    """Main function"""
-    parser = argparse.ArgumentParser(description='Generate ENEM RAG Database Backup')
-    parser.add_argument('--output', '-o', type=str, 
-                       default='scripts/backup_current_database.sql',
-                       help='Output file path')
-    parser.add_argument('--stats-only', action='store_true',
-                       help='Only show database statistics')
-    parser.add_argument('--connection-url', type=str,
-                       default='postgresql://enem_rag_service:enem123@localhost:5433/teachershub_enem',
-                       help='Database connection URL')
-    
-    args = parser.parse_args()
-    
-    generator = DatabaseBackupGenerator(args.connection_url)
-    
-    if args.stats_only:
-        print("Ì≥ä Current Database Statistics:")
-        print("=" * 40)
-        stats = generator.get_database_stats()
-        for table, count in stats.items():
-            print(f"  {table}: {count:,}")
-        return
-    
-    # Generate backup
-    output_path = Path(args.output)
-    print(f"Ì¥Ñ Generating database backup...")
-    print(f"Ì≥Å Output: {output_path}")
-    
-    # Show current stats
-    stats = generator.get_database_stats()
-    print(f"\nÌ≥ä Database Statistics:")
-    for table, count in stats.items():
-        if isinstance(count, int) and count > 0:
-            print(f"  {table}: {count:,} records")
-    
-    # Generate backup
-    generator.generate_backup_script(output_path)
-    
-    print(f"\n‚úÖ Backup script generated successfully!")
-    print(f"Ì≥Å File: {output_path}")
-    print(f"Ì≤æ Size: {output_path.stat().st_size / 1024:.1f} KB")
-    
-    print(f"\nÌ¥ß To restore this backup:")
-    print(f"   psql -U enem_rag_service -d teachershub_enem -f {output_path}")
+    return 0
 
 if __name__ == "__main__":
-    main()
+    sys.exit(generate_backup())
