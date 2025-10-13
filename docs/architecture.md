@@ -848,3 +848,269 @@ A arquitetura está pronta para implementação seguindo os épicos definidos no
 - **Runbooks Operacionais** - Procedimentos de produção
 
 **Arquitetura backend está completa e pronta para desenvolvimento!** 🏗️
+
+---
+
+## Integração de IA Avançada com Semantic Kernel + LLama3
+
+### Visão Geral da Camada de IA
+
+A próxima evolução da arquitetura incorpora capacidades avançadas de IA usando **Microsoft Semantic Kernel** integrado ao backend .NET existente, com **LLama3** como modelo de linguagem principal. Esta camada adiciona inteligência artificial nativa ao sistema ENEM RAG, mantendo compatibilidade total com a arquitetura híbrida atual.
+
+### Componentes da Arquitetura de IA
+
+#### 1. Semantic Kernel Integration Layer (.NET)
+
+**Localização:** `teachershub-integration/TeachersHub.ENEM.AI/`
+
+```csharp
+// Serviço principal de IA integrado ao TeachersHub
+public class EnemAIService
+{
+    private readonly IKernel _kernel;
+    private readonly LLama3ChatCompletion _llama3Service;
+    private readonly IVectorStore _vectorStore;
+    
+    // Funcionalidades principais:
+    // - Geração automática de planos de aula
+    // - Análise de dificuldade de questões  
+    // - Sugestões pedagógicas personalizadas
+    // - Chat educacional contextual
+}
+```
+
+**Responsabilidades:**
+- Orquestração de prompts educacionais estruturados
+- Integração com dados ENEM via GraphQL existente
+- Processamento de contexto pedagógico
+- Geração de conteúdo educacional personalizado
+
+#### 2. LLama3 Local Deployment
+
+**Configuração:** Docker container dedicado com GPU support
+
+```yaml
+# docker-compose.yml - Novo serviço
+llama3-service:
+  image: ollama/ollama:latest
+  container_name: llama3-enem-service
+  volumes:
+    - ./models:/root/.ollama
+  ports:
+    - "11434:11434"
+  environment:
+    - OLLAMA_HOST=0.0.0.0
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: 1
+            capabilities: [gpu]
+```
+
+**Modelo Recomendado:** `llama3:8b-instruct` (balance performance/qualidade)
+
+#### 3. Vector Store Enhancement
+
+**Integração:** Extensão do PostgreSQL existente com pgvector
+
+```sql
+-- Extensão do schema enem_questions
+CREATE EXTENSION IF NOT EXISTS vector;
+
+-- Nova tabela para embeddings
+CREATE TABLE enem_questions.question_embeddings (
+    id SERIAL PRIMARY KEY,
+    question_id INTEGER REFERENCES enem_questions.questions(id),
+    embedding vector(384), -- Usando sentence-transformers
+    model_version VARCHAR(50),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Índice para busca vetorial eficiente
+CREATE INDEX ON enem_questions.question_embeddings 
+USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
+```
+
+#### 4. Prompt Engineering Framework
+
+**Templates Educacionais Estruturados:**
+
+```yaml
+# prompts/educational-templates.yaml
+question_analysis:
+  template: |
+    Analise a seguinte questão ENEM:
+    
+    {{question_text}}
+    
+    Considere:
+    - Matéria: {{subject}}
+    - Ano: {{year}}
+    - Alternativas: {{alternatives}}
+    
+    Forneça:
+    1. Nível de dificuldade (1-5)
+    2. Conceitos principais abordados
+    3. Estratégias de resolução
+    4. Dicas pedagógicas para professores
+
+lesson_plan_generation:
+  template: |
+    Gere um plano de aula baseado nas questões ENEM:
+    
+    {{selected_questions}}
+    
+    Parâmetros:
+    - Duração: {{duration}} minutos
+    - Público: {{target_audience}}
+    - Objetivos: {{learning_objectives}}
+    
+    Estruture:
+    1. Objetivos de aprendizagem
+    2. Metodologia
+    3. Recursos necessários
+    4. Cronograma
+    5. Avaliação
+```
+
+### Fluxos de Integração de IA
+
+#### Fluxo 1: Análise Inteligente de Questões
+
+```mermaid
+graph TD
+    A[Professor seleciona questões] --> B[TeachersHub .NET]
+    B --> C[Semantic Kernel Service]
+    C --> D[Busca contexto no GraphQL Python]
+    D --> E[Prompt Engineering]
+    E --> F[LLama3 Local Processing]
+    F --> G[Structured Response]
+    G --> H[Cache em PostgreSQL]
+    H --> I[UI React Display]
+```
+
+#### Fluxo 2: Geração de Planos de Aula
+
+```mermaid
+graph TD
+    A[Critérios pedagógicos] --> B[AI Planning Service]
+    B --> C[Vector Search Questões]
+    C --> D[Content Curation]
+    D --> E[LLama3 Plan Generation]
+    E --> F[TeachersHub Integration]
+    F --> G[Professor Review/Edit]
+    G --> H[Save to Database]
+```
+
+### Estratégia de Implementação por Fases
+
+#### Fase 1: Infraestrutura Base (2 semanas)
+- [ ] Setup LLama3 container local
+- [ ] Configuração Semantic Kernel no .NET
+- [ ] Extensão PostgreSQL com pgvector
+- [ ] Templates básicos de prompts
+
+#### Fase 2: Funcionalidades Core (3 semanas)
+- [ ] Análise automática de dificuldade
+- [ ] Geração de explicações de questões
+- [ ] Search semântico aprimorado
+- [ ] Dashboard de insights para professores
+
+#### Fase 3: Recursos Avançados (4 semanas)
+- [ ] Geração automática de planos de aula
+- [ ] Chat educacional contextual
+- [ ] Recomendações personalizadas
+- [ ] Analytics pedagógicos com IA
+
+### Performance e Recursos
+
+#### Estimativas de Recursos
+
+| Componente | CPU | RAM | Storage | GPU |
+|------------|-----|-----|---------|-----|
+| LLama3:8b | 4 cores | 16GB | 8GB | Optional |
+| Semantic Kernel | 2 cores | 4GB | 1GB | N/A |
+| Vector Store | 2 cores | 8GB | 50GB | N/A |
+
+#### Métricas de Performance Esperadas
+
+- **Análise de questão:** ~2-3 segundos
+- **Geração plano de aula:** ~15-30 segundos  
+- **Search semântico:** ~500ms
+- **Throughput:** 10-20 requisições/minuto
+
+### Considerações de Segurança e Privacidade
+
+#### Processamento Local
+- **LLama3 rodando localmente** - Nenhum dado enviado para APIs externas
+- **Compliance LGPD** - Dados educacionais permanecem no ambiente controlado
+- **Auditabilidade completa** - Logs de todas as interações com IA
+
+#### Controles de Acesso
+- **Integração com ASP.NET Identity** - Mesmos controles de acesso do TeachersHub
+- **Rate limiting per user** - Prevenção de abuse dos recursos de IA
+- **Content filtering** - Validação de outputs para contexto educacional
+
+### Monitoramento da Camada de IA
+
+#### Métricas Específicas de IA
+
+```json
+{
+  "ai_metrics": {
+    "llama3_response_time": "histogram",
+    "prompt_tokens_used": "counter", 
+    "ai_requests_per_user": "gauge",
+    "semantic_search_accuracy": "histogram",
+    "content_generation_success_rate": "gauge"
+  }
+}
+```
+
+#### Alertas Proativos
+- **Latência alta** - Resposta LLama3 > 10s
+- **Uso excessivo de recursos** - GPU/RAM > 90%
+- **Falhas de geração** - Taxa de erro > 5%
+- **Cache miss rate** - Eficiência < 70%
+
+### Integração com Arquitetura Existente
+
+#### Pontos de Integração
+
+1. **GraphQL Python Services** - Fonte de dados para contexto
+2. **TeachersHub .NET Backend** - Orquestração e business logic
+3. **PostgreSQL Database** - Storage para embeddings e cache
+4. **React Frontend** - UI para features de IA
+5. **Docker Compose** - Deployment unificado
+
+#### Modificações Mínimas Necessárias
+
+- **Zero breaking changes** na API GraphQL existente
+- **Aditivo only** no schema do banco de dados
+- **Backward compatible** - Sistema funciona sem IA ativa
+- **Feature flags** - Controle granular de funcionalidades
+
+### Roadmap de Evolução
+
+#### Curto Prazo (1-3 meses)
+- Implementação core da integração Semantic Kernel
+- Análise automática de questões
+- Search semântico aprimorado
+
+#### Médio Prazo (3-6 meses)  
+- Geração automática de planos de aula
+- Chat educacional contextual
+- Dashboard de analytics pedagógicos
+
+#### Longo Prazo (6-12 meses)
+- Fine-tuning de modelo específico para ENEM
+- Integração com outros datasets educacionais
+- Recursos de gamificação com IA
+
+---
+
+**Arquitetura AI-Enhanced está pronta para implementação incremental!** 🤖🏗️
+
+Esta extensão mantém total compatibilidade com o sistema existente enquanto adiciona capacidades avançadas de IA de forma progressiva e controlada.

@@ -1,0 +1,57 @@
+Question 9: Found only 2 alternatives. Skipping question.
+Question 50: Found only 1 alternatives. Skipping question.
+Question 51: Found only 1 alternatives. Skipping question.
+Question 38: Found only 2 alternatives. Skipping question.
+Question 52: Found only 0 alternatives. Skipping question.
+Question 46: Found only 1 alternatives. Skipping question.
+Question 55: Expected 5 alternatives, found 3
+Question 49: Found only 1 alternatives. Skipping question.
+Question 55: Alternatives not in alphabetical order: ['A', 'C', 'E', 'D', 'E']
+Question 51: Found only 1 alternatives. Skipping question.
+Question 63: Found only 1 alternatives. Skipping question.
+Question 60: Found only 2 alternatives. Skipping question.
+Question 66: Found only 1 alternatives. Skipping question.
+Question 75: Expected 5 alternatives, found 3
+Question 67: Found only 2 alternatives. Skipping question.
+Question 75: Alternatives not in alphabetical order: ['A', 'C', 'E', 'D', 'E']
+Question 72: Found only 1 alternatives. Skipping question.
+Question 78: Found only 1 alternatives. Skipping question.
+Question 76: Found only 1 alternatives. Skipping question.
+Question 79: Found only 1 alternatives. Skipping question.
+Question 82: Expected 5 alternatives, found 3
+Question 80: Found only 0 alternatives. Skipping question.
+Question 82: Alternatives not in alphabetical order: ['A', 'C', 'E', 'D', 'E']
+Question 83: Found only 1 alternatives. Skipping question.
+Question 83: Found only 1 alternatives. Skipping question.
+Question 89: Expected 5 alternatives, found 3
+Question 89: Alternatives not in alphabetical order: ['A', 'C', 'E', 'D', 'E']
+Question 90: Expected 5 alternatives, found 4
+Question 90: Alternatives not in alphabetical order: ['A', 'C', 'D', 'E', 'E']
+Question 31: Found only 2 alternatives. Skipping question.
+Question 47: Found only 1 alternatives. Skipping question.
+Question 54: Found only 1 alternatives. Skipping question.
+Question 57: Found only 1 alternatives. Skipping question.
+Question 63: Expected 5 alternatives, found 3
+Question 63: Alternatives not in alphabetical order: ['A', 'C', 'E', 'D', 'E']
+Question 69: Expected 5 alternatives, found 3
+Question 69: Alternatives not in alphabetical order: ['A', 'C', 'E', 'D', 'E']
+Question 70: Found only 1 alternatives. Skipping question.
+Question 71: Found only 1 alternatives. Skipping question.
+Question 72: Found only 1 alternatives. Skipping question.
+Question 73: Found only 0 alternatives. Skipping question.
+Question 75: Found only 2 alternatives. Skipping question.
+Question 81: Found only 1 alternatives. Skipping question.
+Question 21: Found only 2 alternatives. Skipping question.
+Question 46: Found only 1 alternatives. Skipping question.
+Question 47: Found only 1 alternatives. Skipping question.
+Question 48: Found only 0 alternatives. Skipping question.
+Question 58: Expected 5 alternatives, found 3
+Question 58: Alternatives not in alphabetical order: ['A', 'C', 'E', 'D', 'E']
+Question 59: Found only 1 alternatives. Skipping question.
+Question 61: Found only 1 alternatives. Skipping question.
+Question 65: Found only 1 alternatives. Skipping question.
+Question 77: Found only 1 alternatives. Skipping question.
+Question 80: Found only 1 alternatives. Skipping question.
+Question 81: Found only 2 alternatives. Skipping question.
+Question 84: Expected 5 alternatives, found 3
+Question 84: Alternatives not in alphabetical order: ['A', 'C', 'E', 'D', 'E']

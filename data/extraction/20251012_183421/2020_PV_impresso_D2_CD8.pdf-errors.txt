@@ -1,0 +1,95 @@
+Question 89: Expected 5 alternatives, found 3
+Question 62: Expected 5 alternatives, found 3
+Question 70: Expected 5 alternatives, found 3
+Question 61: Expected 5 alternatives, found 3
+Question 102: Found only 2 alternatives. Skipping question.
+Question 98: Expected 5 alternatives, found 3
+Question 106: Expected 5 alternatives, found 3
+Question 114: Expected 5 alternatives, found 4
+Question 107: Expected 5 alternatives, found 4
+Question 116: Expected 5 alternatives, found 4
+Question 108: Found only 2 alternatives. Skipping question.
+Question 119: Expected 5 alternatives, found 3
+Question 113: Expected 5 alternatives, found 3
+Question 123: Found only 2 alternatives. Skipping question.
+Question 115: Expected 5 alternatives, found 3
+Question 128: Expected 5 alternatives, found 3
+Question 123: Expected 5 alternatives, found 4
+Question 93: Expected 5 alternatives, found 3
+Question 130: Expected 5 alternatives, found 3
+Question 131: Expected 5 alternatives, found 4
+Question 96: Expected 5 alternatives, found 3
+Question 93: Expected 5 alternatives, found 3
+Question 131: Expected 5 alternatives, found 4
+Question 134: Expected 5 alternatives, found 3
+Question 98: Expected 5 alternatives, found 4
+Question 94: Expected 5 alternatives, found 4
+Question 135: Found only 2 alternatives. Skipping question.
+Question 137: Expected 5 alternatives, found 4
+Question 100: Expected 5 alternatives, found 3
+Question 100: Expected 5 alternatives, found 4
+Question 143: Found only 2 alternatives. Skipping question.
+Question 147: Found only 2 alternatives. Skipping question.
+Question 101: Expected 5 alternatives, found 4
+Question 106: Expected 5 alternatives, found 3
+Question 147: Expected 5 alternatives, found 4
+Question 148: Expected 5 alternatives, found 3
+Question 102: Found only 2 alternatives. Skipping question.
+Question 113: Found only 2 alternatives. Skipping question.
+Question 148: Expected 5 alternatives, found 4
+Question 153: Expected 5 alternatives, found 4
+Question 105: Expected 5 alternatives, found 3
+Question 119: Expected 5 alternatives, found 3
+Question 150: Expected 5 alternatives, found 4
+Question 159: Found only 1 alternatives. Skipping question.
+Question 111: Found only 2 alternatives. Skipping question.
+Question 129: Found only 2 alternatives. Skipping question.
+Question 152: Found only 1 alternatives. Skipping question.
+Question 160: Expected 5 alternatives, found 3
+Question 127: Expected 5 alternatives, found 4
+Question 130: Expected 5 alternatives, found 4
+Question 153: Expected 5 alternatives, found 4
+Question 161: Expected 5 alternatives, found 4
+Question 136: Found only 1 alternatives. Skipping question.
+Question 134: Expected 5 alternatives, found 3
+Question 154: Expected 5 alternatives, found 4
+Question 164: Found only 0 alternatives. Skipping question.
+Question 137: Expected 5 alternatives, found 4
+Question 137: Expected 5 alternatives, found 4
+Question 155: Expected 5 alternatives, found 4
+Question 167: Expected 5 alternatives, found 4
+Question 138: Expected 5 alternatives, found 4
+Question 139: Expected 5 alternatives, found 3
+Question 160: Expected 5 alternatives, found 3
+Question 168: Expected 5 alternatives, found 4
+Question 139: Expected 5 alternatives, found 4
+Question 143: Found only 0 alternatives. Skipping question.
+Question 161: Expected 5 alternatives, found 4
+Question 170: Expected 5 alternatives, found 4
+Question 148: Expected 5 alternatives, found 4
+Question 154: Expected 5 alternatives, found 3
+Question 162: Found only 0 alternatives. Skipping question.
+Question 171: Expected 5 alternatives, found 3
+Question 152: Expected 5 alternatives, found 4
+Question 156: Found only 2 alternatives. Skipping question.
+Question 166: Expected 5 alternatives, found 4
+Question 177: Expected 5 alternatives, found 4
+Question 154: Expected 5 alternatives, found 4
+Question 161: Expected 5 alternatives, found 4
+Question 169: Expected 5 alternatives, found 3
+Question 156: Expected 5 alternatives, found 4
+Question 163: Expected 5 alternatives, found 4
+Question 177: Found only 2 alternatives. Skipping question.
+Question 157: Expected 5 alternatives, found 3
+Question 164: Expected 5 alternatives, found 3
+Question 159: Expected 5 alternatives, found 3
+Question 170: Expected 5 alternatives, found 4
+Question 168: Expected 5 alternatives, found 4
+Question 176: Expected 5 alternatives, found 3
+Question 171: Found only 2 alternatives. Skipping question.
+Question 177: Found only 1 alternatives. Skipping question.
+Question 172: Expected 5 alternatives, found 4
+Question 178: Expected 5 alternatives, found 3
+Question 173: Found only 0 alternatives. Skipping question.
+Question 179: Expected 5 alternatives, found 4
+Question 179: Expected 5 alternatives, found 3
