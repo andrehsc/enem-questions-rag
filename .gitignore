@@ -34,3 +34,12 @@ venv/
 
 # Logs
 *.log
+# .NET build artifacts
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.deps.json
+*.runtimeconfig.json
