@@ -1,7 +1,7 @@
 services:
-  # PostgreSQL Database - Shared between TeachersHub and ENEM services
+  # PostgreSQL Database with pgvector - Shared between TeachersHub and ENEM services
   postgres:
-    image: postgres:16
+    image: pgvector/pgvector:pg16
     container_name: teachershub-enem-postgres
     environment:
       POSTGRES_DB: teachershub_enem

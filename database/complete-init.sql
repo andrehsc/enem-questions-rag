@@ -3,6 +3,7 @@
 -- Extensões necessárias
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "unaccent";
+CREATE EXTENSION IF NOT EXISTS "vector";
 
 -- Configurar busca textual em português
 CREATE TEXT SEARCH CONFIGURATION portuguese_unaccent (COPY = portuguese);
@@ -209,6 +210,32 @@ END;
 $$ language 'plpgsql';
 
 -- ========================================
+-- AI/VECTOR EXTENSION TABLES
+-- ========================================
+
+-- Create question_embeddings table for vector similarity search
+CREATE TABLE IF NOT EXISTS enem_questions.question_embeddings (
+    id SERIAL PRIMARY KEY,
+    question_id UUID NOT NULL,
+    embedding_vector vector(384),
+    embedding_model VARCHAR(100) NOT NULL DEFAULT 'sentence-transformers',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_question_embeddings_question_id 
+        FOREIGN KEY (question_id) 
+        REFERENCES public.questions(id) 
+        ON DELETE CASCADE,
+    CONSTRAINT unique_question_model 
+        UNIQUE (question_id, embedding_model)
+);
+
+-- Create vector similarity index for efficient cosine similarity search
+CREATE INDEX IF NOT EXISTS idx_question_embeddings_vector 
+ON enem_questions.question_embeddings 
+USING ivfflat (embedding_vector vector_cosine_ops) 
+WITH (lists = 100);
+
+-- ========================================
 -- VIEWS FOR COMMON QUERIES
 -- ========================================
 
@@ -251,8 +278,8 @@ DO $$
 BEGIN 
     RAISE NOTICE '=== ENEM Questions RAG Database Schema ===';
     RAISE NOTICE 'Schema created successfully!';
-    RAISE NOTICE 'Tables created: 4 (exam_metadata, questions, question_alternatives, answer_keys)';
-    RAISE NOTICE 'Indexes created: 15 (including full-text search)';
+    RAISE NOTICE 'Tables created: 5 (exam_metadata, questions, question_alternatives, answer_keys, question_embeddings)';
+    RAISE NOTICE 'Indexes created: 16 (including full-text search and vector similarity)';
     RAISE NOTICE 'Views created: 2 (questions_with_answers, exam_summary)';
     RAISE NOTICE 'Functions created: 3 (update_updated_at_column, get_parsing_stats, find_similar_questions)';
     RAISE NOTICE 'Ready for ENEM PDF parsing and RAG operations!';
