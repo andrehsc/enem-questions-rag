@@ -457,8 +457,7 @@ class EnemPDFParser:
         """
         Extract alternatives from ENEM question text.
         
-        Enhanced version for all years (2020-2024) with better text cleaning
-        and alternative detection, including special handling for 2022-2023 layouts.
+        Enhanced version using multiple extraction strategies with fallback to legacy algorithm.
         
         Args:
             question_text: Raw question text
@@ -466,6 +465,33 @@ class EnemPDFParser:
         Returns:
             List of exactly 5 formatted alternatives [A, B, C, D, E]
         """
+        # Try enhanced extractor first (Strategy Pattern approach)
+        try:
+            from .alternative_extractor import create_enhanced_extractor
+            
+            enhanced_extractor = create_enhanced_extractor()
+            result = enhanced_extractor.extract_alternatives(question_text)
+            
+            # Use enhanced result if it found enough alternatives
+            if len(result.alternatives) >= 4 and result.confidence > 0.5:
+                logger.debug(f"Enhanced extractor success: {len(result.alternatives)} alternatives "
+                           f"(confidence: {result.confidence:.2f}, strategy: {result.strategy_used.value})")
+                
+                # Pad to 5 alternatives if needed (for compatibility)
+                final_alternatives = result.alternatives[:]
+                while len(final_alternatives) < 5:
+                    final_alternatives.append(f"{chr(65 + len(final_alternatives))}) [Alternative not found]")
+                    
+                return final_alternatives[:5]
+            
+            # Log what happened with enhanced extractor
+            logger.debug(f"Enhanced extractor insufficient: {len(result.alternatives)} alternatives "
+                        f"(confidence: {result.confidence:.2f}), falling back to legacy")
+                        
+        except Exception as e:
+            logger.warning(f"Enhanced extractor failed: {e}, falling back to legacy algorithm")
+        
+        # Fallback to legacy algorithm (existing code)
         alternatives_dict = {}
         
         # Pre-clean the text to remove artifacts before processing
