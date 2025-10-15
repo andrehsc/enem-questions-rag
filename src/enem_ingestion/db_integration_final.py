@@ -59,19 +59,20 @@ class DatabaseIntegration:
                 
                 cur.execute("""
                     INSERT INTO enem_questions.exam_metadata (
-                        id, year, exam_type, application_type, language,
-                        day, caderno, file_type, pdf_filename, pdf_path, 
+                        id, year, day, caderno, application_type, accessibility,
+                        exam_type, language, file_type, pdf_filename, pdf_path, 
                         created_at, updated_at
                     )
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """, (
                     exam_metadata_id,
                     metadata.year,
-                    metadata.exam_type,
-                    metadata.application_type,
-                    metadata.language,
                     metadata.day,
                     metadata.caderno,
+                    metadata.application_type,
+                    metadata.accessibility,
+                    metadata.exam_type,
+                    metadata.language,
                     'caderno_questoes',
                     pdf_filename,
                     str(pdf_path),
@@ -89,7 +90,7 @@ class DatabaseIntegration:
             return None
     
     def insert_questions(self, questions, exam_metadata_id):
-        """Insert questions with correct schema including exam_id"""
+        """Insert questions with correct schema matching actual database structure"""
         inserted_count = 0
         
         for question in questions:
@@ -97,21 +98,15 @@ class DatabaseIntegration:
                 with self.connection.cursor(cursor_factory=RealDictCursor) as cur:
                     question_id = str(uuid.uuid4())
                     
-                    # Generate sequential exam_id if not exists
-                    cur.execute("SELECT COALESCE(MAX(exam_id), 0) + 1 AS next_id FROM enem_questions.questions")
-                    result = cur.fetchone()
-                    next_exam_id = result['next_id'] if result else 1
-                    
-                    # Use correct table schema with exam_id
+                    # Use correct table schema without exam_id
                     cur.execute("""
                         INSERT INTO enem_questions.questions (
-                            id, exam_id, question_number, question_text, subject, 
+                            id, question_number, question_text, subject, 
                             exam_metadata_id, created_at, updated_at
                         )
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)
                     """, (
                         question_id,
-                        next_exam_id,
                         question.number,
                         question.text,
                         str(question.subject) if question.subject else 'General',
@@ -125,13 +120,17 @@ class DatabaseIntegration:
                     for i, alt_text in enumerate(question.alternatives):
                         if i < len(alternative_letters):
                             cur.execute("""
-                                INSERT INTO enem_questions.question_alternatives (id, question_id, alternative_letter, alternative_text)
-                                VALUES (%s, %s, %s, %s)
+                                INSERT INTO enem_questions.question_alternatives (
+                                    id, question_id, alternative_letter, alternative_text, alternative_order, created_at
+                                )
+                                VALUES (%s, %s, %s, %s, %s, %s)
                             """, (
                                 str(uuid.uuid4()),
                                 question_id,
                                 alternative_letters[i],
-                                alt_text
+                                alt_text,
+                                i + 1,
+                                datetime.now()
                             ))
                     
                     self.connection.commit()

@@ -13,7 +13,9 @@ def test_single_file():
     """Test processing a single file to check database fix."""
     
     parser = EnemPDFParser()
-    db_integrator = DatabaseIntegration()
+    # Usar credenciais corretas conforme configuração atual
+    connection_url = "postgresql://postgres:postgres123@localhost:5433/teachershub_enem"
+    db_integrator = DatabaseIntegration(connection_url=connection_url)
     
     # Test with one file
     test_file = Path("data/downloads/2024/2024_PV_impresso_D1_CD1.pdf")
