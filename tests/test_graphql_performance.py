@@ -98,12 +98,8 @@ class TestGraphQLPerformance:
             for i in range(50)  # Simular 50 questões
         ]
         
-        mock_get_questions.return_value = {
-            'items': mock_items,
-            'total': 1000,
-            'has_next': True,
-            'has_previous': False
-        }
+        # Mock retorna tupla (questions_list, total_count)
+        mock_get_questions.return_value = (mock_items, 1000)
         
         graphql_query = {
             "query": """
@@ -180,12 +176,14 @@ class TestGraphQLPerformance:
         Performance Test: Statistics query deve responder em <100ms
         Dashboard dependency test
         """
-        # Arrange - Mock statistics response
+        # Arrange - Mock statistics response (estrutura esperada pelo GraphQL service)
+        years_list = list(range(2009, 2024))
+        subjects_list = ['Matemática', 'Português', 'História', 'Geografia', 'Física', 'Química', 'Biologia']
+        
         mock_get_stats.return_value = {
             'total_questions': 2532,
-            'total_exams': 45,
-            'years_available': list(range(2009, 2024)),
-            'subjects_available': ['Matemática', 'Português', 'História', 'Geografia', 'Física', 'Química', 'Biologia']
+            'questions_by_year': {str(year): 100 for year in years_list},
+            'questions_by_subject': {subject: 300 for subject in subjects_list}
         }
         
         graphql_query = {

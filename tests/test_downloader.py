@@ -1,10 +1,15 @@
 """Tests for ENEM downloader module."""
 
 import pytest
+import sys
+import os
 from pathlib import Path
 from unittest.mock import Mock, patch, mock_open
 import tempfile
 import shutil
+
+# Add src to path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from enem_ingestion.downloader import EnemDownloader
 
