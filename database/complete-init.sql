@@ -248,33 +248,35 @@ WITH (lists = 100);
 
 -- Create question_images table for image storage and processing
 CREATE TABLE IF NOT EXISTS enem_questions.question_images (
-    id SERIAL PRIMARY KEY,
+    id UUID NOT NULL DEFAULT gen_random_uuid(),
     question_id UUID NOT NULL,
-    image_filename VARCHAR(255) NOT NULL,
-    image_path TEXT NOT NULL,
-    image_type VARCHAR(20) DEFAULT 'extracted', -- extracted, processed, thumbnail
-    mime_type VARCHAR(50),
-    file_size INTEGER,
-    width INTEGER,
-    height INTEGER,
-    page_number INTEGER,
-    extraction_method VARCHAR(50), -- pdfplumber, pymupdf, etc.
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    image_sequence INTEGER NOT NULL DEFAULT 1,
+    image_data BYTEA, -- Binary image data
+    image_format VARCHAR(10) NOT NULL, -- PNG, JPEG, etc.
+    image_width INTEGER,
+    image_height INTEGER,
+    image_size_bytes INTEGER,
+    extracted_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    CONSTRAINT pk_question_images PRIMARY KEY (id),
     CONSTRAINT fk_question_images_question_id 
         FOREIGN KEY (question_id) 
         REFERENCES enem_questions."questions"(id) 
         ON DELETE CASCADE,
-    CONSTRAINT unique_question_image_filename 
-        UNIQUE (question_id, image_filename)
+    CONSTRAINT uk_question_image_sequence 
+        UNIQUE (question_id, image_sequence)
 );
 
 -- Index for question_images
 CREATE INDEX IF NOT EXISTS idx_question_images_question_id 
 ON enem_questions.question_images (question_id);
 
-CREATE INDEX IF NOT EXISTS idx_question_images_type 
-ON enem_questions.question_images (image_type);
+CREATE INDEX IF NOT EXISTS idx_question_images_sequence 
+ON enem_questions.question_images (image_sequence);
+
+CREATE INDEX IF NOT EXISTS idx_question_images_format 
+ON enem_questions.question_images (image_format);
 
 -- ========================================
 -- VIEWS FOR COMMON QUERIES

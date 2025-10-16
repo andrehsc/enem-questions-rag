@@ -89,6 +89,25 @@ CREATE TABLE "answer_keys" (
     CONSTRAINT "uk_answer_keys_question_exam_lang" UNIQUE ("question_number", "exam_metadata_id", "language_option")
 );
 
+-- Create question_images table (stores extracted images from PDFs)
+CREATE TABLE "question_images" (
+    "id" uuid NOT NULL DEFAULT gen_random_uuid(),
+    "question_id" uuid NOT NULL,
+    "image_sequence" integer NOT NULL DEFAULT 1,
+    "image_data" bytea, -- Binary image data
+    "image_format" varchar(10) NOT NULL, -- PNG, JPEG, etc.
+    "image_width" integer,
+    "image_height" integer,
+    "image_size_bytes" integer,
+    "extracted_at" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "created_at" timestamp with time zone NOT NULL DEFAULT NOW(),
+    "updated_at" timestamp with time zone NOT NULL DEFAULT NOW(),
+    CONSTRAINT "pk_question_images" PRIMARY KEY ("id"),
+    CONSTRAINT "fk_question_images_question_id" FOREIGN KEY ("question_id") 
+        REFERENCES "questions" ("id") ON DELETE CASCADE,
+    CONSTRAINT "uk_question_image_sequence" UNIQUE ("question_id", "image_sequence")
+);
+
 -- ========================================
 -- INDEXES FOR PERFORMANCE
 -- ========================================
@@ -119,6 +138,11 @@ CREATE INDEX "idx_answer_keys_question_number" ON "answer_keys" ("question_numbe
 CREATE INDEX "idx_answer_keys_subject" ON "answer_keys" ("subject");
 CREATE INDEX "idx_answer_keys_exam_metadata_id" ON "answer_keys" ("exam_metadata_id");
 CREATE INDEX "idx_answer_keys_language_option" ON "answer_keys" ("language_option");
+
+-- Question images indexes
+CREATE INDEX "idx_question_images_question_id" ON "question_images" ("question_id");
+CREATE INDEX "idx_question_images_sequence" ON "question_images" ("image_sequence");
+CREATE INDEX "idx_question_images_format" ON "question_images" ("image_format");
 
 -- Full-text search indexes (for RAG queries)
 CREATE INDEX "idx_questions_text_search" ON "questions" USING gin(to_tsvector('portuguese', "question_text"));
@@ -237,9 +261,9 @@ DO $$
 BEGIN 
     RAISE NOTICE '=== ENEM Questions RAG Database Schema ===';
     RAISE NOTICE 'Schema created successfully!';
-    RAISE NOTICE 'Tables created: 4 (exam_metadata, questions, question_alternatives, answer_keys)';
-    RAISE NOTICE 'Indexes created: 15 (including full-text search)';
+    RAISE NOTICE 'Tables created: 5 (exam_metadata, questions, question_alternatives, answer_keys, question_images)';
+    RAISE NOTICE 'Indexes created: 18 (including full-text search)';
     RAISE NOTICE 'Views created: 2 (questions_with_answers, exam_summary)';
     RAISE NOTICE 'Functions created: 3 (update_updated_at_column, get_parsing_stats, find_similar_questions)';
-    RAISE NOTICE 'Ready for ENEM PDF parsing and RAG operations!';
+    RAISE NOTICE 'Ready for ENEM PDF parsing and RAG operations with IMAGE support!';
 END $$;

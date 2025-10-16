@@ -288,7 +288,7 @@ class DatabaseImageHandler:
                 if deleted_count > 0:
                     logger.debug(f"Deleted {deleted_count} existing images for question {question_id}")
                 
-                # Insert new images using UPSERT to handle any race conditions
+                # Insert new images using correct schema
                 for img in images:
                     cur.execute("""
                         INSERT INTO enem_questions.question_images (

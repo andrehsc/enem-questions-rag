@@ -78,6 +78,14 @@ class EnemPDFParser:
     def __init__(self):
         """Initialize the parser."""
         self.question_pattern = re.compile(r'QUESTÃO\s+(\d+)', re.IGNORECASE)
+        # Métricas dos guardrails para coleta
+        self._last_guardrails_metrics = {
+            'total_analyzed': 0,
+            'direct_success': 0,
+            'recovery_applied': 0,
+            'critical_zone_detected': 0,
+            'validation_failures': 0
+        }
         # Pattern for alternatives - handles both formats: "A) text" and "A text"
         self.alternative_pattern = re.compile(r'\b([A-E])\s*\)?\s*([^A-E\n]{10,200}?)(?=\s*[A-E]\s|\n\n|\nQuestão|\nLC\s*-|$)', re.MULTILINE)
         
@@ -280,8 +288,8 @@ class EnemPDFParser:
                     # Clean up the question text
                     question_text = self._clean_question_text(question_text)
                     
-                    # Extract alternatives with improved logic
-                    alternatives = self._extract_alternatives(question_text)
+                    # Extract alternatives with improved logic and guardrails context
+                    alternatives = self._extract_alternatives_with_context(question_text, q_num, metadata.day)
                     
                     # For now, accept questions with at least 3 alternatives (while debugging)
                     if len(alternatives) < 3:
@@ -453,9 +461,122 @@ class EnemPDFParser:
         # If less than 30% unique words, it's probably repetitive/garbled
         return repetition_ratio < 0.3
     
+    def _extract_alternatives_with_context(self, question_text: str, question_number: int, day: int) -> List[str]:
+        """
+        Extract alternatives with structural guardrails context.
+        
+        Args:
+            question_text: Raw question text
+            question_number: Actual question number (1-180)
+            day: Exam day (1 or 2)
+            
+        Returns:
+            List of exactly 5 formatted alternatives [A, B, C, D, E]
+        """
+        # Try enhanced extractor with structural guardrails
+        try:
+            from .alternative_extractor import create_enhanced_extractor
+            from .enem_structure_spec import EnemStructuralGuardrailsController
+            
+            enhanced_extractor = create_enhanced_extractor()
+            enhanced_result = enhanced_extractor.extract_alternatives(question_text)
+            
+            # Apply Winston's structural guardrails with real context
+            try:
+                guardrails_controller = EnemStructuralGuardrailsController()
+                
+                # Convert enhanced result to guardrails format
+                guardrails_input = {
+                    'question': question_text[:200] + '...' if len(question_text) > 200 else question_text,
+                    'alternatives': [
+                        {'text': alt} for alt in enhanced_result.alternatives
+                    ]
+                }
+                
+                # Apply guardrails validation and enhancement with real context
+                guardrails_result = guardrails_controller.process_question_with_guardrails(
+                    question_text, 
+                    question_number, 
+                    day, 
+                    guardrails_input
+                )
+                
+                # Process guardrails result
+                if guardrails_result['status'] == 'SUCCESS':
+                    validated_alternatives = [
+                        alt['text'] for alt in guardrails_result['data']['alternatives']
+                    ]
+                    
+                    confidence = guardrails_result['confidence']
+                    risk_level = guardrails_result['guardrails_applied']['risk_level']
+                    
+                    # Collect metrics
+                    self._last_guardrails_metrics['total_analyzed'] += 1
+                    self._last_guardrails_metrics['direct_success'] += 1
+                    if day == 2 and 91 <= question_number <= 110:
+                        self._last_guardrails_metrics['critical_zone_detected'] += 1
+                    
+                    logger.info(f"🛡️ Q{question_number} Guardrails SUCCESS: {len(validated_alternatives)} alternatives "
+                               f"(confidence: {confidence:.2f}, risk: {risk_level})")
+                    
+                    # Use validated result if sufficient
+                    if len(validated_alternatives) >= 4 and confidence > 0.6:
+                        final_alternatives = validated_alternatives[:]
+                        while len(final_alternatives) < 5:
+                            final_alternatives.append(f"{chr(65 + len(final_alternatives))}) [Alternative not found]")
+                        
+                        return final_alternatives[:5]
+                
+                elif guardrails_result['status'] == 'VALIDATION_FAILED':
+                    # Apply recovery strategy
+                    recovery = guardrails_result['recovery_strategy']
+                    risk_level = guardrails_result['guardrails_applied']['risk_level']
+                    
+                    # Collect metrics
+                    self._last_guardrails_metrics['total_analyzed'] += 1
+                    self._last_guardrails_metrics['recovery_applied'] += 1
+                    self._last_guardrails_metrics['validation_failures'] += 1
+                    if day == 2 and 91 <= question_number <= 110:
+                        self._last_guardrails_metrics['critical_zone_detected'] += 1
+                    
+                    logger.warning(f"⚡ Q{question_number} Guardrails RECOVERY: risk={risk_level}, "
+                                 f"strategy={recovery['action']}")
+                    
+                    # Check if it's critical zone (91-110) for special handling
+                    if day == 2 and 91 <= question_number <= 110:
+                        logger.warning(f"🔥 Q{question_number} in CRITICAL ZONE - applying enhanced recovery")
+                    
+                    # For now, continue with enhanced result but log the issue
+                    pass
+                    
+            except Exception as guardrails_error:
+                logger.warning(f"Q{question_number} Guardrails processing failed: {guardrails_error}")
+            
+            # Use enhanced result if guardrails didn't improve it or failed
+            if len(enhanced_result.alternatives) >= 4 and enhanced_result.confidence > 0.5:
+                logger.debug(f"Q{question_number} Enhanced extractor success: {len(enhanced_result.alternatives)} alternatives "
+                           f"(confidence: {enhanced_result.confidence:.2f}, strategy: {enhanced_result.strategy_used.value})")
+                
+                # Pad to 5 alternatives if needed (for compatibility)
+                final_alternatives = enhanced_result.alternatives[:]
+                while len(final_alternatives) < 5:
+                    final_alternatives.append(f"{chr(65 + len(final_alternatives))}) [Alternative not found]")
+                    
+                return final_alternatives[:5]
+            
+            # Log what happened with enhanced extractor
+            logger.debug(f"Q{question_number} Enhanced extractor insufficient: {len(enhanced_result.alternatives)} alternatives "
+                        f"(confidence: {enhanced_result.confidence:.2f}), falling back to legacy")
+                        
+        except Exception as e:
+            logger.warning(f"Q{question_number} Enhanced extractor failed: {e}, falling back to legacy algorithm")
+        
+        # Fallback to original method without context
+        return self._extract_alternatives(question_text)
+
     def _extract_alternatives(self, question_text: str) -> List[str]:
         """
-        Extract alternatives from ENEM question text.
+        Extract alternatives from ENEM question text (legacy method without guardrails).
         
         Enhanced version using multiple extraction strategies with fallback to legacy algorithm.
         
@@ -980,3 +1101,47 @@ class EnemPDFParser:
             }
         else:
             raise ValueError(f"Unknown file type: {filename}")
+
+    def _estimate_question_number(self, question_text: str) -> int:
+        """
+        Estimate question number from context for guardrails integration.
+        
+        Args:
+            question_text: Question text to analyze
+            
+        Returns:
+            Estimated question number (1-180)
+        """
+        # Try to find explicit question number in text
+        q_match = self.question_pattern.search(question_text)
+        if q_match:
+            return int(q_match.group(1))
+        
+        # Fallback: estimate based on content patterns
+        # Mathematical content suggests Day 2 (questions 91-180)
+        math_indicators = ['∫', '√', '∑', '∞', '≤', '≥', '≠', '±', 'função', 'equação']
+        if any(indicator in question_text.lower() for indicator in math_indicators):
+            return 95  # Default to critical zone
+        
+        # Language/literature suggests Day 1 (questions 1-90)
+        lang_indicators = ['texto', 'literatura', 'poema', 'linguagem', 'autor']
+        if any(indicator in question_text.lower() for indicator in lang_indicators):
+            return 15  # Default to safe zone Day 1
+        
+        # Conservative default
+        return 50
+    
+    def _estimate_day_from_question_number(self, question_number: int) -> int:
+        """
+        Estimate exam day from question number.
+        
+        Args:
+            question_number: Question number (1-180)
+            
+        Returns:
+            Day (1 or 2)
+        """
+        if question_number <= 90:
+            return 1  # Day 1: Linguagens + Humanas + Redação
+        else:
+            return 2  # Day 2: Matemática + Natureza

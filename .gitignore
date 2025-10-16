@@ -25,6 +25,10 @@ build/
 venv/
 .env
 .venv
+enem-rag-py311/
+env/
+**/env*/
+**/*venv/
 
 # IDE
 .vscode/
