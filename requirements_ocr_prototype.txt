@@ -1,0 +1,27 @@
+# Protótipo OCR + Ollama Requirements
+# Para análise de imagens e extração inteligente de questões ENEM
+
+# OCR Engines
+pytesseract>=0.3.10
+easyocr>=1.7.0
+
+# Processamento de Imagem
+opencv-python>=4.8.0
+Pillow>=10.0.0
+
+# PDF Processing (já instalado)
+PyMuPDF>=1.23.0
+
+# Análise com IA
+requests>=2.31.0  # Para comunicação com Ollama
+
+# Processamento de dados
+numpy>=1.24.0
+dataclasses-json>=0.6.0  # Para serialização de dataclasses
+
+# Logging e utilitários
+loguru>=0.7.0  # Logging mais avançado (opcional)
+
+# Opcional: GPU acceleration para EasyOCR
+# torch>=2.0.0
+# torchvision>=0.15.0
