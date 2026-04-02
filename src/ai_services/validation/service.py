@@ -286,6 +286,81 @@ class QuestionValidationService(AIServiceInterface):
                     suggestions=["Retry with individual requests"]
                 ) for _ in requests
             ]
+    
+    # Legacy compatibility methods for old tests
+    def parse_ai_response(self, response_text: str) -> Dict:
+        """Parse AI response JSON, handling invalid JSON gracefully."""
+        try:
+            import json
+            import re
+            
+            # First, try to parse as direct JSON
+            try:
+                return json.loads(response_text)
+            except json.JSONDecodeError:
+                pass
+            
+            # If that fails, try to extract JSON from the text
+            json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
+            if json_match:
+                json_str = json_match.group()
+                return json.loads(json_str)
+            
+            # If no JSON found, return fallback
+            return self.create_fallback_result()
+            
+        except (json.JSONDecodeError, TypeError, AttributeError):
+            return self.create_fallback_result()
+    
+    def create_fallback_result(self) -> Dict:
+        """Create fallback validation result when AI response is invalid."""
+        return {
+            "valid": False,
+            "confidence": 0.0,
+            "issues": ["Failed to parse AI response"],
+            "suggestions": []
+        }
+    
+    def create_validation_prompt(self, request) -> str:
+        """Create validation prompt for AI service - legacy compatibility."""
+        question_text = getattr(request, 'question_text', 'Unknown question')
+        question_type = getattr(request, 'question_type', 'multiple_choice')
+        context = getattr(request, 'context', None)
+        
+        return f"""
+Validate this ENEM question:
+
+QUESTION: {question_text}
+TYPE: {question_type}
+CONTEXT: {context or 'None'}
+
+Evaluate based on:
+1. Complete and coherent statement?
+2. Exactly 5 alternatives (A-E)?
+3. Proper formatting?
+4. No OCR artifacts?
+5. Consistent numbering?
+
+Return ONLY valid JSON:
+{{
+    "valid": boolean,
+    "confidence": float (0-1),
+    "issues": [list of strings],
+    "suggestions": [list of strings]
+}}
+"""
+    
+    # Private method versions for legacy test compatibility
+    def _parse_ai_response(self, response_text: str) -> Dict:
+        """Private version of parse_ai_response for legacy tests."""
+        return self.parse_ai_response(response_text)
+    
+    def _create_fallback_result(self, error_message: str = "") -> Dict:
+        """Private version of create_fallback_result for legacy tests."""
+        result = self.create_fallback_result()
+        if error_message:
+            result["issues"] = [error_message]
+        return result
 
 
 # Legacy compatibility layer - for backward compatibility

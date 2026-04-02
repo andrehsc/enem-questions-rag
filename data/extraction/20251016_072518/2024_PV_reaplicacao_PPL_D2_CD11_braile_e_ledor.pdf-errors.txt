@@ -1,0 +1,8 @@
+Question 111: Found only 2 alternatives. Skipping question.
+Question 113: Found only 1 alternatives. Skipping question.
+Question 120: Found only 2 alternatives. Skipping question.
+Question 144: Expected 5 alternatives, found 4
+Question 145: Expected 5 alternatives, found 3
+Question 151: Expected 5 alternatives, found 3
+Question 157: Expected 5 alternatives, found 3
+Question 158: Expected 5 alternatives, found 4

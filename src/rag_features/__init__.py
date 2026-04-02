@@ -10,10 +10,10 @@ Este módulo contém funcionalidades avançadas para:
 - Análise e insights de dados
 """
 
-from .semantic_search import EnemSemanticSearch, semantic_search
-from .question_generator import EnemQuestionGenerator, question_generator
-from .advanced_rag import AdvancedEnemRAG, advanced_rag, RAGContext
-from .analytics import EnemAnalytics, analytics
+from .semantic_search import EnemSemanticSearch, semantic_search_instance, SemanticSearchInterface
+# from .question_generator import EnemQuestionGenerator, question_generator
+# from .advanced_rag import AdvancedEnemRAG, advanced_rag, RAGContext
+# from .analytics import EnemAnalytics, analytics
 
 __version__ = "1.0.0"
 __author__ = "ENEM RAG System"

@@ -106,6 +106,25 @@ def test_ocr_prototype():
         traceback.print_exc()
         return False
 
+def test_gpu_performance():
+    """Testa performance com e sem GPU"""
+    print("🚀 TESTE DE PERFORMANCE GPU vs CPU")
+    print("="*50)
+    
+    # Verificar se GPU está disponível
+    try:
+        import torch
+        if torch.cuda.is_available():
+            print(f"✅ GPU: {torch.cuda.get_device_name(0)}")
+            print(f"   VRAM disponível: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB")
+            print(f"   VRAM em uso: {torch.cuda.memory_allocated(0) / 1024**3:.1f} GB")
+        else:
+            print("❌ GPU CUDA não disponível")
+    except ImportError:
+        print("❌ PyTorch não instalado")
+    
+    print()
+    
 def setup_environment():
     """Configura ambiente para teste"""
     print("🔧 CONFIGURAÇÃO DO AMBIENTE")
