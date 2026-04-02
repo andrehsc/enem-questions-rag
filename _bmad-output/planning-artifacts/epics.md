@@ -184,3 +184,204 @@ Para criar material complementar além do corpus existente.
 - [ ] Inclui `source_context_ids` (IDs dos chunks usados como contexto)
 - [ ] Endpoint `POST /api/v1/questions/generate` aceita `subject`, `topic`, `difficulty`, `count`, `style`
 - [ ] Questões geradas NÃO são persistidas no corpus principal (ficam em tabela separada `generated_questions`)
+
+---
+
+# Pipeline de Extração v2 — Novos Épicos
+
+> **Contexto:** O pipeline atual (pdfplumber+regex) será substituído por uma arquitetura híbrida de 3 camadas.
+> **Hardware disponível:** NVIDIA RTX 3060 (12 GB VRAM) + CPU
+> **Azure credits:** R$290 disponíveis (~5.500 páginas Layout)
+
+## Requirements Inventory
+
+### Functional Requirements
+
+FR-EX1: Substituir pdfplumber por pymupdf4llm como extrator primário com multi-coluna automático e OCR integrado em português
+FR-EX2: Implementar confidence scoring por questão extraída (5 alternativas, texto válido, sequência numérica, comprimento mínimo)
+FR-EX3: Implementar fallback para Azure DI Layout com add-on de fórmulas para questões com confidence < 0.80
+FR-EX4: Criar dead letter queue para questões com confidence < 0.50 (revisão manual)
+FR-EX5: Criar golden set de 50 questões verificadas manualmente para benchmark de acurácia
+FR-EX6: Implementar validação Pydantic para estrutura de questões ENEM (5 alternativas A-E, número sequencial, enunciado mínimo)
+FR-EX7: Extrair fórmulas matemáticas como LaTeX via Azure DI formula add-on
+FR-EX8: Manter associação imagem-questão via bounding box overlap do pymupdf4llm
+FR-EX9: Implementar hybrid search (pgvector + tsvector) com Reciprocal Rank Fusion em português
+FR-EX10: Pipeline deve ser idempotente (hash de conteúdo como chave, sem duplicatas na re-ingestão)
+
+### NonFunctional Requirements
+
+NFR-EX1: Acurácia de extração > 98% (2.450/2.500 questões extraídas corretamente)
+NFR-EX2: 5 alternativas extraídas em > 99% das questões
+NFR-EX3: Character Error Rate (CER) < 2% contra golden set
+NFR-EX4: Pipeline completo em < 30 min para 500 páginas (com RTX 3060)
+NFR-EX5: Custo cloud < R$50 por execução completa (créditos Azure)
+NFR-EX6: Compliance LGPD — processamento local-first, cloud apenas para fallback
+NFR-EX7: Licenças Apache 2.0/MIT apenas — evitar GPL/AGPL sem licença comercial
+
+### Additional Requirements
+
+- pymupdf4llm mantém compatibilidade com SQLAlchemy models existentes (Question, Alternative, etc.)
+- Schema pgvector existente (question_chunks) deve ser preservado e estendido
+- Novos campos: confidence_score, extraction_method, extraction_errors no schema
+- RTX 3060 (12 GB VRAM) disponível para pymupdf4llm layout AI module (ONNX, sem CUDA obrigatório)
+- Azure DI: R$290 em créditos disponíveis (~5.500 páginas Layout)
+- Golden set como fixture de teste no CI (pytest)
+- Manter compatibilidade com endpoints FastAPI existentes (/api/v1/search/semantic, etc.)
+- Docker Compose existente deve ser estendido (não substituído)
+
+### FR Coverage Map
+
+| Requisito | Epic | Story |
+|-----------|------|-------|
+| FR-EX1 | Epic 5 | 5.1 |
+| FR-EX2 | Epic 5 | 5.2 |
+| FR-EX6 | Epic 5 | 5.2 |
+| FR-EX8 | Epic 5 | 5.1 |
+| FR-EX10 | Epic 5 | 5.3 |
+| FR-EX3 | Epic 6 | 6.1 |
+| FR-EX4 | Epic 6 | 6.2 |
+| FR-EX7 | Epic 6 | 6.1 |
+| FR-EX5 | Epic 7 | 7.1 |
+| FR-EX9 | Epic 7 | 7.2 |
+
+---
+
+## Epic 5: Extração Primária — pymupdf4llm
+
+**Objetivo:** Substituir o extrator pdfplumber+regex pelo pymupdf4llm como camada primária de extração, com confidence scoring e validação Pydantic.
+
+**Arquitetura:** Camada 1 (>80% das questões) — processamento 100% local, R$0.
+
+**Critérios de aceite do epic:**
+- pymupdf4llm extrai questões ENEM com multi-coluna automático e OCR em português
+- Confidence scoring classifica cada questão extraída (≥0.80 = OK, <0.80 = fallback, <0.50 = dead letter)
+- Validação Pydantic garante estrutura correta (5 alternativas A-E, número sequencial, enunciado)
+- Pipeline idempotente via content hash
+
+### Story 5.1: pymupdf4llm Extractor Module
+
+Como desenvolvedor,
+Quero um módulo `pymupdf4llm_extractor.py` que substitua o pdfplumber como extrator primário,
+Para extrair questões ENEM com multi-coluna automático, OCR em português e associação de imagens.
+
+**Critérios de aceite:**
+- [ ] Usa `pymupdf4llm.to_markdown()` com `page_chunks=True` para extração
+- [ ] Multi-coluna detectado automaticamente via layout AI module (ONNX)
+- [ ] OCR ativado via `force_ocr=True, ocr_language="por"` para páginas escaneadas
+- [ ] Header/footer removidos via `header=False, footer=False`
+- [ ] Associação imagem-questão via bounding box overlap
+- [ ] Compatível com SQLAlchemy models existentes (Question, Alternative)
+- [ ] Testes unitários com PDFs de referência (pelo menos 3 tipos: texto puro, multi-coluna, com imagens)
+
+### Story 5.2: Confidence Scoring & Validação Pydantic
+
+Como desenvolvedor,
+Quero um sistema de confidence scoring e validação Pydantic para cada questão extraída,
+Para classificar automaticamente a qualidade da extração e direcionar questões para fallback ou dead letter.
+
+**Critérios de aceite:**
+- [ ] Model Pydantic `ENEMQuestion` valida: 5 alternativas (A-E), número sequencial, enunciado mínimo (50 chars)
+- [ ] Confidence score (0.0-1.0) baseado em: presença de 5 alternativas, texto válido, sequência numérica, comprimento
+- [ ] Score ≥ 0.80 → aceita no pipeline
+- [ ] Score < 0.80 e ≥ 0.50 → envia para fallback Azure DI (Epic 6)
+- [ ] Score < 0.50 → dead letter queue (Epic 6)
+- [ ] Campo `confidence_score` e `extraction_method` persistidos no schema
+- [ ] Testes com questões de diferentes qualidades (perfeita, parcial, corrompida)
+
+### Story 5.3: Pipeline Idempotente v2
+
+Como desenvolvedor,
+Quero que o pipeline v2 seja idempotente usando content hash como chave,
+Para que re-ingestões não gerem duplicatas nem reprocessamento desnecessário.
+
+**Critérios de aceite:**
+- [ ] Hash SHA-256 do conteúdo extraído como chave de idempotência
+- [ ] `ON CONFLICT (content_hash)` atualiza apenas metadata (timestamp, confidence_score)
+- [ ] Re-ingestão de PDF já processado completa em <5 segundos (skip path)
+- [ ] Log diferencia: novas, atualizadas, puladas, erros
+- [ ] CLI: `python -m enem_ingestion.pipeline_v2 --input data/downloads/`
+
+---
+
+## Epic 6: Fallback Azure DI + Dead Letter Queue
+
+**Objetivo:** Implementar a camada de fallback com Azure Document Intelligence Layout para questões com baixa confiança, e dead letter queue para revisão manual.
+
+**Arquitetura:**
+- Camada 2 (~15% das questões) — Azure DI Layout, ~R$50 dos créditos
+- Camada 3 (<2% das questões) — Dead letter, revisão manual
+
+**Critérios de aceite do epic:**
+- Azure DI Layout processa questões com confidence < 0.80 do pymupdf4llm
+- Fórmulas matemáticas extraídas como LaTeX via formula add-on
+- Dead letter queue persiste questões irrecuperáveis para revisão manual
+- Custo Azure controlado (< R$50 por execução completa)
+
+### Story 6.1: Azure DI Layout Fallback
+
+Como desenvolvedor,
+Quero um módulo de fallback que use Azure Document Intelligence Layout para reprocessar questões com baixa confiança,
+Para recuperar questões que o pymupdf4llm não extraiu corretamente.
+
+**Critérios de aceite:**
+- [ ] Usa `DocumentIntelligenceClient` com `begin_analyze_document("prebuilt-layout")`
+- [ ] Ativado automaticamente para questões com confidence < 0.80
+- [ ] Add-on `DocumentAnalysisFeature.FORMULAS` ativado para extrair LaTeX
+- [ ] Output em `ContentFormat.MARKDOWN` para compatibilidade com parser existente
+- [ ] Re-scoring após extração Azure DI para validar melhoria de qualidade
+- [ ] Controle de custo: tracking de páginas processadas vs budget R$50
+- [ ] Testes com mock do Azure DI SDK (sem chamadas reais no CI)
+
+### Story 6.2: Dead Letter Queue
+
+Como desenvolvedor,
+Quero uma dead letter queue para questões com confidence < 0.50 após todas as tentativas de extração,
+Para que questões irrecuperáveis automaticamente sejam encaminhadas para revisão manual.
+
+**Critérios de aceite:**
+- [ ] Tabela `dead_letter_questions` com: question_ref, raw_content, extraction_errors, confidence_score, created_at
+- [ ] Questões com confidence < 0.50 (ambas camadas) inseridas automaticamente
+- [ ] Inclui diagnóstico: qual camada falhou, razão da baixa confiança, raw text extraído
+- [ ] Endpoint GET `/api/v1/admin/dead-letter` para listar e gerenciar (paginated)
+- [ ] Endpoint PATCH `/api/v1/admin/dead-letter/{id}` para marcar como resolvida manualmente
+- [ ] Testes unitários cobrem: inserção, listagem, resolução, re-ingestão após correção
+
+---
+
+## Epic 7: Golden Set & Hybrid Search
+
+**Objetivo:** Criar benchmark de qualidade (golden set) e implementar hybrid search com Reciprocal Rank Fusion para melhorar a relevância da busca semântica.
+
+**Critérios de aceite do epic:**
+- Golden set de 50 questões verificadas manualmente como fixture de teste
+- Pipeline v2 atinge acurácia > 98% contra golden set
+- Hybrid search (pgvector + tsvector) melhora recall em queries em português
+
+### Story 7.1: Golden Set de Benchmark
+
+Como desenvolvedor,
+Quero um golden set de 50 questões ENEM verificadas manualmente,
+Para servir como benchmark de acurácia do pipeline de extração.
+
+**Critérios de aceite:**
+- [ ] 50 questões selecionadas: 10 por área (Linguagens, Humanas, Natureza, Matemática, Redação-suporte)
+- [ ] Cada questão inclui: texto-base (se presente), enunciado, 5 alternativas, gabarito, metadados
+- [ ] Formato JSON como fixture pytest (`tests/fixtures/golden_set.json`)
+- [ ] Script de validação compara output do pipeline vs golden set
+- [ ] Métricas: acurácia, CER (Character Error Rate), completude de alternativas
+- [ ] CI executa validação contra golden set em cada PR
+
+### Story 7.2: Hybrid Search — pgvector + tsvector com RRF
+
+Como desenvolvedor,
+Quero implementar hybrid search combinando busca vetorial (pgvector) com busca textual (tsvector) usando Reciprocal Rank Fusion,
+Para melhorar a relevância de busca em queries em português.
+
+**Critérios de aceite:**
+- [ ] Coluna `tsv_content tsvector` adicionada a `question_chunks` com config `portuguese`
+- [ ] Busca textual usando `ts_query` com stemming em português
+- [ ] Reciprocal Rank Fusion (RRF) combina rankings: `1/(k+rank_vector) + 1/(k+rank_text)` com k=60
+- [ ] Parâmetro `search_mode` no endpoint: `semantic`, `text`, `hybrid` (default: `hybrid`)
+- [ ] Benchmark: hybrid search melhora recall@10 em ≥5% vs busca vetorial pura
+- [ ] Índice GIN em `tsv_content` para performance de busca textual
+- [ ] Testes com queries em português (acentuação, sinônimos, termos técnicos)

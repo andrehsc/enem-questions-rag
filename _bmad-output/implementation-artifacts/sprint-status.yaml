@@ -67,3 +67,22 @@ development_status:
   4-1-assessment-generator-feature-2: done
   4-2-question-generator-rag-feature-3: done
   epic-4-retrospective: optional
+
+  # ─── Epic 5: Extração Primária — pymupdf4llm ───
+  epic-5: backlog
+  5-1-pymupdf4llm-extractor-module: backlog
+  5-2-confidence-scoring-validacao-pydantic: backlog
+  5-3-pipeline-idempotente-v2: backlog
+  epic-5-retrospective: optional
+
+  # ─── Epic 6: Fallback Azure DI + Dead Letter Queue ───
+  epic-6: backlog
+  6-1-azure-di-layout-fallback: backlog
+  6-2-dead-letter-queue: backlog
+  epic-6-retrospective: optional
+
+  # ─── Epic 7: Golden Set & Hybrid Search ───
+  epic-7: backlog
+  7-1-golden-set-de-benchmark: backlog
+  7-2-hybrid-search-pgvector-tsvector-rrf: backlog
+  epic-7-retrospective: optional
