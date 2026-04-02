@@ -1,76 +1,102 @@
-# ENEM Questions RAG System ���
+# ENEM Questions RAG System
 
-Sistema RAG (Retrieval-Augmented Generation) completo para questões do ENEM 2020-2024 com extração e processamento de imagens.
+Sistema RAG (Retrieval-Augmented Generation) completo para questões do ENEM 2020-2024 com extração e processamento de imagens, integrado à plataforma educacional TeachersHub.
 
-## ��� Status do Sistema
+## Status do Sistema
 
-✅ **Sistema Totalmente Funcional**
+**Sistema Totalmente Funcional**
 - 108 PDFs ENEM processados (2020-2024)
 - 54 exames | 2.532 questões | 12.660 alternativas | 4.856 gabaritos | 1.417 imagens
 - Performance otimizada: 8 workers paralelos, batch size 12
 - Sistema completo de backups e restauração
 
-## ���️ Arquitetura
+## Roadmap RAG Pipeline
+
+| Épico | Descrição | Status |
+|-------|-----------|--------|
+| Épico 1 | Fundação Vetorial — pgvector + Chunk Builder | Concluído |
+| Épico 2 | Pipeline de Embeddings — Geração e Ingestão | Concluído |
+| Épico 3 | Busca Semântica — Feature 1 | Draft |
+| Épico 4 | Geração com RAG — Features 2 e 3 | Draft |
+
+> **Arquitetura:** [`_bmad-output/planning-artifacts/architecture.md`](_bmad-output/planning-artifacts/architecture.md)
+> **Epics & Stories:** [`_bmad-output/planning-artifacts/epics.md`](_bmad-output/planning-artifacts/epics.md)
+> **Implementation Artifacts:** [`_bmad-output/implementation-artifacts/`](_bmad-output/implementation-artifacts/)
+
+## Arquitetura
 
 ```
 enem-questions-rag/
-├── src/enem_ingestion/          # Core do sistema de ingestão
-│   ├── database_integration.py  # Conexão e operações com PostgreSQL
+├── teachershub-integration/     # Codigo .NET integracao TeachersHub
+│   ├── TeachersHub.ENEM.Api/    # Controllers e middleware
+│   ├── TeachersHub.ENEM.Core/   # Business logic
+│   └── TeachersHub.ENEM.Data/   # Data access layer
+├── python-ml-services/          # Microsservicos Python ML/RAG
+│   ├── rag-service/             # RAG e analise semantica (Epic 3)
+│   ├── semantic-search/         # Busca inteligente
+│   └── content-generation/      # Suporte IA generativa
+├── src/enem_ingestion/          # Core do sistema de ingestao
+│   ├── database_integration.py  # Conexao e operacoes com PostgreSQL
 │   ├── pdf_processor.py         # Processamento de PDFs
-│   ├── content_extractor.py     # Extração de questões e alternativas
-│   └── image_extractor.py       # Extração e processamento de imagens
-├── scripts/                     # Scripts de execução
-│   ├── full_ingestion_report.py # Ingestão completa com relatórios
-│   └── test_*.py               # Scripts de teste e validação
+│   ├── content_extractor.py     # Extracao de questoes e alternativas
+│   └── image_extractor.py       # Extracao e processamento de imagens
+├── scripts/                     # Scripts de execucao
+│   ├── full_ingestion_report.py # Ingestao completa com relatorios
+│   └── test_*.py               # Scripts de teste e validacao
 ├── data/
 │   ├── downloads/              # PDFs ENEM organizados por ano
-│   └── extracted_images/       # Imagens extraídas (ignorado no git)
+│   └── extracted_images/       # Imagens extraidas (ignorado no git)
+├── shared/                      # Recursos compartilhados
+│   ├── docker/                  # Dockerfiles
+│   ├── database/                # Scripts SQL
+│   └── monitoring/              # Configs observabilidade
 ├── backups/                    # Backups completos do sistema
-└── docker-compose.yml          # PostgreSQL containerizado
+├── docs/                        # Documentacao tecnica e stories
+└── docker-compose.yml          # PostgreSQL + servicos containerizados
 ```
 
-## ��� Quick Start
+## Quick Start
 
-### 1. Configuração do Ambiente
+### 1. Configuracao do Ambiente
 
 ```bash
-# Clone o repositório
+# Clone o repositorio
 git clone https://github.com/andrehsc/enem-questions-rag.git
 cd enem-questions-rag
 
-# Instale dependências
+# Instale dependencias Python
 pip install -r requirements.txt
 
-# Inicie o PostgreSQL
+# Inicie os servicos
 docker-compose up -d
 ```
 
-### 2. Execute a Ingestão Completa
+### 2. Execute a Ingestao Completa
 
 ```bash
-# Processamento completo com relatórios
+# Processamento completo com relatorios
 python scripts/full_ingestion_report.py
 ```
 
 ### 3. Verifique os Resultados
 
 ```bash
-# Teste a extração de imagens
+# Teste a extracao de imagens
 python scripts/test_image_extraction.py
 
-# Validação completa do sistema
+# Validacao completa do sistema
 python scripts/test_complete_ingestion.py
 ```
 
-## ��� Performance e Otimizações
+## Performance e Otimizacoes
 
-- **Processamento Paralelo**: 8 workers simultâneos
-- **Batch Processing**: Lotes de 12 itens para operações em massa
-- **Deduplicação**: Hash MD5 para evitar imagens duplicadas
-- **Conversão de Cores**: CMYK → RGB automática para compatibilidade
-- **Coordenadas**: Ordenação por posição Y para sequência correta
+- **Processamento Paralelo**: 8 workers simultaneos
+- **Batch Processing**: Lotes de 12 itens para operacoes em massa
+- **Deduplicacao**: Hash MD5 para evitar imagens duplicadas
+- **Conversao de Cores**: CMYK → RGB automatica para compatibilidade
+- **Coordenadas**: Ordenacao por posicao Y para sequencia correta
 
-## ���️ Schema do Banco de Dados
+## Schema do Banco de Dados
 
 ```sql
 -- Schema: enem_questions
@@ -115,28 +141,28 @@ CREATE TABLE question_images (
 );
 ```
 
-## ��� Sistema de Backups
+## Sistema de Backups
 
 ### Backup Completo
 ```bash
 # Dentro do container
 docker-compose exec postgres pg_dump -U postgres -d enem_questions > backup_complete.sql
 
-# Restauração
+# Restauracao
 docker-compose exec -T postgres psql -U postgres -d enem_questions < backup_complete.sql
 ```
 
-### Backups Disponíveis
+### Backups Disponiveis
 - `backups/2025-01-11/enem_questions_complete_backup.sql` (146MB)
 - `backups/2025-01-11/enem_questions_schema_only.sql` (9.1KB)
 - Script automatizado: `backups/2025-01-11/restore_backup.sh`
 
-## ���️ Processamento de Imagens
+## Processamento de Imagens
 
-O sistema extrai imagens automaticamente durante a ingestão:
+O sistema extrai imagens automaticamente durante a ingestao:
 
 ```python
-# Configuração da extração
+# Configuracao da extracao
 image_extractor = ImageExtractor(
     output_dir="data/extracted_images",
     database_config={
@@ -148,80 +174,88 @@ image_extractor = ImageExtractor(
     }
 )
 
-# Extração com conversão CMYK→RGB
+# Extracao com conversao CMYK->RGB
 images = image_extractor.extract_images_from_pdf(pdf_path, exam_id)
 ```
 
-## ��� Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
-- **Python 3.8+**: Linguagem principal
+- **Python 3.8+**: Linguagem principal pipeline de ingestao
 - **PostgreSQL 16**: Banco de dados principal
-- **Docker & Docker Compose**: Containerização
+- **Docker & Docker Compose**: Containerizacao
 - **PyMuPDF (fitz)**: Processamento de PDFs
 - **Pillow (PIL)**: Processamento de imagens
 - **ThreadPoolExecutor**: Processamento paralelo
-- **Regex**: Extração de padrões de texto
+- **FastAPI**: Framework API para microsservicos Python
+- **sentence-transformers**: Embeddings semanticos (Epic 3)
+- **pgvector**: Extensao PostgreSQL para busca vetorial semantica (Epic 3)
+- **Redis**: Cache de embeddings e performance
+- **.NET 8 / ASP.NET Core**: Backend TeachersHub Integration
+- **React/TypeScript**: Frontend TeachersHub
+- **Semantic Kernel**: Integracao IA generativa .NET (Epic 4)
 
-## ��� Casos de Uso
+## Casos de Uso
 
-1. **Análise de Questões**: Consultas SQL complexas sobre padrões das questões
-2. **Sistema RAG**: Base de conhecimento para LLMs
-3. **Análise de Imagens**: Processamento de gráficos e diagramas
-4. **Estudos Estatísticos**: Análise longitudinal das provas ENEM
-5. **Aplicações Educacionais**: Sistemas de ensino adaptativos
+1. **Analise de Questoes**: Consultas SQL complexas sobre padroes das questoes
+2. **Sistema RAG**: Base de conhecimento para LLMs com busca semantica
+3. **Analise de Imagens**: Processamento de graficos e diagramas
+4. **Estudos Estatisticos**: Analise longitudinal das provas ENEM
+5. **Aplicacoes Educacionais**: Sistemas de ensino adaptativos com TeachersHub
 
-## ��� Estatísticas Detalhadas
+## Estatisticas Detalhadas
 
-| Métrica | Valor |
+| Metrica | Valor |
 |---------|-------|
 | **Anos Cobertos** | 2020-2024 |
 | **Total de Arquivos** | 108 PDFs |
 | **Provas Processadas** | 54 exames |
-| **Questões Extraídas** | 2.532 questões |
-| **Alternativas** | 12.660 opções |
+| **Questoes Extraidas** | 2.532 questoes |
+| **Alternativas** | 12.660 opcoes |
 | **Gabaritos** | 4.856 respostas |
 | **Imagens Processadas** | 1.417 imagens |
 | **Tamanho do Backup** | 146MB |
 
-## ��� Contribuição
+## Contribuicao
 
 1. Fork o projeto
 2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+3. Commit suas mudancas (`git commit -m 'Add some AmazingFeature'`)
 4. Push para a branch (`git push origin feature/AmazingFeature`)
 5. Abra um Pull Request
 
-## ��� Licença
+## Licenca
 
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+Este projeto esta sob a licenca MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
-## ��� Links Úteis
+## Links Uteis
 
 - [INEP - Instituto Nacional de Estudos e Pesquisas Educacionais](https://www.gov.br/inep/pt-br)
 - [Provas e Gabaritos ENEM](https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos)
 - [PostgreSQL Documentation](https://www.postgresql.org/docs/)
 - [PyMuPDF Documentation](https://pymupdf.readthedocs.io/)
 
-## 🧙 **BMad Guide: Developer Agents**
+---
 
-### 🎯 **Regras Mandatórias para Agentes**
+## BMad Guide: Developer Agents
 
-> 📖 **Guia Completo**: [`.github/CONTRIBUTING.md`](.github/CONTRIBUTING.md)  
-> ⚡ **Quick Reference**: [`docs/development/QUICK_REFERENCE.md`](docs/development/QUICK_REFERENCE.md)
+### Regras Mandatorias para Agentes
 
-| 🚫 **Nunca Fazer** | ✅ **Sempre Fazer** |
+> **Guia Completo**: [`.github/CONTRIBUTING.md`](.github/CONTRIBUTING.md)
+> **Quick Reference**: [`docs/development/QUICK_REFERENCE.md`](docs/development/QUICK_REFERENCE.md)
+
+| Nunca Fazer | Sempre Fazer |
 |---------------------|----------------------|
 | `cat > arquivo.py` | `replace_string_in_file` |
 | Apps fora do Docker | `docker exec -it container` |
 | Criar sem investigar | `list_dir, grep_search, semantic_search` |
 
-### 🔧 **Core Principles**
+### Core Principles
 
-1. **🛡️ Encoding Seguro**: Headers UTF-8 obrigatórios em Python
-2. **🔄 Reuso Prioritário**: Investigar antes de criar qualquer código
-3. **🐳 Docker First**: Containers para todos os testes e validações
+1. **Encoding Seguro**: Headers UTF-8 obrigatorios em Python
+2. **Reuso Prioritario**: Investigar antes de criar qualquer codigo
+3. **Docker First**: Containers para todos os testes e validacoes
 
-### 🏗️ **Ambiente de Desenvolvimento**
+### Ambiente de Desenvolvimento
 
 ```bash
 # Verificar containers ativos
@@ -233,38 +267,38 @@ docker-compose up -d
 # Conectar ao PostgreSQL
 docker exec -it teachershub-enem-postgres psql -U enem_rag_service -d teachershub_enem
 
-# Logs dos serviços
+# Logs dos servicos
 docker logs teachershub-enem-postgres
 ```
 
-### 📚 **Estrutura do Código**
+### Estrutura do Codigo
 
 ```
 src/enem_ingestion/
-├── parser.py              # Parser otimizado com 4 estratégias
-├── db_integration_final.py # Integração com banco melhorada
-└── text_normalizer.py     # Normalização de texto
+├── parser.py              # Parser otimizado com 4 estrategias
+├── db_integration_final.py # Integracao com banco melhorada
+└── text_normalizer.py     # Normalizacao de texto
 
 tests/
 ├── test_parser.py         # Testes do parser
-├── test_text_normalizer.py # Testes de normalização
+├── test_text_normalizer.py # Testes de normalizacao
 └── test_*.py             # Suites especializadas
 ```
 
-### 🚀 **Scripts Utilitários**
+### Scripts Utilitarios
 
 ```bash
 # Reprocessar dados 2024
 python reprocess_2024_data.py
 
-# Análise de qualidade
+# Analise de qualidade
 python analyze_2024_quality.py
 
-# Testes específicos
+# Testes especificos
 python test_parser_2024.py
 python test_day2_parser.py
 ```
 
 ---
 
-**Desenvolvido com ❤️ para a comunidade educacional brasileira**
+**Desenvolvido com dedicacao para a comunidade educacional brasileira**
