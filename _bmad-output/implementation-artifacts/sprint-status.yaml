@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-02
-last_updated: 2026-04-02T08:00:00
+last_updated: 2026-04-02T18:00:00
 project: enem-questions-rag
 project_key: NOKEY
 tracking_system: file-system
@@ -43,27 +43,27 @@ story_location: _bmad-output/implementation-artifacts
 
 development_status:
   # ─── Epic 1: Fundação Vetorial — pgvector + Chunk Builder ───
-  epic-1: in-progress
+  epic-1: done
   1-1-migration-pgvector-e-schema-vetorial: done
   1-2-chunk-builder-estrategia-hibrida: done
-  1-3-testes-de-integracao-do-schema: review
+  1-3-testes-de-integracao-do-schema: done
   epic-1-retrospective: optional
 
   # ─── Epic 2: Pipeline de Embeddings — Geração e Ingestão ───
-  epic-2: in-progress
-  2-1-embedding-generator-com-cache-redis: review
-  2-2-pgvector-writer-persistencia-de-embeddings: review
-  2-3-ingestion-pipeline-orquestrador: review
+  epic-2: done
+  2-1-embedding-generator-com-cache-redis: done
+  2-2-pgvector-writer-persistencia-de-embeddings: done
+  2-3-ingestion-pipeline-orquestrador: done
   epic-2-retrospective: optional
 
   # ─── Epic 3: Busca Semântica — Feature 1 ───
-  epic-3: backlog
-  3-1-atualizar-semantic-search-para-pgvector: backlog
-  3-2-endpoint-post-api-v1-search-semantic: backlog
+  epic-3: done
+  3-1-atualizar-semantic-search-para-pgvector: done
+  3-2-endpoint-post-api-v1-search-semantic: done
   epic-3-retrospective: optional
 
   # ─── Epic 4: Geração com RAG — Features 2 e 3 ───
-  epic-4: backlog
-  4-1-assessment-generator-feature-2: backlog
-  4-2-question-generator-rag-feature-3: backlog
+  epic-4: done
+  4-1-assessment-generator-feature-2: done
+  4-2-question-generator-rag-feature-3: done
   epic-4-retrospective: optional

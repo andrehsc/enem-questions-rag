@@ -9,7 +9,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Annotated
 import psycopg2
 import psycopg2.extras
 import json
@@ -17,7 +17,10 @@ import os
 import sys
 import asyncio
 import time
+import logging
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 # Adicionar src ao path para imports
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
@@ -29,6 +32,27 @@ try:
 except ImportError as e:
     print(f"RAG não disponível: {e}")
     RAG_AVAILABLE = False
+
+# PgVectorSearch (Story 3.1/3.2)
+try:
+    from rag_features.semantic_search import PgVectorSearch
+    PGVECTOR_AVAILABLE = True
+except ImportError:
+    PGVECTOR_AVAILABLE = False
+
+# AssessmentGenerator (Story 4.1)
+try:
+    from rag_features.assessment_generator import AssessmentGenerator, InsufficientQuestionsError
+    ASSESSMENT_AVAILABLE = True
+except ImportError:
+    ASSESSMENT_AVAILABLE = False
+
+# RAGQuestionGenerator (Story 4.2)
+try:
+    from rag_features.question_generator import RAGQuestionGenerator
+    RAG_QUESTION_GENERATOR_AVAILABLE = True
+except ImportError:
+    RAG_QUESTION_GENERATOR_AVAILABLE = False
 
 # Modelos Pydantic para documentação Swagger
 class HealthResponse(BaseModel):
@@ -91,6 +115,80 @@ class MLResponse(BaseModel):
     message: str = Field(..., description="Mensagem de status")
     data: Dict[str, Any] = Field(..., description="Dados enviados")
     status: str = Field(..., description="Status da operação")
+
+# Modelos Semantic Search (Story 3.2)
+class SemanticSearchRequest(BaseModel):
+    query: str = Field(..., description="Texto para busca semântica", min_length=1, max_length=500, json_schema_extra={"examples": ["questões sobre fotossíntese"]})
+    subject: Optional[str] = Field(None, description="Filtrar por matéria (ex: ciencias_natureza)")
+    year: Optional[int] = Field(None, description="Filtrar por ano do exame", ge=2020, le=2030)
+    limit: int = Field(10, description="Máximo de resultados (1–50)", ge=1, le=50)
+    include_answer: bool = Field(False, description="Incluir gabarito na resposta")
+
+class SemanticSearchResult(BaseModel):
+    question_id: int = Field(..., description="ID da questão")
+    full_text: str = Field(..., description="Enunciado + alternativas")
+    subject: str = Field("", description="Matéria da questão")
+    year: Optional[int] = Field(None, description="Ano do exame")
+    similarity_score: float = Field(..., description="Score de similaridade (0–1)")
+    images: List[str] = Field(default_factory=list, description="Paths de imagens")
+    correct_answer: Optional[str] = Field(None, description="Gabarito (se include_answer=true)")
+
+class SemanticSearchResponse(BaseModel):
+    data: List[SemanticSearchResult] = Field(..., description="Resultados da busca")
+    meta: Dict[str, Any] = Field(..., description="Metadados da resposta")
+    error: Optional[Any] = Field(None, description="Erro (null se sucesso)")
+
+# Modelos Assessment Generator (Story 4.1)
+class AssessmentGenerateRequest(BaseModel):
+    subject: str = Field(..., description="Disciplina das questoes (ex: matematica, ciencias_natureza)")
+    difficulty: str = Field(
+        "mixed",
+        description="Nivel de dificuldade: easy, medium, hard ou mixed",
+        pattern="^(easy|medium|hard|mixed)$",
+    )
+    question_count: int = Field(10, ge=1, le=50, description="Quantidade de questoes na avaliacao")
+    years: Optional[List[Annotated[int, Field(ge=2020, le=2030)]]] = Field(None, description="Lista de anos para filtrar (ex: [2020, 2021, 2022])")
+
+class AssessmentQuestion(BaseModel):
+    question_order: int
+    question_id: int
+    full_text: str
+    subject: str
+    year: Optional[int] = None
+    images: List[str] = []
+
+class AssessmentData(BaseModel):
+    assessment_id: str
+    title: str
+    questions: List[AssessmentQuestion]
+    answer_key: Dict[int, str]
+
+class AssessmentGenerateResponse(BaseModel):
+    data: Optional[AssessmentData] = None
+    meta: Dict[str, Any] = {}
+    error: Optional[Dict[str, Any]] = None
+
+# Modelos Question Generator RAG (Story 4.2)
+class QuestionGenerateRequest(BaseModel):
+    subject: str = Field(..., min_length=1, description="Materia (ex: historia, matematica)")
+    topic: str = Field(..., min_length=1, description="Topico especifico (ex: Segunda Guerra Mundial)")
+    difficulty: str = Field("medium", pattern="^(easy|medium|hard)$", description="Nivel de dificuldade")
+    count: int = Field(1, ge=1, le=5, description="Numero de questoes a gerar (max 5)")
+    style: str = Field("enem", description="Estilo da questao (default: enem)")
+
+class GeneratedQuestion(BaseModel):
+    id: Optional[str] = Field(None, description="UUID da questao gerada")
+    stem: str = Field(..., description="Enunciado da questao")
+    context_text: Optional[str] = Field(None, description="Texto-base (quando aplicavel)")
+    alternatives: Dict[str, str] = Field(..., description="Alternativas A-E")
+    answer: str = Field(..., description="Letra da alternativa correta")
+    explanation: str = Field(..., description="Explicacao da resposta correta")
+    source_context_ids: List[str] = Field(default_factory=list, description="IDs dos chunks usados como contexto RAG")
+
+class QuestionGenerateResponse(BaseModel):
+    data: List[GeneratedQuestion] = []
+    meta: Dict[str, Any] = {}
+    error: Optional[Any] = None
 
 # Modelos RAG
 class RAGSearchQuery(BaseModel):
@@ -311,20 +409,76 @@ app.add_middleware(
 # Instância global do RAG
 rag_system = None
 
+# Instância global do PgVectorSearch (Story 3.2)
+pgvector_search = None
+
+# Instância global do AssessmentGenerator (Story 4.1)
+assessment_generator = None
+
+# Instância global do RAGQuestionGenerator (Story 4.2)
+rag_question_generator = None
+
 @app.on_event("startup")
 async def initialize_rag():
     """Inicializa o sistema RAG na inicialização da aplicação"""
-    global rag_system
+    global rag_system, pgvector_search, assessment_generator, rag_question_generator
     if RAG_AVAILABLE:
         try:
             rag_system = EnhancedEnemRAG()
             await rag_system.initialize()
-            print("✅ Sistema RAG inicializado com sucesso")
+            print("Sistema RAG inicializado com sucesso")
         except Exception as e:
-            print(f"❌ Erro ao inicializar RAG: {e}")
+            print(f"Erro ao inicializar RAG: {e}")
             rag_system = None
     else:
-        print("⚠️ RAG não disponível - dependências não instaladas")
+        print("RAG não disponível - dependências não instaladas")
+
+    # PgVectorSearch
+    if PGVECTOR_AVAILABLE:
+        try:
+            pgvector_search = PgVectorSearch(
+                database_url=os.getenv(
+                    "DATABASE_URL",
+                    "postgresql://postgres:postgres123@localhost:5433/teachershub_enem",
+                ),
+                openai_api_key=os.getenv("OPENAI_API_KEY", ""),
+                redis_url=os.getenv("REDIS_URL", "redis://localhost:6380/1"),
+            )
+            print("PgVectorSearch inicializado com sucesso")
+        except Exception as e:
+            print(f"PgVectorSearch indisponível: {e}")
+            pgvector_search = None
+
+    # AssessmentGenerator (Story 4.1)
+    if ASSESSMENT_AVAILABLE and pgvector_search is not None:
+        try:
+            assessment_generator = AssessmentGenerator(
+                database_url=os.getenv(
+                    "DATABASE_URL",
+                    "postgresql://postgres:postgres123@localhost:5433/teachershub_enem",
+                ),
+                pgvector_search=pgvector_search,
+            )
+            print("AssessmentGenerator inicializado com sucesso")
+        except Exception as e:
+            print(f"AssessmentGenerator indisponível: {e}")
+            assessment_generator = None
+
+    # RAGQuestionGenerator (Story 4.2)
+    if RAG_QUESTION_GENERATOR_AVAILABLE and pgvector_search is not None:
+        try:
+            rag_question_generator = RAGQuestionGenerator(
+                database_url=os.getenv(
+                    "DATABASE_URL",
+                    "postgresql://postgres:postgres123@localhost:5433/teachershub_enem",
+                ),
+                openai_api_key=os.getenv("OPENAI_API_KEY", ""),
+                pgvector_search=pgvector_search,
+            )
+            print("RAGQuestionGenerator inicializado com sucesso")
+        except Exception as e:
+            print(f"RAGQuestionGenerator indisponível: {e}")
+            rag_question_generator = None
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
@@ -910,35 +1064,230 @@ async def rag_search_advanced(query: RAGSearchQuery):
 @app.post("/ml/predict", response_model=MLResponse, tags=["IA & Machine Learning"], summary="Predição com Machine Learning")
 async def ml_predict(data: MLData):
     """
-    ### 🧠 Predição e Análise com Machine Learning
-    
-    Sistema de análise preditiva para questões do ENEM usando algoritmos de ML.
-    
-    **🎯 Funcionalidades Disponíveis:**
-    - Predição de dificuldade de questões
-    - Classificação automática por matéria
-    - Análise de complexidade textual
-    - Sugestão de gabarito
-    
-    **📝 Exemplo de Uso:**
-    ```json
-    {
-        "question_text": "Qual é a capital do Brasil e quantos habitantes tem?"
-    }
-    ```
-    
-    **📊 Modelos Disponíveis:**
-    - Random Forest para dificuldade
-    - SVM para classificação de matérias
-    - TF-IDF para análise textual
-    
-    **⚠️ Status Atual:** Endpoint implementado, funcionalidade completa requer dependências ML adicionais.
+    ### Predição e Análise com Machine Learning
     """
     return MLResponse(
         message="Endpoint ML implementado com sucesso",
         data={"question_text": data.question_text, "analysis": "pending"},
-        status="✅ Funcional - Para recursos avançados, instale dependências ML completas"
+        status="Funcional - Para recursos avançados, instale dependências ML completas"
     )
+
+
+# ── Story 3.2: Busca Semântica via pgvector ──────────────────────────────────
+
+@app.post(
+    "/api/v1/search/semantic",
+    response_model=SemanticSearchResponse,
+    tags=["RAG"],
+    summary="Busca semântica de questões ENEM",
+    description="Retorna questões semanticamente similares à query usando pgvector.",
+)
+async def search_semantic(request: SemanticSearchRequest):
+    """Endpoint de busca semântica usando PgVectorSearch (pgvector)."""
+    if pgvector_search is None:
+        return JSONResponse(
+            status_code=503,
+            content={
+                "data": None,
+                "meta": {},
+                "error": {"code": "SEARCH_UNAVAILABLE", "message": "Serviço de busca semântica indisponível"},
+            },
+        )
+    try:
+        raw_results = await pgvector_search.search_questions(
+            query=request.query,
+            limit=request.limit,
+            year=request.year,
+            subject=request.subject,
+        )
+        results = []
+        for r in raw_results:
+            item = SemanticSearchResult(
+                question_id=r["question_id"],
+                full_text=r["full_text"],
+                subject=r.get("subject", ""),
+                year=r.get("year"),
+                similarity_score=round(r["similarity_score"], 4),
+            )
+            if request.include_answer:
+                item.correct_answer = _get_correct_answer(r["question_id"])
+            results.append(item)
+
+        return SemanticSearchResponse(
+            data=results,
+            meta={
+                "total": len(results),
+                "query": request.query,
+                "filters": {"subject": request.subject, "year": request.year},
+            },
+        )
+    except Exception as e:
+        return JSONResponse(
+            status_code=503,
+            content={
+                "data": None,
+                "meta": {},
+                "error": {"code": "SEARCH_UNAVAILABLE", "message": str(e)},
+            },
+        )
+
+
+def _get_correct_answer(question_id: int) -> Optional[str]:
+    """Busca gabarito para uma questão via answer_keys."""
+    conn = None
+    cursor = None
+    try:
+        conn = psycopg2.connect(**DATABASE_CONFIG)
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT ak.correct_answer
+            FROM enem_questions.answer_keys ak
+            JOIN enem_questions.exam_metadata em ON em.id = ak.exam_id
+            JOIN enem_questions.questions q ON q.exam_metadata_id = em.id
+                AND q.question_number = ak.question_number
+            WHERE q.id = %s
+            LIMIT 1
+        """, (question_id,))
+        row = cursor.fetchone()
+        return row[0] if row else None
+    except Exception:
+        return None
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+
+# ── Story 4.1: Assessment Generator ──────────────────────────────────────────
+
+@app.post(
+    "/api/v1/assessments/generate",
+    response_model=AssessmentGenerateResponse,
+    tags=["Assessments"],
+    summary="Gerar avaliacao de treino com questoes ENEM",
+    description="Seleciona questoes reais do ENEM por materia e dificuldade, "
+                "monta avaliacao com gabarito e persiste para referencia futura.",
+)
+async def generate_assessment(request: AssessmentGenerateRequest):
+    """Endpoint para gerar avaliacoes com questoes ENEM."""
+    if assessment_generator is None:
+        return JSONResponse(
+            status_code=503,
+            content={
+                "data": None,
+                "meta": {},
+                "error": {
+                    "code": "ASSESSMENT_UNAVAILABLE",
+                    "message": "Servico de geracao de avaliacoes indisponivel",
+                },
+            },
+        )
+    try:
+        result = await assessment_generator.generate(
+            subject=request.subject,
+            difficulty=request.difficulty,
+            question_count=request.question_count,
+            years=request.years,
+        )
+        questions_out = []
+        for order, q in enumerate(result["questions"], start=1):
+            questions_out.append(AssessmentQuestion(
+                question_order=order,
+                question_id=q["question_id"],
+                full_text=q.get("full_text", ""),
+                subject=q.get("subject", request.subject),
+                year=q.get("year"),
+                images=q.get("images", []),
+            ))
+        return AssessmentGenerateResponse(
+            data=AssessmentData(
+                assessment_id=result["assessment_id"],
+                title=result["title"],
+                questions=questions_out,
+                answer_key=result["answer_key"],
+            ),
+            meta={
+                "total_questions": len(questions_out),
+                "subject": request.subject,
+                "difficulty": request.difficulty,
+                "years": request.years,
+                "answers_missing": result.get("answers_missing", []),
+            },
+        )
+    except InsufficientQuestionsError as e:
+        return JSONResponse(
+            status_code=400,
+            content={
+                "data": None,
+                "meta": {},
+                "error": {"code": "INSUFFICIENT_QUESTIONS", "message": str(e)},
+            },
+        )
+    except Exception as e:
+        return JSONResponse(
+            status_code=503,
+            content={
+                "data": None,
+                "meta": {},
+                "error": {"code": "ASSESSMENT_UNAVAILABLE", "message": str(e)},
+            },
+        )
+
+
+# ── Story 4.2: Question Generator RAG ────────────────────────────────────────
+
+@app.post(
+    "/api/v1/questions/generate",
+    response_model=QuestionGenerateResponse,
+    tags=["RAG"],
+    summary="Gerar questoes ineditas no estilo ENEM",
+    description="Usa RAG com contexto de questoes reais do ENEM para gerar questoes novas via GPT-4o.",
+)
+async def generate_questions(request: QuestionGenerateRequest):
+    """Endpoint para gerar questoes ineditas estilo ENEM via RAG + GPT-4o."""
+    if rag_question_generator is None:
+        return JSONResponse(
+            status_code=503,
+            content={
+                "data": None,
+                "meta": {},
+                "error": {"code": "GENERATION_UNAVAILABLE", "message": "Servico de geracao de questoes indisponivel"},
+            },
+        )
+    try:
+        questions, questions_meta = await rag_question_generator.generate_questions(
+            subject=request.subject,
+            topic=request.topic,
+            difficulty=request.difficulty,
+            count=request.count,
+            style=request.style,
+        )
+        return QuestionGenerateResponse(
+            data=[GeneratedQuestion(**q) for q in questions],
+            meta={
+                "total": len(questions),
+                "requested_count": request.count,
+                "subject": request.subject,
+                "topic": request.topic,
+                "difficulty": request.difficulty,
+                "style": request.style,
+                "model": "gpt-4o",
+                "generated_at": datetime.now().isoformat(),
+                "rag_context_available": questions_meta.get("rag_context_available", True),
+            },
+        )
+    except Exception as e:
+        logger.error(f"Erro na geracao de questoes: {e}")
+        return JSONResponse(
+            status_code=503,
+            content={
+                "data": None,
+                "meta": {},
+                "error": {"code": "GENERATION_UNAVAILABLE", "message": str(e)},
+            },
+        )
+
 
 if __name__ == "__main__":
     import uvicorn
