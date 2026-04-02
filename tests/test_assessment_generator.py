@@ -8,7 +8,7 @@ All mocked: no real DB, OpenAI, or Redis.
 import pytest
 import sys
 import os
-from unittest.mock import AsyncMock, MagicMock, patch, call
+from unittest.mock import AsyncMock, MagicMock, patch
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
@@ -16,17 +16,16 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 from src.rag_features.assessment_generator import (
     AssessmentGenerator,
     InsufficientQuestionsError,
-    DIFFICULTY_DISTRIBUTION,
 )
 
 
-def _make_question(qid, subject="matematica", year=2023, difficulty="medium"):
+def _make_question(qid, subject="matematica", year=2023):
     return {
         "question_id": qid,
         "full_text": f"Questao {qid}",
         "subject": subject,
         "year": year,
-        "difficulty": difficulty,
+        "chunk_id": f"chunk-{qid}",
         "similarity_score": 0.9,
     }
 
@@ -64,7 +63,7 @@ class TestAssessmentGeneratorInit:
 class TestSelectQuestions:
     async def test_calls_pgvector_search_with_subject(self, generator, mock_pgvector):
         mock_pgvector.search_questions.return_value = [_make_question(1)]
-        result = await generator._select_questions("matematica", "medium", 10, None)
+        result = await generator._select_questions("matematica", 10, None)
         mock_pgvector.search_questions.assert_called_once_with(
             query="questoes de matematica",
             limit=10,
@@ -78,7 +77,7 @@ class TestSelectQuestions:
             _make_question(2, year=2023),
             _make_question(3, year=2024),
         ]
-        result = await generator._select_questions("matematica", "medium", 10, [2023, 2024])
+        result = await generator._select_questions("matematica", 10, [2023, 2024])
         assert len(result) == 2
         assert all(q["year"] in [2023, 2024] for q in result)
 
@@ -88,63 +87,59 @@ class TestSelectQuestions:
             _make_question(1),  # dup
             _make_question(2),
         ]
-        result = await generator._select_questions("matematica", "medium", 10, None)
+        result = await generator._select_questions("matematica", 10, None)
         assert len(result) == 2
         ids = [q["question_id"] for q in result]
         assert len(ids) == len(set(ids))
 
     async def test_returns_empty_when_no_matches(self, generator, mock_pgvector):
         mock_pgvector.search_questions.return_value = []
-        result = await generator._select_questions("filosofia", "hard", 10, [2025])
+        result = await generator._select_questions("filosofia", 10, [2025])
         assert result == []
 
-
-class TestDistributeByDifficulty:
-    def test_single_difficulty_returns_first_n(self, generator):
-        candidates = [_make_question(i) for i in range(10)]
-        result = generator._distribute_by_difficulty(candidates, "medium", 5)
-        assert len(result) == 5
-        assert result == candidates[:5]
-
-    def test_mixed_fills_up_to_count(self, generator):
-        candidates = [_make_question(i, difficulty="medium") for i in range(20)]
-        result = generator._distribute_by_difficulty(candidates, "mixed", 10)
-        assert len(result) == 10
-
-    def test_mixed_respects_proportion_when_levels_available(self, generator):
-        candidates = (
-            [_make_question(i, difficulty="easy") for i in range(10)]
-            + [_make_question(i + 10, difficulty="medium") for i in range(10)]
-            + [_make_question(i + 20, difficulty="hard") for i in range(10)]
-        )
-        result = generator._distribute_by_difficulty(candidates, "mixed", 10)
-        assert len(result) == 10
-        # First selections should follow 30/40/30 split (3/4/3)
-        easy_count = sum(1 for q in result if q["difficulty"] == "easy")
-        medium_count = sum(1 for q in result if q["difficulty"] == "medium")
-        hard_count = sum(1 for q in result if q["difficulty"] == "hard")
-        assert easy_count == 3
-        assert medium_count == 4
-        assert hard_count == 3
-
-    def test_returns_at_most_count(self, generator):
-        candidates = [_make_question(i) for i in range(100)]
-        result = generator._distribute_by_difficulty(candidates, "hard", 5)
-        assert len(result) <= 5
+    async def test_fetch_limit_multiplied_when_years_filter(self, generator, mock_pgvector):
+        mock_pgvector.search_questions.return_value = []
+        await generator._select_questions("matematica", 30, [2023, 2024])
+        call_args = mock_pgvector.search_questions.call_args
+        # fetch_limit = 30 * max(len([2023, 2024]), 1) = 30 * 2 = 60
+        assert call_args[1]["limit"] == 60
 
 
-class TestBuildAnswerKey:
-    def test_returns_dict_with_order_and_letter(self, generator):
+class TestBuildAnswerKeyBatch:
+    def test_returns_dict_and_empty_missing_when_all_found(self, generator):
         questions = [_make_question(1), _make_question(2)]
-        with patch.object(generator, "_get_correct_answer", side_effect=["A", "C"]):
-            answer_key = generator._build_answer_key(questions)
+        mock_conn = MagicMock()
+        mock_conn.__enter__ = MagicMock(return_value=mock_conn)
+        mock_conn.__exit__ = MagicMock(return_value=False)
+        mock_result = MagicMock()
+        mock_result.fetchall.return_value = [(1, "A"), (2, "C")]
+        mock_conn.execute.return_value = mock_result
+        generator.engine.connect.return_value = mock_conn
+
+        answer_key, answers_missing = generator._build_answer_key_batch(questions)
+
         assert answer_key == {1: "A", 2: "C"}
+        assert answers_missing == []
 
-    def test_skips_questions_without_answer(self, generator):
+    def test_missing_answers_appear_in_second_list(self, generator):
         questions = [_make_question(1), _make_question(2)]
-        with patch.object(generator, "_get_correct_answer", side_effect=["B", None]):
-            answer_key = generator._build_answer_key(questions)
+        mock_conn = MagicMock()
+        mock_conn.__enter__ = MagicMock(return_value=mock_conn)
+        mock_conn.__exit__ = MagicMock(return_value=False)
+        mock_result = MagicMock()
+        mock_result.fetchall.return_value = [(1, "B")]  # question 2 has no answer
+        mock_conn.execute.return_value = mock_result
+        generator.engine.connect.return_value = mock_conn
+
+        answer_key, answers_missing = generator._build_answer_key_batch(questions)
+
         assert answer_key == {1: "B"}
+        assert answers_missing == [2]
+
+    def test_empty_questions_returns_empty(self, generator):
+        answer_key, answers_missing = generator._build_answer_key_batch([])
+        assert answer_key == {}
+        assert answers_missing == []
 
 
 class TestGenerate:
@@ -152,7 +147,7 @@ class TestGenerate:
         questions = [_make_question(i) for i in range(5)]
         mock_pgvector.search_questions.return_value = questions
 
-        with patch.object(generator, "_get_correct_answer", return_value="A"):
+        with patch.object(generator, "_build_answer_key_batch", return_value=({1: "A", 2: "B", 3: "C", 4: "D", 5: "E"}, [])):
             with patch.object(generator, "_persist_assessment", new_callable=AsyncMock):
                 result = await generator.generate(
                     subject="matematica", difficulty="medium", question_count=5
@@ -161,7 +156,20 @@ class TestGenerate:
         assert "assessment_id" in result
         assert len(result["questions"]) == 5
         assert "answer_key" in result
+        assert "answers_missing" in result
         assert result["title"] == "Avaliacao Matematica — medium"
+
+    async def test_returns_answers_missing_in_result(self, generator, mock_pgvector):
+        questions = [_make_question(i) for i in range(3)]
+        mock_pgvector.search_questions.return_value = questions
+
+        with patch.object(generator, "_build_answer_key_batch", return_value=({1: "A"}, [2, 3])):
+            with patch.object(generator, "_persist_assessment", new_callable=AsyncMock):
+                result = await generator.generate(
+                    subject="matematica", difficulty="medium", question_count=3
+                )
+
+        assert result["answers_missing"] == [2, 3]
 
     async def test_raises_insufficient_when_not_enough(self, generator, mock_pgvector):
         mock_pgvector.search_questions.return_value = [_make_question(1)]
@@ -175,7 +183,7 @@ class TestGenerate:
         questions = [_make_question(i) for i in range(3)]
         mock_pgvector.search_questions.return_value = questions
 
-        with patch.object(generator, "_get_correct_answer", return_value="B"):
+        with patch.object(generator, "_build_answer_key_batch", return_value=({1: "B", 2: "C", 3: "D"}, [])):
             with patch.object(generator, "_persist_assessment", new_callable=AsyncMock) as mock_persist:
                 result = await generator.generate(
                     subject="matematica", difficulty="medium", question_count=3
@@ -191,7 +199,7 @@ class TestGenerate:
         questions = [_make_question(i) for i in range(5)]
         mock_pgvector.search_questions.return_value = questions
 
-        with patch.object(generator, "_get_correct_answer", return_value="A"):
+        with patch.object(generator, "_build_answer_key_batch", return_value=({}, [])):
             with patch.object(generator, "_persist_assessment", new_callable=AsyncMock):
                 result = await generator.generate(
                     subject="matematica", difficulty="medium", question_count=5
@@ -201,14 +209,14 @@ class TestGenerate:
         assert len(ids) == len(set(ids))
 
 
-class TestPersistAssessment:
-    async def test_calls_engine_begin(self, generator):
+class TestSyncPersistAssessment:
+    def test_calls_engine_begin(self, generator):
         mock_conn = MagicMock()
         mock_conn.__enter__ = MagicMock(return_value=mock_conn)
         mock_conn.__exit__ = MagicMock(return_value=False)
         generator.engine.begin = MagicMock(return_value=mock_conn)
 
-        await generator._persist_assessment(
+        generator._sync_persist_assessment(
             "test-uuid", "Test Title", "matematica", "medium", 2, None, [1, 2]
         )
 

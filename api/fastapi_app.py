@@ -9,7 +9,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Annotated
 import psycopg2
 import psycopg2.extras
 import json
@@ -147,7 +147,7 @@ class AssessmentGenerateRequest(BaseModel):
         pattern="^(easy|medium|hard|mixed)$",
     )
     question_count: int = Field(10, ge=1, le=50, description="Quantidade de questoes na avaliacao")
-    years: Optional[List[int]] = Field(None, description="Lista de anos para filtrar (ex: [2020, 2021, 2022])")
+    years: Optional[List[Annotated[int, Field(ge=2020, le=2030)]]] = Field(None, description="Lista de anos para filtrar (ex: [2020, 2021, 2022])")
 
 class AssessmentQuestion(BaseModel):
     question_order: int
@@ -1134,24 +1134,29 @@ async def search_semantic(request: SemanticSearchRequest):
 
 def _get_correct_answer(question_id: int) -> Optional[str]:
     """Busca gabarito para uma questão via answer_keys."""
+    conn = None
+    cursor = None
     try:
         conn = psycopg2.connect(**DATABASE_CONFIG)
         cursor = conn.cursor()
         cursor.execute("""
             SELECT ak.correct_answer
-            FROM answer_keys ak
-            JOIN exam_metadata em ON em.id = ak.exam_metadata_id
-            JOIN questions q ON q.exam_metadata_id = em.id
+            FROM enem_questions.answer_keys ak
+            JOIN enem_questions.exam_metadata em ON em.id = ak.exam_id
+            JOIN enem_questions.questions q ON q.exam_metadata_id = em.id
                 AND q.question_number = ak.question_number
             WHERE q.id = %s
             LIMIT 1
         """, (question_id,))
         row = cursor.fetchone()
-        cursor.close()
-        conn.close()
         return row[0] if row else None
     except Exception:
         return None
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 
 # ── Story 4.1: Assessment Generator ──────────────────────────────────────────
@@ -1207,6 +1212,7 @@ async def generate_assessment(request: AssessmentGenerateRequest):
                 "subject": request.subject,
                 "difficulty": request.difficulty,
                 "years": request.years,
+                "answers_missing": result.get("answers_missing", []),
             },
         )
     except InsufficientQuestionsError as e:
@@ -1250,7 +1256,7 @@ async def generate_questions(request: QuestionGenerateRequest):
             },
         )
     try:
-        questions = await rag_question_generator.generate_questions(
+        questions, questions_meta = await rag_question_generator.generate_questions(
             subject=request.subject,
             topic=request.topic,
             difficulty=request.difficulty,
@@ -1261,12 +1267,14 @@ async def generate_questions(request: QuestionGenerateRequest):
             data=[GeneratedQuestion(**q) for q in questions],
             meta={
                 "total": len(questions),
+                "requested_count": request.count,
                 "subject": request.subject,
                 "topic": request.topic,
                 "difficulty": request.difficulty,
                 "style": request.style,
                 "model": "gpt-4o",
                 "generated_at": datetime.now().isoformat(),
+                "rag_context_available": questions_meta.get("rag_context_available", True),
             },
         )
     except Exception as e:

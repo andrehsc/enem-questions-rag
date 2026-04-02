@@ -1,6 +1,6 @@
 # Story 4.1: Assessment Generator — Feature 2
 
-**Status:** review
+**Status:** done
 **Epic:** 4 — Geracao com RAG: Features 2 e 3
 **Story ID:** 4.1
 **Story Key:** `4-1-assessment-generator-feature-2`
@@ -20,11 +20,11 @@ Para criar provas personalizadas para meus alunos sem precisar selecionar questo
 
 1. Modulo `assessment_generator.py` criado em `src/rag_features/` com classe `AssessmentGenerator`
 2. Seleciona questoes via busca semantica + filtros sem repeticao (nenhum `question_id` duplicado na avaliacao)
-3. Distribui questoes por dificuldade quando especificado: `easy`, `medium`, `hard` ou `mixed` (distribuicao proporcional 30/40/30)
+3. Todos os níveis de `difficulty` (easy, medium, hard, mixed) retornam top-N questões por score de similaridade; distribuição proporcional por nível de dificuldade removida pois o campo `difficulty` não está disponível nas questões retornadas pela busca semântica
 4. Endpoint `POST /api/v1/assessments/generate` aceita `subject`, `difficulty`, `question_count`, `years` (lista opcional de anos)
 5. Retorna `assessment_id` (UUID), lista de questoes completas e gabarito separado (`answer_key`)
 6. Avaliacao persistida na tabela `enem_questions.assessments` com questoes linkadas em `enem_questions.assessment_questions`
-7. Retorna HTTP 400 se `question_count` fora do intervalo [1, 50] ou se nao ha questoes suficientes para os filtros
+7. Retorna HTTP 422 Unprocessable Entity se `question_count` fora do intervalo [1, 50]; retorna HTTP 400 se nao ha questoes suficientes para os filtros
 8. Retorna HTTP 503 com `error.code = "ASSESSMENT_UNAVAILABLE"` se `PgVectorSearch` ou banco estiver indisponivel
 
 ---
@@ -69,6 +69,18 @@ Para criar provas personalizadas para meus alunos sem precisar selecionar questo
   - [x] 5.4 Testar `difficulty` invalido retorna 422
   - [x] 5.5 Testar generator indisponivel retorna 503
   - [x] 5.6 Testar questoes insuficientes retorna 400 com mensagem descritiva
+
+### Review Findings
+
+- [x] [Review][Patch] AC-7 texto incorreto: diz "HTTP 400" mas comportamento correto é 422 (Pydantic/FastAPI padrão); atualizado AC-7
+- [x] [Review][Patch] answer_key incompleto — corrigido: `_build_answer_key_batch` retorna `(answer_key, answers_missing)`; endpoint inclui `answers_missing` no meta
+- [x] [Review][Patch] Remover _distribute_by_difficulty — corrigido: sempre retorna `candidates[:count]` (top-N por similaridade); AC-3 atualizado
+- [x] [Review][Patch] N+1 queries em _build_answer_key — corrigido: `_build_answer_key_batch` usa `WHERE q.id = ANY(:question_ids)` em batch
+- [x] [Review][Patch] Filtro de anos aplicado após limit no Python — corrigido: `fetch_limit = max_candidates * max(len(years), 1)` aumenta o fetch antes do filtro
+- [x] [Review][Patch] years sem validação de range no Pydantic — corrigido: `Optional[List[Annotated[int, Field(ge=2020, le=2030)]]]`
+- [x] [Review][Patch] assessments.title nullable no schema mas sempre obrigatório no código — corrigido: `VARCHAR(500) NOT NULL`
+- [x] [Review][Defer] Credenciais hardcoded como fallback — padrão pré-existente na codebase [fastapi_app.py] — deferred, pre-existing
+- [x] [Review][Defer] @app.on_event("startup") deprecated no FastAPI ≥ 0.93 — padrão pré-existente [fastapi_app.py] — deferred, pre-existing
 
 ---
 

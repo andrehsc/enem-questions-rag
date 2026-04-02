@@ -3,24 +3,18 @@
 """
 Assessment Generator — Story 4.1
 Generates ENEM practice assessments by selecting real questions
-via semantic search + filters, with difficulty distribution.
+via semantic search + filters, persisting results to DB.
 """
 
+import asyncio
 import uuid
 import logging
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 
 from sqlalchemy import text, create_engine
 from sqlalchemy.engine import Engine
 
 logger = logging.getLogger(__name__)
-
-DIFFICULTY_DISTRIBUTION = {
-    "mixed": {"easy": 0.30, "medium": 0.40, "hard": 0.30},
-    "easy": {"easy": 1.0},
-    "medium": {"medium": 1.0},
-    "hard": {"hard": 1.0},
-}
 
 
 class InsufficientQuestionsError(Exception):
@@ -47,10 +41,10 @@ class AssessmentGenerator:
         assessment_id = str(uuid.uuid4())
 
         # 1. Select candidate questions (fetch more than needed for filtering)
-        candidates = await self._select_questions(subject, difficulty, question_count * 3, years)
+        candidates = await self._select_questions(subject, question_count * 3, years)
 
-        # 2. Distribute by difficulty and limit
-        selected = self._distribute_by_difficulty(candidates, difficulty, question_count)
+        # 2. Take top-N by similarity score
+        selected = candidates[:question_count]
 
         if len(selected) < question_count:
             raise InsufficientQuestionsError(
@@ -59,8 +53,10 @@ class AssessmentGenerator:
                 f"Solicitadas: {question_count}."
             )
 
-        # 3. Build answer key
-        answer_key = self._build_answer_key(selected)
+        # 3. Build answer key — single batch query
+        answer_key, answers_missing = await asyncio.to_thread(
+            self._build_answer_key_batch, selected
+        )
 
         # 4. Persist
         question_ids = [q["question_id"] for q in selected]
@@ -74,26 +70,27 @@ class AssessmentGenerator:
             "title": title,
             "questions": selected,
             "answer_key": answer_key,
+            "answers_missing": answers_missing,
         }
 
     async def _select_questions(
         self,
         subject: str,
-        difficulty: str,
         max_candidates: int,
         years: Optional[List[int]],
     ) -> List[Dict[str, Any]]:
+        fetch_limit = max_candidates * max(len(years), 1) if years else max_candidates
         query_text = f"questoes de {subject.replace('_', ' ')}"
         raw_results = await self.pgvector_search.search_questions(
             query=query_text,
-            limit=max_candidates,
+            limit=fetch_limit,
             subject=subject,
         )
 
         if years:
             raw_results = [r for r in raw_results if r.get("year") in years]
 
-        seen_ids = set()
+        seen_ids: set = set()
         unique_results = []
         for r in raw_results:
             qid = r["question_id"]
@@ -103,58 +100,39 @@ class AssessmentGenerator:
 
         return unique_results
 
-    def _distribute_by_difficulty(
-        self,
-        candidates: List[Dict[str, Any]],
-        difficulty: str,
-        count: int,
-    ) -> List[Dict[str, Any]]:
-        distribution = DIFFICULTY_DISTRIBUTION.get(difficulty, DIFFICULTY_DISTRIBUTION["mixed"])
+    def _build_answer_key_batch(
+        self, questions: List[Dict[str, Any]]
+    ) -> Tuple[Dict[int, str], List[int]]:
+        """Fetches all correct answers in a single SQL query (no N+1)."""
+        if not questions:
+            return {}, []
 
-        if difficulty != "mixed":
-            return candidates[:count]
-
-        # Mixed: group by difficulty level
-        selected = []
-        for diff_level, ratio in distribution.items():
-            target = round(count * ratio)
-            level_questions = [q for q in candidates if q.get("difficulty", "medium") == diff_level]
-            selected.extend(level_questions[:target])
-
-        # Fill remaining from other candidates
-        selected_ids = {q["question_id"] for q in selected}
-        for q in candidates:
-            if len(selected) >= count:
-                break
-            if q["question_id"] not in selected_ids:
-                selected.append(q)
-                selected_ids.add(q["question_id"])
-
-        return selected[:count]
-
-    def _build_answer_key(self, questions: List[Dict[str, Any]]) -> Dict[int, str]:
-        answer_key = {}
-        for order, q in enumerate(questions, start=1):
-            correct = self._get_correct_answer(q["question_id"])
-            if correct:
-                answer_key[order] = correct
-        return answer_key
-
-    def _get_correct_answer(self, question_id: int) -> Optional[str]:
+        question_ids = [q["question_id"] for q in questions]
         sql = text("""
-            SELECT ak.correct_answer
+            SELECT q.id AS question_id, ak.correct_answer
             FROM enem_questions.answer_keys ak
             JOIN enem_questions.exam_metadata em ON em.id = ak.exam_id
             JOIN enem_questions.questions q ON q.exam_metadata_id = em.id
                 AND q.question_number = ak.question_number
-            WHERE q.id = :question_id
-            LIMIT 1
+            WHERE q.id = ANY(:question_ids)
         """)
         with self.engine.connect() as conn:
-            row = conn.execute(sql, {"question_id": question_id}).fetchone()
-            return row[0] if row else None
+            rows = conn.execute(sql, {"question_ids": question_ids}).fetchall()
 
-    async def _persist_assessment(
+        answer_map = {row[0]: row[1] for row in rows}
+
+        answer_key: Dict[int, str] = {}
+        answers_missing: List[int] = []
+        for order, q in enumerate(questions, start=1):
+            answer = answer_map.get(q["question_id"])
+            if answer:
+                answer_key[order] = answer
+            else:
+                answers_missing.append(order)
+
+        return answer_key, answers_missing
+
+    def _sync_persist_assessment(
         self,
         assessment_id: str,
         title: str,
@@ -196,3 +174,18 @@ class AssessmentGenerator:
             "question_count": len(question_ids),
             "subject": subject,
         })
+
+    async def _persist_assessment(
+        self,
+        assessment_id: str,
+        title: str,
+        subject: str,
+        difficulty: str,
+        question_count: int,
+        years: Optional[List[int]],
+        question_ids: List[int],
+    ) -> None:
+        await asyncio.to_thread(
+            self._sync_persist_assessment,
+            assessment_id, title, subject, difficulty, question_count, years, question_ids,
+        )

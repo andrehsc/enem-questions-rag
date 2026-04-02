@@ -79,6 +79,7 @@ class TestSearchQuestions:
             "question_text": "Sobre fotossíntese...\nA) opt1\nB) opt2",
             "subject": "ciencias_natureza",
             "year": 2023,
+            "chunk_id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
             "chunk_type": "full",
             "chunk_content": "Sobre fotossíntese...",
             "similarity_score": 0.91,
@@ -96,7 +97,8 @@ class TestSearchQuestions:
         assert len(results) == 1
         r = results[0]
         assert r["question_id"] == 42
-        assert "full_text" in r
+        assert r["full_text"] == "Sobre fotossíntese..."  # from chunk_content, not question_text
+        assert "chunk_id" in r
         assert r["subject"] == "ciencias_natureza"
         assert r["year"] == 2023
         assert r["similarity_score"] == 0.91
@@ -169,6 +171,7 @@ class TestSearchQuestions:
             "question_text": "Texto questão 42",
             "subject": "ciencias_natureza",
             "year": 2023,
+            "chunk_id": "aaaaaaaa-0000-0000-0000-000000000001",
             "chunk_type": "full",
             "chunk_content": "Texto completo",
             "similarity_score": 0.91,
@@ -179,6 +182,7 @@ class TestSearchQuestions:
             "question_text": "Texto questão 42",
             "subject": "ciencias_natureza",
             "year": 2023,
+            "chunk_id": "aaaaaaaa-0000-0000-0000-000000000002",
             "chunk_type": "context",
             "chunk_content": "Texto base",
             "similarity_score": 0.85,

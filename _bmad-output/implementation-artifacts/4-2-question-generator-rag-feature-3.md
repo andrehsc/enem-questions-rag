@@ -1,6 +1,6 @@
 # Story 4.2: Question Generator RAG — Feature 3
 
-**Status:** review
+**Status:** done
 **Epic:** 4 — Geração com RAG: Features 2 e 3
 **Story ID:** 4.2
 **Story Key:** `4-2-question-generator-rag-feature-3`
@@ -25,7 +25,7 @@ Para criar material complementar além do corpus existente, personalizado para a
 5. Inclui `source_context_ids` (UUIDs dos chunks usados como contexto RAG) em cada questão gerada
 6. Endpoint `POST /api/v1/questions/generate` aceita `subject` (obrigatório), `topic` (obrigatório), `difficulty` (default="medium"), `count` (default=1, máx=5), `style` (default="enem")
 7. Questões geradas NÃO são persistidas no corpus principal — ficam em tabela separada `enem_questions.generated_questions`
-8. Retorna HTTP 400 para `count` fora do intervalo [1, 5] ou `subject`/`topic` vazios
+8. Retorna HTTP 422 Unprocessable Entity para `count` fora do intervalo [1, 5] ou `subject`/`topic` vazios
 9. Retorna HTTP 503 com `error.code = "GENERATION_UNAVAILABLE"` se `PgVectorSearch` ou OpenAI não estiverem disponíveis
 10. Endpoint documentado no Swagger com exemplos de request/response
 
@@ -76,6 +76,20 @@ Para criar material complementar além do corpus existente, personalizado para a
   - [x] 6.5 Testar serviço indisponível retorna 503 com `error.code = "GENERATION_UNAVAILABLE"`
   - [x] 6.6 Testar resposta inclui `source_context_ids` em cada questão
   - [x] 6.7 Testar `meta` contém `subject`, `topic`, `difficulty`, `model`
+
+### Review Findings
+
+- [x] [Review][Patch] AC-8 texto incorreto: diz "HTTP 400" mas comportamento correto é 422 (Pydantic padrão); atualizado para "422 Unprocessable Entity"
+- [x] [Review][Patch] Contexto RAG vazio não sinalizado — corrigido: `generate_questions` retorna `(questions, {"rag_context_available": bool})`; endpoint inclui no meta
+- [x] [Review][Patch] LLM retorna menos questões que count — corrigido: `requested_count: int` adicionado ao meta do endpoint
+- [x] [Review][Patch] source_context_ids contém integers stringify, não UUIDs de chunks — corrigido: `search_questions` agora retorna `chunk_id`; `source_context_ids = [c["chunk_id"] for c in context_chunks if c.get("chunk_id")]`
+- [x] [Review][Patch] _fetch_context_chunks usa chunk_type='full', não 'context' — corrigido: `search_questions(..., chunk_type='context')`
+- [x] [Review][Patch] max_tokens=3000*count ultrapassa limite do modelo — corrigido: `max_tokens=min(3000 * count, 4096)`
+- [x] [Review][Patch] response.choices[0] sem guard — corrigido: `if not response.choices: raise ValueError(...)`
+- [x] [Review][Patch] Questões sobre-persistidas antes de [:count] — corrigido: `_persist_generated(questions[:count], ...)` chama com slice antes de persistir
+- [x] [Review][Patch] JSON do LLM não validado antes de persistir — corrigido: validação de campos obrigatórios com `logger.warning` se `stem/alternatives/answer/explanation` ausentes
+- [x] [Review][Patch] Regex greedy \[.*\] captura JSON inválido — corrigido: `re.search(r'\[.*?\]', content, re.DOTALL)` + try/except no segundo `json.loads`
+- [x] [Review][Patch] _persist_generated armazena "A" por padrão quando LLM omite answer — corrigido: `logger.warning` quando `answer` está vazio antes de usar fallback "A"
 
 ---
 

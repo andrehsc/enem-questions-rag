@@ -92,6 +92,7 @@ class RAGQuestionGenerator:
             query=f"{subject} {topic}",
             limit=limit,
             subject=subject,
+            chunk_type='context',
         )
         return results
 
@@ -121,14 +122,16 @@ class RAGQuestionGenerator:
         difficulty: str = "medium",
         count: int = 1,
         style: str = "enem",
-    ) -> List[Dict[str, Any]]:
-        """Generates new questions using RAG context + GPT-4o."""
+    ) -> tuple:
+        """Generates new questions using RAG context + GPT-4o.
+
+        Returns:
+            (questions, meta) where meta contains rag_context_available flag.
+        """
         # 1. Fetch RAG context
         context_chunks = await self._fetch_context_chunks(subject, topic)
-        source_context_ids = [
-            str(c.get("chunk_id", c.get("question_id", "")))
-            for c in context_chunks
-        ]
+        rag_context_available = len(context_chunks) > 0
+        source_context_ids = [c["chunk_id"] for c in context_chunks if c.get("chunk_id")]
 
         # 2. Build prompt
         messages = self._build_generation_prompt(
@@ -145,24 +148,34 @@ class RAGQuestionGenerator:
             model=self.model,
             messages=messages,
             temperature=0.7,
-            max_tokens=3000 * count,
+            max_tokens=min(3000 * count, 4096),
         )
 
+        if not response.choices:
+            raise ValueError("GPT-4o retornou lista de choices vazia")
         content = response.choices[0].message.content
 
         # 4. Parse response
         questions = self._parse_llm_response(content)
 
-        # 5. Attach source_context_ids
+        # 5. Validate required fields
+        for q in questions:
+            missing = [f for f in ("stem", "alternatives", "answer", "explanation") if not q.get(f)]
+            if missing:
+                logger.warning("Questao gerada sem campos obrigatorios: %s", missing)
+
+        # 6. Attach source_context_ids
         for q in questions:
             q["source_context_ids"] = source_context_ids
 
-        # 6. Persist to generated_questions table
-        ids = self._persist_generated(questions, subject, topic, difficulty)
+        # 7. Persist to generated_questions table (before slicing)
+        ids = await asyncio.to_thread(
+            self._persist_generated, questions[:count], subject, topic, difficulty
+        )
         for q, qid in zip(questions, ids):
             q["id"] = str(qid)
 
-        return questions[:count]
+        return questions[:count], {"rag_context_available": rag_context_available}
 
     def _parse_llm_response(self, content: str) -> List[Dict[str, Any]]:
         """Extracts JSON from GPT-4o response with robust fallback."""
@@ -172,9 +185,12 @@ class RAGQuestionGenerator:
                 parsed = [parsed]
             return parsed
         except json.JSONDecodeError:
-            match = re.search(r'\[.*\]', content, re.DOTALL)
+            match = re.search(r'\[.*?\]', content, re.DOTALL)
             if match:
-                return json.loads(match.group())
+                try:
+                    return json.loads(match.group())
+                except json.JSONDecodeError:
+                    pass
             raise ValueError("Resposta do LLM não contém JSON válido")
 
     def _persist_generated(
@@ -191,6 +207,12 @@ class RAGQuestionGenerator:
         """)
         with self.engine.begin() as conn:
             for q in questions:
+                answer = q.get("answer", "")
+                if not answer:
+                    logger.warning(
+                        "Questao persistida sem campo 'answer': %s",
+                        q.get("stem", "")[:50],
+                    )
                 row = conn.execute(sql, {
                     "subject": subject,
                     "topic": topic,
@@ -198,7 +220,7 @@ class RAGQuestionGenerator:
                     "stem": q.get("stem", ""),
                     "context_text": q.get("context_text"),
                     "alternatives": json.dumps(q.get("alternatives", {})),
-                    "answer": q.get("answer", "A"),
+                    "answer": answer or "A",
                     "explanation": q.get("explanation", ""),
                     "source_context_ids": q.get("source_context_ids", []),
                     "model_used": self.model,

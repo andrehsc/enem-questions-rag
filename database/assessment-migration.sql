@@ -3,7 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS enem_questions.assessments (
     id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title           VARCHAR(500),
+    title           VARCHAR(500) NOT NULL,
     subject         VARCHAR(100) NOT NULL,
     difficulty      VARCHAR(20) NOT NULL CHECK (difficulty IN ('easy', 'medium', 'hard', 'mixed')),
     question_count  INTEGER NOT NULL CHECK (question_count BETWEEN 1 AND 50),

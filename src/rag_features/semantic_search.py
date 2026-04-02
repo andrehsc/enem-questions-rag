@@ -494,17 +494,22 @@ class PgVectorSearch(SemanticSearchInterface):
 
     def _get_query_embedding(self, query: str) -> List[float]:
         """Gera embedding via OpenAI com cache Redis (TTL 1h)."""
-        cache_key = f"query_emb:{hashlib.md5(query.encode()).hexdigest()}"
+        cache_key = f"query_emb:{hashlib.sha256(query.encode()).hexdigest()}"
 
         if self._redis:
             cached = self._redis.get(cache_key)
             if cached:
-                return json.loads(cached)
+                try:
+                    return json.loads(cached)
+                except (json.JSONDecodeError, ValueError):
+                    pass  # entrada corrompida — regenera via OpenAI
 
         response = self._openai.embeddings.create(
             model=self.EMBEDDING_MODEL,
             input=query,
         )
+        if not response.data:
+            raise ValueError("OpenAI retornou lista de embeddings vazia")
         embedding = response.data[0].embedding
 
         if self._redis:
@@ -518,8 +523,9 @@ class PgVectorSearch(SemanticSearchInterface):
         limit: int = 10,
         year: Optional[int] = None,
         subject: Optional[str] = None,
+        chunk_type: str = "full",
     ) -> List[Dict[str, Any]]:
-        embedding = self._get_query_embedding(query)
+        embedding = await asyncio.to_thread(self._get_query_embedding, query)
 
         subject_filter = "AND q.subject = :subject" if subject else ""
         year_filter = "AND em.year = :year" if year else ""
@@ -530,13 +536,14 @@ class PgVectorSearch(SemanticSearchInterface):
                 q.question_text,
                 q.subject,
                 em.year,
+                qc.id AS chunk_id,
                 qc.chunk_type,
                 qc.content AS chunk_content,
                 1 - (qc.embedding <=> CAST(:embedding AS vector)) AS similarity_score
             FROM enem_questions.question_chunks qc
             JOIN enem_questions.questions q ON q.id = qc.question_id
             LEFT JOIN enem_questions.exam_metadata em ON em.id = q.exam_metadata_id
-            WHERE qc.chunk_type = 'full'
+            WHERE qc.chunk_type = :chunk_type
               AND qc.embedding IS NOT NULL
               {subject_filter}
               {year_filter}
@@ -547,15 +554,19 @@ class PgVectorSearch(SemanticSearchInterface):
         params: Dict[str, Any] = {
             "embedding": str(embedding),
             "limit_val": limit,
+            "chunk_type": chunk_type,
         }
         if subject:
             params["subject"] = subject
         if year:
             params["year"] = year
 
-        with self._engine.connect() as conn:
-            result = conn.execute(sql, params)
-            rows = result.fetchall()
+        def _run_query() -> list:
+            with self._engine.connect() as conn:
+                result = conn.execute(sql, params)
+                return result.fetchall()
+
+        rows = await asyncio.to_thread(_run_query)
 
         seen: Dict[int, Dict[str, Any]] = {}
         for row in rows:
@@ -564,7 +575,8 @@ class PgVectorSearch(SemanticSearchInterface):
             if qid not in seen:
                 seen[qid] = {
                     "question_id": qid,
-                    "full_text": r["question_text"],
+                    "chunk_id": str(r["chunk_id"]),
+                    "full_text": r["chunk_content"],
                     "subject": r["subject"],
                     "year": r["year"],
                     "similarity_score": r["similarity_score"],

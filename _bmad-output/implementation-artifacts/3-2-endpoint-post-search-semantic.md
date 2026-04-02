@@ -1,6 +1,6 @@
 # Story 3.2: Endpoint POST /api/v1/search/semantic
 
-**Status:** review
+**Status:** done
 **Epic:** 3 — Busca Semântica: Feature 1
 **Story ID:** 3.2
 **Story Key:** `3-2-endpoint-post-search-semantic`
@@ -24,7 +24,7 @@ Para encontrar questões relevantes para minhas aulas e avaliações sem precisa
 4. Resposta segue formato padrão `{data: [...], meta: {total, query, filters}, error: null}` (igual ao restante da API)
 5. Tempo de resposta < 3 segundos para queries simples (requisito NFR3 do PRD)
 6. Endpoint documentado no Swagger existente com exemplos de request/response
-7. Retorna HTTP 400 para `query` vazia ou `limit` fora do intervalo [1, 50]
+7. Retorna HTTP 422 Unprocessable Entity para `query` vazia ou `limit` fora do intervalo [1, 50]
 8. Retorna HTTP 503 com `error.code = "SEARCH_UNAVAILABLE"` se `PgVectorSearch` lançar exceção
 
 ---
@@ -57,6 +57,13 @@ Para encontrar questões relevantes para minhas aulas e avaliações sem precisa
   - [x] 4.5 Testar `limit=51` retorna 422
   - [x] 4.6 Testar `pgvector_search=None` retorna 503 com `error.code = "SEARCH_UNAVAILABLE"`
   - [x] 4.7 Testar filtros `subject` e `year` são passados para `PgVectorSearch.search_questions`
+
+### Review Findings
+
+- [x] [Review][Patch] AC-7 texto incorreto: diz "HTTP 400" mas comportamento correto é 422 (Pydantic/FastAPI padrão); atualizado para "422 Unprocessable Entity"
+- [ ] [Review][Skip] Campo images sempre retorna [] — SKIP: requer mapeamento do schema de armazenamento de imagens; adiado para próxima sprint
+- [x] [Review][Patch] _get_correct_answer vaza conexão psycopg2 em exceção — corrigido: try/finally garante cursor.close()/conn.close()
+- [x] [Review][Patch] Schema enem_questions. ausente em _get_correct_answer — corrigido: todas as tabelas com prefixo `enem_questions.`; coluna `ak.exam_id` corrigida
 
 ---
 

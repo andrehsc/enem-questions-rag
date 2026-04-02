@@ -1,6 +1,6 @@
 # Story 3.1: Atualizar Semantic Search para pgvector
 
-**Status:** review
+**Status:** done
 **Epic:** 3 — Busca Semântica: Feature 1
 **Story ID:** 3.1
 **Story Key:** `3-1-atualizar-semantic-search-pgvector`
@@ -46,6 +46,18 @@ Para que a busca semântica use o mesmo PostgreSQL já em uso no projeto, sem in
   - [x] 2.5 Testar cache Redis: segunda chamada com mesma query não chama OpenAI API
   - [x] 2.6 Testar `VECTOR_STORE=pgvector` seleciona `PgVectorSearch` na factory
   - [x] 2.7 Testar `VECTOR_STORE=chromadb` mantém comportamento original (sem quebrar testes existentes)
+
+### Review Findings
+
+- [x] [Review][Patch] full_text mapeado de q.question_text em vez de qc.content — corrigido: result usa `r["chunk_content"]`
+- [ ] [Review][Skip] Modelo de embedding incompatível — SKIP: requer decisão arquitetural sobre re-indexação; mantido para próxima sprint
+- [x] [Review][Patch] Sync I/O inside async search_questions — corrigido: `_get_query_embedding` e `_run_query` chamados via `asyncio.to_thread`
+- [x] [Review][Patch] JSONDecodeError não tratado em cache Redis corrompido — corrigido: try/except em `json.loads(cached)`
+- [x] [Review][Patch] response.data[0] sem guard — corrigido: `if not response.data: raise ValueError(...)`
+- [x] [Review][Patch] Teste não verifica que full_text vem do chunk — corrigido: assert `r["full_text"] == chunk_content_value`
+- [x] [Review][Patch] MD5 para cache key — corrigido: `hashlib.sha256`
+- [x] [Review][Patch] Falha de conexão Redis não logada — já implementado (pré-existente)
+- [x] [Review][Defer] f-string na construção do SQL — deferred, pre-existing
 
 ---
 
