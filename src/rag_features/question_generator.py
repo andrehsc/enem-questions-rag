@@ -2,17 +2,212 @@
 # -*- coding: utf-8 -*-
 """
 Gerador de questões estilo ENEM usando LLM
+
+Contains:
+- EnemQuestionGenerator: Legacy generator (deprecated, uses old OpenAI API)
+- RAGQuestionGenerator: New RAG-based generator using pgvector context + GPT-4o (Story 4.2)
 """
 
 import openai
 from typing import List, Dict, Any, Optional
 import asyncio
 import json
+import re
 import random
 import logging
 from datetime import datetime
 
+from openai import AsyncOpenAI
+from sqlalchemy import create_engine, text
+from sqlalchemy.engine import Engine
+
 logger = logging.getLogger(__name__)
+
+# ── RAG Question Generator (Story 4.2) ───────────────────────────────────────
+
+SYSTEM_PROMPT = """Você é um especialista em elaboração de questões no padrão ENEM (Exame Nacional do Ensino Médio do Brasil).
+Você recebe textos-base reais de questões ENEM como referência de estilo e contexto.
+Sua tarefa é gerar questões INÉDITAS que sigam rigorosamente o formato ENEM.
+
+Regras obrigatórias:
+1. Cada questão deve ter um enunciado claro e contextualizado
+2. Quando relevante ao tema, inclua um texto-base (trecho, gráfico descrito, situação-problema)
+3. Exatamente 5 alternativas: A, B, C, D, E
+4. Exatamente 1 alternativa correta
+5. Alternativas incorretas devem ser plausíveis (distratores bem construídos)
+6. Forneça explicação detalhada de por que a alternativa correta é a certa
+7. Mantenha o nível de dificuldade solicitado
+
+Responda EXCLUSIVAMENTE em JSON válido, sem markdown, sem backticks."""
+
+USER_PROMPT_TEMPLATE = """Gere {count} questão(ões) no estilo ENEM sobre o assunto abaixo.
+
+**Matéria:** {subject}
+**Tópico:** {topic}
+**Dificuldade:** {difficulty}
+
+### Contexto de referência (textos-base reais do ENEM):
+{context_chunks_text}
+
+### Formato de resposta (JSON array):
+[
+  {{
+    "stem": "Enunciado completo da questão com contextualização",
+    "context_text": "Texto-base da questão (ou null se não aplicável)",
+    "alternatives": {{
+      "A": "Texto da alternativa A",
+      "B": "Texto da alternativa B",
+      "C": "Texto da alternativa C",
+      "D": "Texto da alternativa D",
+      "E": "Texto da alternativa E"
+    }},
+    "answer": "LETRA_CORRETA",
+    "explanation": "Explicação detalhada de por que esta é a resposta correta"
+  }}
+]"""
+
+
+class RAGQuestionGenerator:
+    """Generates ENEM-style questions using RAG context from pgvector + GPT-4o."""
+
+    def __init__(
+        self,
+        database_url: str,
+        openai_api_key: str,
+        pgvector_search=None,
+        model: str = "gpt-4o",
+    ) -> None:
+        self.engine: Engine = create_engine(database_url)
+        self.openai_client = AsyncOpenAI(api_key=openai_api_key)
+        self.model = model
+        self.pgvector_search = pgvector_search
+
+    async def _fetch_context_chunks(
+        self, subject: str, topic: str, limit: int = 5
+    ) -> List[Dict[str, Any]]:
+        """Fetches context chunks from ENEM corpus via semantic search."""
+        if self.pgvector_search is None:
+            return []
+        results = await self.pgvector_search.search_questions(
+            query=f"{subject} {topic}",
+            limit=limit,
+            subject=subject,
+        )
+        return results
+
+    def _build_generation_prompt(
+        self, topic, subject, difficulty, count, style, context_chunks
+    ) -> List[Dict[str, str]]:
+        """Builds system + user messages with RAG context."""
+        context_text = "\n\n---\n\n".join(
+            [c.get("full_text", c.get("chunk_content", "")) for c in context_chunks]
+        ) or "(Nenhum contexto encontrado no corpus)"
+
+        return [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": USER_PROMPT_TEMPLATE.format(
+                count=count,
+                subject=subject,
+                topic=topic,
+                difficulty=difficulty,
+                context_chunks_text=context_text,
+            )},
+        ]
+
+    async def generate_questions(
+        self,
+        subject: str,
+        topic: str,
+        difficulty: str = "medium",
+        count: int = 1,
+        style: str = "enem",
+    ) -> List[Dict[str, Any]]:
+        """Generates new questions using RAG context + GPT-4o."""
+        # 1. Fetch RAG context
+        context_chunks = await self._fetch_context_chunks(subject, topic)
+        source_context_ids = [
+            str(c.get("chunk_id", c.get("question_id", "")))
+            for c in context_chunks
+        ]
+
+        # 2. Build prompt
+        messages = self._build_generation_prompt(
+            topic=topic,
+            subject=subject,
+            difficulty=difficulty,
+            count=count,
+            style=style,
+            context_chunks=context_chunks,
+        )
+
+        # 3. Call GPT-4o
+        response = await self.openai_client.chat.completions.create(
+            model=self.model,
+            messages=messages,
+            temperature=0.7,
+            max_tokens=3000 * count,
+        )
+
+        content = response.choices[0].message.content
+
+        # 4. Parse response
+        questions = self._parse_llm_response(content)
+
+        # 5. Attach source_context_ids
+        for q in questions:
+            q["source_context_ids"] = source_context_ids
+
+        # 6. Persist to generated_questions table
+        ids = self._persist_generated(questions, subject, topic, difficulty)
+        for q, qid in zip(questions, ids):
+            q["id"] = str(qid)
+
+        return questions[:count]
+
+    def _parse_llm_response(self, content: str) -> List[Dict[str, Any]]:
+        """Extracts JSON from GPT-4o response with robust fallback."""
+        try:
+            parsed = json.loads(content)
+            if isinstance(parsed, dict):
+                parsed = [parsed]
+            return parsed
+        except json.JSONDecodeError:
+            match = re.search(r'\[.*\]', content, re.DOTALL)
+            if match:
+                return json.loads(match.group())
+            raise ValueError("Resposta do LLM não contém JSON válido")
+
+    def _persist_generated(
+        self, questions: List[Dict], subject: str, topic: str, difficulty: str
+    ) -> List[str]:
+        """Persists generated questions to the generated_questions table."""
+        ids = []
+        sql = text("""
+            INSERT INTO enem_questions.generated_questions
+                (subject, topic, difficulty, stem, context_text, alternatives, answer, explanation, source_context_ids, model_used)
+            VALUES
+                (:subject, :topic, :difficulty, :stem, :context_text, :alternatives::jsonb, :answer, :explanation, :source_context_ids, :model_used)
+            RETURNING id
+        """)
+        with self.engine.begin() as conn:
+            for q in questions:
+                row = conn.execute(sql, {
+                    "subject": subject,
+                    "topic": topic,
+                    "difficulty": difficulty,
+                    "stem": q.get("stem", ""),
+                    "context_text": q.get("context_text"),
+                    "alternatives": json.dumps(q.get("alternatives", {})),
+                    "answer": q.get("answer", "A"),
+                    "explanation": q.get("explanation", ""),
+                    "source_context_ids": q.get("source_context_ids", []),
+                    "model_used": self.model,
+                }).fetchone()
+                ids.append(str(row[0]))
+        return ids
+
+
+# ── Legacy Generator (deprecated) ────────────────────────────────────────────
 
 class EnemQuestionGenerator:
     """Gerador de questões no estilo ENEM usando LLM"""

@@ -1,6 +1,6 @@
 # Story 4.1: Assessment Generator — Feature 2
 
-**Status:** draft
+**Status:** review
 **Epic:** 4 — Geracao com RAG: Features 2 e 3
 **Story ID:** 4.1
 **Story Key:** `4-1-assessment-generator-feature-2`
@@ -31,44 +31,44 @@ Para criar provas personalizadas para meus alunos sem precisar selecionar questo
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Criar migration SQL para tabelas `assessments` e `assessment_questions`** (AC: 6)
-  - [ ] 1.1 Criar tabela `enem_questions.assessments` com campos: `id UUID`, `title`, `subject`, `difficulty`, `question_count`, `years_filter`, `created_at`, `updated_at`
-  - [ ] 1.2 Criar tabela `enem_questions.assessment_questions` com campos: `id UUID`, `assessment_id`, `question_id`, `question_order`, constraints UNIQUE
-  - [ ] 1.3 Criar indices para `assessment_id` e `question_id` na tabela de juncao
-  - [ ] 1.4 Documentar down migration (DROP TABLE) para reversibilidade
+- [x] **Task 1: Criar migration SQL para tabelas `assessments` e `assessment_questions`** (AC: 6)
+  - [x] 1.1 Criar tabela `enem_questions.assessments` com campos: `id UUID`, `title`, `subject`, `difficulty`, `question_count`, `years_filter`, `created_at`, `updated_at`
+  - [x] 1.2 Criar tabela `enem_questions.assessment_questions` com campos: `id UUID`, `assessment_id`, `question_id`, `question_order`, constraints UNIQUE
+  - [x] 1.3 Criar indices para `assessment_id` e `question_id` na tabela de juncao
+  - [x] 1.4 Documentar down migration (DROP TABLE) para reversibilidade
 
-- [ ] **Task 2: Criar `AssessmentGenerator` em `src/rag_features/assessment_generator.py`** (AC: 1-3, 6)
-  - [ ] 2.1 Implementar `__init__(database_url, pgvector_search)` — recebe engine SQLAlchemy e instancia de `PgVectorSearch`
-  - [ ] 2.2 Implementar `_select_questions(subject, difficulty, question_count, years) -> List[Dict]` — seleciona questoes via busca semantica + filtros SQL diretos sem repeticao
-  - [ ] 2.3 Implementar `_distribute_by_difficulty(questions, difficulty, count) -> List[Dict]` — distribui questoes por dificuldade (`mixed` = 30% easy / 40% medium / 30% hard)
-  - [ ] 2.4 Implementar `_build_answer_key(questions) -> Dict[int, str]` — monta gabarito { question_order: correct_answer }
-  - [ ] 2.5 Implementar `_persist_assessment(assessment_id, subject, difficulty, question_count, years, question_ids) -> None` — persiste no banco
-  - [ ] 2.6 Implementar `async generate(subject, difficulty, question_count, years) -> Dict` — orquestra selecao, distribuicao, persistencia e retorno
+- [x] **Task 2: Criar `AssessmentGenerator` em `src/rag_features/assessment_generator.py`** (AC: 1-3, 6)
+  - [x] 2.1 Implementar `__init__(database_url, pgvector_search)` — recebe engine SQLAlchemy e instancia de `PgVectorSearch`
+  - [x] 2.2 Implementar `_select_questions(subject, difficulty, question_count, years) -> List[Dict]` — seleciona questoes via busca semantica + filtros SQL diretos sem repeticao
+  - [x] 2.3 Implementar `_distribute_by_difficulty(questions, difficulty, count) -> List[Dict]` — distribui questoes por dificuldade (`mixed` = 30% easy / 40% medium / 30% hard)
+  - [x] 2.4 Implementar `_build_answer_key(questions) -> Dict[int, str]` — monta gabarito { question_order: correct_answer }
+  - [x] 2.5 Implementar `_persist_assessment(assessment_id, subject, difficulty, question_count, years, question_ids) -> None` — persiste no banco
+  - [x] 2.6 Implementar `async generate(subject, difficulty, question_count, years) -> Dict` — orquestra selecao, distribuicao, persistencia e retorno
 
-- [ ] **Task 3: Adicionar modelos Pydantic e endpoint em `api/fastapi_app.py`** (AC: 4, 5, 7, 8)
-  - [ ] 3.1 Criar `AssessmentGenerateRequest(BaseModel)`: `subject: str`, `difficulty: str`, `question_count: int`, `years: Optional[List[int]]`
-  - [ ] 3.2 Criar `AssessmentQuestion(BaseModel)`: `question_order: int`, `question_id: int`, `full_text: str`, `subject: str`, `year: Optional[int]`, `images: List[str]`
-  - [ ] 3.3 Criar `AssessmentGenerateResponse(BaseModel)`: `data: AssessmentData`, `meta: Dict`, `error: Optional[Any]`
-  - [ ] 3.4 Criar `AssessmentData(BaseModel)`: `assessment_id: str`, `questions: List[AssessmentQuestion]`, `answer_key: Dict[int, str]`
-  - [ ] 3.5 Instanciar `AssessmentGenerator` no startup da app (reutilizando `PgVectorSearch` da Story 3.2)
-  - [ ] 3.6 Implementar handler `POST /api/v1/assessments/generate` com validacao, chamada ao generator e tratamento de erros
-  - [ ] 3.7 Adicionar decorators Swagger com tags `["Assessments"]`, summary e description
+- [x] **Task 3: Adicionar modelos Pydantic e endpoint em `api/fastapi_app.py`** (AC: 4, 5, 7, 8)
+  - [x] 3.1 Criar `AssessmentGenerateRequest(BaseModel)`: `subject: str`, `difficulty: str`, `question_count: int`, `years: Optional[List[int]]`
+  - [x] 3.2 Criar `AssessmentQuestion(BaseModel)`: `question_order: int`, `question_id: int`, `full_text: str`, `subject: str`, `year: Optional[int]`, `images: List[str]`
+  - [x] 3.3 Criar `AssessmentGenerateResponse(BaseModel)`: `data: AssessmentData`, `meta: Dict`, `error: Optional[Any]`
+  - [x] 3.4 Criar `AssessmentData(BaseModel)`: `assessment_id: str`, `questions: List[AssessmentQuestion]`, `answer_key: Dict[int, str]`
+  - [x] 3.5 Instanciar `AssessmentGenerator` no startup da app (reutilizando `PgVectorSearch` da Story 3.2)
+  - [x] 3.6 Implementar handler `POST /api/v1/assessments/generate` com validacao, chamada ao generator e tratamento de erros
+  - [x] 3.7 Adicionar decorators Swagger com tags `["Assessments"]`, summary e description
 
-- [ ] **Task 4: Criar `tests/test_assessment_generator.py`** (AC: 1-8)
-  - [ ] 4.1 Testar `generate()` retorna `assessment_id`, `questions`, `answer_key`
-  - [ ] 4.2 Testar questoes sem repeticao (`question_id` unicos)
-  - [ ] 4.3 Testar distribuicao `mixed` respeita proporcao 30/40/30
-  - [ ] 4.4 Testar filtro por `years` e filtra corretamente
-  - [ ] 4.5 Testar `question_count` insuficiente levanta erro apropriado
-  - [ ] 4.6 Testar persistencia chamada com parametros corretos
+- [x] **Task 4: Criar `tests/test_assessment_generator.py`** (AC: 1-8)
+  - [x] 4.1 Testar `generate()` retorna `assessment_id`, `questions`, `answer_key`
+  - [x] 4.2 Testar questoes sem repeticao (`question_id` unicos)
+  - [x] 4.3 Testar distribuicao `mixed` respeita proporcao 30/40/30
+  - [x] 4.4 Testar filtro por `years` e filtra corretamente
+  - [x] 4.5 Testar `question_count` insuficiente levanta erro apropriado
+  - [x] 4.6 Testar persistencia chamada com parametros corretos
 
-- [ ] **Task 5: Criar `tests/test_endpoint_assessments_generate.py`** (AC: 4, 5, 7, 8)
-  - [ ] 5.1 Testar request valido retorna 200 com estrutura `{data: {assessment_id, questions, answer_key}, meta, error: null}`
-  - [ ] 5.2 Testar `question_count=0` retorna 422
-  - [ ] 5.3 Testar `question_count=51` retorna 422
-  - [ ] 5.4 Testar `difficulty` invalido retorna 422
-  - [ ] 5.5 Testar generator indisponivel retorna 503
-  - [ ] 5.6 Testar questoes insuficientes retorna 400 com mensagem descritiva
+- [x] **Task 5: Criar `tests/test_endpoint_assessments_generate.py`** (AC: 4, 5, 7, 8)
+  - [x] 5.1 Testar request valido retorna 200 com estrutura `{data: {assessment_id, questions, answer_key}, meta, error: null}`
+  - [x] 5.2 Testar `question_count=0` retorna 422
+  - [x] 5.3 Testar `question_count=51` retorna 422
+  - [x] 5.4 Testar `difficulty` invalido retorna 422
+  - [x] 5.5 Testar generator indisponivel retorna 503
+  - [x] 5.6 Testar questoes insuficientes retorna 400 com mensagem descritiva
 
 ---
 
@@ -667,7 +667,26 @@ class TestAssessmentEndpoint:
 
 ## Dev Agent Record
 
-*This section will be populated by the development agent during implementation*
+### Implementation Plan
+1. Migration SQL (`database/assessment-migration.sql`) — tables `assessments` + `assessment_questions`
+2. `AssessmentGenerator` class with semantic search selection, difficulty distribution, answer key building, and persistence
+3. Pydantic models + `POST /api/v1/assessments/generate` endpoint in `fastapi_app.py`
+4. Unit tests (16 tests) + endpoint tests (8 tests)
+
+### Debug Log
+- Fixed `InsufficientQuestionsError` import path mismatch: endpoint uses `rag_features.` path while test used `src.rag_features.`. Updated test import to match.
+
+### Completion Notes
+- All 24 tests passing (16 unit + 8 endpoint)
+- assessment_generator.py: 95% coverage (only `_get_correct_answer` SQL untested — requires real DB)
+- Endpoint validates: difficulty pattern, question_count range [1,50], 503 for unavailable, 400 for insufficient questions
+
+### Files
+- `src/rag_features/assessment_generator.py` — `AssessmentGenerator`, `InsufficientQuestionsError`
+- `api/fastapi_app.py` — Pydantic models, startup init, `POST /api/v1/assessments/generate`
+- `database/assessment-migration.sql` — DDL for `assessments` + `assessment_questions`
+- `tests/test_assessment_generator.py` — 16 unit tests
+- `tests/test_endpoint_assessments_generate.py` — 8 endpoint tests
 
 ---
 
@@ -676,3 +695,4 @@ class TestAssessmentEndpoint:
 | Data | Alteracao |
 |------|-----------|
 | 2026-04-02 | Story criada — assessment_generator.py + endpoint POST /api/v1/assessments/generate (Epic 4, Story 1) |
+| 2026-04-02 | Implementation complete — 24/24 tests passing, status → review |

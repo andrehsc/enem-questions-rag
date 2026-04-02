@@ -1,6 +1,6 @@
 # Story 3.2: Endpoint POST /api/v1/search/semantic
 
-**Status:** draft
+**Status:** review
 **Epic:** 3 — Busca Semântica: Feature 1
 **Story ID:** 3.2
 **Story Key:** `3-2-endpoint-post-search-semantic`
@@ -31,32 +31,32 @@ Para encontrar questões relevantes para minhas aulas e avaliações sem precisa
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Adicionar modelos Pydantic em `api/fastapi_app.py`** (AC: 1, 4, 6)
-  - [ ] 1.1 Criar `SemanticSearchRequest(BaseModel)`: `query: str`, `subject: Optional[str]`, `year: Optional[int]`, `limit: int = Field(10, ge=1, le=50)`, `include_answer: bool = False`
-  - [ ] 1.2 Criar `SemanticSearchResult(BaseModel)`: `question_id: int`, `full_text: str`, `subject: str`, `year: Optional[int]`, `similarity_score: float`, `images: List[str] = []`, `correct_answer: Optional[str] = None`
-  - [ ] 1.3 Criar `SemanticSearchResponse(BaseModel)`: `data: List[SemanticSearchResult]`, `meta: Dict[str, Any]`, `error: Optional[Any] = None`
+- [x] **Task 1: Adicionar modelos Pydantic em `api/fastapi_app.py`** (AC: 1, 4, 6)
+  - [x] 1.1 Criar `SemanticSearchRequest(BaseModel)`: `query: str`, `subject: Optional[str]`, `year: Optional[int]`, `limit: int = Field(10, ge=1, le=50)`, `include_answer: bool = False`
+  - [x] 1.2 Criar `SemanticSearchResult(BaseModel)`: `question_id: int`, `full_text: str`, `subject: str`, `year: Optional[int]`, `similarity_score: float`, `images: List[str] = []`, `correct_answer: Optional[str] = None`
+  - [x] 1.3 Criar `SemanticSearchResponse(BaseModel)`: `data: List[SemanticSearchResult]`, `meta: Dict[str, Any]`, `error: Optional[Any] = None`
 
-- [ ] **Task 2: Instanciar `PgVectorSearch` na startup da app** (AC: 5, 8)
-  - [ ] 2.1 Adicionar instância global `pgvector_search = None` no topo do arquivo
-  - [ ] 2.2 Criar `@app.on_event("startup")` async handler: instancia `PgVectorSearch` com env vars; captura e loga exceção sem crash
-  - [ ] 2.3 Verificar `pgvector_search is None` no endpoint e retornar 503 se não disponível
+- [x] **Task 2: Instanciar `PgVectorSearch` na startup da app** (AC: 5, 8)
+  - [x] 2.1 Adicionar instância global `pgvector_search = None` no topo do arquivo
+  - [x] 2.2 Criar `@app.on_event("startup")` async handler: instancia `PgVectorSearch` com env vars; captura e loga exceção sem crash
+  - [x] 2.3 Verificar `pgvector_search is None` no endpoint e retornar 503 se não disponível
 
-- [ ] **Task 3: Implementar endpoint `POST /api/v1/search/semantic`** (AC: 1–8)
-  - [ ] 3.1 Criar handler `async def semantic_search(request: SemanticSearchRequest)`
-  - [ ] 3.2 Chamar `pgvector_search.search_questions(query, limit, year, subject)` da Story 3.1
-  - [ ] 3.3 Para cada resultado: buscar `images` via query SQL se `has_images=True`; buscar `correct_answer` da tabela `answer_keys` se `include_answer=True`
-  - [ ] 3.4 Construir `meta`: `{total: len(results), query: request.query, filters: {subject, year}}`
-  - [ ] 3.5 Capturar exceções gerais: retornar 503 com `error.code = "SEARCH_UNAVAILABLE"`
-  - [ ] 3.6 Adicionar decorator Swagger: `@app.post("/api/v1/search/semantic", response_model=SemanticSearchResponse, tags=["RAG"], summary="Busca semântica de questões ENEM")`
+- [x] **Task 3: Implementar endpoint `POST /api/v1/search/semantic`** (AC: 1–8)
+  - [x] 3.1 Criar handler `async def semantic_search(request: SemanticSearchRequest)`
+  - [x] 3.2 Chamar `pgvector_search.search_questions(query, limit, year, subject)` da Story 3.1
+  - [x] 3.3 Para cada resultado: buscar `images` via query SQL se `has_images=True`; buscar `correct_answer` da tabela `answer_keys` se `include_answer=True`
+  - [x] 3.4 Construir `meta`: `{total: len(results), query: request.query, filters: {subject, year}}`
+  - [x] 3.5 Capturar exceções gerais: retornar 503 com `error.code = "SEARCH_UNAVAILABLE"`
+  - [x] 3.6 Adicionar decorator Swagger: `@app.post("/api/v1/search/semantic", response_model=SemanticSearchResponse, tags=["RAG"], summary="Busca semântica de questões ENEM")`
 
-- [ ] **Task 4: Criar `tests/test_endpoint_search_semantic.py`** (AC: 1–8)
-  - [ ] 4.1 Testar request válido retorna 200 com estrutura `{data, meta, error: null}`
-  - [ ] 4.2 Testar `include_answer=false` não inclui `correct_answer` na resposta
-  - [ ] 4.3 Testar `include_answer=true` inclui `correct_answer`
-  - [ ] 4.4 Testar `query` vazia retorna 422 (Pydantic validation)
-  - [ ] 4.5 Testar `limit=51` retorna 422
-  - [ ] 4.6 Testar `pgvector_search=None` retorna 503 com `error.code = "SEARCH_UNAVAILABLE"`
-  - [ ] 4.7 Testar filtros `subject` e `year` são passados para `PgVectorSearch.search_questions`
+- [x] **Task 4: Criar `tests/test_endpoint_search_semantic.py`** (AC: 1–8)
+  - [x] 4.1 Testar request válido retorna 200 com estrutura `{data, meta, error: null}`
+  - [x] 4.2 Testar `include_answer=false` não inclui `correct_answer` na resposta
+  - [x] 4.3 Testar `include_answer=true` inclui `correct_answer`
+  - [x] 4.4 Testar `query` vazia retorna 422 (Pydantic validation)
+  - [x] 4.5 Testar `limit=51` retorna 422
+  - [x] 4.6 Testar `pgvector_search=None` retorna 503 com `error.code = "SEARCH_UNAVAILABLE"`
+  - [x] 4.7 Testar filtros `subject` e `year` são passados para `PgVectorSearch.search_questions`
 
 ---
 
@@ -272,7 +272,27 @@ class TestSemanticSearchEndpoint:
 
 ## Dev Agent Record
 
-*This section will be populated by the development agent during implementation*
+### Implementation Plan
+- Added Pydantic models: `SemanticSearchRequest`, `SemanticSearchResult`, `SemanticSearchResponse`
+- Added PgVectorSearch import and global instance with startup initialization
+- Implemented `POST /api/v1/search/semantic` endpoint with full Swagger docs
+- Added `_get_correct_answer()` helper for optional gabarito lookup
+- 503 response when pgvector_search is None or on exception
+- 422 for invalid query (empty) or limit out of [1,50] range (Pydantic validation)
+
+### Debug Log
+- Starlette 1.0.0 was incompatible with FastAPI 0.119.0; downgraded to 0.48.0
+- All 7 endpoint tests green on first implementation attempt
+
+### Completion Notes
+- 7/7 endpoint tests passing
+- 10/10 PgVectorSearch tests passing (Story 3.1)
+- 4/4 existing semantic search tests passing
+- Total: 21 tests green, 0 regressions
+
+### File List
+- `api/fastapi_app.py` — MODIFIED (added models, PgVectorSearch startup, endpoint, _get_correct_answer)
+- `tests/test_endpoint_search_semantic.py` — NEW (7 tests)
 
 ---
 
@@ -281,3 +301,4 @@ class TestSemanticSearchEndpoint:
 | Data | Alteração |
 |------|-----------|
 | 2026-04-02 | Story criada — endpoint POST /api/v1/search/semantic (Epic 3, Story 2) |
+| 2026-04-02 | Implementação completa — endpoint + 7 testes, status → review |

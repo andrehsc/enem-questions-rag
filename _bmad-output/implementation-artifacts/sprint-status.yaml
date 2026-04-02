@@ -58,12 +58,12 @@ development_status:
 
   # ─── Epic 3: Busca Semântica — Feature 1 ───
   epic-3: in-progress
-  3-1-atualizar-semantic-search-para-pgvector: ready-for-dev
-  3-2-endpoint-post-api-v1-search-semantic: ready-for-dev
+  3-1-atualizar-semantic-search-para-pgvector: review
+  3-2-endpoint-post-api-v1-search-semantic: review
   epic-3-retrospective: optional
 
   # ─── Epic 4: Geração com RAG — Features 2 e 3 ───
   epic-4: in-progress
-  4-1-assessment-generator-feature-2: ready-for-dev
-  4-2-question-generator-rag-feature-3: ready-for-dev
+  4-1-assessment-generator-feature-2: review
+  4-2-question-generator-rag-feature-3: review
   epic-4-retrospective: optional

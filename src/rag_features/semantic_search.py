@@ -12,6 +12,7 @@ Suporta:
 
 import numpy as np
 import asyncio
+import hashlib
 from typing import List, Dict, Any, Optional
 from abc import ABC, abstractmethod
 import logging
@@ -20,6 +21,10 @@ import json
 import sqlite3
 from datetime import datetime
 from dataclasses import dataclass
+
+from sqlalchemy import create_engine, text as sa_text
+from openai import OpenAI
+import redis
 
 logger = logging.getLogger(__name__)
 
@@ -468,26 +473,154 @@ class EnemSemanticSearch(SemanticSearchInterface):
         filtered_results = [r for r in all_results if r['metadata'].get('subject', '').lower() == subject.lower()]
         return filtered_results[:limit]
 
+class PgVectorSearch(SemanticSearchInterface):
+    """Busca semântica usando pgvector no PostgreSQL existente"""
+
+    EMBEDDING_MODEL = "text-embedding-3-small"
+
+    def __init__(
+        self,
+        database_url: str,
+        openai_api_key: str,
+        redis_url: str = "redis://localhost:6380/1",
+    ) -> None:
+        self._engine = create_engine(database_url)
+        self._openai = OpenAI(api_key=openai_api_key)
+        try:
+            self._redis = redis.from_url(redis_url)
+        except Exception:
+            self._redis = None
+            logger.warning("Redis indisponível — cache de query embeddings desativado")
+
+    def _get_query_embedding(self, query: str) -> List[float]:
+        """Gera embedding via OpenAI com cache Redis (TTL 1h)."""
+        cache_key = f"query_emb:{hashlib.md5(query.encode()).hexdigest()}"
+
+        if self._redis:
+            cached = self._redis.get(cache_key)
+            if cached:
+                return json.loads(cached)
+
+        response = self._openai.embeddings.create(
+            model=self.EMBEDDING_MODEL,
+            input=query,
+        )
+        embedding = response.data[0].embedding
+
+        if self._redis:
+            self._redis.setex(cache_key, 3600, json.dumps(embedding))
+
+        return embedding
+
+    async def search_questions(
+        self,
+        query: str,
+        limit: int = 10,
+        year: Optional[int] = None,
+        subject: Optional[str] = None,
+    ) -> List[Dict[str, Any]]:
+        embedding = self._get_query_embedding(query)
+
+        subject_filter = "AND q.subject = :subject" if subject else ""
+        year_filter = "AND em.year = :year" if year else ""
+
+        sql = sa_text(f"""
+            SELECT
+                q.id AS question_id,
+                q.question_text,
+                q.subject,
+                em.year,
+                qc.chunk_type,
+                qc.content AS chunk_content,
+                1 - (qc.embedding <=> CAST(:embedding AS vector)) AS similarity_score
+            FROM enem_questions.question_chunks qc
+            JOIN enem_questions.questions q ON q.id = qc.question_id
+            LEFT JOIN enem_questions.exam_metadata em ON em.id = q.exam_metadata_id
+            WHERE qc.chunk_type = 'full'
+              AND qc.embedding IS NOT NULL
+              {subject_filter}
+              {year_filter}
+            ORDER BY qc.embedding <=> CAST(:embedding AS vector)
+            LIMIT :limit_val
+        """)
+
+        params: Dict[str, Any] = {
+            "embedding": str(embedding),
+            "limit_val": limit,
+        }
+        if subject:
+            params["subject"] = subject
+        if year:
+            params["year"] = year
+
+        with self._engine.connect() as conn:
+            result = conn.execute(sql, params)
+            rows = result.fetchall()
+
+        seen: Dict[int, Dict[str, Any]] = {}
+        for row in rows:
+            r = row._mapping
+            qid = r["question_id"]
+            if qid not in seen:
+                seen[qid] = {
+                    "question_id": qid,
+                    "full_text": r["question_text"],
+                    "subject": r["subject"],
+                    "year": r["year"],
+                    "similarity_score": r["similarity_score"],
+                }
+
+        return list(seen.values())
+
+    async def add_questions_to_index(self, questions: List[Dict[str, Any]]) -> bool:
+        raise NotImplementedError(
+            "Indexação feita pelo IngestionPipeline. "
+            "Use: python -m src.enem_ingestion.ingestion_pipeline"
+        )
+
+
 def create_semantic_search() -> SemanticSearchInterface:
     """
-    Factory function para criar instância de busca semântica
-    Escolhe automaticamente entre ChromaDB (preferido) ou SQLite (fallback)
+    Factory function para criar instância de busca semântica.
+    VECTOR_STORE env var seleciona implementação:
+      - pgvector (default): usa PostgreSQL + pgvector
+      - chromadb: usa ChromaDB (requer chromadb + sentence-transformers)
+      - sqlite: fallback SQLite
     """
-    if CHROMADB_AVAILABLE and SENTENCE_TRANSFORMERS_AVAILABLE:
+    vector_store = os.getenv("VECTOR_STORE", "pgvector")
+
+    if vector_store == "pgvector":
+        logger.info("Criando instância PgVectorSearch (pgvector)")
+        return PgVectorSearch(
+            database_url=os.getenv(
+                "DATABASE_URL",
+                "postgresql://postgres:postgres123@localhost:5433/teachershub_enem",
+            ),
+            openai_api_key=os.getenv("OPENAI_API_KEY", ""),
+            redis_url=os.getenv("REDIS_URL", "redis://localhost:6380/1"),
+        )
+
+    if vector_store == "chromadb" and CHROMADB_AVAILABLE and SENTENCE_TRANSFORMERS_AVAILABLE:
         logger.info("Criando instância ChromaDB - performance otimizada")
         return ChromaDBSemanticSearch()
-    else:
-        logger.info("Criando instância SQLite fallback")
-        missing = []
-        if not CHROMADB_AVAILABLE:
-            missing.append("chromadb")
-        if not SENTENCE_TRANSFORMERS_AVAILABLE:
-            missing.append("sentence-transformers")
-        logger.warning(f"Dependências não encontradas: {missing}")
-        return EnemSemanticSearch(use_mock=not SENTENCE_TRANSFORMERS_AVAILABLE)
 
-# Instância global para uso na aplicação
-semantic_search_instance = create_semantic_search()
+    logger.info("Criando instância SQLite fallback")
+    return EnemSemanticSearch(use_mock=not SENTENCE_TRANSFORMERS_AVAILABLE)
+
+# Instância global lazy — evita conexão ao banco durante import
+_semantic_search_instance = None
+
+
+def get_semantic_search() -> SemanticSearchInterface:
+    """Retorna instância global (lazy singleton)."""
+    global _semantic_search_instance
+    if _semantic_search_instance is None:
+        _semantic_search_instance = create_semantic_search()
+    return _semantic_search_instance
+
+
+# Backwards-compat alias
+semantic_search_instance = None
 
 # Script de teste para execução direta
 async def test_rag_system():

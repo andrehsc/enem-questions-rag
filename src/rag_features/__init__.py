@@ -10,7 +10,7 @@ Este módulo contém funcionalidades avançadas para:
 - Análise e insights de dados
 """
 
-from .semantic_search import EnemSemanticSearch, semantic_search_instance, SemanticSearchInterface
+from .semantic_search import EnemSemanticSearch, SemanticSearchInterface, PgVectorSearch, get_semantic_search
 # from .question_generator import EnemQuestionGenerator, question_generator
 # from .advanced_rag import AdvancedEnemRAG, advanced_rag, RAGContext
 # from .analytics import EnemAnalytics, analytics

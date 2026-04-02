@@ -1,6 +1,6 @@
 # Story 4.2: Question Generator RAG — Feature 3
 
-**Status:** draft
+**Status:** review
 **Epic:** 4 — Geração com RAG: Features 2 e 3
 **Story ID:** 4.2
 **Story Key:** `4-2-question-generator-rag-feature-3`
@@ -33,49 +33,49 @@ Para criar material complementar além do corpus existente, personalizado para a
 
 ## Tasks / Subtasks
 
-- [ ] **Task 1: Criar migration para tabela `generated_questions`** (AC: 7)
-  - [ ] 1.1 Criar `database/generated-questions-migration.sql` com schema da tabela `enem_questions.generated_questions`
-  - [ ] 1.2 Incluir índices por `subject`, `created_at` e `requested_by`
-  - [ ] 1.3 Validar que migration é idempotente (`IF NOT EXISTS`)
+- [x] **Task 1: Criar migration para tabela `generated_questions`** (AC: 7)
+  - [x] 1.1 Criar `database/generated-questions-migration.sql` com schema da tabela `enem_questions.generated_questions`
+  - [x] 1.2 Incluir índices por `subject`, `created_at` e `requested_by`
+  - [x] 1.3 Validar que migration é idempotente (`IF NOT EXISTS`)
 
-- [ ] **Task 2: Atualizar `src/rag_features/question_generator.py` — classe `RAGQuestionGenerator`** (AC: 1–5)
-  - [ ] 2.1 Manter classe legada `EnemQuestionGenerator` comentada/depreciada; criar `RAGQuestionGenerator` no mesmo arquivo
-  - [ ] 2.2 Implementar `__init__(database_url, openai_api_key, redis_url)` — instancia `PgVectorSearch` (Story 3.1) e `openai.AsyncOpenAI` client
-  - [ ] 2.3 Implementar `_fetch_context_chunks(subject, topic, limit=5) -> List[Dict]` — busca chunks `context` via `PgVectorSearch` para alimentar o prompt RAG
-  - [ ] 2.4 Implementar `_build_generation_prompt(topic, subject, difficulty, style, context_chunks) -> List[Dict]` — constrói mensagens system+user com template de geração
-  - [ ] 2.5 Implementar `generate_questions(subject, topic, difficulty, count, style) -> List[Dict]` — chama GPT-4o, parseia JSON, retorna lista de questões com `source_context_ids`
-  - [ ] 2.6 Implementar `_parse_llm_response(content: str) -> List[Dict]` — extrai JSON da resposta GPT-4o, com fallback robusto
-  - [ ] 2.7 Implementar `_persist_generated(questions, subject, topic, difficulty) -> List[UUID]` — salva na tabela `generated_questions`, retorna IDs
+- [x] **Task 2: Atualizar `src/rag_features/question_generator.py` — classe `RAGQuestionGenerator`** (AC: 1–5)
+  - [x] 2.1 Manter classe legada `EnemQuestionGenerator` comentada/depreciada; criar `RAGQuestionGenerator` no mesmo arquivo
+  - [x] 2.2 Implementar `__init__(database_url, openai_api_key, redis_url)` — instancia `PgVectorSearch` (Story 3.1) e `openai.AsyncOpenAI` client
+  - [x] 2.3 Implementar `_fetch_context_chunks(subject, topic, limit=5) -> List[Dict]` — busca chunks `context` via `PgVectorSearch` para alimentar o prompt RAG
+  - [x] 2.4 Implementar `_build_generation_prompt(topic, subject, difficulty, style, context_chunks) -> List[Dict]` — constrói mensagens system+user com template de geração
+  - [x] 2.5 Implementar `generate_questions(subject, topic, difficulty, count, style) -> List[Dict]` — chama GPT-4o, parseia JSON, retorna lista de questões com `source_context_ids`
+  - [x] 2.6 Implementar `_parse_llm_response(content: str) -> List[Dict]` — extrai JSON da resposta GPT-4o, com fallback robusto
+  - [x] 2.7 Implementar `_persist_generated(questions, subject, topic, difficulty) -> List[UUID]` — salva na tabela `generated_questions`, retorna IDs
 
-- [ ] **Task 3: Adicionar modelos Pydantic em `api/fastapi_app.py`** (AC: 6, 8, 10)
-  - [ ] 3.1 Criar `QuestionGenerateRequest(BaseModel)`: `subject: str`, `topic: str`, `difficulty: str = Field("medium", pattern="^(easy|medium|hard)$")`, `count: int = Field(1, ge=1, le=5)`, `style: str = Field("enem")`
-  - [ ] 3.2 Criar `GeneratedQuestion(BaseModel)`: `id: Optional[UUID]`, `stem: str`, `context_text: Optional[str]`, `alternatives: Dict[str, str]`, `answer: str`, `explanation: str`, `source_context_ids: List[str]`
-  - [ ] 3.3 Criar `QuestionGenerateResponse(BaseModel)`: `data: List[GeneratedQuestion]`, `meta: Dict[str, Any]`, `error: Optional[Any] = None`
+- [x] **Task 3: Adicionar modelos Pydantic em `api/fastapi_app.py`** (AC: 6, 8, 10)
+  - [x] 3.1 Criar `QuestionGenerateRequest(BaseModel)`: `subject: str`, `topic: str`, `difficulty: str = Field("medium", pattern="^(easy|medium|hard)$")`, `count: int = Field(1, ge=1, le=5)`, `style: str = Field("enem")`
+  - [x] 3.2 Criar `GeneratedQuestion(BaseModel)`: `id: Optional[UUID]`, `stem: str`, `context_text: Optional[str]`, `alternatives: Dict[str, str]`, `answer: str`, `explanation: str`, `source_context_ids: List[str]`
+  - [x] 3.3 Criar `QuestionGenerateResponse(BaseModel)`: `data: List[GeneratedQuestion]`, `meta: Dict[str, Any]`, `error: Optional[Any] = None`
 
-- [ ] **Task 4: Implementar endpoint `POST /api/v1/questions/generate`** (AC: 6–10)
-  - [ ] 4.1 Instanciar `RAGQuestionGenerator` na startup da app (similar ao `PgVectorSearch` da Story 3.2)
-  - [ ] 4.2 Criar handler `async def generate_questions(request: QuestionGenerateRequest)`
-  - [ ] 4.3 Chamar `rag_question_generator.generate_questions(subject, topic, difficulty, count, style)`
-  - [ ] 4.4 Construir `meta`: `{total: len(results), subject, topic, difficulty, style, model: "gpt-4o", generated_at}`
-  - [ ] 4.5 Capturar exceções: retornar 503 com `error.code = "GENERATION_UNAVAILABLE"`
-  - [ ] 4.6 Adicionar decorator Swagger com tags, summary e description
+- [x] **Task 4: Implementar endpoint `POST /api/v1/questions/generate`** (AC: 6–10)
+  - [x] 4.1 Instanciar `RAGQuestionGenerator` na startup da app (similar ao `PgVectorSearch` da Story 3.2)
+  - [x] 4.2 Criar handler `async def generate_questions(request: QuestionGenerateRequest)`
+  - [x] 4.3 Chamar `rag_question_generator.generate_questions(subject, topic, difficulty, count, style)`
+  - [x] 4.4 Construir `meta`: `{total: len(results), subject, topic, difficulty, style, model: "gpt-4o", generated_at}`
+  - [x] 4.5 Capturar exceções: retornar 503 com `error.code = "GENERATION_UNAVAILABLE"`
+  - [x] 4.6 Adicionar decorator Swagger com tags, summary e description
 
-- [ ] **Task 5: Criar `tests/test_question_generator_rag.py`** (AC: 1–10)
-  - [ ] 5.1 Testar `_fetch_context_chunks` retorna chunks com `chunk_type='context'`
-  - [ ] 5.2 Testar `_build_generation_prompt` inclui contexto RAG e instruções de formato ENEM
-  - [ ] 5.3 Testar `generate_questions` retorna questões com campos obrigatórios (`stem`, `alternatives`, `answer`, `explanation`, `source_context_ids`)
-  - [ ] 5.4 Testar que `source_context_ids` contém UUIDs válidos dos chunks usados
-  - [ ] 5.5 Testar `_parse_llm_response` com JSON válido e com resposta mal-formatada (fallback)
-  - [ ] 5.6 Testar `_persist_generated` insere na tabela `generated_questions` (não na `question_chunks`)
+- [x] **Task 5: Criar `tests/test_question_generator_rag.py`** (AC: 1–10)
+  - [x] 5.1 Testar `_fetch_context_chunks` retorna chunks com `chunk_type='context'`
+  - [x] 5.2 Testar `_build_generation_prompt` inclui contexto RAG e instruções de formato ENEM
+  - [x] 5.3 Testar `generate_questions` retorna questões com campos obrigatórios (`stem`, `alternatives`, `answer`, `explanation`, `source_context_ids`)
+  - [x] 5.4 Testar que `source_context_ids` contém UUIDs válidos dos chunks usados
+  - [x] 5.5 Testar `_parse_llm_response` com JSON válido e com resposta mal-formatada (fallback)
+  - [x] 5.6 Testar `_persist_generated` insere na tabela `generated_questions` (não na `question_chunks`)
 
-- [ ] **Task 6: Criar `tests/test_endpoint_question_generate.py`** (AC: 6–10)
-  - [ ] 6.1 Testar request válido retorna 200 com estrutura `{data, meta, error: null}`
-  - [ ] 6.2 Testar `count=6` retorna 422 (Pydantic validation)
-  - [ ] 6.3 Testar `subject` vazio retorna 422
-  - [ ] 6.4 Testar `difficulty` inválido retorna 422
-  - [ ] 6.5 Testar serviço indisponível retorna 503 com `error.code = "GENERATION_UNAVAILABLE"`
-  - [ ] 6.6 Testar resposta inclui `source_context_ids` em cada questão
-  - [ ] 6.7 Testar `meta` contém `subject`, `topic`, `difficulty`, `model`
+- [x] **Task 6: Criar `tests/test_endpoint_question_generate.py`** (AC: 6–10)
+  - [x] 6.1 Testar request válido retorna 200 com estrutura `{data, meta, error: null}`
+  - [x] 6.2 Testar `count=6` retorna 422 (Pydantic validation)
+  - [x] 6.3 Testar `subject` vazio retorna 422
+  - [x] 6.4 Testar `difficulty` inválido retorna 422
+  - [x] 6.5 Testar serviço indisponível retorna 503 com `error.code = "GENERATION_UNAVAILABLE"`
+  - [x] 6.6 Testar resposta inclui `source_context_ids` em cada questão
+  - [x] 6.7 Testar `meta` contém `subject`, `topic`, `difficulty`, `model`
 
 ---
 
@@ -570,7 +570,29 @@ class TestQuestionGenerateEndpoint:
 
 ## Dev Agent Record
 
-*This section will be populated by the development agent during implementation*
+### Implementation Plan
+1. Migration SQL (`database/generated-questions-migration.sql`) — table `generated_questions` with JSONB alternatives, UUID[] source_context_ids
+2. `RAGQuestionGenerator` class added to `question_generator.py` alongside legacy `EnemQuestionGenerator`
+3. GPT-4o prompt templates (SYSTEM_PROMPT + USER_PROMPT_TEMPLATE) with RAG context injection
+4. Pydantic models + `POST /api/v1/questions/generate` endpoint in `fastapi_app.py`
+5. Unit tests (18 tests) + endpoint tests (8 tests)
+
+### Debug Log
+- No issues encountered during implementation.
+
+### Completion Notes
+- All 26 tests passing (18 unit + 8 endpoint)
+- `question_generator.py`: 63% coverage (legacy `EnemQuestionGenerator` untested — deprecated)
+- `RAGQuestionGenerator` accepts `pgvector_search` as constructor param (injected from app startup)
+- `_parse_llm_response` has robust fallback: tries direct JSON parse → regex extract from markdown → ValueError
+- Endpoint validates: difficulty pattern, count range [1,5], subject/topic min_length=1
+
+### Files
+- `src/rag_features/question_generator.py` — `RAGQuestionGenerator` + prompt templates
+- `api/fastapi_app.py` — Pydantic models, startup init, `POST /api/v1/questions/generate`
+- `database/generated-questions-migration.sql` — DDL for `generated_questions`
+- `tests/test_question_generator_rag.py` — 18 unit tests
+- `tests/test_endpoint_question_generate.py` — 8 endpoint tests
 
 ---
 
@@ -579,3 +601,4 @@ class TestQuestionGenerateEndpoint:
 | Data | Alteração |
 |------|-----------|
 | 2026-04-02 | Story criada — Question Generator RAG Feature 3 (Epic 4, Story 2) |
+| 2026-04-02 | Implementation complete — 26/26 tests passing, status → review |
