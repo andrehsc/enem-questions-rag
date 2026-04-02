@@ -10,18 +10,18 @@ Sistema RAG (Retrieval-Augmented Generation) completo para questões do ENEM 202
 - Performance otimizada: 8 workers paralelos, batch size 12
 - Sistema completo de backups e restauração
 
-## Roadmap de Integração TeachersHub
+## Roadmap RAG Pipeline
 
 | Épico | Descrição | Status |
 |-------|-----------|--------|
-| Épico 1 | Fundação e Infraestrutura de Integração | In Progress |
-| Épico 2 | Integração de Dados e APIs ENEM | In Progress |
-| Épico 3 | Capacidades RAG e Análise Semântica | Draft |
-| Épico 4 | Ferramentas IA para Criação de Conteúdo | Draft |
-| Épico 5 | Exportação e Compliance | Draft |
+| Épico 1 | Fundação Vetorial — pgvector + Chunk Builder | Concluído |
+| Épico 2 | Pipeline de Embeddings — Geração e Ingestão | Concluído |
+| Épico 3 | Busca Semântica — Feature 1 | Draft |
+| Épico 4 | Geração com RAG — Features 2 e 3 | Draft |
 
-> **Documentação completa:** [`docs/prd.md`](docs/prd.md) | [`docs/architecture.md`](docs/architecture.md)
-> **Stories Épico 3 (RAG):** [`docs/stories/rag-semantic/`](docs/stories/rag-semantic/)
+> **Arquitetura:** [`_bmad-output/planning-artifacts/architecture.md`](_bmad-output/planning-artifacts/architecture.md)
+> **Epics & Stories:** [`_bmad-output/planning-artifacts/epics.md`](_bmad-output/planning-artifacts/epics.md)
+> **Implementation Artifacts:** [`_bmad-output/implementation-artifacts/`](_bmad-output/implementation-artifacts/)
 
 ## Arquitetura
 
