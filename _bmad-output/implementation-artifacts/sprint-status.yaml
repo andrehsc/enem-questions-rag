@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-02
-last_updated: 2026-04-02T08:00:00
+last_updated: 2026-04-02T12:00:00
 project: enem-questions-rag
 project_key: NOKEY
 tracking_system: file-system
@@ -57,13 +57,13 @@ development_status:
   epic-2-retrospective: optional
 
   # ─── Epic 3: Busca Semântica — Feature 1 ───
-  epic-3: backlog
-  3-1-atualizar-semantic-search-para-pgvector: backlog
-  3-2-endpoint-post-api-v1-search-semantic: backlog
+  epic-3: in-progress
+  3-1-atualizar-semantic-search-para-pgvector: ready-for-dev
+  3-2-endpoint-post-api-v1-search-semantic: ready-for-dev
   epic-3-retrospective: optional
 
   # ─── Epic 4: Geração com RAG — Features 2 e 3 ───
-  epic-4: backlog
-  4-1-assessment-generator-feature-2: backlog
-  4-2-question-generator-rag-feature-3: backlog
+  epic-4: in-progress
+  4-1-assessment-generator-feature-2: ready-for-dev
+  4-2-question-generator-rag-feature-3: ready-for-dev
   epic-4-retrospective: optional
