@@ -1,0 +1,2332 @@
+📚 RELATÓRIO COMPLETO DO CADERNO ENEM
+================================================================================
+Caderno: CD5
+Ano: 2020
+Dia: 2
+Tipo: regular
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Total de Questões: 85
+Gerado em: 16/10/2025 às 20:54:14
+
+
+====================================================================================================
+QUESTÃO 1: Q91 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 4f57ed17-d0f7-4c56-9dd3-56a3d8003aee
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Na indústria farmacêutica, é muito comum o emprego de substâncias de revestimento em medicamentos de uso oral, pois trazem uma série de benefícios como alteração de sabor em medicamentos que tenham gosto ruim, melhoria da assimilação do composto, entre outras ações. Alguns compostos poliméricos à base do polissacarídeo celulose são utilizados para garantir que o fármaco somente seja liberado quando em contato com soluções aquosas cujo pH se encontre próximo da faixa da neutralidade. BORTOLINI, K. et al. Análise de perfil de dissolução de cápsulas gastrorresistentes utilizando polímeros industriais com aplicação em farmácias magistrais. Revista da Unifebe, n. 12, 2013 (adaptado). Qual é a finalidade do uso desse revestimento à base de celulose? A Diminuir a absorção do princípio ativo no intestino. B Impedir que o fármaco seja solubilizado no intestino. C Garantir que o fármaco não seja afetado pelas secreções gástricas. D Permitir a liberação do princípio ativo pela ação das amilases salivares. E Facilitar a liberação do fármaco pela ação dos sais biliares sobre o revestimento.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Diminuir a absorção do princípio ativo no intestino.
+B) B) Impedir que o fármaco seja solubilizado no intestino.
+C) C) Garantir que o fármaco não seja afetado pelas secreções gástricas.
+D) D) Permitir a liberação do princípio ativo pela ação das amilases salivares.
+E) E) Facilitar a liberação do fármaco pela ação dos sais biliares sobre o revestimento.
+
+🔑 GABARITO: C
+
+----------------------------------------
+IMAGENS:
+----------------------------------------
+Total: 6 imagens (402.6 KB)
+  #1: PNG - 394x374 - 110.3KB
+  #2: PNG - 334x220 - 24.5KB
+  #3: PNG - 532x533 - 67.5KB
+  #4: PNG - 532x533 - 66.5KB
+  #5: PNG - 532x533 - 66.5KB
+  #6: PNG - 532x533 - 67.3KB
+
+
+====================================================================================================
+QUESTÃO 2: Q92 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 866b4461-e502-4918-9d97-91df690d4e4d
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+As panelas de pressão reduzem o tempo de cozimento dos alimentos por elevar a temperatura de ebulição da água. Os usuários conhecedores do utensílio normalmente abaixam a intensidade do fogo em panelas de pressão após estas iniciarem a saída dos vapores. Ao abaixar o fogo, reduz-se a chama, pois assim evita-se o(a) A aumento da pressão interna e os riscos de explosão. B dilatação da panela e a desconexão com sua tampa. C perda da qualidade nutritiva do alimento. D deformação da borracha de vedação. E consumo de gás desnecessário.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) aumento da pressão interna e os riscos de explosão.
+B) B) dilatação da panela e a desconexão com sua tampa.
+C) C) perda da qualidade nutritiva do alimento.
+D) D) deformação da borracha de vedação.
+E) E) consumo de gás desnecessário.
+
+🔑 GABARITO: E
+
+
+====================================================================================================
+QUESTÃO 3: Q93 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: ed71c812-82f6-4f46-b63f-f8dbf041e4c0
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A nanotecnologia pode ser caracterizada quando os compostos estão na ordem de milionésimos de milímetros, como na utilização de nanomateriais catalíticos nos processos industriais. O uso desses materiais aumenta a eficiência da produção, consome menos energia e gera menores quantidades de resíduos. O sucesso dessa aplicação tecnológica muitas vezes está relacionado ao aumento da velocidade da reação química envolvida. O êxito da aplicação dessa tecnologia é por causa da realização de reações químicas que ocorrem em condições de A alta pressão. B alta temperatura. C excesso de reagentes. D maior superfície de contato. E elevada energia de ativação. CN - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) nanotecnologia pode ser caracterizada quando os compostos estão na ordem de milionésimos de milímetros, como na utilização de nanomateriais catalíticos nos processos industriais. O uso desses materiais aumenta a eficiência da produção, consome menos energia e gera menores quantidades de resíduos. O sucesso dessa aplicação tecnológica muitas vezes está relacionado ao aumento da velocidade da reação química envolvida. O êxito da aplicação dessa tecnologia é por causa da realização de reações químicas que ocorrem em condições de
+B) B) alta temperatura.
+C) C) excesso de reagentes.
+D) D) maior superfície de contato.
+E) E) elevada energia de ativação. CN - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 4: Q94 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: a134a63b-bc5c-48b3-9794-da55ed57491b
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Os fones de ouvido tradicionais transmitem a música diretamente para os nossos ouvidos. Já os modelos dotados de tecnologia redutora de ruído - Cancelamento de Ruído (CR) - além de transmitirem música, também reduzem todo ruído inconsistente à nossa volta, como o barulho de turbinas de avião e aspiradores de pó. Os fones de ouvido CR não reduzem realmente barulhos irregulares como discursos e choros de bebês. Mesmo assim, a supressão do ronco das turbinas do avião contribui para reduzir a “fadiga de ruído”, um cansaço persistente provocado pela exposição a um barulho alto por horas a fio. Esses aparelhos também permitem que nós ouçamos músicas ou assistamos a vídeos no trem ou no avião a um volume muito menor (e mais seguro). Disponível em: http://tecnologia.uol.com.br. Acesso em: 21 abr. 2015 (adaptado). A tecnologia redutora de ruído CR utilizada na produção de fones de ouvido baseia-se em qual fenômeno ondulatório? A Absorção. B Interferência. C Polarização. D Reflexão. E Difração.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) tecnologia redutora de ruído CR utilizada na produção de fones de ouvido baseia-se em qual fenômeno ondulatório?
+B) B) Interferência.
+C) C) Polarização.
+D) D) Reflexão.
+E) E) Difração.
+
+🔑 GABARITO: B
+
+
+====================================================================================================
+QUESTÃO 5: Q95 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 7c8ccd15-2fdc-467c-895f-a0176c9e46a9
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Para garantir que produtos eletrônicos estejam armazenados de forma adequada antes da venda, algumas empresas utilizam cartões indicadores de umidade nas embalagens desses produtos. Alguns desses cartões contêm um sal de cobalto que muda de cor em presença de água, de acordo com a equação química: ∆H < 0 (azul) (rosa) Como você procederia para reutilizar, num curto intervalo de tempo, um cartão que já estivesse com a coloração rosa? A Resfriaria no congelador. B Borrifaria com spray de água. C Envolveria com papel alumínio. D Aqueceria com secador de cabelos. E Embrulharia em guardanapo de papel.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Resfriaria no congelador.
+B) B) Borrifaria com spray de água.
+C) C) Envolveria com papel alumínio.
+D) D) Aqueceria com secador de cabelos.
+E) E) Embrulharia em guardanapo de papel.
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 6: Q96 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: a3e19e11-1caa-4f37-b1f2-8e6d8e7284b9
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um estudante tem uma fonte de tensão com corrente contínua que opera em tensão fixa de 12 V. Como precisa alimentar equipamentos que operam em tensões menores, ele emprega quatro resistores de 100 Ω para construir um divisor de tensão. Obtém-se este divisor associando os resistores, como exibido na figura. Os aparelhos podem ser ligados entre os pontos A, B, C, D e E, dependendo da tensão especificada. Fonte CC + − 12 V 100 Ω 100 Ω 100 Ω 100 Ω A B C D E Ele tem um equipamento que opera em 9,0 V com uma resistência interna de 10 kΩ. Entre quais pontos do divisor de tensão esse equipamento deve ser ligado para funcionar corretamente e qual será o valor da intensidade da corrente nele estabelecida? A Entre A e C; 30 mA. B Entre B e E; 30 mA. C Entre A e D; 1,2 mA. D Entre B e E; 0,9 mA. E Entre A e E; 0,9 mA.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) B C D
+B) B) Entre
+C) C) Entre
+D) D) Entre
+E) E) Entre
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 7: Q97 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: bf327099-86a1-435a-9fb5-e25bfdb80395
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Pesquisadores dos Estados Unidos desenvolveram uma nova técnica, que utiliza raios de luz infravermelha (invisíveis a olho nu) para destruir tumores. Primeiramente, o paciente recebe uma injeção com versões modificadas de anticorpos que têm a capacidade de “grudar” apenas nas células cancerosas. Sozinhos, eles não fazem nada contra o tumor. Entretanto, esses anticorpos estão ligados a uma molécula, denominada IR700, que funcionará como uma “microbomba”, que irá destruir o câncer. Em seguida, o paciente recebe raios infravermelhos. Esses raios penetram no corpo e chegam até a molécula IR700, que é ativada e libera uma substância que ataca a célula cancerosa. Disponível em: http://super.abril.com.br. Acesso em: 13 dez. 2012 (adaptado). Com base nas etapas de desenvolvimento, o nome apropriado para a técnica descrita é: A Radioterapia. B Cromoterapia. C Quimioterapia. D Fotoimunoterapia. E Terapia magnética.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Radioterapia.
+B) B) Cromoterapia.
+C) C) Quimioterapia.
+D) D) Fotoimunoterapia.
+E) E) Terapia magnética.
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 8: Q98 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 21615f94-e8d8-48b5-895e-fd1937e38ca2
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Aranhas, escorpiões, carrapatos e ácaros são representantes da classe dos Aracnídeos. Esses animais são terrestres em sua grande maioria e ocupam os mais variados hábitats, tais como montanhas altas, pântanos, desertos e solos arenosos. Podem ter sido os primeiros representantes do filo Arthropoda a habitar a terra seca. A característica que justifica o sucesso adaptativo desse grupo na ocupação do ambiente terrestre é a presença de A quelíceras e pedipalpos que coordenam o movimento corporal. B excreção de ácido úrico que confere estabilidade ao pH corporal. C exoesqueleto constituído de quitina que auxilia no controle hídrico corporal. D circulação sanguínea aberta que impede a desidratação dos tecidos corporais. E sistema nervoso ganglionar que promove a coordenação central do movimento corporal. CN - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) característica que justifica o sucesso adaptativo desse grupo na ocupação do ambiente terrestre é a presença de
+B) B) excreção de ácido úrico que confere estabilidade ao pH corporal.
+C) C) exoesqueleto constituído de quitina que auxilia no controle hídrico corporal.
+D) D) circulação sanguínea aberta que impede a desidratação dos tecidos corporais.
+E) E) sistema nervoso ganglionar que promove a coordenação central do movimento corporal. CN - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 9: Q99 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 00a75196-6033-471a-9d9b-0e8d6b40f27b
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Embora a energia nuclear possa ser utilizada para fins pacíficos, recentes conflitos geopolíticos têm trazido preocupações em várias partes do planeta e estimulado discussões visando o combate ao uso de armas de destruição em massa. Além do potencial destrutivo da bomba atômica, uma grande preocupação associada ao emprego desse artefato bélico é a poeira radioativa deixada após a bomba ser detonada. Qual é o processo envolvido na detonação dessa bomba? A Fissão nuclear do urânio, provocada por nêutrons. B Fusão nuclear do hidrogênio, provocada por prótons. C Desintegração nuclear do plutônio, provocada por elétrons. D Associação em cadeia de chumbo, provocada por pósitrons. E Decaimento radioativo do carbono, provocado por partículas beta.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Fissão nuclear do urânio, provocada por nêutrons.
+B) B) Fusão nuclear do hidrogênio, provocada por prótons.
+C) C) Desintegração nuclear do plutônio, provocada por elétrons.
+D) D) Associação em cadeia de chumbo, provocada por pósitrons.
+E) E) Decaimento radioativo do carbono, provocado por partículas beta.
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 10: Q100 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 292c4dfe-6ff7-4124-ac4a-479f16d86245
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Plantas pioneiras são as que iniciam o processo natural de cicatrização de uma área desprovida de vegetação. Em geral, têm pequeno porte e crescem muito rápido, desenvolvem-se a pleno sol e são pouco exigentes quanto às condições do solo. Produzem grande quantidade de sementes e possuem ciclo de vida curto. BLUM, C. T. Lista preliminar de espécies vegetais pioneiras nativas do Paraná - versão 2008. Disponível em: www.chaua.org.br. Acesso em: 10 fev. 2015. Essas plantas são importantes em um projeto de restauração ambiental, pois promovem, no solo, A aumento da incidência de luz solar. B diminuição da absorção de água. C estabilização da umidade. D elevação de temperatura. E liberação de oxigênio.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) aumento da incidência de luz solar.
+B) B) diminuição da absorção de água.
+C) C) estabilização da umidade.
+D) D) elevação de temperatura.
+E) E) liberação de oxigênio.
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 11: Q101 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 2b6c6643-d152-4ed4-9e69-f62935656a4b
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Mesmo para peixes de aquário, como o peixe arco-íris, a temperatura da água fora da faixa ideal (26 °C a 28 °C), bem como sua variação brusca, pode afetar a saúde do animal. Para manter a temperatura da água dentro do aquário na média desejada, utilizam- se dispositivos de aquecimento com termostato. Por exemplo, para um aquário de 50 L, pode-se utilizar um sistema de aquecimento de 50 W otimizado para suprir sua taxa de resfriamento. Essa taxa pode ser considerada praticamente constante, já que a temperatura externa ao aquário é mantida pelas estufas. Utilize para a água o calor específico 4,0 kJ kg−1 K−1 e a densidade 1 kg L−1. CN - 2° dia | Caderno 5 - AMARELO - Página 4 Se o sistema de aquecimento for desligado por 1 h, qual o valor mais próximo para a redução da temperatura da água do aquário? A 4,0 °C B 3,6 °C C 0,9 °C D 0,6 °C E 0,3 °C
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 4,0 °C
+B) B) 3,6 °C
+C) C) 0,9 °C
+D) D) 0,6 °C
+E) E) 0,3 °C
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 12: Q103 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: d2091b49-2379-472c-acac-0072aa51aa31
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A obtenção de óleos vegetais, de maneira geral, passa Etapa Subetapa Seleção dos grãos Preparação da Descascamento matéria-prima Trituração R Cozimento Au Prensagem Extração do Extração óleo bruto Destilação Qual das subetapas do processo é realizada em função ap A Trituração. B Cozimento. C Prensagem. D Extração. E Destilação.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) obtenção de óleos vegetais, de maneira geral, passa Etapa Subetapa Seleção dos grãos Preparação da Descascamento matéria-prima Trituração R Cozimento Au Prensagem Extração do Extração óleo bruto Destilação Qual das subetapas do processo é realizada em função ap
+B) B) Cozimento.
+C) C) Prensagem.
+D) D) Extração.
+E) E) Destilação.
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 13: Q104 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 75c89902-12b7-4d40-a6bb-a4d542d6e4b7
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O dióxido de carbono passa para o estado sólido (gelo ambiente. O gás é facilmente solubilizado em água, capaz d não conduz eletricidade. Ele é utilizado como matéria-prima pelos organismos autotróficos, o gás retorna ao meio ambi ou por resíduos industriais, queima de combustíveis fósseis excesso causa perturbações no equilíbrio ambiental. Considerando as propriedades descritas, o aumento atmos razão da A redução do potencial hidrogeniônico da água. B restrição da aerobiose pelo excesso de poluentes. C diminuição da emissão de oxigênio pelos autótrofos. D limitação de transferência de energia entre os seres vivos. E retração dos oceanos pelo congelamento do gás nos p
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) redução do potencial hidrogeniônico da água.
+B) B) restrição da aerobiose pelo excesso de poluentes.
+C) C) diminuição da emissão de oxigênio pelos autótrofos.
+D) D) limitação de transferência de energia entre os seres vivos.
+E) E) retração dos oceanos pelo congelamento do gás nos p
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 14: Q105 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 68504e01-e097-4e70-aae0-c9e4849049ca
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Grupos de proteção ao meio ambiente conseguem re petróleo. Essas aves são lavadas com água e detergente posteriormente, são aquecidas, medicadas, desintoxicadas ambiente não pode ser imediato, pois elas precisam recup Para flutuar, essas aves precisam A recuperar o tônus muscular. B restaurar a massa corporal. C substituir as penas danificadas. D restabelecer a capacidade de homeotermia. E refazer a camada de cera impermeabilizante das penas. a pelas etapas descritas no quadro. O que ocorre Separação das sujidades mais grossas Separação de polpa e casca Rompimento dos tecidos e das paredes das células umento da permeabilidade das membranas celulares Remoção parcial do óleo Obtenção do óleo bruto com hexano Separação do óleo e do solvente penas da polaridade das substâncias? o seco) a −78 °C e retorna ao estado gasoso à temperatura de absorver radiação infravermelha da superfície da terra e a para a fotossíntese até o limite de saturação. Após a fixação iente pela respiração aeróbica, fermentação, decomposição s e queimadas. Apesar da sua importância ecológica, seu sférico da substância afetará os organismos aquáticos em polos. esgatar muitas aves aquáticas vítimas de vazamentos de e neutro para a retirada completa do óleo de seu corpo e, s e alimentadas. Mesmo após esses cuidados, o retorno ao perar a capacidade de flutuação. CN - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) recuperar o tônus muscular.
+B) B) restaurar a massa corporal.
+C) C) substituir as penas danificadas.
+D) D) restabelecer a capacidade de homeotermia.
+E) E) refazer a camada de cera impermeabilizante das penas. a pelas etapas descritas no quadro. O que ocorre Separação das sujidades mais grossas Separação de polpa e casca Rompimento dos tecidos e das paredes das células umento da permeabilidade das membranas celulares Remoção parcial do óleo Obtenção do óleo bruto com hexano Separação do óleo e do solvente penas da polaridade das substâncias? o seco) a −78 °C e retorna ao estado gasoso à temperatura de absorver radiação infravermelha da superfície da terra e a para a fotossíntese até o limite de saturação. Após a fixação iente pela respiração aeróbica, fermentação, decomposição s e queimadas. Apesar da sua importância ecológica, seu sférico da substância afetará os organismos aquáticos em polos. esgatar muitas aves aquáticas vítimas de vazamentos de e neutro para a retirada completa do óleo de seu corpo e, s e alimentadas. Mesmo após esses cuidados, o retorno ao perar a capacidade de flutuação. CN - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: E
+
+
+====================================================================================================
+QUESTÃO 15: Q106 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: ca1bdfad-2b66-49fc-ac65-da4930a29fdd
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma pessoa percebe que a bateria de seu veículo desse período, a bateria funcionava normalmente e estav na possibilidade de haver uma corrente de fuga, que s veículo desligados, ele associa um amperímetro digital a Qual dos esquemas indica a maneira com que o amperíme Circuito do veículo Amperímetro 0,5 A A Bateria Circuito do veículo Amperímetro 0,5 A B Bateria Circuito do veículo C Bateria 2,5 A Amperímetro
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Bateria Circuito do veículo Amperímetro 0,5
+B) B) Bateria Circuito do veículo
+C) C) Bateria 2,5
+D) D) [Alternative not found]
+E) E) [Alternative not found]
+
+🔑 GABARITO: B
+
+
+====================================================================================================
+QUESTÃO 16: Q107 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 20883c3f-9822-4d45-ab71-069cb332d343
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um microempresário do ramo de cosméticos utiliza ól de rosas. O principal componente do óleo de rosas tem c catálogo dos óleos essenciais apresenta, para escolha da CN - 2° dia | Caderno 5 - AMARELO - Página 6 O H O O H H O H C H O C H O C H O C C H H CHO OH OH (1) (2) OH CHO OH CHO OH (3) (4) (5) O H O O H H O H C H O C H O C H O C C H H O O C CHO OH OH CHO OH (1()1) (2(2)) Qual substância o empresário deverá utilizar? A 1 OH CHO B 2 OH OH CHO HO C 3 D 4 OH E 5 (3) (4) (5) fica descarregada após cinco dias sem uso. No início va com o total de sua carga nominal, de 60 Ah. Pensando se estabelece mesmo com os dispositivos elétricos do ao circuito do veículo. etro deve ser ligado e a leitura por ele realizada? Amperímetro Circuito do veículo 12 A D Bateria 12 A Amperímetro E Circuito do veículo Bateria leos essenciais e quer produzir um creme com fragrância cadeia poli-insaturada e hidroxila em carbono terminal. O essência, estas estruturas químicas: HO HO C H O O H O H O CHO OH OH CHO C H O O H O H CHO OH OH CHO O H O O H H O H C H O C H O C H O C C H H O O C H O CHO OH C OH (1) (2) OH CHO OH CHO OH (3(3)) ((44)) (5(5))
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 1 OH CHO
+B) B) 2 OH OH CHO
+C) C) C H H CHO OH OH (1) (2) OH CHO OH CHO OH (3) (4) (5) O H O
+D) D) [Alternative not found]
+E) E) 5 (3) (4) (5) fica descarregada após cinco dias sem uso. No início va com o total de sua carga
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 17: Q109 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: dbd1dfe4-e9d1-499f-bf6e-1bd913658fbd
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Dois engenheiros estão verificando se uma cavidade perfurada no solo está de acordo com o planejamento de uma obra, cuja profundidade requerida é de 30 m. O teste é feito por um dispositivo denominado oscilador de áudio de frequência variável, que permite relacionar a profundidade com os valores da frequência de duas ressonâncias consecutivas, assim como em um tubo sonoro fechado. A menor frequência de ressonância que o aparelho mediu foi 135 Hz. Considere que a velocidade do som dentro da cavidade perfurada é de 360 m s-1. Se a profundidade estiver de acordo com o projeto, qual será o valor da próxima frequência de ressonância que será medida? A 137 Hz. B 138 Hz. C 141 Hz. D 144 Hz. E 159 Hz.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 137 Hz.
+B) B) 138 Hz.
+C) C) 141 Hz.
+D) D) 144 Hz.
+E) E) 159 Hz.
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 18: Q110 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: d1cd43c7-ae15-40f7-a628-2bc202a80471
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Instituições acadêmicas e de pesquisa no mundo estão inserindo genes em genomas de plantas que possam codificar produtos de interesse farmacológico. No Brasil, está sendo desenvolvida uma variedade de soja com um viricida ou microbicida capaz de prevenir a contaminação pelo vírus causador da aids. Essa leguminosa está sendo induzida a produzir a enzima cianovirina-N, que tem eficiência comprovada contra o vírus. OLIVEIRA, M. Remédio na planta. Pesquisa Fapesp, n. 206, abr. 2013. A técnica para gerar essa leguminosa é um exemplo de A hibridismo. B transgenia. C conjugação. D terapia gênica. E melhoramento genético. CN - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) técnica para gerar essa leguminosa é um exemplo de
+B) B) transgenia.
+C) C) conjugação.
+D) D) terapia gênica.
+E) E) melhoramento genético. CN - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: B
+
+
+====================================================================================================
+QUESTÃO 19: Q111 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: e6fc806e-87c1-46e5-851d-33371dc9cc7b
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Megaespetáculos com queima de grande quantidade de fogos de artifício em festas de final de ano são muito comuns no Brasil. Após a queima, grande quantidade de material particulado permanece suspensa no ar. Entre os resíduos, encontram-se compostos de sódio, potássio, bário, cálcio, chumbo, antimônio, cromo, além de percloratos e gases, como os dióxidos de nitrogênio e enxofre. BRUNNING, A. The Chemistry of Firework Pollution. Disponível em: www.compoundchem.com. Acesso em: 1 dez. 2017 (adaptado). Esses espetáculos promovem riscos ambientais, porque A as substâncias resultantes da queima de fogos de artifício são inflamáveis. B os resíduos produzidos na queima de fogos de artifício ainda são explosivos. C o sódio e o potássio são os principais responsáveis pela toxicidade do produto da queima. D os produtos da queima contêm metais pesados e gases tóxicos que resultam em poluição atmosférica. E o material particulado gerado se deposita na superfície das folhas das plantas impedindo os processos de respiração celular.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) as substâncias resultantes da queima de fogos de artifício são inflamáveis. B os resíduos produzidos na queima de fogos de artifício ainda são explosivos. C o sódio e o potássio são os principais responsáveis pela toxicidade do produto da queima. D os produtos da queima contêm metais pesados e gases tóxicos que resultam em poluição atmosférica. E o material particulado gerado se deposita na superfície das folhas das plantas impedindo os processos de respiração celular.
+B) B) os resíduos produzidos na queima de fogos de artifício ainda são explosivos. C o sódio e o potássio são os principais responsáveis pela toxicidade do produto da queima. D os produtos da queima contêm metais pesados e gases tóxicos que resultam em poluição atmosférica. E o material particulado gerado se deposita na superfície das folhas das plantas impedindo os processos de respiração celular.
+C) C) o sódio e o potássio são os principais responsáveis pela toxicidade do produto da queima. D os produtos da queima contêm metais pesados e gases tóxicos que resultam em poluição atmosférica. E o material particulado gerado se deposita na superfície das folhas das plantas impedindo os processos de respiração celular.
+D) D) os produtos da queima contêm metais pesados e gases tóxicos que resultam em poluição atmosférica. E o material particulado gerado se deposita na superfície das folhas das plantas impedindo os processos de respiração celular.
+E) E) o material particulado gerado se deposita na superfície das folhas das plantas impedindo os processos de respiração celular.
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 20: Q112 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 728c0f80-7b1b-4e40-a600-8f38ed5d47b5
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Há muitos mitos em relação a como se proteger de raios, cobrir espelhos e não pegar em facas, garfos e outros objetos metálicos, por exemplo. Mas, de fato, se houver uma tempestade com raios, alguns cuidados são importantes, como evitar ambientes abertos. Um bom abrigo para proteção é o interior de um automóvel, desde que este não seja conversível. OLIVEIRA, A. Raios nas tempestades de verão. Disponível em: http://cienciahoje.uol.com.br. Acesso em: 10 dez. 2014 (adaptado). Qual o motivo físico da proteção fornecida pelos automóveis, conforme citado no texto? A Isolamento elétrico dos pneus. B Efeito de para-raios da antena. C Blindagem pela carcaça metálica. D Escoamento da água pela lataria. E Aterramento pelo fio terra da bateria.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Isolamento elétrico dos pneus.
+B) B) Efeito de para-raios da antena.
+C) C) Blindagem pela carcaça metálica.
+D) D) Escoamento da água pela lataria.
+E) E) Aterramento pelo fio terra da bateria.
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 21: Q113 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: c18e8ef6-b7a0-4f67-a812-46efaea48eb6
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+As moedas despertam o interesse de colecionadores, numismatas e investidores há bastante tempo. Uma moeda de 100% cobre, circulante no período do Brasil Colônia, pode ser bastante valiosa. O elevado valor gera a necessidade de realização de testes que validem a procedência da moeda, bem como a veracidade de sua composição. Sabendo que a densidade do cobre metálico é próxima de 9 g cm−³, um investidor negocia a aquisição CN - 2° dia | Caderno 5 - AMARELO - Página 8 de um lote de quatro moedas A, B, C e D fabricadas supostamente de 100% cobre e massas 26 g, 27 g, 10 g e 36 g, respectivamente. Com o objetivo de testar a densidade das moedas, foi realizado um procedimento em que elas foram sequencialmente inseridas em uma proveta contendo 5 mL de água, conforme esquematizado. 16 14 12 10 8 D 6 4 B 2 A A A A Proveta Proveta Proveta Proveta Proveta )Lm( augá ed emuloV C C B B Com base nos dados obtidos, o investidor adquiriu as moedas A A e B. B A e C. C B e C. D B e D. E C e D.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) A e B.
+B) B) 2 A A
+C) C) e
+D) D) 6 4
+E) E) C e D.
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 22: Q114 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: fa09aa0a-10a5-49a4-9c28-e3571bfb4076
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Os diferentes tipos de café que consumimos nem sempre vêm da mesma espécie de planta. As duas espécies de café mais utilizadas são Coffea canephora e Coffea arabica. A primeira é diploide (2n = 22) e a segunda é tetraploide (2n = 44). Acredita-se que a espécie tetraploide surgiu de um cruzamento natural entre C. canephora e C. eugenioides, ambas diploides, há milhões de anos. De fato, as análises genéticas atuais nos cromossomos de C. arabica detectam os alelos de ambas as origens. A alteração cromossômica que poderia explicar o surgimento do café da espécie C. arabica é: A Duplicação em uma das plantas parentais antes do cruzamento. B Inversão durante a meiose gamética em ambas as plantas parentais. C Separação desigual na meiose gamética de uma das plantas parentais. D Falha na separação durante a meiose gamética em ambas as plantas parentais. E Deleções durante as primeiras mitoses zigóticas na planta descendente C. arabica.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) primeira é diploide (2n = 22) e a segunda é tetraploide (2n = 44). Acredita-se que a espécie tetraploide surgiu de um cruzamento natural entre C. canephora e C. eugenioides, ambas diploides, há milhões de anos. De fato, as análises genéticas atuais nos cromossomos de C. arabica detectam os alelos de ambas as origens.
+B) B) Inversão durante a meiose gamética em ambas as plantas parentais.
+C) C) Separação desigual na meiose gamética de uma das plantas parentais.
+D) D) Falha na separação durante a meiose gamética em ambas as plantas parentais.
+E) E) Deleções durante as primeiras mitoses zigóticas na planta descendente C. arabica.
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 23: Q115 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 803ded68-9104-42c9-914b-0ee4551efdea
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Pesquisadores coletaram amostras de água de um rio em pontos diferentes, distantes alguns quilômetros um do outro. Ao longo do rio, há locais de águas limpas, como também locais que recebem descarga de esgoto de área urbana, e locais onde há decomposição ativa com ausência de peixes. Os pesquisadores analisaram dois parâmetros: oxigênio dissolvido (OD) e demanda bioquímica de oxigênio (DBO) em cada ponto de coleta de água, obtendo o gráfico: )1−L gm( OBD e DO 14 + 12 10 Legenda: ∗ 8 OD 6 + ∗ + DBO 4 ∗ ∗ + + ∗ 2 + ∗ 1 2 3 4 5 Pontos de amostragem Valores limites permitidos para águas doces destinadas ao abastecimento para o consumo humano após tratamento convencional, segundo Resolução Conama n. 357/2005:OD ≥ 5 mg L−1 e DBO ≤ 5 mg L−1. O OD é proveniente da atmosfera e da fotossíntese que ocorre no curso-d’água e sua concentração é função das variáveis físicas, químicas e bioquímicas locais. A DBO é a quantidade de oxigênio consumido por microrganismos em condições aeróbicas para degradar uma determinada quantidade de matéria orgânica, durante um período de tempo, numa temperatura de incubação específica. Disponível em: www.programaaguaazul.rn.gov.br. Acesso em: 16 ago. 2014 (adaptado). Qual ponto de amostragem da água do rio está mais próximo ao local em que o rio recebe despejo de esgoto? A 1 B 2 C 3 D 4 E
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) DBO é a quantidade de oxigênio consumido por microrganismos em condições aeróbicas para degradar uma determinada quantidade de matéria orgânica, durante um período de tempo, numa temperatura de incubação específica. Disponível em: www.programaaguaazul.rn.gov.br. Acesso em: 16 ago. 2014 (adaptado). Qual ponto de amostragem da água do rio está mais próximo ao local em que o rio recebe despejo de esgoto? A 1 B 2 C 3 D 4
+B) B) 2 C 3 D 4
+C) C) 3 D 4
+D) D) [Alternative not found]
+E) E) [Alternative not found]
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 24: Q116 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: bd0a42b8-6967-4fe1-a655-190d4c07be24
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O crescimento da frota de veículos em circulação no mundo tem levado à busca e desenvolvimento de tecnologias que permitam minimizar emissões de poluentes atmosféricos. O uso de veículos elétricos é uma das propostas mais propagandeadas por serem de emissão zero. Podemos comparar a emissão de carbono na forma de CO (massa molar igual a 44 g mol−1) para os 2 dois tipos de carros (a combustão e elétrico). Considere que os veículos tradicionais a combustão, movidos a etanol (massa molar igual a 46 g mol−1), emitem uma média de 2,6 mol de CO por quilômetro rodado, e os 2 elétricos emitem o equivalente a 0,45 mol de CO por 2 quilômetro rodado (considerando as emissões na geração e transmissão da eletricidade). A reação de combustão do etanol pode ser representada pela equação química: C H OH (l) + 3 O (g) → 2 CO (g) + 3 H O (g) 2 5 2 2 2 Foram analisadas as emissões de CO envolvidas 2 em dois veículos, um movido a etanol e outro elétrico, em um mesmo trajeto de 1 000 km. CHIARADIA, C. A. Estudo da viabilidade da implantação de frotas de veículos elétricos e híbridos elétricos no atual cenário econômico, político, energético e ambiental brasileiro. Guaratinguetá: Unesp, 2015 (adaptado). A quantidade equivalente de etanol economizada, em quilograma, com o uso do veículo elétrico nesse trajeto, é mais próxima de A 50. B 60. C 95. D 99. E 120.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) reação de combustão do etanol pode ser representada pela equação química: C H OH (l) + 3 O (g) → 2 CO (g) + 3 H O (g) 2 5 2 2 2 Foram analisadas as emissões de CO envolvidas 2 em dois veículos, um movido a etanol e outro elétrico, em um mesmo trajeto de 1 000 km. CHIARADIA, C. A. Estudo da viabilidade da implantação de frotas de veículos elétricos e híbridos elétricos no atual cenário econômico, político, energético e ambiental brasileiro. Guaratinguetá: Unesp, 2015 (adaptado).
+B) B) 60.
+C) C) H OH (l) + 3 O (g) → 2 CO (g) + 3 H O (g) 2 5 2 2 2 Foram analisadas as emissões de CO envolvidas 2 em dois veículos, um movido a etanol e outro elétrico, em um mesmo trajeto de 1 000 km. CHIARADIA, C. A. Estudo da viabilidade da implantação de frotas de veículos elétricos e híbridos elétricos no atual cenário econômico, político, energético e ambiental brasileiro. Guaratinguetá: Unesp, 2015 (adaptado).
+D) D) 99.
+E) E) 120.
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 25: Q117 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 5af3d6f0-b048-4d04-aa10-d270ff09818f
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Em uma aula sobre metabolismo energético, foi apresentado um experimento clássico realizado por Engelmann. Um recipiente contendo bactérias aeróbias e uma alga verde filamentosa foi submetido à iluminação de uma fonte de luz, representada pelo microespectro. Após a explicação, um aluno esquematizou na lousa o resultado do referido experimento. Bactérias aeróbias Filamento de alga verde Ver melho A marelo Verde Azul Anil Violeta Microespectro Considerando a figura, a faixa do microespectro em que a alga possui maior taxa de realização fotossintética é a do: A Anil. B Verde. C Violeta. D Amarelo. E Vermelho. CN - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) marelo Verde Azul Anil Violeta Microespectro Considerando a figura, a faixa do microespectro em que a alga possui maior taxa de realização fotossintética é a do:
+B) B) Verde.
+C) C) Violeta.
+D) D) Amarelo.
+E) E) Vermelho. CN - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: E
+
+
+====================================================================================================
+QUESTÃO 26: Q118 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: a8e00c8e-0baa-4bbc-bfe5-fff9df020942
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O exame parasitológico de fezes é utilizado para detectar ovos de parasitos. Um dos métodos utilizados, denominado de centrífugo-flutuação, considera a densidade dos ovos em relação a uma solução de densidade 1,15 g mL−1. Assim, ovos que flutuam na superfície dessa solução são detectados. Os dados de densidade dos ovos de alguns parasitos estão apresentados na tabela. Parasito Densidade (g mL-1) Ancylostoma 1,06 Ascaris lumbricoides 1,11 Ascaris suum 1,13 Schistosoma mansoni 1,18 Taenia saginata 1,30 ZERBINI, A. M. Identificação e análise de viabilidade de ovos de helmintos em um sistema de tratamento de esgotos domésticos constituídos de reatores anaeróbios e rampas de escoamento superficial. Belo Horizonte: Prosab, 2001 (adaptado). Considerando-se a densidade dos ovos e da solução, ovos de quais parasitos podem ser detectados por esse método? A A. lumbricoides, A. suum e S. mansoni. B S. mansoni, T. saginata e Ancylostoma. C Ancylostoma, A. lumbricoides e A. suum. D T. saginata, S. mansoni e A. lumbricoides. E A. lumbricoides, A. suum e T. saginata.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) A. lumbricoides, A. suum e S. mansoni. B S. mansoni, T. saginata e Ancylostoma.
+B) B) S. mansoni, T. saginata e Ancylostoma.
+C) C) Ancylostoma, A. lumbricoides e A. suum. D T. saginata, S. mansoni e A. lumbricoides. E A. lumbricoides, A. suum e T. saginata.
+D) D) T. saginata, S. mansoni e A. lumbricoides. E A. lumbricoides, A. suum e T. saginata.
+E) E) A. lumbricoides, A. suum e T. saginata.
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 27: Q119 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 3d995e16-de7e-40cb-8b40-0e63e23043bd
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Em seu laboratório, um técnico em química foi incumbido de tratar um resíduo, evitando seu descarte direto no meio ambiente. Ao encontrar o frasco, observou a seguinte informação: “Resíduo: mistura de acetato de etila e água”. Considere os dados do acetato de etila: • Baixa solubilidade em água; • Massa específica = 0,9 g cm−3; • Temperatura de fusão = −83 °C; • Pressão de vapor maior que a da água. A fim de tratar o resíduo, recuperando o acetato de etila, o técnico deve A evaporar o acetato de etila sem alterar o conteúdo de água. B filtrar a mistura utilizando um funil comum e um papel de filtro. C realizar uma destilação simples para separar a água do acetato de etila. D proceder a uma centrifugação da mistura para remover o acetato de etila. E decantar a mistura separando os dois componentes em um funil adequado. CN - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) fim de tratar o resíduo, recuperando o acetato de etila, o técnico deve
+B) B) filtrar a mistura utilizando um funil comum e um papel de filtro.
+C) C) realizar uma destilação simples para separar a água do acetato de etila.
+D) D) proceder a uma centrifugação da mistura para remover o acetato de etila.
+E) E) decantar a mistura separando os dois componentes em um funil adequado. CN - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: E
+
+
+====================================================================================================
+QUESTÃO 28: Q120 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: e2bbd92a-8e72-41a0-ba9a-4fcb8ba517b1
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Em 2011, uma falha no processo de perfuração realizado por uma empresa petrolífera ocasionou derramamento de petróleo na bacia hidrográfica de Campos, no Rio de Janeiro. Os impactos decorrentes desse derramamento ocorrem porque os componentes do petróleo A reagem com a água do mar e sofrem degradação, gerando compostos com elevada toxicidade. B acidificam o meio, promovendo o desgaste das conchas calcárias de moluscos e a morte de corais. C dissolvem-se na água, causando a mortandade dos seres marinhos por ingestão da água contaminada. D têm caráter hidrofóbico e baixa densidade, impedindo as trocas gasosas entre o meio aquático e a atmosfera. E têm cadeia pequena e elevada volatilidade, contaminando a atmosfera local e regional em função dos ventos nas orlas marítimas.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) reagem com a água do mar e sofrem degradação, gerando compostos com elevada toxicidade.
+B) B) acidificam o meio, promovendo o desgaste das conchas calcárias de moluscos e a morte de corais.
+C) C) dissolvem-se na água, causando a mortandade dos seres marinhos por ingestão da água contaminada.
+D) D) têm caráter hidrofóbico e baixa densidade, impedindo as trocas gasosas entre o meio aquático e a atmosfera.
+E) E) têm cadeia pequena e elevada volatilidade, contaminando a atmosfera local e regional em função dos ventos nas orlas marítimas.
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 29: Q121 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: fd53774a-ca3d-4b82-8c8d-66111b9e4008
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma população encontra-se em equilíbrio genético quanto ao sistema ABO, em que 25% dos indivíduos pertencem ao grupo O e 16%, ao grupo A homozigotos. Considerando que: p = frequência de IA; q = frequência de IB; e r = frequência de i, espera-se encontrar: Grupo Genótipos Frequências A IAIA e IAi p2 + 2pr B IBIB e IBi q2 + 2qr AB IAIB 2pq O ii r2 A porcentagem de doadores compatíveis para alguém do grupo B nessa população deve ser de A 11%. B 19%. C 26%. D 36%. E 60%.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) IAI
+B) B) IBI
+C) C) 26%. D 36%.
+D) D) [Alternative not found]
+E) E) 60%.
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 30: Q122 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 3e3ea562-208c-4df1-8f18-e664b3b9af1b
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Você foi contratado para sincronizar os quatro semáforos de uma avenida, indicados pelas letras O, A, B e C, conforme a figura. O A B C Os semáforos estão separados por uma distância de 500 m. Segundo os dados estatísticos da companhia controladora de trânsito, um veículo, que está inicialmente parado no semáforo O, tipicamente parte com aceleração constante de 1 m s−2 até atingir a velocidade de 72 km h−1 e, a partir daí, prossegue com velocidade constante. Você deve ajustar os semáforos A, B e C de modo que eles mudem para a cor verde quando o veículo estiver a 100 m de cruzá-los, para que ele não tenha que reduzir a velocidade em nenhum momento. Considerando essas condições, aproximadamente quanto tempo depois da abertura do semáforo O os semáforos A, B e C devem abrir, respectivamente? A 20 s, 45 s e 70 s. B 25 s, 50 s e 75 s. C 28 s, 42 s e 53 s. D 30 s, 55 s e 80 s. E 35 s, 60 s e 85 s.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) B C Os semáforos estão separados por uma distância de 500 m. Segundo os dados estatísticos da companhia controladora de trânsito, um veículo, que está inicialmente parado no semáforo O, tipicamente parte com aceleração constante de 1 m s−2 até atingir a velocidade de 72 km h−1 e, a partir daí, prossegue com velocidade constante. Você deve ajustar os semáforos A, B e C de modo que eles mudem para a cor verde quando o veículo estiver a 100 m de cruzá-los, para que ele não tenha que reduzir a velocidade em nenhum momento. Considerando essas condições, aproximadamente quanto tempo depois da abertura do semáforo O os semáforos A, B e
+B) B) e C, conforme a figura. O A B C Os semáforos estão separados por uma distância de 500 m. Segundo os dados estatísticos da companhia controladora de trânsito, um veículo, que está inicialmente parado no semáforo O, tipicamente parte com aceleração constante de 1 m s−2 até atingir a velocidade de 72 km h−1 e, a partir daí, prossegue com velocidade constante. Você deve ajustar os semáforos A, B e C de modo que eles mudem para a cor verde quando o veículo estiver a 100 m de cruzá-los, para que ele não tenha que reduzir a velocidade em nenhum momento. Considerando essas condições, aproximadamente quanto tempo depois da abertura do semáforo O os semáforos A, B e
+C) C) Os semáforos estão separados por uma distância de 500 m. Segundo os dados estatísticos da companhia controladora de trânsito, um veículo, que está inicialmente parado no semáforo O, tipicamente parte com aceleração constante de 1 m s−2 até atingir a velocidade de 72 km h−1 e, a partir daí, prossegue com velocidade constante. Você deve ajustar os semáforos A, B e C de modo que eles mudem para a cor verde quando o veículo estiver a 100 m de cruzá-los, para que ele não tenha que reduzir a velocidade em nenhum momento. Considerando essas condições, aproximadamente quanto tempo depois da abertura do semáforo O os semáforos A, B e
+D) D) 30 s, 55 s e 80 s. E 35 s, 60 s e 85 s.
+E) E) 35 s, 60 s e 85 s.
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 31: Q123 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 407aa8bc-bac2-4ca5-8039-34618f3776b1
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Nos dias atuais, o amplo uso de objetos de plástico gera bastante lixo, que muitas vezes é eliminado pela população por meio da queima. Esse procedimento é prejudicial ao meio ambiente por lançar substâncias poluentes. Para constatar esse problema, um estudante analisou a decomposição térmica do policloreto de vinila (PVC), um tipo de plástico, cuja estrutura é representada na figura. Policloreto de vinila (PVC) Para realizar esse experimento, o estudante colocou uma amostra de filme de PVC em um tubo de ensaio e o aqueceu, promovendo a decomposição térmica. Houve a liberação majoritária de um gás diatômico heteronuclear que foi recolhido em um recipiente acoplado ao tubo de ensaio. Esse gás, quando borbulhado em solução alcalina diluída contendo indicador ácido-base, alterou a cor da solução. Além disso, em contato com uma solução aquosa de carbonato de sódio (Na CO ), liberou gás 2 3 carbônico. Qual foi o gás liberado majoritariamente na decomposição térmica desse tipo de plástico? A H 2 B Cl 2 C CO D CO 2 E HCl
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) H 2
+B) B) Cl 2
+C) C) CO
+D) D) CO 2
+E) E) HCl
+
+🔑 GABARITO: E
+
+
+====================================================================================================
+QUESTÃO 32: Q124 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 090a131b-ecfc-4c8e-ab8a-dd697e7446d3
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma população (momento A) sofre isolamento em duas subpopulações (momento B) por um fator de isolamento (I). Passado um tempo, essas subpopulações apresentam características fenotípicas e genotípicas que as distinguem (momento C), representadas na figura pelas tonalidades de cor. O posterior desaparecimento do fator de isolamento I pode levar, no momento D, às situações D1 e D2. B C D A D1 D2 Tempo A representação indica que, no momento D, na situação A D1 ocorre um novo fator de isolamento geográfico. B D1 existe uma única população distribuída em gradiente. C D1 ocorrem duas populações separadas por isolamento reprodutivo. D D2 coexistem duas populações com características fenotípicas distintas. E D2 foram preservadas as mesmas características fenotípicas da população original A. CN - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) D1 D2 Tempo
+B) B) C D A D1 D2 Tempo
+C) C) D A D1 D2 Tempo
+D) D) A D1 D2 Tempo
+E) E) D2 foram preservadas as mesmas características fenotípicas da população original A. CN - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 33: Q125 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 7c3fc5e3-d14d-4449-933a-96447f405b6f
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Por qual motivo ocorre a eletrização ilustrada na tirinha? A Troca de átomos entre a calça e os pelos do gato. B Diminuição do número de prótons nos pelos do gato. C Criação de novas partículas eletrizadas nos pelos do g D Movimentação de elétrons entre a calça e os pelos do E Repulsão entre partículas elétricas da calça e dos pelo
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Troca de átomos entre a calça e os pelos do gato.
+B) B) Diminuição do número de prótons nos pelos do gato.
+C) C) Criação de novas partículas eletrizadas nos pelos do g
+D) D) Movimentação de elétrons entre a calça e os pelos do
+E) E) Repulsão entre partículas elétricas da calça e dos pelo
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 34: Q126 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 76854d48-34ab-44f5-bac1-3c018c2d8608
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A enorme quantidade de resíduos gerados pelo con uma preocupação socioambiental, em especial pela qu reúso, pode-se melhorar ainda mais a qualidade de vid biodegradáveis. Esses polímeros têm grandes vantagens socioambientais e A não são tóxicos. B não precisam ser reciclados. C não causam poluição ambiental quando descartados. D são degradados em um tempo bastante menor que os E apresentam propriedades mecânicas semelhantes aos CN - 2° dia | Caderno 5 - AMARELO - Página 12 DAVIS, J. Disponível em: http://garfield.com. Acesso em: 10 fev. 2015. gato. gato. os do gato. nsumo crescente da sociedade traz para a humanidade uantidade de lixo produzido. Além da reciclagem e do da, substituindo polímeros convencionais por polímeros em relação aos convencionais porque convencionais. s convencionais.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) enorme quantidade de resíduos gerados pelo con uma preocupação socioambiental, em especial pela qu reúso, pode-se melhorar ainda mais a qualidade de vid biodegradáveis. Esses polímeros têm grandes vantagens socioambientais e
+B) B) não precisam ser reciclados.
+C) C) não causam poluição ambiental quando descartados.
+D) D) são degradados em um tempo bastante menor que os
+E) E) apresentam propriedades mecânicas semelhantes aos CN - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 35: Q127 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 48f73d0d-99f3-4b47-9afb-fbd74787bf79
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A fragmentação dos hábitats é caracterizada pela formação de ilhas da paisagem original, circundadas por áreas transformadas. Esse tipo de interferência no ambiente ameaça a biodiversidade. Imagine que uma população de onças foi isolada em uma mata pequena. Elas se extinguiriam mesmo sem terem sido abatidas. Diversos componentes da ilha de hábitat, como o tamanho, a heterogeneidade, o seu entorno, a sua conectividade e o efeito de borda são determinantes para a persistência ou não das espécies originais. Uma medida que auxilia na conservação da biodiversidade nas ilhas mencionadas no texto compreende a A formação de micro-hábitats. B ampliação do efeito de borda. C construção de corredores ecológicos. D promoção da sucessão ecológica. E introdução de novas espécies de animais e vegetais.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) fragmentação dos hábitats é caracterizada pela formação de ilhas da paisagem original, circundadas por áreas transformadas. Esse tipo de interferência no ambiente ameaça a biodiversidade. Imagine que uma população de onças foi isolada em uma mata pequena. Elas se extinguiriam mesmo sem terem sido abatidas. Diversos componentes da ilha de hábitat, como o tamanho, a heterogeneidade, o seu entorno, a sua conectividade e o efeito de borda são determinantes para a persistência ou não das espécies originais. Uma medida que auxilia na conservação da biodiversidade nas ilhas mencionadas no texto compreende a
+B) B) ampliação do efeito de borda.
+C) C) construção de corredores ecológicos.
+D) D) promoção da sucessão ecológica.
+E) E) introdução de novas espécies de animais e vegetais.
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 36: Q128 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 1e95d5c7-8577-4cfe-931b-8711a3bf8d5b
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A sacarase (ou invertase) é uma enzima que atua no intestino humano hidrolisando o dissacarídeo sacarose nos monossacarídeos glicose e frutose. Em um estudo cinético da reação de hidrólise da sacarose (C H O ), 12 22 11 foram dissolvidos 171 g de sacarose em 500 mL de água. Observou-se que, a cada 100 minutos de reação, a concentração de sacarose foi reduzida à metade, qualquer que fosse o momento escolhido como tempo inicial. As massas molares dos elementos H, C e O são iguais a 1, 12 e 16 g mol−1, respectivamente. Qual é a concentração de sacarose depois de 400 minutos do início da reação de hidrólise? A 2,50 × 10−3 mol L−1 B 6,25 × 10−2 mol L−1 C 1,25 × 10−1 mol L−1 D 2,50 × 10−1 mol L−1 E 4,27 × 10−1 mol L−1
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) sacarase (ou invertase) é uma enzima que atua no intestino humano hidrolisando o dissacarídeo sacarose nos monossacarídeos glicose e frutose. Em um estudo cinético da reação de hidrólise da sacarose (C H O ), 12 22 11 foram dissolvidos 171 g de sacarose em 500 mL de água. Observou-se que, a cada 100 minutos de reação, a concentração de sacarose foi reduzida à metade, qualquer que fosse o momento escolhido como tempo inicial. As massas molares dos elementos H, C e O são iguais a 1, 12 e 16 g mol−1, respectivamente. Qual é a concentração de sacarose depois de 400 minutos do início da reação de hidrólise?
+B) B) 6,25 × 10−2 mol L−1
+C) C) e O são iguais a 1, 12 e 16 g mol−1, respectivamente. Qual é a concentração de sacarose depois de 400 minutos do início da reação de hidrólise?
+D) D) 2,50 × 10−1 mol L−1
+E) E) 4,27 × 10−1 mol L−1
+
+🔑 GABARITO: B
+
+
+====================================================================================================
+QUESTÃO 37: Q129 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 9feba7cf-c628-4e14-a8d0-405e996b098b
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Grandes reservatórios de óleo leve de melhor qualidade e que produz petróleo mais fino foram descobertos no litoral brasileiro numa camada denominada pré-sal, formada há 150 milhões de anos. A utilização desse recurso energético acarreta para o ambiente um desequilíbrio no ciclo do A nitrogênio, devido à nitrificação ambiental transformando amônia em nitrito. B nitrogênio, devido ao aumento dos compostos nitrogenados no ambiente terrestre. C carbono, devido ao aumento dos carbonatos dissolvidos no ambiente marinho. D carbono, devido à liberação das cadeias carbônicas aprisionadas abaixo dos sedimentos. E fósforo, devido à liberação dos fosfatos acumulados no ambiente marinho.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) utilização desse recurso energético acarreta para o ambiente um desequilíbrio no ciclo do
+B) B) nitrogênio, devido ao aumento dos compostos nitrogenados no ambiente terrestre.
+C) C) carbono, devido ao aumento dos carbonatos dissolvidos no ambiente marinho.
+D) D) carbono, devido à liberação das cadeias carbônicas aprisionadas abaixo dos sedimentos.
+E) E) fósforo, devido à liberação dos fosfatos acumulados no ambiente marinho.
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 38: Q130 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 6d6f1eb0-f8d3-44c2-a414-e39e44cab6ad
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Em uma usina geradora de energia elétrica, seja através de uma queda-d’água ou através de vapor sob pressão, as pás do gerador são postas a girar. O movimento relativo de um ímã em relação a um conjunto de bobinas produz um fluxo magnético variável através delas, gerando uma diferença de potencial em seus terminais. Durante o funcionamento de um dos geradores, o operador da usina percebeu que houve um aumento inesperado da diferença de potencial elétrico nos terminais das bobinas. Nessa situação, o aumento do módulo da diferença de potencial obtida nos terminais das bobinas resulta do aumento do(a) A intervalo de tempo em que as bobinas ficam imersas no campo magnético externo, por meio de uma diminuição de velocidade no eixo de rotação do gerador. B fluxo magnético através das bobinas, por meio de um aumento em sua área interna exposta ao campo magnético aplicado. C intensidade do campo magnético no qual as bobinas estão imersas, por meio de aplicação de campos magnéticos mais intensos. D rapidez com que o fluxo magnético varia através das bobinas, por meio de um aumento em sua velocidade angular. E resistência interna do condutor que constitui as bobinas, por meio de um aumento na espessura dos terminais. CN - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) intervalo de tempo em que as bobinas ficam imersas no campo magnético externo, por meio de uma diminuição de velocidade no eixo de rotação do gerador.
+B) B) fluxo magnético através das bobinas, por meio de um aumento em sua área interna exposta ao campo magnético aplicado.
+C) C) intensidade do campo magnético no qual as bobinas estão imersas, por meio de aplicação de campos magnéticos mais intensos.
+D) D) rapidez com que o fluxo magnético varia através das bobinas, por meio de um aumento em sua velocidade angular.
+E) E) resistência interna do condutor que constitui as bobinas, por meio de um aumento na espessura dos terminais. CN - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 39: Q131 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 3df84ff5-e0d1-496e-976f-4f42f10ccf01
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Herschel, em 1880, começou a escrever sobre a conde de que maneira os raios coloridos contribuem para o aquecim solar obtido com um prisma, colocou termômetros nas dive dos termômetros iluminados indicou um aumento de temper SAYURI, M.; GASPAR, M. B. Infravermelho Para verificar a hipótese de Herschel, um estudante m cinco recipientes contendo água, à mesma temperatura inicia posicionados lado a lado (A, B, C, D e E) no interior de uma ca na caixa, atravessa o prisma e incide sobre os recipientes. O e e a afere em cada recipiente. PRISMA Vermelho A B C Recipie Em qual dos recipientes a água terá maior temperatura ao A A B B C C D D E
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) A B B C C D D
+B) B) B C C D D
+C) C) Recipie Em qual dos recipientes a água terá maior temperatura ao A A B B C C D D
+D) D) e E) no interior de uma ca na caixa, atravessa o prisma e incide sobre os recipientes. O e e a afere em cada recipiente. PRISMA Vermelho A
+E) E) [Alternative not found]
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 40: Q132 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: a706c5ef-eb17-4dfb-a49e-eaad4be8d079
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A Química Verde é um ramo da química que prega o desen parte do reagente em produto, de forma mais rápida e seletiv produto desejado, evitando a formação de coprodutos, e que as indústrias contornariam problemas relacionados à poluição O perfil de um processo que segue todos os princípios des A A + B + C → D (a reação ocorre a altas pressões). B A + B → C + D (a reação é fortemente endotérmica). C A + 3B → C (a reação ocorre com uso de solvente or D 3A + 2B → 2C → 3D + 2E (a reação ocorrre sob pres 1 E A + −B → C (a reação ocorre com o uso de um catal 2 CN - 2° dia | Caderno 5 - AMARELO - Página 14 ensação da luz solar no foco de uma lente e queria verificar mento. Para isso, ele projetou sobre um anteparo o espectro ersas faixas de cores e verificou nos dados obtidos que um ratura maior para uma determinada faixa de frequências. na sala de aula. Disponível em: www.cienciamao.usp.br. Acesso em: 15 ago. 2016 (adaptado). montou o dispositivo apresentado na figura. Nesse aparato, al, e separados por um material isolante térmico e refletor são aixa de material isolante térmico e opaco. A luz solar, ao entrar estudante aguarda até que ocorra o aumento da temperatura Incidência de luz solar Caixa isolada e opaca Luz solar decomposta Violeta Espectro visível C D E entes final do experimento? nvolvimento de processos eficientes, que transformem a maior va, que utilizem poucos reagentes, que produzam somente o e utilizem solventes não agressivos ao meio ambiente. Assim, o ambiental e ao desperdício de água e energia. sse ramo da química pode ser representado por: . rgânico). ssão atmosférica). lisador contendo um metal não tóxico).
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) A +
+B) B) + C →
+C) C) A + 3
+D) D) 3A + 2
+E) E) A + −
+
+🔑 GABARITO: E
+
+
+====================================================================================================
+QUESTÃO 41: Q133 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 375eb671-6ee2-46e9-be48-024255fa1b0f
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Os manuais de refrigerador apresentam a recomendação de que o equipamento não deve ser instalado próximo a fontes de calor, como fogão e aquecedores, ou em local onde incida diretamente a luz do sol. A instalação em local inadequado prejudica o funcionamento do refrigerador e aumenta o consumo de energia. O não atendimento dessa recomendação resulta em aumento do consumo de energia porque A o fl uxo de calor por condução no condensador sofre considerável redução. B a temperatura da substância refrigerante no condensador diminui mais rapidamente. C o fl uxo de calor promove signifi cativa elevação da temperatura no interior do refrigerador. D a liquefação da substância refrigerante no condensador exige mais trabalho do compressor. E as correntes de convecção nas proximidades do condensador ocorrem com maior difi culdade.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) instalação em local inadequado prejudica o funcionamento do refrigerador e aumenta o consumo de energia. O não atendimento dessa recomendação resulta em aumento do consumo de energia porque A o fl uxo de calor por condução no condensador sofre considerável redução. B a temperatura da substância refrigerante no condensador diminui mais rapidamente. C o fl uxo de calor promove signifi cativa elevação da temperatura no interior do refrigerador. D a liquefação da substância refrigerante no condensador exige mais trabalho do compressor. E as correntes de convecção nas proximidades do condensador ocorrem com maior difi culdade.
+B) B) a temperatura da substância refrigerante no condensador diminui mais rapidamente. C o fl uxo de calor promove signifi cativa elevação da temperatura no interior do refrigerador. D a liquefação da substância refrigerante no condensador exige mais trabalho do compressor. E as correntes de convecção nas proximidades do condensador ocorrem com maior difi culdade.
+C) C) o fl uxo de calor promove signifi cativa elevação da temperatura no interior do refrigerador. D a liquefação da substância refrigerante no condensador exige mais trabalho do compressor. E as correntes de convecção nas proximidades do condensador ocorrem com maior difi culdade.
+D) D) a liquefação da substância refrigerante no condensador exige mais trabalho do compressor. E as correntes de convecção nas proximidades do condensador ocorrem com maior difi culdade.
+E) E) as correntes de convecção nas proximidades do condensador ocorrem com maior difi culdade.
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 42: Q134 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 3abcc182-1466-49b3-852d-9b50608b0504
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um mergulhador fi ca preso ao explorar uma caverna no oceano. Dentro da caverna formou-se um bolsão de ar, como mostrado na fi gura, onde o mergulhador se abrigou. Durante o resgate, para evitar danos a seu organismo, foi necessário que o mergulhador passasse por um processo de descompressão antes de retornar à superfície para que seu corpo fi casse novamente sob pressão atmosférica. O gráfi co mostra a relação entre os tempos de descompressão recomendados para indivíduos nessa situação e a variação de pressão. ed opmeT )nim( oãsserpmocsed 100 80 60 40 20 100 200 300 400 500 600 700 Variação de pressão (kPa) Considere que a aceleração da gravidade seja igual a 10 m s−2 e que a densidade da água seja de ρ = 1 000 kg m−3. Em minutos, qual é o tempo de descompressão a que o mergulhador deverá ser submetido? A 100 B 80 C 60 D 40 E
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 100 B 80 C 60 D 40
+B) B) 80 C 60 D 40
+C) C) 60 D 40
+D) D) [Alternative not found]
+E) E) [Alternative not found]
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 43: Q135 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 57601c62-6a98-44d8-93f1-3c2ac1dfd79f
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A Torre Eiff el, com seus 324 metros de altura, feita com treliças de ferro, pesava 7 300 toneladas quando terminou de ser construída em 1889. Um arquiteto resolve construir um protótipo dessa torre em escala 1:100, usando os mesmos materiais (cada dimensão linear em escala de 1:100 do monumento real). Considere que a torre real tenha uma massa M torre e exerça na fundação sobre a qual foi erguida uma pressão P . O modelo construído pelo arquiteto terá torre uma massa M e exercerá uma pressão P . modelo modelo Como a pressão exercida pela torre se compara com a pressão exercida pelo protótipo? Ou seja, qual é a razão entre as pressões (P )/(P ) ? torre modelo A 100 B 101 C 102 D 104 E 106 CN - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Torre Eiff el, com seus 324 metros de altura, feita com treliças de ferro, pesava 7 300 toneladas quando terminou de ser construída em 1889. Um arquiteto resolve construir um protótipo dessa torre em escala 1:100, usando os mesmos materiais (cada dimensão linear em escala de 1:100 do monumento real). Considere que a torre real tenha uma massa M torre e exerça na fundação sobre a qual foi erguida uma pressão P . O modelo construído pelo arquiteto terá torre uma massa M e exercerá uma pressão P . modelo modelo Como a pressão exercida pela torre se compara com a pressão exercida pelo protótipo? Ou seja, qual é a razão entre as pressões (P )/(P ) ? torre modelo
+B) B) 101
+C) C) 102
+D) D) 104
+E) E) 106 CN - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 44: Q136 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 440614bf-7926-421f-bf13-e090afd91a74
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um administrador resolve estudar o lucro de sua emp produção de seus itens, em real, em função da quantidade R$ 55 50 45 40 35 30 25 20 15 10 5 0 5 10 15 20 2 O lucro é determinado pela diferença: Receita - Custo. O gráfico que representa o lucro dessa empresa, em funçã R$ 40 35 30 25 20 A 15 10 5 0 5 10 15 20 25 30 Quantidade de −5 itens produzidos −10 −15 −20 R$ 20 15 10 5 0 5 10 15 20 25 30 Quantidade de B −5 itens produzidos −10 −15 −20 −25 −30 −35 −40 R$ 55 50 45 40 35 C 30 25 20 15 10 5 0 5 10 15 20 25 30 Quantidade de −5 itens produzidos MT - 2° dia | Caderno 5 - AMARELO - Página 16 presa e, para isso, traça o gráfico da receita e do custo de e de itens produzidos. Receita Custo 25 30 Quantidade de itens produzidos ão da quantidade de itens produzidos, é R$ 55 50 45 40 35 D 30 25 20 15 10 5 0 5 10 15 20 25 30 Quantidade de −5 itens produzidos R$ 55 50 45 40 35 E 30 25 20 15 10 5 0 5 10 15 20 25 30 Quantidade de −5 itens produzidos
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 15 10 5 0 5 10 15 20 25 30 Quantidade de −5 itens produzidos −10 −15 −20 R$ 20 15 10 5 0 5 10 15 20 25 30 Quantidade de B −5 itens produzidos −10 −15 −20 −25 −30 −35 −40 R$ 55 50 45 40 35 C 30 25 20 15 10 5 0 5 10 15 20 25 30 Quantidade de −5 itens produzidos MT - 2° dia | Caderno 5 - AMARELO -
+B) B) −5 itens produzidos −10 −15 −20 −25 −30 −35 −40 R$ 55 50 45 40 35 C 30 25 20 15 10 5 0 5 10 15 20 25 30 Quantidade de −5 itens produzidos MT - 2° dia | Caderno 5 - AMARELO -
+C) C) 30 25 20 15 10 5 0 5 10 15 20 25 30 Quantidade de −5 itens produzidos MT - 2° dia | Caderno 5 - AMARELO -
+D) D) 30 25 20 15 10 5 0 5 10 15 20 25 30 Quantidade de −5 itens produzidos R$ 55 50 45 40 35 E 30 25 20 15 10 5 0 5 10 15 20 25 30 Quantidade de −5 itens produzidos
+E) E) 30 25 20 15 10 5 0 5 10 15 20 25 30 Quantidade de −5 itens produzidos
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 45: Q137 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: c8aaf30b-a460-4fa3-a092-76d7a8383046
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Em um jogo desenvolvido para uso no computador, o alcançarem o plano da base. O usuário pode mover ou convenientemente no plano horizontal. Um desses objeto formando assim um sólido rígido, como ilustrado na figura. Para facilitar a movimentação do objeto pelo usuário, planos quadriculados perpendiculares entre si, durante sua A figura que apresenta uma possível posição desse sólido planos citados, durante sua descida é A B C objetos tridimensionais vão descendo do alto da tela até girar cada objeto durante sua descida para posicioná-lo os é formado pela justaposição de quatro cubos idênticos, . , o programa projeta ortogonalmente esse sólido em três a descida. o, com suas respectivas projeções ortogonais sobre os três D E MT - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) figura que apresenta uma possível posição desse sólido planos citados, durante sua descida é A
+B) B) [Alternative not found]
+C) C) objetos tridimensionais vão descendo do alto da tela até girar cada objeto durante sua descida para posicioná-lo os é formado pela justaposição de quatro cubos idênticos, . , o programa projeta ortogonalmente esse sólido em três a descida. o, com suas respectivas projeções ortogonais sobre os três D E MT - 2° dia | Caderno 5 - AMARELO -
+D) D) E MT - 2° dia | Caderno 5 - AMARELO -
+E) E) MT - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: E
+
+
+====================================================================================================
+QUESTÃO 46: Q138 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: a1354d3e-c274-4ea2-98a8-0880e2613c7e
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um clube deseja produzir miniaturas em escala do troféu que ganhou no último campeonato. O troféu está representado na Figura 1 e é composto por uma base em formato de um paralelepípedo reto-retângulo de madeira, sobre a qual estão fi xadas três hastes verticais que sustentam uma esfera de 30 cm de diâmetro, que fi ca centralizada sobre a base de madeira. O troféu tem 100 cm de altura, incluída sua base. ? 8 cm 50 cm 10 cm 50 cm Figura 1 Figura 2 A miniatura desse troféu deverá ser instalada no interior de uma caixa de vidro, em formato de paralelepípedo reto-retângulo, cujas dimensões internas de sua base estão indicadas na Figura 2, de modo que a base do troféu seja colada na base da caixa e distante das paredes laterais da caixa de vidro em pelo menos 1 cm. Deve ainda haver uma distância de exatos 2 cm entre o topo da esfera e a tampa dessa caixa de vidro. Nessas condições deseja-se fazer a maior miniatura possível. A medida da altura, em centímetro, dessa caixa de vidro deverá ser igual a A 12. B 14. C 16. D 18. E 20.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) miniatura desse troféu deverá ser instalada no interior de uma caixa de vidro, em formato de paralelepípedo reto-retângulo, cujas dimensões internas de sua base estão indicadas na Figura 2, de modo que a base do troféu seja colada na base da caixa e distante das paredes laterais da caixa de vidro em pelo menos 1 cm. Deve ainda haver uma distância de exatos 2 cm entre o topo da esfera e a tampa dessa caixa de vidro. Nessas condições deseja-se fazer a maior miniatura possível.
+B) B) 14.
+C) C) 16.
+D) D) 18.
+E) E) 20.
+
+🔑 GABARITO: B
+
+
+====================================================================================================
+QUESTÃO 47: Q139 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 7bdf7db8-da3e-49a5-8f41-7331cb584e73
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma casa de dois andares está sendo projetada. É necessário incluir no projeto a construção de uma escada para o acesso ao segundo andar. Para o cálculo das dimensões dos degraus utilizam-se as regras: |2h + b − 63,5| ≤ 1,5 e 16 ≤ h ≤ 19, nas quais h é a altura do degrau (denominada espelho) e b é a profundidade da pisada, como mostra a fi gura. Por conveniência, escolheu-se a altura do degrau como sendo h = 16. As unidades de h e b estão em centímetro. MT - 2° dia | Caderno 5 - AMARELO - Página 18 Nesse caso, o mais amplo intervalo numérico ao qual a profundidade da pisada (b) deve pertencer, para que as regras sejam satisfeitas é A 30 ≤ b B 30 ≤ b ≤ 31,5 C 30 ≤ b ≤ 33 D 31,5 ≤ b ≤ 33 E b ≤
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 30 ≤ b B 30 ≤ b ≤ 31,5 C 30 ≤ b ≤
+B) B) 30 ≤ b ≤ 31,5 C 30 ≤ b ≤
+C) C) 30 ≤ b ≤
+D) D) 31,5 ≤ b ≤ 33 E b ≤
+E) E) b ≤
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 48: Q140 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 36340235-e2c9-4117-b191-40d6f2e59da8
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Muitos modelos atuais de veículos possuem computador de bordo. Os computadores informam em uma tela diversas variações de grandezas associadas ao desempenho do carro, dentre elas o consumo médio de combustível. Um veículo, de um determinado modelo, pode vir munido de um dos dois tipos de computadores de bordo: • Tipo A: informa a quantidade X de litro de combustível gasto para percorrer 100 quilômetros; • Tipo B: informa a quantidade de quilômetro que o veículo é capaz de percorrer com um litro de combustível. Um veículo utiliza o computador do Tipo A, e ao fi nal de uma viagem o condutor viu apresentada na tela a informação “X/100”. Caso o seu veículo utilizasse o computador do Tipo B, o valor informado na tela seria obtido pela operação A X 100 X∙ B 100 100 C X 1 D X E 1 X ∙
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) X 100 X∙
+B) B) 100 100
+C) C) X 1
+D) D) X
+E) E) 1 X ∙
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 49: Q141 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: d6ec7c53-2e2a-46ce-ab6c-b8e55ec7920e
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Amigo secreto é uma brincadeira tradicional nas festas de fim de ano. Um grupo de amigos se reúne e cada um deles sorteia o nome da pessoa que irá presentear. No dia da troca de presentes, uma primeira pessoa presenteia seu amigo secreto. Em seguida, o presenteado revela seu amigo secreto e o presenteia. A brincadeira continua até que todos sejam presenteados, mesmo no caso em que o ciclo se fecha. Dez funcionários de uma empresa, entre eles um casal, participarão de um amigo secreto. A primeira pessoa a revelar será definida por sorteio. Qual é a probabilidade de que a primeira pessoa a revelar o seu amigo secreto e a última presenteada sejam as duas pessoas do casal? 1 A 5 1 B 45 1 C 50 1 D 90 1 E 100
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 5 1
+B) B) 45 1
+C) C) 50 1
+D) D) 90 1
+E) E) 100
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 50: Q142 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: c43b49c0-0c5c-4530-be4a-d226ba1d7eb4
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Três amigos, André, Bernardo e Carlos, moram em um condomínio fechado de uma cidade. O quadriculado representa a localização das ruas paralelas e perpendiculares, delimitando quadras de mesmo tamanho nesse condomínio, em que nos pontos A, B e C estão localizadas as casas de André, Bernardo e Carlos, respectivamente. B C A André deseja deslocar-se da sua casa até a casa de Bernardo, sem passar pela casa de Carlos, seguindo ao longo das ruas do condomínio, fazendo sempre deslocamentos para a direita ( → ) ou para cima ( ↑ ), segundo o esquema da figura. O número de diferentes caminhos que André poderá utilizar para realizar o deslocamento nas condições propostas é A 4. B 14. C 17. D 35. E 48.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 4. B 14.
+B) B) e
+C) C) 17. D 35.
+D) D) [Alternative not found]
+E) E) 48.
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 51: Q143 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 5617b320-b6a4-45ce-abb2-30ecc87818f8
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma pessoa precisa comprar 15 sacos de cimento para uma reforma em sua casa. Faz pesquisa de preço em cinco depósitos que vendem o cimento de sua preferência e cobram frete para entrega do material, conforme a distância do depósito à sua casa. As informações sobre preço do cimento, valor do frete e distância do depósito até a casa dessa pessoa estão apresentadas no quadro. Valor do Distância entre Valor do saco frete para cada a casa e o Depósito de cimento quilômetro depósito (R$) (R$) (km) A 23,00 1,00 10 B 21,50 3,00 12 C 22,00 1,50 14 D 21,00 3,50 18 E 24,00 2,50 2 A pessoa escolherá um desses depósitos para realizar sua compra, considerando os preços do cimento e do frete oferecidos em cada opção. Se a pessoa decidir pela opção mais econômica, o depósito escolhido para a realização dessa compra será o A A. B B. C C. D D. E E.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 23,00 1,00 10
+B) B) 21,50 3,00 12
+C) C) 22,00 1,50 14
+D) D) 21,00 3,50 18
+E) E) 24,00 2,50 2
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 52: Q144 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 5297d270-acec-4a85-bb28-73660eaf4987
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um motociclista planeja realizar uma viagem cujo destino fica a 500 km de sua casa. Sua moto consome 5 litros de gasolina para cada 100 km rodados, e o tanque da moto tem capacidade para 22 litros. Pelo mapa, observou que no trajeto da viagem o último posto disponível para reabastecimento, chamado Estrela, fica a 80 km do seu destino. Ele pretende partir com o tanque da moto cheio e planeja fazer somente duas paradas para reabastecimento, uma na ida e outra na volta, ambas no posto Estrela. No reabastecimento para a viagem de ida, deve considerar também combustível suficiente para se deslocar por 200 km no seu destino. A quantidade mínima de combustível, em litro, que esse motociclista deve reabastecer no posto Estrela na viagem de ida, que seja suficiente para fazer o segundo reabastecimento, é A 13. B 14. C 17. D 18. E 21. MT - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) quantidade mínima de combustível, em litro, que esse motociclista deve reabastecer no posto Estrela na viagem de ida, que seja suficiente para fazer o segundo reabastecimento, é
+B) B) 14.
+C) C) 17.
+D) D) 18.
+E) E) 21. MT - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 53: Q145 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 08c2c154-4ae1-42d0-a8b0-4a2290123620
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um processo de aeração, que consiste na introdução de ar num líquido, acontece do seguinte modo: uma bomba B retira o líquido de um tanque T1 e o faz passar pelo aerador A1, que aumenta o volume do líquido em 15%, e em seguida pelo aerador A2, ganhando novo aumento de volume de 10%. Ao final, ele fica armazenado num tanque T2, de acordo com a figura. A1 A2 T1 T2 B Os tanques T1 e T2 são prismas retos de bases retangulares, sendo que a base de T1 tem comprimento c e c largura L, e a base de T2 tem comprimento e largura 2L. 2 Para finalizar o processo de aeração sem derramamento do líquido em T2, o responsável deve saber a relação entre a altura da coluna de líquido que já saiu de T1, denotada por X, e a altura da coluna de líquido que chegou a T2, denotada por y. Disponível em: www.dec.ufcg.edu.br. Acesso em: 21 abr. 2015. A equação que relaciona as medidas das alturas y e x é dada por A y = 1,265x B y = 1,250x C y = 1,150x D y = 1,125x E y = x
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) y = 1,265x
+B) B) y = 1,250x
+C) C) y = 1,150x
+D) D) y = 1,125x
+E) E) y = x
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 54: Q146 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 6c8838cb-c047-4690-9a88-588691ff6791
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Para chegar à universidade, um estudante utiliza um metrô e, depois, tem duas opções: • seguir num ônibus, percorrendo 2,0 km; • alugar uma bicicleta, ao lado da estação do metrô, seguindo 3,0 km pela ciclovia. O quadro fornece as velocidades médias do ônibus e da bicicleta, em km/h, no trajeto metrô−universidade. MT - 2° dia | Caderno 5 - AMARELO - Página 20 Velocidade média Dia da semana Ônibus (km/h) Bicicleta (km/h) Segunda-feira 9 15 Terça-feira 20 22 Quarta-feira 15 24 Quinta-feira 12 15 Sexta-feira 10 18 Sábado 30 16 A fim de poupar tempo no deslocamento para a universidade, em quais dias o aluno deve seguir pela ciclovia? A Às segundas, quintas e sextas-feiras. B Às terças e quintas-feiras e aos sábados. C Às segundas, quartas e sextas-feiras. D Às terças, quartas e sextas-feiras. E Às terças e quartas-feiras e aos sábados.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) fim de poupar tempo no deslocamento para a universidade, em quais dias o aluno deve seguir pela ciclovia? A Às segundas, quintas e sextas-feiras. B Às terças e quintas-feiras e aos sábados. C Às segundas, quartas e sextas-feiras. D Às terças, quartas e sextas-feiras. E Às terças e quartas-feiras e aos sábados.
+B) B) Às terças e quintas-feiras e aos sábados. C Às segundas, quartas e sextas-feiras. D Às terças, quartas e sextas-feiras. E Às terças e quartas-feiras e aos sábados.
+C) C) Às segundas, quartas e sextas-feiras. D Às terças, quartas e sextas-feiras. E Às terças e quartas-feiras e aos sábados.
+D) D) Às terças, quartas e sextas-feiras. E Às terças e quartas-feiras e aos sábados.
+E) E) Às terças e quartas-feiras e aos sábados.
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 55: Q148 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: a36ca00a-dcec-44a4-9342-8ebea37ac0fd
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A fabricação da Bandeira Nacional deve obedecer ao descrito na Lei n. 5.700, de 1º de setembro de 1971, que trata dos Símbolos Nacionais. No artigo que se refere às dimensões da Bandeira, observa-se: “Para cálculos das dimensões, será tomada por base a largura, dividindo-a em 14 (quatorze) partes iguais, sendo que cada uma das partes será considerada uma medida ou módulo (M). Os demais requisitos dimensionais seguem o critério abaixo: I. Comprimento será de vinte módulos (20 M); II. A distância dos vértices do losango amarelo ao quadro externo será de um módulo e sete décimos (1,7 M); III. O raio do círculo azul no meio do losango amarelo será de três módulos e meio (3,5 M).” BRASIL. Lei n. 5.700, de 1º de setembro de 1971.Disponível em: www.planalto.gov.br. Acesso em: 15 set. 2015. A figura indica as cores da bandeira do Brasil e localiza o quadro externo a que se refere a Lei n. 5.700. Comprimento do quadro externo onretxe ordauq od arugraL Um torcedor, preparando-se para a Copa do Mundo e dispondo de cortes de tecidos verde (180 cm x 150 cm) e amarelo (o quanto baste), deseja confeccionar a maior Bandeira Nacional possível a partir das medidas do tecido verde. Qual a medida, em centímetro, do lado do menor quadrado de tecido azul que deverá ser comprado para confecção do círculo da bandeira desejada? A 27 B 32 C 53 D 63 E
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) fabricação da Bandeira Nacional deve obedecer ao descrito na Lei n. 5.700, de 1º de setembro de 1971, que trata dos Símbolos Nacionais. No artigo que se refere às dimensões da Bandeira, observa-se: “Para cálculos das dimensões, será tomada por base a largura, dividindo-a em 14 (quatorze) partes iguais, sendo que cada uma das partes será considerada uma medida ou módulo (M). Os demais requisitos dimensionais seguem o critério abaixo: I. Comprimento será de vinte módulos (20 M); II.
+B) B) 32 C 53 D 63
+C) C) 53 D 63
+D) D) [Alternative not found]
+E) E) [Alternative not found]
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 56: Q149 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: c06efcf2-9e1b-45b8-a038-51c5a00a8ed7
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma empresa de ônibus utiliza um sistema de vendas de passagens que fornece a imagem de todos os assentos do ônibus, diferenciando os assentos já vendidos, por uma cor mais escura, dos assentos ainda disponíveis. A empresa monitora, permanentemente, o número de assentos já vendidos e compara-o com o número total de assentos do ônibus para avaliar a necessidade de alocação de veículos extras. Na imagem tem-se a informação dos assentos já vendidos e dos ainda disponíveis em um determinado instante. A razão entre o número de assentos já vendidos e o total de assentos desse ônibus, no instante considerado na imagem, é 16 A 42 16 B 26 26 C 42 42 D 26 42 E 16 MT - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 42 16
+B) B) 26 26
+C) C) 42 42
+D) D) 26 42
+E) E) [Alternative not found]
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 57: Q150 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: aed66215-ee44-404b-868a-cd846df107bd
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A caixa-d’água de um edifício terá a forma de um paralelepípedo retângulo reto com volume igual a 28 080 litros. Em uma maquete que representa o edifício, a caixa-d’água tem dimensões 2 cm × 3,51 cm × 4 cm. Dado: 1 dm³ = 1 L. A escala usada pelo arquiteto foi A 1 : 10 B 1 : 100 C 1 : 1 000 D 1 : 10 000 E 1 : 100 000
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) caixa-d’água de um edifício terá a forma de um paralelepípedo retângulo reto com volume igual a 28 080 litros. Em uma maquete que representa o edifício, a caixa-d’água tem dimensões 2 cm × 3,51 cm × 4 cm. Dado: 1 dm³ = 1
+B) B) 1 : 100 C 1 : 1 000 D 1 : 10 000 E 1 : 100 000
+C) C) 1 : 1 000 D 1 : 10 000 E 1 : 100 000
+D) D) 1 : 10 000 E 1 : 100 000
+E) E) 1 : 100 000
+
+🔑 GABARITO: B
+
+
+====================================================================================================
+QUESTÃO 58: Q151 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 585afeff-63e1-4c3f-b337-33821ce319f6
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Os gráficos representam a produção de peças em uma indústria e as horas trabalhadas dos funcionários no período de cinco dias. Em cada dia, o gerente de produção aplica uma metodologia diferente de trabalho. Seu objetivo é avaliar a metodologia mais eficiente para utilizá-la como modelo nos próximos períodos. Sabe-se que, neste caso, quanto maior for a razão entre o número de peças produzidas e o número de horas trabalhadas, maior será a eficiência da metodologia. Em qual dia foi aplicada a metodologia mais eficiente? A 1 B 2 C 3 D 4 E 5 MT - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 1 B 2 C 3 D 4 E 5 MT - 2° dia | Caderno 5 - AMARELO -
+B) B) 2 C 3 D 4 E 5 MT - 2° dia | Caderno 5 - AMARELO -
+C) C) 3 D 4 E 5 MT - 2° dia | Caderno 5 - AMARELO -
+D) D) 4 E 5 MT - 2° dia | Caderno 5 - AMARELO -
+E) E) 5 MT - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 59: Q152 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: e72ea67e-f994-414e-9c34-9525b05fb463
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O proprietário de um apartamento decidiu instalar porcelanato no piso da sala. Essa sala tem formato retangular com 3,2 m de largura e 3,6 m de comprimento. As peças do porcelanato têm formato de um quadrado com lado medindo 80 cm. Esse porcelanato é vendido em dois tipos de caixas, com os preços indicados a seguir. • Caixas do tipo A: 4 unidades de piso, R$ 35,00; • Caixas do tipo B: 3 unidades de piso, R$ 27,00. Na instalação do porcelanato, as peças podem ser recortadas e devem ser assentadas sem espaçamento entre elas, aproveitando-se ao máximo os recortes feitos. A compra que atende às necessidades do proprietário, proporciona a menor sobra de pisos e resulta no menor preço é A 5 caixas do tipo A. B 1 caixa do tipo A e 4 caixas do tipo B. C 3 caixas do tipo A e 2 caixas do tipo B. D 5 caixas do tipo A e 1 caixa do tipo B. E 6 caixas do tipo B.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) compra que atende às necessidades do proprietário, proporciona a menor sobra de pisos e resulta no menor preço é A 5 caixas do tipo A. B 1 caixa do tipo A e 4 caixas do tipo B. C 3 caixas do tipo A e 2 caixas do tipo B. D 5 caixas do tipo A e 1 caixa do tipo B. E 6 caixas do tipo
+B) B) 1 caixa do tipo A e 4 caixas do tipo B. C 3 caixas do tipo A e 2 caixas do tipo B. D 5 caixas do tipo A e 1 caixa do tipo B. E 6 caixas do tipo
+C) C) 3 caixas do tipo A e 2 caixas do tipo B. D 5 caixas do tipo A e 1 caixa do tipo B. E 6 caixas do tipo
+D) D) 5 caixas do tipo A e 1 caixa do tipo B. E 6 caixas do tipo
+E) E) 6 caixas do tipo
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 60: Q153 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 250b3dd4-ccd1-4942-afab-9a1e6907e870
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um hotel de 3 andares está sendo construído. Cada andar terá 100 quartos. Os quartos serão numerados de 100 a 399 e cada um terá seu número afixado à porta. Cada número será composto por peças individuais, cada uma simbolizando um único algarismo. Qual a quantidade mínima de peças, simbolizando o algarismo 2, necessárias para identificar o número de todos os quartos? A 160 B 157 C 130 D 120 E
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 160
+B) B) 157
+C) C) 130
+D) D) 120
+E) E) [Alternative not found]
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 61: Q154 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: a6f597e1-3058-4e9c-972d-d47657c95409
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O fenômeno das manifestações populares de massa presentes nesse tipo de evento. Uma metodologia usada é da via pública principal na área ocupada, bem como das v que acessam a via principal. A foto é sobreposta por um m um esboço geométrico da situação. Em seguida, subdivide da seguinte forma: • 4 pessoas por metro quadrado, se elas estiverem an • 5 pessoas por metro quadrado, se elas estiverem se • 6 pessoas por metro quadrado, se elas estiverem pa É feito, então, o cálculo do total de pessoas, considera para cada carro de som fotografado. Com essa metodologia, procederam-se aos cálculos pa esboço geométrico é dado na fi gura. Há três trechos na vi da principal: QR . 30 m Q 100 m M N R O 30 m 100 m 300 m Obs.: a figura não está em escala Segundo a metodologia descrita, o número estimado de pe A 110 000. B 104 000. C 93 000. D 92 000. E 87 000. a traz à discussão como estimar o número de pessoas é: no momento do ápice do evento, é feita uma foto aérea vias afl uentes que apresentem aglomerações de pessoas mapa virtual das vias, ambos na mesma escala, fazendo-se e-se o espaço total em trechos, quantifi cando a densidade, ndando em uma mesma direção; e movimentando sem deixar o local; aradas. ando os diversos trechos, e desconta-se daí 1 000 pessoas ara estimar o número de participantes na manifestação cujo ia principal: MN, NO e OP, e um trecho numa via afl uente Legenda: Andando em uma ou mesma direção Movimentando sem P deixar o local Via Parado principal Carro de som 200 m a (considere as medidas dadas). essoas presentes a essa manifestação foi igual a MT - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 110 000.
+B) B) 104 000.
+C) C) 93 000.
+D) D) 92 000.
+E) E) [Alternative not found]
+
+🔑 GABARITO: B
+
+
+====================================================================================================
+QUESTÃO 62: Q155 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 34ad62fd-27b7-474e-b9a3-1f54fb62131b
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A Pesquisa Nacional por Amostra de Domicílios (Pnad) é uma pesquisa feita anualmente pelo IBGE, exceto nos anos em que há Censo. Em um ano, foram entrevistados 363 mil jovens para fazer um levantamento sobre suas atividades profissionais e/ou acadêmicas. Os resultados da pesquisa estão indicados no gráfico. Jovens em atividade entre 15 e 29 anos (%) 45,2 21,6 19,6 13,6 Somente estuda Trabalha e estuda Somente Não trabalha trabalha nem estuda Disponível em: http://noticias.uol.com.br. Acesso em: 20 ago. 2014. De acordo com as informações dadas, o número de jovens entrevistados que trabalha é A 114 708. B 164 076. C 213 444. D 284 592. E 291 582.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 114 708.
+B) B) 164 076.
+C) C) 213 444.
+D) D) 284 592.
+E) E) 291 582.
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 63: Q156 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 0c5c8017-2651-4561-b6c5-bc5e38ed88f9
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A Lei de Zipf, batizada com o nome do linguista americano George Zipf, é uma lei empírica que relaciona a frequência (f) de uma palavra em um dado texto com o seu ranking (r). Ela é dada por A f rB . O ranking da palavr=a é a sua posição ao ordenar as palavras por ordem de frequência. Ou seja, r = 1 para a palavra mais frequente, r = 2 para a segunda palavra mais frequente e assim sucessivamente. A e B são constantes positivas. Diponível em: http://klein.sbm.org.br. Acesso em: 12 ago. 2020 (adatpado). Com base nos valores de X = log (r) e Y = log (f), é possível estimar valores para A e B. No caso hipotético em que a lei é verificada exatamente, a relação entre Y e X é A Y log A B X = log A− B Y X log B = log+ A C Y X B = − log A D Y B X = log A E Y XB = MT - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Lei de Zipf, batizada com o nome do linguista americano George Zipf, é uma lei empírica que relaciona a frequência (f) de uma palavra em um dado texto com o seu ranking (r). Ela é dada por A f rB . O ranking da palavr=a é a sua posição ao ordenar as palavras por ordem de frequência. Ou seja, r = 1 para a palavra mais frequente, r = 2 para a segunda palavra mais frequente e assim sucessivamente. A e
+B) B) são constantes positivas. Diponível em: http://klein.sbm.org.br. Acesso em: 12 ago. 2020 (adatpado). Com base nos valores de X = log (r) e Y = log (f), é possível estimar valores para A e B. No caso hipotético em que a lei é verificada exatamente, a relação entre Y e X é A Y log A B X = log A− B Y X log B = log+ A C Y X B = − log A D Y B X = log A E Y XB = MT - 2° dia | Caderno 5 - AMARELO -
+C) C) Y X B = − log A D Y B X = log A E Y XB = MT - 2° dia | Caderno 5 - AMARELO -
+D) D) Y B X = log A E Y XB = MT - 2° dia | Caderno 5 - AMARELO -
+E) E) Y XB = MT - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 64: Q157 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 9083f679-08fc-4124-a4ab-d6f88d1c0927
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Enquanto um ser está vivo, a quantidade de carbono 14 nele existente não se altera. Quando ele morre, essa quantidade vai diminuindo. Sabe-se que a meia-vida do carbono 14 é de 5 730 anos, ou seja, num fóssil de um organismo que morreu há 5 730 anos haverá metade do carbono 14 que existia quando ele estava vivo. Assim, cientistas e arqueólogos usam a seguinte fórmula para t saber a idade de um fóssil encontrado: Q t Q 2 5730 0 − em que t é o tempo, medido em ano, Q t é a quantidade = ∙ de carbono 14 medida no instante t e Q é a quantidade 0 de carbono 14 no ser vivo correspondente. Um grupo de arqueólogos, numa de suas expedições, encontrou 5 fósseis de espécies conhecidas e mediram a quantidade de carbono 14 neles existente. Na tabela temos esses valores juntamente com a quantidade de carbono 14 nas referidas espécies vivas. Fóssil Q Q(t) 0 1 128 32 2 256 8 3 512 64 4 1 024 512 5 2 048 128 O fóssil mais antigo encontrado nessa expedição foi A 1. B 2. C 3. D 4. E 5.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 1. B 2. C 3. D 4. E 5.
+B) B) 2. C 3. D 4. E 5.
+C) C) 3. D 4. E 5.
+D) D) 4. E 5.
+E) E) 5.
+
+🔑 GABARITO: B
+
+
+====================================================================================================
+QUESTÃO 65: Q158 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: ab264dc7-d44a-4617-aa1d-130caac57b73
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma das Sete Maravilhas do Mundo Moderno é o Templo de Kukulkán, localizado na cidade de Chichén Itzá, no México. Geometricamente, esse templo pode ser representado por um tronco reto de pirâmide de base quadrada. As quantidades de cada tipo de figura plana que formam esse tronco de pirâmide são A 2 quadrados e 4 retângulos. B 1 retângulo e 4 triângulos isósceles. C 2 quadrados e 4 trapézios isósceles. D 1 quadrado, 3 retângulos e 2 trapézios retângulos. E 2 retângulos, 2 quadrados e 2 trapézios retângulos.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 2 quadrados e 4 retângulos. B 1 retângulo e 4 triângulos isósceles. C 2 quadrados e 4 trapézios isósceles. D 1 quadrado, 3 retângulos e 2 trapézios retângulos. E 2 retângulos, 2 quadrados e 2 trapézios retângulos.
+B) B) 1 retângulo e 4 triângulos isósceles. C 2 quadrados e 4 trapézios isósceles. D 1 quadrado, 3 retângulos e 2 trapézios retângulos. E 2 retângulos, 2 quadrados e 2 trapézios retângulos.
+C) C) 2 quadrados e 4 trapézios isósceles. D 1 quadrado, 3 retângulos e 2 trapézios retângulos. E 2 retângulos, 2 quadrados e 2 trapézios retângulos.
+D) D) 1 quadrado, 3 retângulos e 2 trapézios retângulos. E 2 retângulos, 2 quadrados e 2 trapézios retângulos.
+E) E) 2 retângulos, 2 quadrados e 2 trapézios retângulos.
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 66: Q160 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: b2a748bb-be48-48f7-8d3d-ea1ec07358dc
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Suponha que uma equipe de corrida de automóveis disponha de cinco tipos de pneu (I, II, III, IV, V), em que o fator de eficiência climática EC (índice que fornece o comportamento do pneu em uso, dependendo do clima) é apresentado: • EC do pneu I: com chuva 6, sem chuva 3; • EC do pneu II: com chuva 7, sem chuva −4; • EC do pneu III: com chuva −2, sem chuva 10; • EC do pneu IV: com chuva 2, sem chuva 8; • EC do pneu V: com chuva −6, sem chuva 7. O coeficiente de rendimento climático (CRC) de um pneu é calculado como a soma dos produtos dos fatores de EC, com ou sem chuva, pelas correspondentes probabilidades de se ter tais condições climáticas: ele é utilizado para determinar qual pneu deve ser selecionado para uma dada corrida, escolhendo-se o pneu que apresentar o maior CRC naquele dia. No dia de certa corrida, a probabilidade de chover era de 70% e o chefe da equipe calculou o CRC de cada um dos cinco tipos de pneu. O pneu escolhido foi A I. B II. C III. D IV. E V.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) [Alternative not found]
+B) B) II.
+C) C) III.
+D) D) IV. E
+E) E) [Alternative not found]
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 67: Q161 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: c1ab8efe-ebb9-43ef-ac10-3326a7669f40
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um pé de eucalipto em idade adequada para o corte rende, em média, 20 mil folhas de papel A4. A densidade superficial do papel A4, medida pela razão da massa de uma folha desse papel por sua área, é de 75 gramas por metro quadrado, e a área de uma folha de A4 é 0,062 metro quadrado. Disponível em: http://revistagalileu.globo.com. Acesso em: 28 fev. 2013 (adaptado). Nessas condições, quantos quilogramas de papel rende, em média, um pé de eucalipto? A 4 301 B 1 500 C 930 D 267 E
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 4 301
+B) B) 1 500
+C) C) 930
+D) D) 267 E
+E) E) [Alternative not found]
+
+🔑 GABARITO: E
+
+
+====================================================================================================
+QUESTÃO 68: Q162 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 0c5e9d84-1a5c-4ab2-8871-0990bfbee5b2
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Com o objetivo de contratar uma empresa responsável pelo serviço de atendimento ao público, os executivos de uma agência bancária realizaram uma pesquisa de satisfação envolvendo cinco empresas especializadas nesse segmento. Os procedimentos analisados (com pesos que medem sua importância para a agência) e as respectivas notas que cada empresa recebeu estão organizados no quadro. Notas da empresa Procedimento Peso X Y Z W T Rapidez no 3 5 1 4 3 4 atendimento Clareza nas informações 5 1 4 3 3 2 passadas aos clientes Cortesia no 2 2 2 2 3 4 atendimento A agência bancária contratará a empresa com a maior média ponderada das notas obtidas nos procedimentos analisados. Após a análise dos resultados da pesquisa de satisfação, os executivos da agência bancária contrataram a empresa A X. B Y. C Z. D W. E T. MT - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) agência bancária contratará a empresa com a maior média ponderada das notas obtidas nos procedimentos analisados. Após a análise dos resultados da pesquisa de satisfação, os executivos da agência bancária contrataram a empresa A X. B Y. C Z. D W. E T. MT - 2° dia | Caderno 5 - AMARELO -
+B) B) Y. C Z. D W. E T. MT - 2° dia | Caderno 5 - AMARELO -
+C) C) Z. D W. E T. MT - 2° dia | Caderno 5 - AMARELO -
+D) D) W. E T. MT - 2° dia | Caderno 5 - AMARELO -
+E) E) T. MT - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 69: Q163 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: e4818170-391c-429c-8fe7-e33f4ce81abb
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O Estatuto do Idoso, no Brasil, prevê certos direitos às pessoas com idade avançada, concedendo a estas, entre outros benefícios, a restituição de imposto de renda antes dos demais contribuintes. A tabela informa os nomes e as idades de 12 idosos que aguardam suas restituições de imposto de renda. Considere que, entre os idosos, a restituição seja concedida em ordem decrescente de idade e que, em subgrupos de pessoas com a mesma idade, a ordem seja decidida por sorteio. Nome Idade (em ano) Orlando 89 Gustavo 86 Luana 86 Teresa 85 Márcia 84 Roberto 82 Heloisa 75 Marisa 75 Pedro 75 João 75 Antônio 72 Fernanda 70 Nessas condições, a probabilidade de João ser a sétima pessoa do grupo a receber sua restituição é igual a 1 A 12 7 B 12 1 C 8 5 D 6 1 E 4 MT - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 12 7
+B) B) 12 1
+C) C) 8 5
+D) D) 6 1
+E) E) [Alternative not found]
+
+🔑 GABARITO: E
+
+
+====================================================================================================
+QUESTÃO 70: Q165 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 2735e9d1-aaa7-474a-b5ea-e6983ba1b36c
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma torneira está gotejando água em um balde com capacidade de 18 litros. No instante atual, o balde se encontra com ocupação de 50% de sua capacidade. A cada segundo caem 5 gotas de água da torneira, e uma gota é formada, em média, por 5 × 10−2 mL de água. Quanto tempo, em hora, será necessário para encher completamente o balde, partindo do instante atual? A 2 × 101 B 1 × 101 C 2 × 10−2 D 1 × 10−2 E 1 × 10−3
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 2 × 101
+B) B) 1 × 101
+C) C) 2 × 10−2
+D) D) 1 × 10−2
+E) E) 1 × 10−3
+
+🔑 GABARITO: B
+
+
+====================================================================================================
+QUESTÃO 71: Q166 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: a7368a2a-9d14-46c8-aa36-b864fecf6ff9
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O artista gráfico holandês Maurits Cornelius Escher criou belíssimas obras nas quais as imagens se repetiam, com diferentes tamanhos, induzindo ao raciocínio de repetição infinita das imagens. Inspirado por ele, um artista fez um rascunho de uma obra na qual propunha a ideia de construção de uma sequência de infinitos quadrados, cada vez menores, uns sob os outros, conforme indicado na figura. P R 1 S T 1/2 1/4 O quadrado PRST, com lado de medida 1, é o ponto de partida. O segundo quadrado é construído sob ele tomando-se o ponto médio da base do quadrado anterior e criando-se um novo quadrado, cujo lado corresponde à metade dessa base. Essa sequência de construção se repete recursivamente. Qual é a medida do lado do centésimo quadrado construído de acordo com esse padrão? 100 (cid:31)1(cid:28) A (cid:29) (cid:26) (cid:30)2(cid:27) 99 (cid:31)1(cid:28) B (cid:29) (cid:26) (cid:30)2(cid:27) 97 (cid:31)1(cid:28) C (cid:29) (cid:26) (cid:30)2(cid:27) (cid:25)98 (cid:31)1(cid:28) D (cid:29) (cid:26) (cid:30)2(cid:27) (cid:25)99 (cid:31)1(cid:28) E (cid:29) (cid:26) (cid:30)2(cid:27)
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) (cid:29) (cid:26) (cid:30)2(cid:27) 99 (cid:31)1(cid:28)
+B) B) (cid:29) (cid:26) (cid:30)2(cid:27) 97 (cid:31)1(cid:28)
+C) C) (cid:29) (cid:26) (cid:30)2(cid:27) (cid:25)98 (cid:31)1(cid:28)
+D) D) (cid:29) (cid:26) (cid:30)2(cid:27) (cid:25)99 (cid:31)1(cid:28)
+E) E) (cid:29) (cid:26) (cid:30)2(cid:27)
+
+🔑 GABARITO: B
+
+
+====================================================================================================
+QUESTÃO 72: Q167 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: cc1aaf41-035e-466e-ae3e-39f20430a49c
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O gerente de uma loja de cosméticos colocou à venda cinco diferentes tipos de perfume, tendo em estoque na loja as mesmas quantidades de cada um deles. O setor de controle de estoque encaminhou ao gerente registros gráficos descrevendo os preços unitários de cada perfume, em real, e a quantidade vendida de cada um deles, em percentual, ocorrida no mês de novembro. Preço do perfume por unidade (R$) 200 170 150 100 80 Perfume I Perfume II Perfume III Perfume IV Perfume V Porcentagem da quantidade vendida de cada perfume Perfume I 13% Perfume II Perfume V 10% 32% Perfume III 16% Perfume IV 29% Dados a chegada do final de ano e o aumento das vendas, a gerência pretende aumentar a quantidade estocada do perfume do tipo que gerou a maior arrecadação em espécie, em real, no mês de novembro. Nessas condições, qual o tipo de perfume que deverá ter maior reposição no estoque? A I B II C III D IV E V MT - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) I B
+B) B) [Alternative not found]
+C) C) III D IV E V MT - 2° dia | Caderno 5 - AMARELO -
+D) D) IV E V MT - 2° dia | Caderno 5 - AMARELO -
+E) E) V MT - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 73: Q168 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 7e9cc464-a5d8-40cf-9897-ef140d0ac392
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma loja de materiais de construção vende dois tipos de caixas-d’água: tipo A e tipo B. Ambas têm formato cilíndrico e possuem o mesmo volume, e a altura da caixa-d’água do tipo B é igual a 25% da altura da caixa-d’água do tipo A. Se R denota o raio da caixa-d’água do tipo A, então o raio da caixa-d’água do tipo B é R A 2 B 2R C 4R D 5R E 16R
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 2 B 2R
+B) B) é R
+C) C) 4R D 5R
+D) D) [Alternative not found]
+E) E) 16R
+
+🔑 GABARITO: B
+
+
+====================================================================================================
+QUESTÃO 74: Q169 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 673a0ac8-a65a-48c9-a355-92c6d0d9afa4
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A lei municipal para a edificação de casas em lotes de uma cidade determina que sejam obedecidos os seguintes critérios: • afastamento mínimo de 4 m da rua; • afastamento mínimo de 1 m da divisa com outro lote; • área total construída da casa entre 40% e 50% da área total do lote. Um construtor submeteu para aprovação na prefeitura dessa cidade uma planta com propostas para a construção de casas em seus 5 lotes. Cada lote tem área medindo 200 m². A imagem apresenta um esquema, sem escala, no qual estão representados os lotes, as ruas e os afastamentos considerados nos projetos entre as casas e as divisas dos lotes. As medidas indicadas no esquema estão expressas em metro. 1 MT - 2° dia | Caderno 5 - AMARELO - Página 28 auR 1 1 4 Casa 1 1 1 Casa 2 1 Lote 4 4 10 10 10 10 2 4 Casa 3 1 2 Casa 4 2 Lote 2 4 Casa 5 Lote Lote 02 02 02 Rua 4 4 1 1 A prefeitura aprovará apenas a planta da casa A 1. B 2. C 3. D 4. E 5.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) lei municipal para a edificação de casas em lotes de uma cidade determina que sejam obedecidos os seguintes critérios: • afastamento mínimo de 4 m da rua; • afastamento mínimo de 1 m da divisa com outro lote; • área total construída da casa entre 40% e 50% da área total do lote. Um construtor submeteu para aprovação na prefeitura dessa cidade uma planta com propostas para a construção de casas em seus 5 lotes. Cada lote tem área medindo 200 m².
+B) B) 2. C 3. D 4. E 5.
+C) C) 3. D 4. E 5.
+D) D) 4. E 5.
+E) E) 5.
+
+🔑 GABARITO: E
+
+
+====================================================================================================
+QUESTÃO 75: Q170 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: c224ff02-2064-4c57-8183-472498ac853e
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Nos livros Harry Potter, um anagrama do nome do personagem “TOM MARVOLO RIDDLE” gerou a frase “I AM LORD VOLDEMORT”. Suponha que Harry quisesse formar todos os anagramas da frase “I AM POTTER”, de tal forma que as vogais e consoantes aparecessem sempre intercaladas, e sem considerar o espaçamento entre as letras. Nessas condições, o número de anagramas formados é dado por A 9! B 4!5! C 2 4!5! 9! D × 2 4!5! E
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 9!
+B) B) 4!5! C 2 4!5! 9! D × 2 4!5!
+C) C) 2 4!5! 9! D × 2 4!5!
+D) D) × 2 4!5!
+E) E) [Alternative not found]
+
+🔑 GABARITO: E
+
+
+====================================================================================================
+QUESTÃO 76: Q171 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 2dba8cef-3686-457d-a6e8-471d4471ddbe
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A exposição a barulhos excessivos, como os que percebemos em geral em trânsitos intensos, casas noturnas e espetáculos musicais, podem provocar insônia, estresse, infarto, perda de audição, entre outras enfermidades. De acordo com a Organização Mundial da Saúde, todo e qualquer som que ultrapasse os 55 decibéis (unidade de intensidade do som) já pode ser considerado nocivo para a saúde. O gráfico foi elaborado a partir da medição do ruído produzido, durante um dia, em um canteiro de obras. Decibel 55 0 Hora 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 Disponível em: www.revistaencontro.com.br. Acesso em: 12 ago. 2020 (adaptado). Nesse dia, durante quantas horas o ruído esteve acima de 55 decibéis? A 5 B 8 C 10 D 11 E
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) exposição a barulhos excessivos, como os que percebemos em geral em trânsitos intensos, casas noturnas e espetáculos musicais, podem provocar insônia, estresse, infarto, perda de audição, entre outras enfermidades. De acordo com a Organização Mundial da Saúde, todo e qualquer som que ultrapasse os 55 decibéis (unidade de intensidade do som) já pode ser considerado nocivo para a saúde. O gráfico foi elaborado a partir da medição do ruído produzido, durante um dia, em um canteiro de obras. Decibel 55 0 Hora 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 Disponível em: www.revistaencontro.com.br. Acesso em: 12 ago. 2020 (adaptado). Nesse dia, durante quantas horas o ruído esteve acima de 55 decibéis? A 5 B 8 C 10 D 11
+B) B) 8 C 10 D 11
+C) C) 10 D 11
+D) D) [Alternative not found]
+E) E) [Alternative not found]
+
+🔑 GABARITO: E
+
+
+====================================================================================================
+QUESTÃO 77: Q172 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 9f28af63-3f79-466f-90ca-6f14421cf428
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O técnico de um time de basquete pretende aumentar a estatura média de sua equipe de 1,93 m para, no mínimo, 1,99 m. Para tanto, dentre os 15 jogadores que fazem parte de sua equipe, irá substituir os quatro mais baixos, de estaturas: 1,78 m, 1,82 m, 1,84 m e 1,86 m. Para isso, o técnico contratou um novo jogador de 2,02 m. Os outros três jogadores que ele ainda precisa contratar devem satisfazer à sua necessidade de aumentar a média das estaturas da equipe. Ele fi xará a média das estaturas para os três jogadores que ainda precisa contratar dentro do critério inicialmente estabelecido. Qual deverá ser a média mínima das estaturas, em metro, que ele deverá fi xar para o grupo de três novos jogadores que ainda irá contratar? A 1,96 B 1,98 C 2,05 D 2,06 E 2,08
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 1,96
+B) B) 1,98
+C) C) 2,05
+D) D) 2,06
+E) E) 2,08
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 78: Q173 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 5ae30baf-77f2-4636-87ae-ed9efddab023
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O consumo de espumantes no Brasil tem aumentado nos últimos anos. Uma das etapas do seu processo de produção consiste no envasamento da bebida em garrafas semelhantes às da imagem. Nesse processo, a vazão do líquido no interior da garrafa é constante e cessa quando atinge o nível de envasamento. Nível de envasamento da garrafa Qual esboço de gráfi co melhor representa a variação da altura do líquido em função do tempo, na garrafa indicada na imagem? altura A 0 tempo altura B 0 tempo altura C 0 tempo altura D 0 tempo altura E 0 tempo
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 0 tempo altura
+B) B) 0 tempo altura
+C) C) 0 tempo altura
+D) D) 0 tempo altura
+E) E) 0 tempo
+
+🔑 GABARITO: B
+
+
+====================================================================================================
+QUESTÃO 79: Q174 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 0b66f371-07e8-4e66-82a8-162c091c14d2
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O quadro representa os gastos mensais, em real, de uma família com internet, mensalidade escolar e mesada do fi lho. Internet Mensalidade escolar Mesada do fi lho 120 700 400 No início do ano, a internet e a mensalidade escolar tiveram acréscimos, respectivamente, de 20% e 10%. Necessitando manter o valor da despesa mensal total com os itens citados, a família reduzirá a mesada do fi lho. Qual será a porcentagem da redução da mesada? A 15,0 B 23,5 C 30,0 D 70,0 E 76,5 MT - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 15,0
+B) B) 23,5
+C) C) 30,0
+D) D) 70,0
+E) E) 76,5 MT - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: B
+
+
+====================================================================================================
+QUESTÃO 80: Q175 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: b1619d43-4c24-4f34-9a38-055058893c8a
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Num recipiente com a forma de paralelepípedo reto-retângulo, colocou-se água até a altura de 8 cm e um objeto, que ficou flutuando na superfície da água. Para retirar o objeto de dentro do recipiente, a altura da coluna de água deve ser de, pelo menos, 15 cm. Para a coluna de água chegar até essa altura, é necessário colocar dentro do recipiente bolinhas de volume igual a 6 cm³ cada, que ficarão totalmente submersas. 17 cm 8 cm 3 cm 4 cm O número mínimo de bolinhas necessárias para que se possa retirar o objeto que flutua na água, seguindo as instruções dadas, é de A 14. B 16. C 18. D 30. E 34.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 14.
+B) B) 16.
+C) C) 18.
+D) D) 30.
+E) E) 34.
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 81: Q176 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: fd51fe86-79f6-4c48-a5a5-011453d8e5a6
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um grupo sanguíneo, ou tipo sanguíneo, baseia-se na presença ou ausência de dois antígenos, A e B, na superfície das células vermelhas do sangue. Como dois antígenos estão envolvidos, os quatro tipos sanguíneos distintos são: • Tipo A: apenas o antígeno A está presente; • Tipo B: apenas o antígeno B está presente; • Tipo AB: ambos os antígenos estão presentes; • Tipo O: nenhum dos antígenos está presente. Disponível em: http://saude.hsw.uol.com.br. Acesso em: 15 abr. 2012 (adaptado). Foram coletadas amostras de sangue de 200 pessoas e, após análise laboratorial, foi identificado que em 100 amostras está presente o antígeno A, em 110 amostras há presença do antígeno B e em 20 amostras nenhum dos antígenos está presente. Dessas pessoas que foram submetidas à coleta de sangue, o número das que possuem o tipo sanguíneo A é igual a A 30. B 60. C 70. D 90. E 100. MT - 2° dia | Caderno 5 - AMARELO - Página
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) e B, na superfície das células vermelhas do sangue. Como dois antígenos estão envolvidos, os quatro tipos sanguíneos distintos são: • Tipo A: apenas o antígeno
+B) B) está presente; • Tipo AB: ambos os antígenos estão presentes; • Tipo O: nenhum dos antígenos está presente. Disponível em: http://saude.hsw.uol.com.br. Acesso em: 15 abr. 2012 (adaptado). Foram coletadas amostras de sangue de 200 pessoas e, após análise laboratorial, foi identificado que em 100 amostras está presente o antígeno A, em 110 amostras há presença do antígeno B e em 20 amostras nenhum dos antígenos está presente. Dessas pessoas que foram submetidas à coleta de sangue, o número das que possuem o tipo sanguíneo A é igual a
+C) C) 70.
+D) D) 90.
+E) E) 100. MT - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 82: Q177 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 3ec7c925-875c-4b2b-93b1-319f9c02ea8f
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Antônio, Joaquim e José são sócios de uma empresa cujo capital é dividido, entre os três, em partes proporcionais a: 4, 6 e 6, respectivamente. Com a intenção de igualar a participação dos três sócios no capital da empresa, Antônio pretende adquirir uma fração do capital de cada um dos outros dois sócios. A fração do capital de cada sócio que Antônio deverá adquirir é 1 A 2 1 B 3 1 C 9 2 D 3 4 E
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 2 1
+B) B) 3 1
+C) C) 9 2
+D) D) 3 4 E
+E) E) [Alternative not found]
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+QUESTÃO 83: Q178 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 52ce7136-ed32-445f-86c7-a24db367feaa
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Azulejo designa peça de cerâmica vitrificada e/ou esmaltada usada, sobretudo, no revestimento de paredes. A origem das técnicas de fabricação de azulejos é oriental, mas sua expansão pela Europa traz consigo uma diversificação de estilos, padrões e usos, que podem ser decorativos, utilitários e arquitetônicos. Disponível em: www.itaucultural.org.br. Acesso em: 31 jul. 2012. Azulejos no formato de octógonos regulares serão utilizados para cobrir um painel retangular conforme ilustrado na figura. Entre os octógonos e na borda lateral dessa área, será necessária a colocação de 15 azulejos de outros formatos para preencher os 15 espaços em branco do painel. Uma loja oferece azulejos nos seguintes formatos: 1 - Triângulo retângulo isósceles; 2 - Triângulo equilátero; 3 - Quadrado. Os azulejos necessários para o devido preenchimento das áreas em branco desse painel são os de formato A 1. B 3. C 1 e 2. D 1 e 3. E 2 e 3.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 1. B 3.
+B) B) [Alternative not found]
+C) C) 1 e 2.
+D) D) 1 e 3.
+E) E) 2 e 3.
+
+🔑 GABARITO: D
+
+
+====================================================================================================
+QUESTÃO 84: Q179 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: cc3b8a2e-6155-47ae-a636-4d311056a0a9
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+No período de fi m de ano, o síndico de um condomínio resolveu colocar, em um poste, uma iluminação natalina em formato de cone, lembrando uma árvore de Natal, conforme as fi guras 1 e 2. Poste h = 3 m c Figura 1 Figura 2 A árvore deverá ser feita colocando-se mangueiras de iluminação, consideradas segmentos de reta de mesmo comprimento, a partir de um ponto situado a 3 m de altura no poste até um ponto de uma circunferência de fi xação, no chão, de tal forma que esta fi que dividida em 20 arcos iguais. O poste está fi xado no ponto C (centro da circunferência) perpendicularmente ao plano do chão. Para economizar, ele utilizará mangueiras de iluminação aproveitadas de anos anteriores, que juntas totalizaram pouco mais de 100 m de comprimento, dos quais ele decide usar exatamente 100 m e deixar o restante como reserva. Para que ele atinja seu objetivo, o raio, em metro, da circunferência deverá ser de A 4,00. B 4,87. C 5,00. D 5,83. E 6,26.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) árvore deverá ser feita colocando-se mangueiras de iluminação, consideradas segmentos de reta de mesmo comprimento, a partir de um ponto situado a 3 m de altura no poste até um ponto de uma circunferência de fi xação, no chão, de tal forma que esta fi que dividida em 20 arcos iguais. O poste está fi xado no ponto
+B) B) 4,87.
+C) C) (centro da circunferência) perpendicularmente ao plano do chão. Para economizar, ele utilizará mangueiras de iluminação aproveitadas de anos anteriores, que juntas totalizaram pouco mais de 100 m de comprimento, dos quais ele decide usar exatamente 100 m e deixar o restante como reserva. Para que ele atinja seu objetivo, o raio, em metro, da circunferência deverá ser de
+D) D) 5,83.
+E) E) 6,26.
+
+🔑 GABARITO: A
+
+
+====================================================================================================
+QUESTÃO 85: Q180 - 2020 - DIA 2 - CD5
+====================================================================================================
+ID: 110df7c3-e50c-4e3f-939a-aa201b639a16
+Arquivo: 2020_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Pergolado é o nome que se dá a um tipo de cobertura projetada por arquitetos, comumente em praças e jardins, para criar um ambiente para pessoas ou plantas, no qual há uma quebra da quantidade de luz, dependendo da posição do sol. É feito como um estrado de vigas iguais, postas paralelas e perfeitamente em fi la, como ilustra a fi gura. 30 cm 30 cm Um arquiteto projeta um pergolado com vãos de 30 cm de distância entre suas vigas, de modo que, no solstício de verão, a trajetória do sol durante o dia seja realizada num plano perpendicular à direção das vigas, e que o sol da tarde, no momento em que seus raios fi zerem 30° com a posição a pino, gere a metade da luz que passa no pergolado ao meio-dia. Para atender à proposta do projeto elaborado pelo arquiteto, as vigas do pergolado devem ser construídas de maneira que a altura, em centímetro, seja a mais próxima possível de A 9. B 15. C 26. D 52. E 60. MT - 2° dia | Caderno 5 - AMARELO - Página 31 2° dia | Caderno 5 - AMARELO - Página 32 01
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 9.
+B) B) 15.
+C) C) 26.
+D) D) 52.
+E) E) 60. MT - 2° dia | Caderno 5 - AMARELO -
+
+🔑 GABARITO: C
+
+
+====================================================================================================
+📊 ESTATÍSTICAS DO CADERNO
+====================================================================================================
+Total de questões: 85
+Questões com imagens: 0 (0.0%)
+Total de alternativas: 425
+Total de imagens: 6
+
+Distribuição por matéria:
+  Subject.CIENCIAS_NATUREZA: 43 questões (50.6%)
+  Subject.MATEMATICA: 42 questões (49.4%)
+
+====================================================================================================
+FIM DO RELATÓRIO
+====================================================================================================

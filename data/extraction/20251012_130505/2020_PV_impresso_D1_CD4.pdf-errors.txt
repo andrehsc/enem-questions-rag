@@ -1,0 +1,12 @@
+Question 18: Expected 5 alternatives, found 3
+Question 18: Alternatives not in alphabetical order: ['A', 'B', 'E', 'D', 'E']
+Question 50: Found only 1 alternatives. Skipping question.
+Question 6: Expected 5 alternatives, found 3
+Question 52: Found only 2 alternatives. Skipping question.
+Question 6: Alternatives not in alphabetical order: ['A', 'B', 'E', 'D', 'E']
+Question 61: Expected 5 alternatives, found 3
+Question 70: Expected 5 alternatives, found 3
+Question 61: Alternatives not in alphabetical order: ['A', 'C', 'E', 'D', 'E']
+Question 70: Alternatives not in alphabetical order: ['A', 'C', 'E', 'D', 'E']
+Question 74: Found only 1 alternatives. Skipping question.
+Question 76: Found only 2 alternatives. Skipping question.

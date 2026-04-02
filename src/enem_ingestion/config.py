@@ -38,6 +38,38 @@ class Settings:
         self.teachershub_api_url = os.getenv("TEACHERSHUB_API_URL", "http://localhost:5001")
         self.enem_rag_service_url = os.getenv("ENEM_RAG_SERVICE_URL", "http://localhost:8001")
 
+        # ENEM target years configuration
+        target_years_env = os.getenv("TARGET_YEARS", "2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024")
+        self.target_years = [int(year.strip()) for year in target_years_env.split(",")]
+
+
+# Configuration class for AI-enhanced parsing
+class Config:
+    """Configuration for AI-enhanced ENEM parser."""
+    
+    def __init__(self):
+        # AI Processing Configuration
+        self.ai_confidence_threshold = float(os.getenv("AI_CONFIDENCE_THRESHOLD", "0.4"))
+        self.ai_batch_size = int(os.getenv("AI_BATCH_SIZE", "5"))
+        self.ai_timeout_seconds = int(os.getenv("AI_TIMEOUT_SECONDS", "30"))
+        
+        # Feature toggles
+        self.enable_missing_detection = os.getenv("ENABLE_MISSING_DETECTION", "true").lower() == "true"
+        self.enable_repair = os.getenv("ENABLE_REPAIR", "true").lower() == "true"
+        self.enable_ai_validation = os.getenv("ENABLE_AI_VALIDATION", "true").lower() == "true"
+        
+        # LLama API Configuration
+        self.llama_api_url = os.getenv("LLAMA_API_URL", "http://localhost:11434")
+        self.llama_model = os.getenv("LLAMA_MODEL", "llama3")
+        self.llama_max_retries = int(os.getenv("LLAMA_MAX_RETRIES", "3"))
+        
+        # Processing limits
+        self.max_questions_per_batch = int(os.getenv("MAX_QUESTIONS_PER_BATCH", "10"))
+        self.max_repair_attempts = int(os.getenv("MAX_REPAIR_ATTEMPTS", "2"))
+        
+        # Legacy settings access
+        self.settings = settings
+
 
 # Global settings instance
 settings = Settings()

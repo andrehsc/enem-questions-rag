@@ -1,0 +1,11 @@
+Question 104: Expected 5 alternatives, found 4
+Question 116: Found only 2 alternatives. Skipping question.
+Question 136: Expected 5 alternatives, found 4
+Question 138: Expected 5 alternatives, found 3
+Question 139: Expected 5 alternatives, found 4
+Question 140: Expected 5 alternatives, found 4
+Question 149: Expected 5 alternatives, found 3
+Question 157: Expected 5 alternatives, found 4
+Question 171: Expected 5 alternatives, found 4
+Question 172: Expected 5 alternatives, found 3
+Question 175: Expected 5 alternatives, found 4

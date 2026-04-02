@@ -230,9 +230,9 @@ class GraphQLQuestionService(QuestionServiceInterface):
                 return ExamMetadataType(
                     id=f"exam-{year}",
                     year=year,
-                    day=question_info.get('day', 1),
-                    caderno=question_info.get('caderno', 'AZUL'),
-                    application_type=question_info.get('application_type', 'regular'),
+                    day=question_data.get('day', 1),
+                    caderno=question_data.get('caderno', 'AZUL'),
+                    application_type=question_data.get('application_type', 'regular'),
                     accessibility=False
                 )
         except Exception:

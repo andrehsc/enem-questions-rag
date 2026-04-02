@@ -1,0 +1,179 @@
+Question 113: Expected 5 alternatives, found 4
+Question 91: Expected 5 alternatives, found 3
+Question 116: Expected 5 alternatives, found 4
+Question 100: Expected 5 alternatives, found 3
+Question 119: Expected 5 alternatives, found 3
+Question 114: Expected 5 alternatives, found 3
+Question 122: Expected 5 alternatives, found 3
+Question 117: Expected 5 alternatives, found 4
+Question 126: Expected 5 alternatives, found 3
+Question 92: Expected 5 alternatives, found 4
+Question 120: Expected 5 alternatives, found 3
+Question 104: Expected 5 alternatives, found 3
+Question 139: Expected 5 alternatives, found 4
+Question 101: Expected 5 alternatives, found 3
+Question 122: Expected 5 alternatives, found 3
+Question 111: Expected 5 alternatives, found 3
+Question 140: Expected 5 alternatives, found 4
+Question 105: Expected 5 alternatives, found 3
+Question 140: Expected 5 alternatives, found 3
+Question 122: Expected 5 alternatives, found 3
+Question 143: Expected 5 alternatives, found 4
+Question 108: Expected 5 alternatives, found 3
+Question 141: Expected 5 alternatives, found 3
+Question 124: Expected 5 alternatives, found 3
+Question 148: Expected 5 alternatives, found 3
+Question 114: Expected 5 alternatives, found 3
+Question 156: Expected 5 alternatives, found 4
+Question 127: Expected 5 alternatives, found 4
+Question 152: Expected 5 alternatives, found 4
+Question 121: Found only 2 alternatives. Skipping question.
+Question 159: Expected 5 alternatives, found 3
+Question 133: Expected 5 alternatives, found 3
+Question 157: Expected 5 alternatives, found 3
+Question 1: Expected 5 alternatives, found 3
+Question 124: Expected 5 alternatives, found 4
+Question 2: Found only 2 alternatives. Skipping question.
+Question 160: Expected 5 alternatives, found 3
+Question 136: Expected 5 alternatives, found 4
+Question 161: Expected 5 alternatives, found 4
+Question 5: Found only 2 alternatives. Skipping question.
+Question 145: Expected 5 alternatives, found 3
+Question 2: Found only 2 alternatives. Skipping question.
+Question 166: Expected 5 alternatives, found 3
+Question 138: Expected 5 alternatives, found 3
+Question 164: Expected 5 alternatives, found 3
+Question 2: Expected 5 alternatives, found 4
+Question 150: Expected 5 alternatives, found 3
+Question 3: Found only 2 alternatives. Skipping question.
+Question 169: Expected 5 alternatives, found 4
+Question 142: Expected 5 alternatives, found 3
+Question 166: Expected 5 alternatives, found 4
+Question 5: Found only 2 alternatives. Skipping question.
+Question 152: Found only 2 alternatives. Skipping question.
+Question 10: Found only 1 alternatives. Skipping question.
+Question 173: Expected 5 alternatives, found 3
+Question 144: Found only 2 alternatives. Skipping question.
+Question 168: Expected 5 alternatives, found 3
+Question 7: Expected 5 alternatives, found 3
+Question 155: Expected 5 alternatives, found 4
+Question 12: Expected 5 alternatives, found 4
+Question 175: Found only 2 alternatives. Skipping question.
+Question 146: Expected 5 alternatives, found 3
+Question 1: Expected 5 alternatives, found 3
+Question 10: Found only 2 alternatives. Skipping question.
+Question 156: Expected 5 alternatives, found 3
+Question 13: Found only 1 alternatives. Skipping question.
+Question 177: Expected 5 alternatives, found 3
+Question 158: Expected 5 alternatives, found 3
+Question 2: Found only 2 alternatives. Skipping question.
+Question 13: Found only 1 alternatives. Skipping question.
+Question 159: Expected 5 alternatives, found 4
+Question 5: Found only 2 alternatives. Skipping question.
+Question 15: Expected 5 alternatives, found 3
+Question 159: Expected 5 alternatives, found 3
+Question 2: Found only 2 alternatives. Skipping question.
+Question 16: Found only 2 alternatives. Skipping question.
+Question 170: Expected 5 alternatives, found 4
+Question 3: Found only 2 alternatives. Skipping question.
+Question 16: Expected 5 alternatives, found 3
+Question 162: Expected 5 alternatives, found 3
+Question 3: Found only 2 alternatives. Skipping question.
+Question 19: Found only 1 alternatives. Skipping question.
+Question 171: Expected 5 alternatives, found 3
+Question 5: Expected 5 alternatives, found 4
+Question 19: Found only 2 alternatives. Skipping question.
+Question 170: Expected 5 alternatives, found 3
+Question 8: Found only 1 alternatives. Skipping question.
+Question 21: Found only 1 alternatives. Skipping question.
+Question 174: Expected 5 alternatives, found 3
+Question 7: Expected 5 alternatives, found 4
+Question 21: Expected 5 alternatives, found 4
+Question 173: Expected 5 alternatives, found 4
+Question 11: Found only 1 alternatives. Skipping question.
+Question 24: Found only 1 alternatives. Skipping question.
+Question 175: Expected 5 alternatives, found 4
+Question 8: Found only 1 alternatives. Skipping question.
+Question 22: Found only 1 alternatives. Skipping question.
+Question 14: Found only 1 alternatives. Skipping question.
+Question 26: Expected 5 alternatives, found 4
+Question 180: Found only 2 alternatives. Skipping question.
+Question 10: Expected 5 alternatives, found 4
+Question 24: Expected 5 alternatives, found 4
+Question 17: Found only 1 alternatives. Skipping question.
+Question 27: Found only 0 alternatives. Skipping question.
+Question 11: Found only 0 alternatives. Skipping question.
+Question 25: Found only 0 alternatives. Skipping question.
+Question 19: Expected 5 alternatives, found 3
+Question 29: Expected 5 alternatives, found 4
+Question 13: Expected 5 alternatives, found 3
+Question 28: Found only 1 alternatives. Skipping question.
+Question 22: Found only 2 alternatives. Skipping question.
+Question 30: Found only 1 alternatives. Skipping question.
+Question 14: Expected 5 alternatives, found 3
+Question 30: Found only 1 alternatives. Skipping question.
+Question 24: Found only 2 alternatives. Skipping question.
+Question 33: Found only 2 alternatives. Skipping question.
+Question 19: Found only 2 alternatives. Skipping question.
+Question 33: Found only 1 alternatives. Skipping question.
+Question 27: Found only 2 alternatives. Skipping question.
+Question 35: Expected 5 alternatives, found 3
+Question 21: Expected 5 alternatives, found 4
+Question 36: Found only 2 alternatives. Skipping question.
+Question 29: Expected 5 alternatives, found 3
+Question 36: Expected 5 alternatives, found 3
+Question 22: Found only 1 alternatives. Skipping question.
+Question 39: Found only 1 alternatives. Skipping question.
+Question 30: Expected 5 alternatives, found 3
+Question 38: Expected 5 alternatives, found 4
+Question 25: Found only 1 alternatives. Skipping question.
+Question 42: Found only 2 alternatives. Skipping question.
+Question 35: Found only 2 alternatives. Skipping question.
+Question 39: Found only 1 alternatives. Skipping question.
+Question 28: Found only 2 alternatives. Skipping question.
+Question 44: Expected 5 alternatives, found 3
+Question 37: Expected 5 alternatives, found 4
+Question 42: Found only 1 alternatives. Skipping question.
+Question 31: Found only 1 alternatives. Skipping question.
+Question 51: Found only 0 alternatives. Skipping question.
+Question 38: Found only 0 alternatives. Skipping question.
+Question 56: Found only 1 alternatives. Skipping question.
+Question 34: Found only 1 alternatives. Skipping question.
+Question 58: Found only 1 alternatives. Skipping question.
+Question 40: Expected 5 alternatives, found 4
+Question 64: Found only 0 alternatives. Skipping question.
+Question 36: Expected 5 alternatives, found 3
+Question 62: Found only 2 alternatives. Skipping question.
+Question 41: Found only 1 alternatives. Skipping question.
+Question 67: Found only 1 alternatives. Skipping question.
+Question 39: Found only 1 alternatives. Skipping question.
+Question 64: Found only 1 alternatives. Skipping question.
+Question 43: Expected 5 alternatives, found 4
+Question 72: Found only 2 alternatives. Skipping question.
+Question 41: Found only 1 alternatives. Skipping question.
+Question 76: Found only 0 alternatives. Skipping question.
+Question 44: Expected 5 alternatives, found 3
+Question 73: Found only 0 alternatives. Skipping question.
+Question 44: Expected 5 alternatives, found 3
+Question 83: Found only 2 alternatives. Skipping question.
+Question 46: Found only 2 alternatives. Skipping question.
+Question 81: Found only 0 alternatives. Skipping question.
+Question 47: Found only 2 alternatives. Skipping question.
+Question 84: Found only 0 alternatives. Skipping question.
+Question 48: Found only 1 alternatives. Skipping question.
+Question 87: Found only 2 alternatives. Skipping question.
+Question 48: Found only 0 alternatives. Skipping question.
+Question 88: Found only 1 alternatives. Skipping question.
+Question 55: Found only 0 alternatives. Skipping question.
+Question 89: Expected 5 alternatives, found 4
+Question 51: Found only 1 alternatives. Skipping question.
+Question 62: Found only 2 alternatives. Skipping question.
+Question 65: Found only 0 alternatives. Skipping question.
+Question 63: Found only 0 alternatives. Skipping question.
+Question 68: Found only 1 alternatives. Skipping question.
+Question 66: Found only 1 alternatives. Skipping question.
+Question 79: Found only 2 alternatives. Skipping question.
+Question 71: Found only 0 alternatives. Skipping question.
+Question 81: Found only 1 alternatives. Skipping question.
+Question 79: Found only 1 alternatives. Skipping question.
+Question 88: Expected 5 alternatives, found 4

@@ -1,0 +1,15 @@
+Question 94: Expected 5 alternatives, found 4
+Question 103: Expected 5 alternatives, found 4
+Question 109: Found only 2 alternatives. Skipping question.
+Question 110: Expected 5 alternatives, found 3
+Question 114: Expected 5 alternatives, found 3
+Question 122: Found only 0 alternatives. Skipping question.
+Question 141: Expected 5 alternatives, found 4
+Question 146: Expected 5 alternatives, found 3
+Question 147: Expected 5 alternatives, found 3
+Question 148: Expected 5 alternatives, found 4
+Question 153: Expected 5 alternatives, found 3
+Question 155: Found only 1 alternatives. Skipping question.
+Question 167: Found only 0 alternatives. Skipping question.
+Question 173: Expected 5 alternatives, found 4
+Question 178: Found only 0 alternatives. Skipping question.

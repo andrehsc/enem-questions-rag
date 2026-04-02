@@ -45,17 +45,19 @@ import os
 import argparse
 from io import StringIO
 
+# Adicionar src ao path
+sys.path.append(str(Path(__file__).parent.parent / 'src'))
+
 # Import image extraction capabilities
 try:
     from enem_ingestion.image_extractor import ImageExtractor, DatabaseImageHandler
     IMAGES_AVAILABLE = True
-except ImportError:
+except ImportError as e:
+    print(f"DEBUG - Image extractor import failed: {e}")
     IMAGES_AVAILABLE = False
 
-# Adicionar src ao path
-sys.path.append(str(Path(__file__).parent.parent / 'src'))
-
 from enem_ingestion.db_integration_final import DatabaseIntegration
+from enem_ingestion.enem_structure_spec import EnemStructuralGuardrailsController
 
 
 class ExtractorLogHandler:
@@ -106,6 +108,16 @@ class FullIngestionProcessor:
             self.image_extractor = None
             if extract_images and not IMAGES_AVAILABLE:
                 print("AVISO - Extracao de imagens desabilitada - instale PyMuPDF e Pillow")
+        
+        # Initialize guardrails controller for metrics
+        self.guardrails_controller = EnemStructuralGuardrailsController()
+        self.guardrails_metrics = {
+            'total_questions_analyzed': 0,
+            'direct_success': 0,
+            'recovery_applied': 0,
+            'critical_zone_detected': 0,
+            'validation_failures': 0
+        }
         
     def get_connection(self):
         return psycopg2.connect(self.connection_url, cursor_factory=RealDictCursor)
@@ -209,6 +221,18 @@ class FullIngestionProcessor:
             
             try:
                 result = db_integration.process_pdf_file(file_path)
+                
+                # Capturar métricas dos guardrails se disponíveis
+                if hasattr(db_integration.parser, '_last_guardrails_metrics'):
+                    metrics = db_integration.parser._last_guardrails_metrics
+                    # Thread-safe update das métricas globais
+                    with threading.Lock():
+                        self.guardrails_metrics['total_questions_analyzed'] += metrics.get('total_analyzed', 0)
+                        self.guardrails_metrics['direct_success'] += metrics.get('direct_success', 0)
+                        self.guardrails_metrics['recovery_applied'] += metrics.get('recovery_applied', 0)
+                        self.guardrails_metrics['critical_zone_detected'] += metrics.get('critical_zone_detected', 0)
+                        self.guardrails_metrics['validation_failures'] += metrics.get('validation_failures', 0)
+                        
             finally:
                 # Restaurar logging original
                 self._restore_logging(old_log_handler)
@@ -821,6 +845,26 @@ class FullIngestionProcessor:
         if answer_results:
             print(f"Gabaritos processados: {answer_results['success']}")
             print(f"Gabaritos falharam: {answer_results['failed']}")
+        
+        # Relatório de Guardrails Estruturais
+        print("\n" + "="*30)
+        print("ENEM STRUCTURAL GUARDRAILS")
+        print("="*30)
+        if self.guardrails_metrics['total_questions_analyzed'] > 0:
+            total = self.guardrails_metrics['total_questions_analyzed']
+            direct_pct = (self.guardrails_metrics['direct_success'] / total) * 100
+            recovery_pct = (self.guardrails_metrics['recovery_applied'] / total) * 100
+            
+            print(f"Total de questões analisadas: {total}")
+            print(f"Sucesso direto: {self.guardrails_metrics['direct_success']} ({direct_pct:.1f}%)")
+            print(f"Recovery aplicado: {self.guardrails_metrics['recovery_applied']} ({recovery_pct:.1f}%)")
+            print(f"Zona crítica detectada: {self.guardrails_metrics['critical_zone_detected']}")
+            print(f"Falhas de validação: {self.guardrails_metrics['validation_failures']}")
+            
+            if self.guardrails_metrics['critical_zone_detected'] > 0:
+                print(f"⚠️  {self.guardrails_metrics['critical_zone_detected']} questões na zona crítica (Q91-110)")
+        else:
+            print("Guardrails: Nenhuma questão processada pelos guardrails")
         
         if question_results['failed_files']:
             print(f"\nArquivos de questão com problema:")

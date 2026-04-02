@@ -79,16 +79,14 @@ class TestGraphQLQuestionTypes:
         GREEN PHASE: Teste query de questão única com mock
         AC2: Schema supports queries for questions with flexible field selection
         """
-        # Arrange - Mock database response
+        # Arrange - Mock database response (estrutura esperada pelo GraphQL service)
         mock_get_question.return_value = {
-            'id': 'test-uuid-123',
-            'question_text': 'Questão teste para GraphQL',
-            'subject': 'Matemática',
-            'year': 2023,
-            'has_images': False,
-            'parsing_confidence': 0.95,
-            'created_at': datetime.now(),
-            'updated_at': datetime.now()
+            'question': {
+                'id': 'test-uuid-123',
+                'statement': 'Questão teste para GraphQL',
+                'subject': 'Matemática',
+                'year': 2023
+            }
         }
         
         graphql_query = {
@@ -205,22 +203,30 @@ class TestGraphQLNestedQueries:
     def client(self):
         return TestClient(app)
     
-    @patch('database.DatabaseService.get_question_by_id')
+    @patch('graphql_services.DatabaseService.get_question_by_id')
     def test_nested_question_with_metadata_returns_related_data(self, mock_get_question, client):
         """
         ENHANCED: Teste query aninhada completa com metadados e alternativas
         AC3: Schema supports nested queries (question with exam metadata and alternatives)
         """
-        # Arrange - Mock database response
+        # Arrange - Mock database response (estrutura esperada pelo GraphQL service)
         mock_get_question.return_value = {
-            'id': 'test-uuid-nested',
-            'question_text': 'Questão com metadados completos',
-            'subject': 'História',
-            'year': 2023,
-            'has_images': False,
-            'parsing_confidence': 0.95,
-            'created_at': datetime.now(),
-            'updated_at': datetime.now()
+            'question': {
+                'id': 'test-uuid-nested',
+                'statement': 'Questão com metadados completos',
+                'subject': 'História',
+                'year': 2023
+            },
+            'caderno': 'CD1',
+            'day': 1,
+            'alternatives': [
+                {'letter': 'A', 'text': 'Alternativa A'},
+                {'letter': 'B', 'text': 'Alternativa B'},
+                {'letter': 'C', 'text': 'Alternativa C'},
+                {'letter': 'D', 'text': 'Alternativa D'},
+                {'letter': 'E', 'text': 'Alternativa E'}
+            ],
+            'answer_key': {'correct_answer': 'B'}
         }
         
         graphql_query = {
@@ -256,13 +262,11 @@ class TestGraphQLNestedQueries:
         
         # Act
         response = client.post("/graphql", json=graphql_query)
-        
+
         # Assert - ENHANCED: validação completa de nested queries
         assert response.status_code == 200
         data = response.json()["data"]
-        question = data["question"]
-        
-        # Validar campos básicos
+        question = data["question"]        # Validar campos básicos
         assert question["id"] == "test-uuid-nested"
         assert question["subject"] == "História"
         assert question["year"] == 2023

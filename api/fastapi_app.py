@@ -14,7 +14,21 @@ import psycopg2
 import psycopg2.extras
 import json
 import os
+import sys
+import asyncio
+import time
 from datetime import datetime
+
+# Adicionar src ao path para imports
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+
+# Imports RAG
+try:
+    from rag_features.enhanced_rag_system import EnhancedEnemRAG
+    RAG_AVAILABLE = True
+except ImportError as e:
+    print(f"RAG não disponível: {e}")
+    RAG_AVAILABLE = False
 
 # Modelos Pydantic para documentação Swagger
 class HealthResponse(BaseModel):
@@ -77,6 +91,28 @@ class MLResponse(BaseModel):
     message: str = Field(..., description="Mensagem de status")
     data: Dict[str, Any] = Field(..., description="Dados enviados")
     status: str = Field(..., description="Status da operação")
+
+# Modelos RAG
+class RAGSearchQuery(BaseModel):
+    query: str = Field(..., description="Consulta de busca semântica", min_length=3, max_length=500)
+    limit: int = Field(10, description="Número máximo de resultados", ge=1, le=50)
+    subject_filter: Optional[str] = Field(None, description="Filtrar por matéria específica")
+    predict_difficulty: bool = Field(True, description="Incluir predição de dificuldade")
+
+class RAGSearchResult(BaseModel):
+    id: str = Field(..., description="ID da questão")
+    text: str = Field(..., description="Texto da questão")
+    similarity: float = Field(..., description="Score de similaridade", ge=0.0, le=1.0)
+    predicted_difficulty: Optional[str] = Field(None, description="Dificuldade predita (facil/medio/dificil)")
+    difficulty_confidence: Optional[float] = Field(None, description="Confiança na predição", ge=0.0, le=1.0)
+    metadata: Dict[str, Any] = Field(..., description="Metadados da questão")
+
+class RAGSearchResponse(BaseModel):
+    query: str = Field(..., description="Consulta original")
+    results: List[RAGSearchResult] = Field(..., description="Resultados da busca")
+    total_found: int = Field(..., description="Total de resultados encontrados")
+    processing_time_ms: float = Field(..., description="Tempo de processamento em milissegundos")
+    model_info: Dict[str, str] = Field(..., description="Informações do modelo usado")
 
 # Modelos HATEOAS
 class HATEOASLink(BaseModel):
@@ -271,6 +307,24 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Instância global do RAG
+rag_system = None
+
+@app.on_event("startup")
+async def initialize_rag():
+    """Inicializa o sistema RAG na inicialização da aplicação"""
+    global rag_system
+    if RAG_AVAILABLE:
+        try:
+            rag_system = EnhancedEnemRAG()
+            await rag_system.initialize()
+            print("✅ Sistema RAG inicializado com sucesso")
+        except Exception as e:
+            print(f"❌ Erro ao inicializar RAG: {e}")
+            rag_system = None
+    else:
+        print("⚠️ RAG não disponível - dependências não instaladas")
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
@@ -777,33 +831,81 @@ async def get_complete_question_summary(question_id: str):
         raise HTTPException(status_code=500, detail=f"Erro ao buscar questão completa: {str(e)}")
 
 # Endpoints RAG/ML 
-@app.post("/rag/search", response_model=RAGResponse, tags=["IA & RAG"], summary="Busca Semântica RAG")
-async def rag_search(query: RAGQuery):
+@app.post("/rag/search", response_model=RAGSearchResponse, tags=["IA & RAG"], summary="Busca Semântica Avançada")
+async def rag_search_advanced(query: RAGSearchQuery):
     """
-    ### 🤖 Busca RAG (Retrieval-Augmented Generation)
+    ### 🤖 Sistema RAG Avançado com ChromaDB + BERT
     
-    Sistema de busca semântica inteligente que combina recuperação de informações
-    com geração de linguagem natural.
+    Busca semântica de alta performance usando:
+    - **ChromaDB**: Armazenamento vetorial otimizado
+    - **BERT Portuguese**: Embeddings contextuais em português
+    - **ML Integration**: Predição de dificuldade integrada
     
     **🎯 Funcionalidades:**
-    - Busca semântica em questões do ENEM
-    - Compreensão contextual de perguntas
-    - Geração de respostas baseada em conhecimento
+    - Busca semântica inteligente
+    - Predição de dificuldade automática
+    - Filtros por matéria
+    - Score de similaridade preciso
     
     **📝 Exemplo de Uso:**
     ```json
     {
-        "text": "Como funciona a democracia no Brasil?"
+        "query": "função quadrática matemática",
+        "limit": 5,
+        "subject_filter": "matematica", 
+        "predict_difficulty": true
     }
     ```
-    
-    **⚠️ Status Atual:** Endpoint implementado, funcionalidade completa requer dependências RAG adicionais.
     """
-    return RAGResponse(
-        message="Endpoint RAG implementado com sucesso",
-        query=query.text,
-        status="✅ Funcional - Para recursos avançados, instale dependências RAG completas"
-    )
+    start_time = time.time()
+    
+    # Verificar se RAG está disponível
+    if not rag_system:
+        raise HTTPException(
+            status_code=503, 
+            detail="Sistema RAG não disponível. Instale dependências: pip install chromadb sentence-transformers"
+        )
+    
+    try:
+        # Buscar com ML insights
+        results = await rag_system.search_with_ml_insights(
+            query=query.query,
+            limit=query.limit,
+            predict_difficulty=query.predict_difficulty,
+            subject_filter=query.subject_filter
+        )
+        
+        # Formatar resultados
+        formatted_results = []
+        for result in results:
+            formatted_results.append(RAGSearchResult(
+                id=result['id'],
+                text=result['text'],
+                similarity=result['similarity'],
+                predicted_difficulty=result.get('predicted_difficulty'),
+                difficulty_confidence=result.get('difficulty_confidence'),
+                metadata=result['metadata']
+            ))
+        
+        processing_time = (time.time() - start_time) * 1000  # Convert to ms
+        
+        return RAGSearchResponse(
+            query=query.query,
+            results=formatted_results,
+            total_found=len(formatted_results),
+            processing_time_ms=round(processing_time, 2),
+            model_info={
+                "embedding_model": "neuralmind/bert-base-portuguese-cased",
+                "vector_store": "ChromaDB",
+                "ml_predictor": "RandomForest"
+            }
+        )
+    
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Erro na busca RAG: {str(e)}"
+        )
 
 @app.post("/ml/predict", response_model=MLResponse, tags=["IA & Machine Learning"], summary="Predição com Machine Learning")
 async def ml_predict(data: MLData):

@@ -1,7 +1,7 @@
 services:
-  # PostgreSQL Database - Shared between TeachersHub and ENEM services
+  # PostgreSQL Database with pgvector - Shared between TeachersHub and ENEM services
   postgres:
-    image: postgres:16
+    image: pgvector/pgvector:pg16
     container_name: teachershub-enem-postgres
     environment:
       POSTGRES_DB: teachershub_enem
@@ -39,6 +39,26 @@ services:
     command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
     networks:
       - teachershub-enem-network
+
+  # LLama3 AI Service - Ollama container for local AI processing
+  llama3-service:
+    image: ollama/ollama:latest
+    container_name: llama3-enem-service
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    networks:
+      - teachershub-enem-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
 
   # ENEM RAG API - Python FastAPI service
   enem-rag-api:
@@ -89,6 +109,8 @@ volumes:
   enem_logs:
     driver: local
   embeddings_cache:
+    driver: local
+  ollama_models:
     driver: local
 
 networks:

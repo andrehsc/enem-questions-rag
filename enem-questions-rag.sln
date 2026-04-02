@@ -1,0 +1,32 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "teachershub-integration", "teachershub-integration", "{2D24D398-547A-4CDC-467C-E99BF7FA9AE2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TeachersHub.ENEM.AI", "TeachersHub.ENEM.AI", "{30DCE8A7-E52F-D591-9B73-705B70141FCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeachersHub.ENEM.AI", "teachershub-integration\TeachersHub.ENEM.AI\TeachersHub.ENEM.AI\TeachersHub.ENEM.AI.csproj", "{BE48FC2C-BA83-8AEE-6D03-7643C57B1A1F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE48FC2C-BA83-8AEE-6D03-7643C57B1A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE48FC2C-BA83-8AEE-6D03-7643C57B1A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE48FC2C-BA83-8AEE-6D03-7643C57B1A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE48FC2C-BA83-8AEE-6D03-7643C57B1A1F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{30DCE8A7-E52F-D591-9B73-705B70141FCB} = {2D24D398-547A-4CDC-467C-E99BF7FA9AE2}
+		{BE48FC2C-BA83-8AEE-6D03-7643C57B1A1F} = {30DCE8A7-E52F-D591-9B73-705B70141FCB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5CC0D1C4-075B-495E-82E1-7E4A92E00F19}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,2194 @@
+📚 RELATÓRIO COMPLETO DO CADERNO ENEM
+================================================================================
+Caderno: CD5
+Ano: 2024
+Dia: 2
+Tipo: regular
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Total de Questões: 85
+Gerado em: 16/10/2025 às 08:01:35
+
+
+====================================================================================================
+QUESTÃO 1: Q91 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: d0c98519-9345-47b7-bd18-0f013a819e29
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O esquema representa um experimento feito com células do protozoário Amoeba proteus. Nele, um grupo de células foi tratado com a droga citocalasina B, enquanto outro grupo não foi tratado, servindo como controle. O formato e o movimento das células tratadas foram comprometidos. SADAVA, D. et al. Vida: a ciência da biologia - volume I: célula e hereditariedade. Porto Alegre: Artmed, 2009 (adaptado). Qual componente celular foi afetado pela droga utilizada no experimento? A Vacúolos. B Mitocôndrias. C Microfilamentos. D Material genético. E Membrana plasmática.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Vacúolos. B Mitocôndrias.
+B) B) [Alternative not found]
+C) C) Microfilamentos.
+D) D) Material genético.
+E) E) Membrana plasmática.
+
+----------------------------------------
+IMAGENS:
+----------------------------------------
+Total: 38 imagens (2169.9 KB)
+  #1: PNG - 62x2244 - 11.7KB
+  #2: PNG - 985x799 - 30.8KB
+  #3: PNG - 587x376 - 98.8KB
+  #4: PNG - 363x361 - 5.1KB
+  #5: PNG - 362x362 - 6.6KB
+  #6: PNG - 360x359 - 5.5KB
+  #7: PNG - 362x362 - 6.1KB
+  #8: PNG - 362x361 - 5.7KB
+  #9: PNG - 585x384 - 48.9KB
+  #10: PNG - 585x384 - 47.8KB
+  #11: PNG - 439x384 - 36.7KB
+  #12: PNG - 147x256 - 8.3KB
+  #13: PNG - 641x384 - 54.4KB
+  #14: PNG - 129x384 - 10.5KB
+  #15: PNG - 272x383 - 15.0KB
+  #16: PNG - 147x1756 - 95.6KB
+  #17: PNG - 129x256 - 7.5KB
+  #18: PNG - 584x440 - 90.8KB
+  #19: PNG - 584x440 - 92.5KB
+  #20: PNG - 390x294 - 59.5KB
+  #21: PNG - 584x440 - 93.3KB
+  #22: PNG - 1652x94 - 7.1KB
+  #23: PNG - 584x440 - 91.8KB
+  #24: PNG - 584x440 - 91.3KB
+  #25: PNG - 584x440 - 92.4KB
+  #26: PNG - 584x440 - 91.8KB
+  #27: PNG - 584x440 - 91.8KB
+  #28: PNG - 584x440 - 90.2KB
+  #29: PNG - 584x440 - 91.3KB
+  #30: PNG - 584x440 - 91.4KB
+  #31: PNG - 584x440 - 90.7KB
+  #32: PNG - 584x440 - 90.9KB
+  #33: PNG - 584x440 - 92.5KB
+  #34: PNG - 584x440 - 92.2KB
+  #35: PNG - 98x391 - 20.7KB
+  #36: PNG - 876x294 - 92.7KB
+  #37: PNG - 584x196 - 58.5KB
+  #38: PNG - 584x294 - 61.7KB
+
+
+====================================================================================================
+QUESTÃO 2: Q92 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 4fce1811-1d62-4a34-a3f4-fb1b28979b63
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O magnésio metálico utilizado em ligas leves é produzido em um processo que envolve várias etapas e utiliza água do mar como matéria-prima. A primeira etapa desse processo consiste na reação entre o íon Mg2+ e hidróxido de cálcio, Ca(OH) , obtendo uma mistura que 2 contém hidróxido de magnésio, pouco solúvel, e íons Ca2+, de acordo com a equação química: Mg2+ (aq) + Ca(OH) (aq) → Mg(OH) (s) + Ca2+ (aq) 2 2 O método adequado para separar o Mg(OH) dessa 2 mistura é a A filtração. B catação. C destilação. D dissolução. E evaporação.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) primeira etapa desse processo consiste na reação entre o íon Mg2+ e hidróxido de cálcio, Ca(OH) , obtendo uma mistura que 2 contém hidróxido de magnésio, pouco solúvel, e íons Ca2+, de acordo com a equação química: Mg2+ (aq) + Ca(OH) (aq) → Mg(OH) (s) + Ca2+ (aq) 2 2 O método adequado para separar o Mg(OH) dessa 2 mistura é a
+B) B) catação.
+C) C) destilação.
+D) D) dissolução.
+E) E) evaporação.
+
+
+====================================================================================================
+QUESTÃO 3: Q93 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: d5091faa-9ceb-403b-9764-319845908799
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Moradores do Brooklin, bairro de São Paulo, perdem o sono com um som alto, constante e estridente. O barulho é causado por anfíbios anuros trazidos do Caribe, da espécie Eleutherodactylus jahnstonei, que têm tamanho um pouco maior que o de um grão de feijão e que encontraram na capital um ambiente favorável. Cientistas foram até o local e encontraram esses animais nos jardins das casas. Pererecas-assobiadoras tiram o sono de moradores do Brooklin. Disponível em: http://g1.globo.com. Acesso em: 26 mar. 2015 (adaptado). Ao emitirem o som estridente, esses anfíbios A indicam que estão fora de seu hábitat natural. B alertam para a presença de poluição urbana. C sinalizam a existência de superpopulação. D direcionam insetos para sua alimentação. E atraem fêmeas para o acasalamento.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) indicam que estão fora de seu hábitat natural.
+B) B) alertam para a presença de poluição urbana.
+C) C) sinalizam a existência de superpopulação.
+D) D) direcionam insetos para sua alimentação.
+E) E) atraem fêmeas para o acasalamento.
+
+
+====================================================================================================
+QUESTÃO 4: Q94 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: cf38d828-18ce-427e-ba12-4706904e796c
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A hidroxiapatita, Ca (PO ) OH, é um mineral 5 4 3 constituinte do esmalte dos dentes. Entre as diversas reações que ocorrem no meio bucal, encontram-se em equilíbrio as reações de desmineralização e mineralização da hidroxiapatita em meio aquoso, ilustradas a seguir. A desmineralização está associada à fragilização do esmalte do dente e à formação de cáries. 5 Ca2+ (aq) Ca (PO ) OH (s) + 5 4 3 Desmineralização + 3 PO 3− (aq) 4 H+ (aq) Mineralização + H O (l) 2 O uso de creme dental pode minimizar a perda da hidroxiapatita. O quadro apresenta o agente de polimento e o pH de alguns cremes dentais comerciais. Creme dental Agente de polimento pH I Bicarbonato de sódio 9,5 II Carbonato de cálcio 11,0 III Citrato de potássio 7,7 IV Dióxido de silício 6,9 V Fosfato de cálcio 7,3 STORGATTO, G. A.; BRAIBANTE, M. E. F.; BRAIBANTE, H. T. S. A química na odontologia. Química Nova na Escola, v. 39, fev. 2017 (adaptado). Considerando o equilíbrio químico envolvido, qual creme dental promove a maior desmineralização do esmalte do dente? A I B II C III D IV E V S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) hidroxiapatita, Ca (PO ) OH, é um mineral 5 4 3 constituinte do esmalte dos dentes. Entre as diversas reações que ocorrem no meio bucal, encontram-se em equilíbrio as reações de desmineralização e mineralização da hidroxiapatita em meio aquoso, ilustradas a seguir.
+B) B) [Alternative not found]
+C) C) III D IV E V S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+D) D) IV E V S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+E) E) V S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+
+
+====================================================================================================
+QUESTÃO 5: Q95 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 9e589126-3dfb-4d88-b5de-e711d5337308
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A tirinha ilustra esquimós dentro de um iglu, habitação de formato hemisférico construída durante o inverno a partir de neve ou blocos de gelo. Essa estrutura de construção se justifica pelo fato de esse povo habitar as regiões mais setentrionais da Groenlândia, Canadá e Alasca. LAERTE. Disponível em: https://artedafisicapibid.blogspot.com. Acesso em: 4 dez. 2021 (adaptado). Na tirinha, a geladeira é necessária para fazer gelo porque A a temperatura interna do iglu é maior que a de solidificação da água. B a umidade dentro do iglu dificulta o processo de mudança de fase da água. C o ar dentro do iglu é isolante térmico, dificultando a perda de calor pela água. D a temperatura uniforme no interior do iglu impede as correntes de convecção. E a pressão do ar no interior do iglu é baixa, dificultando a solidificação da água. • CIÊNCIAS DA NATUREZA E SUAS TECNOLOGIAS • AAMM..iinnddbb
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) tirinha ilustra esquimós dentro de um iglu, habitação de formato hemisférico construída durante o inverno a partir de neve ou blocos de gelo. Essa estrutura de construção se justifica pelo fato de esse povo habitar as regiões mais setentrionais da Groenlândia, Canadá e Alasca. LAERTE. Disponível em: https://artedafisicapibid.blogspot.com. Acesso em: 4 dez. 2021 (adaptado). Na tirinha, a geladeira é necessária para fazer gelo porque A a temperatura interna do iglu é maior que a de solidificação da água. B a umidade dentro do iglu dificulta o processo de mudança de fase da água. C o ar dentro do iglu é isolante térmico, dificultando a perda de calor pela água. D a temperatura uniforme no interior do iglu impede as correntes de convecção. E a pressão do ar no interior do iglu é baixa, dificultando a solidificação da água. • CIÊNCIAS DA NATUREZA
+B) B) a umidade dentro do iglu dificulta o processo de mudança de fase da água. C o ar dentro do iglu é isolante térmico, dificultando a perda de calor pela água. D a temperatura uniforme no interior do iglu impede as correntes de convecção. E a pressão do ar no interior do iglu é baixa, dificultando a solidificação da água. • CIÊNCIAS DA NATUREZA
+C) C) o ar dentro do iglu é isolante térmico, dificultando a perda de calor pela água. D a temperatura uniforme no interior do iglu impede as correntes de convecção. E a pressão do ar no interior do iglu é baixa, dificultando a solidificação da água. • CIÊNCIAS DA NATUREZA
+D) D) a temperatura uniforme no interior do iglu impede as correntes de convecção. E a pressão do ar no interior do iglu é baixa, dificultando a solidificação da água. • CIÊNCIAS DA NATUREZA
+E) E) a pressão do ar no interior do iglu é baixa, dificultando a solidificação da água. • CIÊNCIAS DA NATUREZA
+
+
+====================================================================================================
+QUESTÃO 6: Q96 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: df7717b3-65aa-4709-b38c-554052af1857
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Os pesticidas naturais vêm sendo utilizados no controle de pragas e doenças agrícolas como substituintes de pesticidas sintéticos tradicionais, por serem menos nocivos ao ambiente, biodegradáveis e minimizarem custos e riscos relativos à lavoura. Por exemplo, os compostos 1 e 2 estão envolvidos nas respostas de defesa das plantas. Os grupos funcionais presentes nesses compostos são importantes para suas propriedades no controle de pragas. PINTO-ZEVALLOS, D. M.; ZARBIN, P. H. G. A química na agricultura: perspectivas para o desenvolvimento de tecnologias sustentáveis. Química Nova, n. 10, 2013 (adaptado). Qual é a função orgânica correspondente ao grupo funcional comum presente nesses dois compostos? A Ácido carboxílico. B Cetona. C Alceno. D Álcool. E Fenol.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) química na agricultura: perspectivas para o desenvolvimento de tecnologias sustentáveis. Química Nova, n. 10, 2013 (adaptado). Qual é a função orgânica correspondente ao grupo funcional comum presente nesses dois compostos?
+B) B) Cetona.
+C) C) Alceno.
+D) D) Álcool.
+E) E) Fenol.
+
+
+====================================================================================================
+QUESTÃO 7: Q97 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 935472ab-8f9b-4f84-a261-cb96f91d43c6
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Utilizando-se um mesmo meio nutritivo, três gêneros bacterianos diferentes foram submetidos ao cultivo em tubos de ensaio. Após certo período de crescimento da cultura bacteriana em condições físico-químicas ideais, observou-se que o padrão de distribuição das células (representadas por pontos na figura) ao longo dos tubos era diferente em cada um dos casos. Em relação ao metabolismo energético, os microrganismos presentes nos tubos 1, 2 e 3 são classificados, respectivamente, como A anaeróbio facultativo, anaeróbio estrito e aeróbio estrito. B anaeróbio facultativo, aeróbio estrito e anaeróbio estrito. C aeróbio estrito, anaeróbio estrito e anaeróbio facultativo. D anaeróbio estrito, aeróbio estrito e anaeróbio facultativo. E aeróbio estrito, anaeróbio facultativo e anaeróbio estrito. 2º DIA • CADERNO 5 • AMARELO 3 2233//0088//22002244 1177::5566::2277
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) anaeróbio facultativo, anaeróbio estrito e aeróbio estrito.
+B) B) anaeróbio facultativo, aeróbio estrito e anaeróbio estrito.
+C) C) aeróbio estrito, anaeróbio estrito e anaeróbio facultativo.
+D) D) anaeróbio estrito, aeróbio estrito e anaeróbio facultativo.
+E) E) aeróbio estrito, anaeróbio facultativo e anaeróbio estrito. 2º DIA • CADERNO 5 • AMARELO 3 2233//0088//22002244 1177::5566::2277
+
+
+====================================================================================================
+QUESTÃO 8: Q98 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: ea8dee84-4e3a-48fc-8683-ff4a110e0c41
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+As placas que indicam saída de emergência brilham no escuro, pois apresentam substâncias que fosforecem na cor amarelo-esverdeada após exposição à luz ambiente, conforme a figura. Esse fenômeno ocorre pela presença do sulfeto de zinco (ZnS), dopado com prata ou cobre, na superfície da placa. Zinc Sulphide Phosphorescence. Disponível em: https://physicsopenlab.org. Acesso em: 8 nov. 2023 (adaptado). O aparecimento do brilho nessas condições ocorre como consequência de A colisões interatômicas. B coloração dos átomos. C transições eletrônicas. D reações nucleares. E reflexão da luz.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) colisões interatômicas.
+B) B) coloração dos átomos.
+C) C) transições eletrônicas.
+D) D) reações nucleares.
+E) E) reflexão da luz.
+
+
+====================================================================================================
+QUESTÃO 9: Q99 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 16072db7-2ae0-41e8-8d15-a66d3ccea6c4
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Indústrias farmacêuticas e instituições científicas têm trabalhado no desenvolvimento de diferentes vacinas contra a covid-19. Em algumas dessas vacinas, a principal estrutura antigênica é uma proteína de superfície viral chamada espícula (spike, em inglês). Essa proteína só existe em coronavírus, incluindo o SARS-CoV-2. Ela se liga a receptores de membrana específicos das células humanas por um mecanismo do tipo “chave-fechadura”. Dessa forma, os vírus entram nas células, podendo se multiplicar e acarretar a doença. O que são vacinas? Disponível em: www.cienciaviva.pt. Acesso em: 30 nov. 2021 (adaptado). Nessas vacinas, essa proteína viral induz a A produção de anticorpos específicos contra os vírus. B imunidade passiva contra o desenvolvimento da doença. C alteração genômica para formação da memória imunológica. D neutralização direta dos vírus presentes na circulação sanguínea. E modificação dos receptores de membrana específicos para o vírus.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) produção de anticorpos específicos contra os vírus.
+B) B) imunidade passiva contra o desenvolvimento da doença.
+C) C) alteração genômica para formação da memória imunológica.
+D) D) neutralização direta dos vírus presentes na circulação sanguínea.
+E) E) modificação dos receptores de membrana específicos para o vírus.
+
+
+====================================================================================================
+QUESTÃO 10: Q100 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: cc6c811a-3959-4f5f-927d-c57467784da1
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Em um experimento de laboratório, duas barras metálicas, A e B, são carregadas com cargas opostas e imersas em óleo. Farelo de milho é jogado sobre o óleo e, após um certo tempo, o farelo assume o formato das linhas de campo elétrico entre as barras. A figura representa a vista superior desse experimento. ALMEIDA, M. A. T. Introdução às ciências físicas 2 - volume 4: módulo 4. Rio de Janeiro: Fundação CECIERJ, 2007 (adaptado). Ao repetir o experimento colocando um cilindro metálico oco entre as placas, o esquema que representa o formato das linhas de campo assumido pelo farelo é: A D B E C S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) e B, são carregadas com cargas opostas e imersas em óleo. Farelo de milho é jogado sobre o óleo e, após um certo tempo, o farelo assume o formato das linhas de campo elétrico entre as barras.
+B) B) E C S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+C) C) S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+D) D) B E C S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+E) E) C S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+
+
+====================================================================================================
+QUESTÃO 11: Q101 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 620a8844-9256-4639-9405-e9d8b93c4b1a
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Placas solares comuns dependem de dias ensolarados para gerar energia. Mas podemos gerar eletricidade com a ajuda de gotas de chuva, revestindo placas solares com uma fina camada de grafeno. Os íons dissociados a partir da água da chuva (Am+ e Bn−) tornam a combinação grafeno e água da chuva um par perfeito para geração de energia. O processo requer apenas uma camada de grafeno para que grande quantidade de elétrons (e−) se movimente ao longo da superfície. TANG, Q. et al. A Solar Cell that is Triggered by Sun and Rain. Angewandte Chemie International Edition, n. 55, 2016 (adaptado). Ao produzir eletricidade em dias chuvosos, o grafeno A oxida os cátions dissolvidos na água da chuva. B impede a difusão da água através das placas solares. C diminui a energia de ativação da reação no pseudocapacitor. D forma um compósito não metálico com os íons na água da chuva. E gera uma diferença de potencial pela interação dos elétrons com os cátions.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Solar Cell that is Triggered by Sun and Rain. Angewandte Chemie International Edition, n. 55, 2016 (adaptado). Ao produzir eletricidade em dias chuvosos, o grafeno
+B) B) impede a difusão da água através das placas solares.
+C) C) diminui a energia de ativação da reação no pseudocapacitor.
+D) D) forma um compósito não metálico com os íons na água da chuva.
+E) E) gera uma diferença de potencial pela interação dos elétrons com os cátions.
+
+
+====================================================================================================
+QUESTÃO 12: Q102 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 3045754f-7efc-4319-9634-21f8b88f2247
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um estudante comprou uma cafeteira elétrica de 700 W de potência e com capacidade de 0,5 L de água (500 g). Enquanto o café estava em preparação na capacidade máxima da cafeteira, ele marcou que demorou 3 minutos para a cafeteira ferver toda a água (100 °°C) a partir da temperatura ambiente de 20 °°C. Em seguida, para avaliar a eficiência da cafeteira, ele calculou esse tempo desprezando quaisquer perdas energéticas. É necessária 1 cal (4,2 J) para elevar em 1 °°C a temperatura de 1 grama de água. Qual a eficiência energética calculada pelo estudante? A 100% B 75% C 60% D 7,5% E 5,1% • CIÊNCIAS DA NATUREZA E SUAS TECNOLOGIAS • AAMM..iinnddbb
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 100%
+B) B) 75%
+C) C) 60%
+D) D) 7,5%
+E) E) 5,1% • CIÊNCIAS DA NATUREZA
+
+
+====================================================================================================
+QUESTÃO 13: Q103 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 4bff78a1-6197-4c61-aad3-2e2a41561443
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O diagrama P-V a seguir representa o ciclo de Otto para um motor de combustão interna, como os motores a gasolina ou a etanol, utilizados nos automóveis. As etapas representadas no diagrama estão descritas no quadro. Etapa Processo Descrição Admissão isobárica da mistura I 0 a 1 ar-combustível no cilindro do motor. II 1 a 2 Compressão adiabática da mistura. Introdução de energia na forma III 2 a 3 de calor da combustão. IV 3 a 4 Expansão adiabática. Liberação de energia V 4 a 1 na forma de calor. Liberação dos gases VI 1 a 0 resultantes da combustão. Disponível em: www.mspc.eng.br. Acesso em: 24 fev. 2013 (adaptado). A transformação da energia térmica em energia útil ocorre na etapa A II. B III. C IV. D V. E VI. 2º DIA • CADERNO 5 • AMARELO 5 2233//0088//22002244 1177::5566::2277
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) transformação da energia térmica em energia útil ocorre na etapa
+B) B) III.
+C) C) IV. D
+D) D) [Alternative not found]
+E) E) VI. 2º DIA • CADERNO 5 • AMARELO 5 2233//0088//22002244 1177::5566::2277
+
+
+====================================================================================================
+QUESTÃO 14: Q104 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: f7ef0238-5285-4fee-8a77-ae850f8da110
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Para os circuitos de maratonas aquáticas realizadas em mares calmos e próximos à praia, é montado um sistema de boias que determinam o trajeto a ser seguido pelos nadadores. Uma das dificuldades desse tipo de circuito é compensar os efeitos da corrente marinha. O diagrama contém o circuito em que deve ser realizada uma volta no sentido anti-horário. As quatro boias estão numeradas de 1 a 4. Existe uma corrente marinha de velocidade υ→ , cujo c módulo é 30 metros por minuto, paralela à praia em toda a área do circuito. Nas arestas mais longas, o nadador precisará nadar na direção apontada pelos vetores υ→ dos n pontos 1 até 2 e de 3 até 4. Considere que a velocidade do nadador é de 50 metros por minuto, em relação à água, durante todo o circuito. Nessa situação, em quantos minutos o nadador completará a prova? A 42 B 65 C 72 D 105 E 120
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 42 B 65
+B) B) 65
+C) C) 72
+D) D) 105
+E) E) 120
+
+
+====================================================================================================
+QUESTÃO 15: Q105 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 2fb14c19-b079-4b98-af7e-4f4891ac69e2
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O vírus linfotrópico de células T humanas tipo 1 (HTLV-1) é um retrovírus do mesmo grupo do vírus da imunodeficiência humana (HIV). Ambos são transmitidos da mesma forma e infectam as mesmas células de defesa do organismo, os linfócitos T. A diferença entre eles é que o HTLV-1 estimula o aumento da produção desses linfócitos, enquanto o HIV causa destruição dessas células. ROMANELLI, L. C. F.; CARAMELLI, P.; PROIETTI, A. B. F. C. O vírus linfotrópico de células T humanas tipo 1 (HTLV-1): quando suspeitar da infecção? Revista da Associação Médica Brasileira, v. 56, 2010 (adaptado). Uma possível consequência da infecção por HTLV-1 é o desenvolvimento de A aids. B câncer. C diabetes. D hepatite B. E hemorragia.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) aids. B câncer.
+B) B) [Alternative not found]
+C) C) diabetes.
+D) D) hepatite B.
+E) E) hemorragia.
+
+
+====================================================================================================
+QUESTÃO 16: Q106 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 00d75992-55ae-41d4-b66a-9e61f6b8b811
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Na tirinha, Calvin se divertia em um balanço antes de soltar-se dele e cair ao chão. Em sua fala, ele demonstra ter imaginado que permaneceria em movimento circular. Porém, a força gravitacional, que permanece atuando no garoto, modifica a direção de sua velocidade, fazendo com que ele chegue ao chão da maneira ilustrada no último quadrinho. WATTERSON, B. Disponível em: https://tiras-do-calvin.tumblr.com. Acesso em: 19 nov. 2021 (adaptado). Qual vetor representa a força resultante exercida pelo chão sobre Calvin no exato momento em que ele toca o chão? A B C D E S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) B C D E S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+B) B) C D E S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+C) C) D E S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+D) D) E S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+E) E) S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2277
+
+
+====================================================================================================
+QUESTÃO 17: Q107 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 1a271911-0582-4691-93fc-c5de17895996
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A fitorremediação é uma técnica que utiliza plantas para a de solos pode ocorrer por descarte, absorção e metaboliz conforme representado na figura. LUIZ, E. P. Avaliação dos métodos de fitorremediação [...] na re O método que retira o mercúrio de uma área contaminada, A fitoestabilização, ficando o mercúrio disponível sob a su B fitovolatilização, permitindo a retirada do mercúrio por p C fitodegradação, com a degradação do mercúrio promov menos tóxicas. D fitoestimulação, com a remoção do mercúrio pela ação imobilizam o metal. E fitoextração, em que as plantas que acumulam o mercúr é retirada após o crescimento.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) fitorremediação é uma técnica que utiliza plantas para a de solos pode ocorrer por descarte, absorção e metaboliz conforme representado na figura. LUIZ, E. P. Avaliação dos métodos de fitorremediação [...] na re O método que retira o mercúrio de uma área contaminada,
+B) B) fitovolatilização, permitindo a retirada do mercúrio por p
+C) C) fitodegradação, com a degradação do mercúrio promov menos tóxicas.
+D) D) fitoestimulação, com a remoção do mercúrio pela ação imobilizam o metal.
+E) E) fitoextração, em que as plantas que acumulam o mercúr é retirada após o crescimento.
+
+
+====================================================================================================
+QUESTÃO 18: Q108 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 76edb1c8-2280-4eca-a2ed-a5d9698f39aa
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Brasil fecha 2020 entre os maiores A bauxita contém alumina (Al O ), que é a matéria-pr 2 3 necessários 50 kg de bauxita para produzir 10 kg de alum mundiais em reciclagem de latas de alumínio. De acordo co de Latas de Alumínio (Abralatas), o país obteve um índice d de latas vendidas. Considere que a lata é constituída de al Disponível em: Levando em conta apenas a reciclagem de latas, qual é o v deixou de ser extraída da natureza em 2020 no Brasil? A 1,0 × 104 ton B 3,9 × 105 ton C 5,0 × 105 ton D 1,9 × 106 ton E 2,0 × 107 ton • CIÊNCIAS DA NATUREZA E SUAS TECNOLOGIAS • AAMM..iinnddbb 77 remediação de ambientes contaminados. A descontaminação zação, imobilização, extração ou volatilização do poluente, remoção de chumbo, cobre e zinco. São Paulo: UFABC, 2016 (adaptado). , impedindo sua entrada na cadeia alimentar, é a uperfície das raízes das plantas. plantas e a sua transferência para uma forma volátil. vida por enzimas, contidas nas raízes, formando espécies de microrganismos presentes nas raízes que absorvem e rio são cultivadas nesses locais, e a biomassa rica no metal s recicladores de latas de alumínio rima para produção do alumínio (Al). De forma geral, são mínio. O Brasil fechou 2020 como um dos principais líderes om levantamento da Associação Brasileira dos Fabricantes de reciclagem de 97,4%, de um total de 4,0 × 105 toneladas lumínio puro. : https://agenciabrasil.ebc.com.br. Acesso em: 30 nov. 2021 (adaptado). valor mais próximo da massa de bauxita, em tonelada, que 2º DIA • CADERNO 5 • AMARELO 7 2233//0088//22002244 1177::5566::2288
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) bauxita contém alumina (Al O ), que é a matéria-pr 2 3 necessários 50 kg de bauxita para produzir 10 kg de alum mundiais em reciclagem de latas de alumínio. De acordo co de Latas de Alumínio (Abralatas), o país obteve um índice d de latas vendidas. Considere que a lata é constituída de al Disponível em: Levando em conta apenas a reciclagem de latas, qual é o v deixou de ser extraída da natureza em 2020 no Brasil?
+B) B) 3,9 × 105 ton
+C) C) 5,0 × 105 ton
+D) D) 1,9 × 106 ton
+E) E) 2,0 × 107 ton • CIÊNCIAS DA NATUREZA
+
+
+====================================================================================================
+QUESTÃO 19: Q110 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 82a73b81-72c0-48e8-b20d-604b568ec434
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma caixa decorativa utiliza duas pequenas lâmpadas, L (6 V - 9 W) e L (12 V - 18 W), ligadas em série a 1 2 uma bateria de tensão V .Um fio resistivo QR, de QR 48 centímetros, está ligado em paralelo à bateria. Cinco pontos, A, B, C, D e E, dividem o fio QR em seis segmentos de comprimentos iguais. O circuito também tem um amperímetro com dois terminais. Um dos terminais (P) está ligado ao fio entre as duas lâmpadas. O outro terminal (S) está livre e será ligado ao fio QR. Dependendo do ponto em que esse terminal livre for conectado, ocorrerá a mudança na tensão à qual as lâmpadas são submetidas. Os demais fios do circuito têm resistências elétricas desprezíveis. A figura ilustra esse circuito. Em qual desses pontos o amperímetro deve ser conectado para que as lâmpadas acendam exatamente segundo as especificações de tensão e potência elétricas fornecidas? A A B B C C D D E
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) figura ilustra esse circuito. Em qual desses pontos o amperímetro deve ser conectado para que as lâmpadas acendam exatamente segundo as especificações de tensão e potência elétricas fornecidas? A A B B C C D D
+B) B) B C C D D
+C) C) [Alternative not found]
+D) D) e E, dividem o fio QR em seis segmentos de comprimentos iguais. O circuito também tem um amperímetro com dois terminais. Um dos terminais (P) está ligado ao fio entre as duas lâmpadas. O outro terminal (S) está livre e será ligado ao fio QR. Dependendo do ponto em que esse terminal livre for conectado, ocorrerá a mudança na tensão à qual as lâmpadas são submetidas. Os demais fios do circuito têm resistências elétricas desprezíveis.
+E) E) [Alternative not found]
+
+
+====================================================================================================
+QUESTÃO 20: Q111 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 9d64a232-f973-4ec4-8b70-922c3685b9bc
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O biogás é uma alternativa energética muito importante, pois, além de reduzir a dependência por combustíveis fósseis, sua obtenção pode ser realizada a partir de resíduos da produção agroindustrial. Considere que o biogás produzido em um empreendimento de suinocultura contém 70% em volume de metano (massa molar 16 g/mol; volume molar 22 L/mol). Ele será utilizado para geração de energia em substituição ao etanol (massa molar 46 g/mol) em um gerador no qual 1 m3 de biogás de origem suína substitui 0,59 L de etanol anidro (densidade 0,78 g/mL). Nessas condições, a massa de metano necessária para substituir 10 mol de etanol na produção de energia é mais próxima de A 300 g. B 400 g. C 510 g. D 590 g. E 720 g. S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2288//0088//22002244 1177::0022::0011
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 300 g.
+B) B) 400 g.
+C) C) 510 g.
+D) D) 590 g.
+E) E) [Alternative not found]
+
+
+====================================================================================================
+QUESTÃO 21: Q112 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 6ab00142-b10a-4fc5-bd61-46cb644a82e7
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A nimesulida é um fármaco pouco solúvel em água, utilizado como anti-inflamatório, analgésico e antitérmico. Essa substância pode ser convertida em uma espécie eletricamente carregada, de maior solubilidade em água, mediante o tratamento com uma base de Brönsted-Lowry, isto é, uma espécie química capaz de capturar um próton (H+). Na figura são apresentados os grupamentos presentes na estrutura química da nimesulida. Nimesulida GONÇALVES, A. A. et al. Contextualizando reações ácido-base de acordo com a teoria protônica de Brönsted-Lowry usando comprimidos de propranolol e nimesulida. Química Nova, n. 3, 2013 (adaptado). Na estrutura desse fármaco, o grupamento capaz de reagir com a base de Brönsted-Lowry é o grupo A sulfonamida. B metila. C fenila. D nitro. E éter.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) nimesulida é um fármaco pouco solúvel em água, utilizado como anti-inflamatório, analgésico e antitérmico. Essa substância pode ser convertida em uma espécie eletricamente carregada, de maior solubilidade em água, mediante o tratamento com uma base de Brönsted-Lowry, isto é, uma espécie química capaz de capturar um próton (H+). Na figura são apresentados os grupamentos presentes na estrutura química da nimesulida. Nimesulida GONÇALVES, A. A. et al. Contextualizando reações ácido-base de acordo com a teoria protônica de Brönsted-Lowry usando comprimidos de propranolol e nimesulida. Química Nova, n. 3, 2013 (adaptado). Na estrutura desse fármaco, o grupamento capaz de reagir com a base de Brönsted-Lowry é o grupo
+B) B) metila.
+C) C) fenila.
+D) D) nitro.
+E) E) éter.
+
+
+====================================================================================================
+QUESTÃO 22: Q113 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: aa61ace0-62de-4b58-8c34-86da64b9f6be
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O desenvolvimento da biotecnologia e da clonagem gênica em procariotos fez com que a produção de proteínas se tornasse mais intensa, rápida e econômica. Para a produção de hormônios, enzimas e proteínas de resistência a drogas, uma variação da técnica de reação em cadeia pela polimerase (PCR, na sigla em inglês) utiliza a enzima transcriptase reversa (RT-PCR), que sintetiza moléculas de DNA complementares a partir de fitas de RNA. Nesse contexto, essa técnica é importante para detectar genes A expressos. B plasmidiais. C bacterianos. D dominantes. E autossômicos. • CIÊNCIAS DA NATUREZA E SUAS TECNOLOGIAS • PP11__22__DDiiaa__CCNNTT__RREEGG__55__AAmmaarreelloo..iinndddd
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) expressos.
+B) B) plasmidiais.
+C) C) bacterianos.
+D) D) dominantes.
+E) E) autossômicos. • CIÊNCIAS DA NATUREZA
+
+
+====================================================================================================
+QUESTÃO 23: Q114 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 74594a08-0fc0-4812-b6ec-63da47a34fcc
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Nos automóveis, é importante garantir que o centro de massa (CM) de cada conjunto roda/pneu coincida com o seu centro geométrico. Esse processo é realizado em uma máquina de balanceamento, na qual o conjunto roda e pneu é colocado para girar a uma velocidade de valor constante. Com base nas oscilações medidas, a máquina indica a posição do centro de massa do conjunto, e pequenas peças de chumbo são fixadas em lugares específicos da roda até que as vibrações diminuam. Durante o treinamento de sua equipe, a fim de corrigir a posição do centro de massa indicada pela máquina, um mecânico apresenta o esquema a seguir, com cinco possíveis pontos da roda para posicionar uma peça de chumbo. Em qual ponto deve ser fixada a peça de chumbo para corrigir a posição do centro de massa desse conjunto roda/pneu? A 1 B 2 C 3 D 4 E
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 1 B 2 C 3 D 4
+B) B) 2 C 3 D 4
+C) C) 3 D 4
+D) D) [Alternative not found]
+E) E) [Alternative not found]
+
+
+====================================================================================================
+QUESTÃO 24: Q115 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 5237aaaf-2a15-41cb-8cd0-75f278eeb878
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O soro caseiro serve para combater a desidratação por meio da reposição da água e sais minerais perdidos, por exemplo, por diarreia. Uma receita simples para a sua preparação consiste em utilizar duas colheres grandes (de sopa) de açúcar e duas colheres pequenas (de café) de sal de cozinha, dissolvidos em 2 L de água fervida, obtendo-se uma solução com concentração de íon sódio de 1,4 mg/mL. Considere as massas molares: NaCl = 58,5 g/mol; Na = 23 g/mol. Qual é o valor mais próximo da massa, em grama, de cloreto de sódio presente em uma única colher pequena? A 0,7 g B 1,8 g C 2,8 g D 3,6 g E 7,0 g 2º DIA • CADERNO 5 • AMARELO 9 2288//0088//22002244 1177::0033::3300
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 0,7 g
+B) B) 1,8 g
+C) C) 2,8 g
+D) D) 3,6 g
+E) E) [Alternative not found]
+
+
+====================================================================================================
+QUESTÃO 25: Q116 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: adf42066-8faa-496f-bbf9-5d74db54de02
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Apesar de os animais representados no cladograma compartilharem um mesmo ancestral, eles se caracterizam por distintos padrões de reprodução ou de nutrição dos embriões e descendentes. DIXSON, A. F. Mammalian Sexuality: The Act of Mating and the Evolution of Reproduction. Disponível em: www.cambridge.org. Acesso em: 2 jul. 2024 (adaptado). Ao longo do processo evolutivo, percebem-se, entre esses animais, perdas e ganhos nos padrões citados que envolvem o(a) A aumento no número de descendentes por ninhada. B mudança no tipo de fecundação de externa para interna. C redução da versatilidade de reprodução, que se torna unicamente sexuada. D desenvolvimento embrionário, que passa do meio aquático para o terrestre. E diminuição da vesícula vitelínica, associada ao desenvolvimento da lactação.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) aumento no número de descendentes por ninhada.
+B) B) mudança no tipo de fecundação de externa para interna.
+C) C) redução da versatilidade de reprodução, que se torna unicamente sexuada.
+D) D) desenvolvimento embrionário, que passa do meio aquático para o terrestre.
+E) E) diminuição da vesícula vitelínica, associada ao desenvolvimento da lactação.
+
+
+====================================================================================================
+QUESTÃO 26: Q117 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 9b8130a6-e08c-498e-b0d4-e54eb8487129
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma ambulância em alta velocidade com a sirene ligada desloca-se em direção a um radar operado por uma pessoa. O radar emite ondas de rádio com frequência f que são 0 refletidas pela dianteira da ambulância, retornando para o detector com frequência f. A percepção do operador do r radar, em relação ao som emitido pela sirene, é de que este se altera à medida que a ambulância se aproxima ou se afasta. Durante a aproximação, como o operador percebe o som da sirene e qual é a relação entre as frequências f e f r 0 medidas pelo radar? A Mais grave do que o som emitido e f < f . r 0 B Mais agudo do que o som emitido e f < f . r 0 C Mais agudo do que o som emitido e f = f . r 0 D Mais agudo do que o som emitido e f > f . r 0 E Mais grave do que o som emitido e f > f . r
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) percepção do operador do r radar, em relação ao som emitido pela sirene, é de que este se altera à medida que a ambulância se aproxima ou se afasta. Durante a aproximação, como o operador percebe o som da sirene e qual é a relação entre as frequências f e f r 0 medidas pelo radar?
+B) B) Mais agudo do que o som emitido e f < f . r
+C) C) Mais agudo do que o som emitido e f = f . r
+D) D) Mais agudo do que o som emitido e f > f . r
+E) E) Mais grave do que o som emitido e f > f . r
+
+
+====================================================================================================
+QUESTÃO 27: Q118 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 7841b800-85a2-49a3-92be-68f2f2efdbf5
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Mirascópio 3D: produtor de ilusão instantânea O equipamento ilustrado na figura, de dimensões apresentadas no esquema, é composto por dois espelhos côncavos E e E , apoiados um sobre o outro por suas 1 2 bordas, de tal forma que o vértice de E coincide com 1 o foco de E e vice-versa. Na abertura circular de 2 E , é formada uma imagem tridimensional de um objeto 2 posicionado sobre o vértice de E . Essa imagem é 1 formada a partir dos raios procedentes do objeto, refletidos por E e E , respectivamente, conforme o esquema. 2 1 Os observadores julgam visualizar o objeto quando estão, de fato, visualizando sua imagem. O efeito só é possível porque as superfícies de ambos os espelhos são de extrema qualidade. SALZMANN, W. Disponível em: https://wissenstexte.de. Acesso em: 27 jun. 2024 (adaptado). A natureza da imagem formada e a distância vertical entre cada ponto objeto e seu correspondente ponto imagem são A real e 5 cm. B real e 3,8 cm. C real e 7,6 cm. D virtual e 7,6 cm. E virtual e 3,8 cm. S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2288
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) natureza da imagem formada e a distância vertical entre cada ponto objeto e seu correspondente ponto imagem são
+B) B) real e 3,8 cm.
+C) C) real e 7,6 cm.
+D) D) virtual e 7,6 cm.
+E) E) e E , apoiados um sobre o outro por suas 1 2 bordas, de tal forma que o vértice de
+
+
+====================================================================================================
+QUESTÃO 28: Q119 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: c5b40eea-fb8d-41e5-aa71-cd98478681e2
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Muitas pessoas ainda se espantam com o fato de um passageiro sair ileso de um acidente de carro enquanto o veículo onde estava teve perda total. Essas pessoas talvez considerem, equivocadamente, que os carros mais seguros são os que têm as estruturas mais rígidas, ou seja, estruturas, que durante uma colisão, apresentam menor deformação. Na verdade, o que ocorre é o contrário. Por isso, a partir de 1958, passaram a ser produzidos carros com partes que se deformam facilmente. DAY, C. Crumple Zones. Disponível em: https://pubs.aip.org. Acesso em: 2 jul. 2024 (adaptado). Assim, além dos cintos de segurança e dos airbags, os carros modernos passaram a contar com o dispositivo de segurança conhecido como crumple zone (região deformável, em inglês), conforme a figura. Momentum and Car safety. GCSE Physics Revision. Disponível em: www.shalom-education.com. Acesso em: 5 jul. 2024 (adaptado). Considerando o carro, seus ocupantes e o muro da figura como um sistema isolado, o crumple zone aumenta a segurança dos passageiros porque, durante uma colisão, a deformação da estrutura do carro A aciona os airbags do veículo. B absorve a energia cinética do sistema. C consome a quantidade de movimento do sistema. D cria uma barreira de proteção para seus ocupantes. E diminui a velocidade do centro de massa do sistema. • CIÊNCIAS DA NATUREZA E SUAS TECNOLOGIAS • AAMM..iinnddbb 1111
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) aciona os airbags do veículo.
+B) B) absorve a energia cinética do sistema.
+C) C) consome a quantidade de movimento do sistema.
+D) D) cria uma barreira de proteção para seus ocupantes.
+E) E) diminui a velocidade do centro de massa do sistema. • CIÊNCIAS DA NATUREZA
+
+
+====================================================================================================
+QUESTÃO 29: Q120 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: a5b9fcca-69ba-4a83-9181-7f57c12b0301
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Células a combustível microbianas (CCM) são capazes de gerar eletricidade a partir de águas residuárias urbanas e agroindustriais. As CCM são compostas de duas câmaras. Numa delas, onde ocorre o tratamento da matéria orgânica, as bactérias eletrogênicas crescem formando um biofilme e se alimentam dos poluentes presentes no efluente. Ao se alimentarem, essas bactérias geram uma corrente elétrica que percorre o material sobre o qual elas formaram o biofilme. Um fio condutor externo possibilita a migração dessa corrente para uma segunda câmara, promovendo uma reação química. A figura esquematiza uma CCM e as reações envolvidas. CH COO− (aq) + 2 H O (I) → 2 CO (g) + 7 H+ (aq) + 8 e− 3 2 2 4 H+ (aq) + O (g) + 4 e− → 2 H O (I) 2 2 QUINTO, A. C. Biobaterias geram eletricidade a partir de esgoto sanitário e efluentes agroindustriais. Disponível em: https://jornal.usp.br. Acesso em: 1 dez. 2021 (adaptado). Qual das equações representa a reação global que ocorre durante o funcionamento dessa CCM? A CH COO− (aq) + O (g) → 2 CO (g) + 3 H+ (aq) 3 2 2 B CO (g) + O (g) + H+ (aq) → H O (l) + CH COO− (aq) 2 2 2 3 C CHCOO− (aq) + H+ (aq) + 2 O (g) → 2 CO (g) + 2 HO (l) 3 2 2 2 D CHCOO− (aq) + 6 HO (l) → 2 CO (g) + 2 O (g) + 15 H+ (aq) 3 2 2 2 E 2 CO (g) + 11 H+ (aq) + O (g) → CHCOO− (aq) + 4 HO (l) 2 2
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) figura esquematiza uma CCM e as reações envolvidas. CH COO− (aq) + 2 H O (I) → 2 CO (g) + 7 H+ (aq) + 8 e− 3 2 2 4 H+ (aq) + O (g) + 4 e− → 2 H O (I) 2 2 QUINTO, A. C. Biobaterias geram eletricidade a partir de esgoto sanitário e efluentes agroindustriais. Disponível em: https://jornal.usp.br. Acesso em: 1 dez. 2021 (adaptado). Qual das equações representa a reação global que ocorre durante o funcionamento dessa CCM? A CH COO− (aq) + O (g) → 2 CO (g) + 3 H+ (aq) 3 2 2 B CO (g) + O (g) + H+ (aq) → H O (l) + CH COO− (aq) 2 2 2
+B) B) CO (g) + O (g) + H+ (aq) → H O (l) + CH COO− (aq) 2 2 2
+C) C) CHCOO− (aq) + H+ (aq) + 2 O (g) → 2 CO (g) + 2 HO (l) 3 2 2
+D) D) CHCOO− (aq) + 6 HO (l) → 2 CO (g) + 2 O (g) + 15 H+ (aq) 3 2 2 2 E 2 CO (g) + 11 H+ (aq) + O (g) → CHCOO− (aq) + 4 HO (l) 2
+E) E) 2 CO (g) + 11 H+ (aq) + O (g) → CHCOO− (aq) + 4 HO (l) 2
+
+
+====================================================================================================
+QUESTÃO 30: Q121 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 88f95a18-a072-4c1b-be84-e86ff03ec172
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+No senso comum, considera-se, ainda hoje, que compostos orgânicos são substâncias presentes nos seres vivos. Na Química, a expressão “compostos orgânicos” tem um uso histórico de mais de 200 anos, adquirindo diferentes conotações ao longo do desenvolvimento dessa ciência. Atualmente, atribui-se a essa expressão outro significado. A concepção científica atual define esses compostos como substâncias A benéficas à saúde humana. B capazes de serem biodegradadas. C formadas a partir de gás carbônico. D produzidas sem o uso de agrotóxicos. E contendo carbono como elemento principal. 2º DIA • CADERNO 5 • AMARELO 11 2233//0088//22002244 1177::5566::2288
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) concepção científica atual define esses compostos como substâncias
+B) B) capazes de serem biodegradadas.
+C) C) formadas a partir de gás carbônico.
+D) D) produzidas sem o uso de agrotóxicos.
+E) E) contendo carbono como elemento principal. 2º DIA • CADERNO 5 • AMARELO 11 2233//0088//22002244 1177::5566::2288
+
+
+====================================================================================================
+QUESTÃO 31: Q123 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 1059fdc2-ca8f-4938-8674-a28d28c516c9
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um dos agentes que mais contribui para a poluição do ar é o automóvel a combustão interna. Em áreas urbanas, isso é demonstrado dramaticamente pela fumaça fotoquímica, resultante da interação entre óxidos de nitrogênio, hidrocarbonetos e luz solar, para formar produtos de oxidação, que causam irritação aos olhos, ao aparelho respiratório e danos às plantas. As condições de operação de motores a combustão, como a razão da mistura ar/combustível no cilindro, influenciam na composição dos gases lançados pelo escapamento na atmosfera. O gráfico ilustra a variação nas composições dos principais gases, dióxido de carbono (CO ), hidrocarbonetos (HC), 2 monóxido de carbono (CO), monóxido de nitrogênio (NO) e oxigênio molecular (O ), emitidos por um motor a gasolina, 2 em diferentes razões ar/combustível, em massa. RANGEL, M. C.; CARVALHO, M. F. A. Impacto dos catalisadores automotivos no controle da qualidade do ar. Química Nova, v. 26, 2003 (adaptado). Na condição de razão ar/combustível igual a 18, haverá uma emissão A baixa de O e alta de NO. 2 B baixa de NO e alta de HC. C baixa de CO e alta de CO . 2 D baixa de HC e alta de CO. E baixa de CO e alta de HC. 2 S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2288
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) baixa de O e alta de NO.
+B) B) baixa de NO e alta de HC.
+C) C) baixa de CO e alta de CO.
+D) D) baixa de HC e alta de CO.
+E) E) baixa de CO e alta de HC. 2 S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2288
+
+
+====================================================================================================
+QUESTÃO 32: Q124 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 60a9949c-4c51-481f-9504-783270d7ffb5
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A saúde do professor: acústica arquitetônica Dentre os parâmetros acústicos que afetam a inteligibilidade dos sons emitidos em ambientes fechados, destacam-se o ruído de fundo do ambiente e o decréscimo do nível sonoro com a distância da fonte emissora. Assim, sentar-se no fundo da sala de aula pode prejudicar a aprendizagem dos estudantes, por impedir que eles distingam, com precisão, os sons emitidos, diminuindo a inteligibilidade da fala de seus professores. Considere a situação exemplificada pelo infográfico: à distância de 1 metro, o nível sonoro da fala de um professor é de 60 dB e diminui com a distância. Considere, ainda, que o ruído de fundo nessa sala de aula pode chegar a 45 dB e que, para ser compreendida, o nível sonoro da fala do professor deve estar 5 dB acima desse ruído. Disponível em: www.ufrrj.br. Acesso em: 2 dez. 2021 (adaptado). Para um valor máximo do ruído de fundo, a maior distância que um estudante pode estar do professor para que ainda consiga compreender sua fala é mais próxima de A 3,0 m. B 4,5 m. C 6,5 m. D 8,0 m. E 9,5 m.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 3,0 m.
+B) B) 4,5 m.
+C) C) 6,5 m.
+D) D) 8,0 m.
+E) E) 9,5 m.
+
+
+====================================================================================================
+QUESTÃO 33: Q125 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: cdb0328d-6819-409d-b0c3-b181ce96849f
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma agricultora, com a intenção de comercializar o milho recém-colhido, testou uma forma de preservar o sabor adocicado do seu produto. O melhor resultado foi obtido quando ela imergiu as espigas em água fervente durante alguns minutos e, em seguida, em água gelada. Com esse procedimento, parte da glicose do milho não foi transformada em amido, mantendo o seu sabor adocicado. Utilizando esse procedimento, o sabor foi conservado porque houve A desnaturação enzimática pela alta temperatura. B conversão de nutrientes pela redução de temperatura. C degradação das reservas nutritivas pelo choque térmico. D impedimento da entrada de oxigênio pela fervura da água. E desidratação dos grãos por causa da alteração da temperatura. • CIÊNCIAS DA NATUREZA E SUAS TECNOLOGIAS • AAMM..iinnddbb 1133
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) desnaturação enzimática pela alta temperatura.
+B) B) conversão de nutrientes pela redução de temperatura.
+C) C) degradação das reservas nutritivas pelo choque térmico.
+D) D) impedimento da entrada de oxigênio pela fervura da água.
+E) E) desidratação dos grãos por causa da alteração da temperatura. • CIÊNCIAS DA NATUREZA
+
+
+====================================================================================================
+QUESTÃO 34: Q126 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 37acb3ab-daf1-419d-a6ff-ec4281be0d20
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Aquecedores solares são equipamentos utilizados para o aquecimento de água pelo calor do Sol. São compostos por coletores solares, nos quais ocorre o aquecimento da água, e por um reservatório térmico, em que é armazenada a água quente para ser utilizada posteriormente. A figura ilustra esquematicamente como funciona esse equipamento. 5 dicas de instalação de aquecedor solar. Disponível em: https://instaline.com.br. Acesso em: 3 nov. 2023 (adaptado). O processo pelo qual ocorre transferência de calor dos coletores solares para o reservatório térmico é a A difusão. B absorção. C condução. D irradiação. E convecção.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) figura ilustra esquematicamente como funciona esse equipamento. 5 dicas de instalação de aquecedor solar. Disponível em: https://instaline.com.br. Acesso em:
+B) B) absorção.
+C) C) condução.
+D) D) irradiação.
+E) E) convecção.
+
+
+====================================================================================================
+QUESTÃO 35: Q127 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: c3dd3519-3bc4-4388-8174-310ab0718461
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+As autoridades sanitárias brasileiras têm se preocupado muito nos últimos anos com o aumento da ocorrência de doenças transmitidas por mosquitos, principalmente arboviroses como chikungunya e zika, que se tornaram epidêmicas ou endêmicas em áreas urbanas. Parte de uma análise da relação entre a urbanização e a incidência dessas doenças está representada no fluxograma. ALMEIDA, L. S.; COTA, A. L. S.; RODRIGUES, D. F. Saneamento, arboviroses e determinantes ambientais: impactos na saúde urbana. Ciência & Saúde Coletiva, v. 25, n. 10, 2020 (adaptado). Nesse contexto, como a urbanização está causando riscos à saúde humana? A Disseminando verminoses. B Causando a eutrofização de lagoas. C Aumentando a chance de contato com coliformes. D Diminuindo a população de predadores aquáticos. E Aproximando as pessoas das áreas de ocorrência de mosquitos. 2º DIA • CADERNO 5 • AMARELO 13 2233//0088//22002244 1177::5566::2299
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Disseminando verminoses.
+B) B) Causando a eutrofização de lagoas.
+C) C) Aumentando a chance de contato com coliformes.
+D) D) Diminuindo a população de predadores aquáticos.
+E) E) Aproximando as pessoas das áreas de ocorrência de mosquitos. 2º DIA • CADERNO 5 • AMARELO 13 2233//0088//22002244 1177::5566::2299
+
+
+====================================================================================================
+QUESTÃO 36: Q128 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 18fa2b13-c56b-47be-9a67-d49f1a6893b2
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Impactos do microplástico A ação de fatores abióticos aliada à biodeterioração contribuem para a formação de microplásticos, os quais se aderem a outros poluentes orgânicos apolares persistentes, como os derivados de pesticidas lipossolúveis. Há uma proporcionalidade direta entre a solubilidade desses tipos de poluentes e sua concentração nos tecidos dos organismos expostos a eles. Disponível em: www.ecycle.com.br. Acesso em: 9 dez. 2021 (adaptado). Em animais vertebrados, essa associação de poluentes será preferencialmente acumulada no tecido A ósseo. B nervoso. C epitelial. D adiposo. E sanguíneo.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) ação de fatores abióticos aliada à biodeterioração contribuem para a formação de microplásticos, os quais se aderem a outros poluentes orgânicos apolares persistentes, como os derivados de pesticidas lipossolúveis. Há uma proporcionalidade direta entre a solubilidade desses tipos de poluentes e sua concentração nos tecidos dos organismos expostos a eles. Disponível em: www.ecycle.com.br. Acesso em: 9 dez. 2021 (adaptado). Em animais vertebrados, essa associação de poluentes será preferencialmente acumulada no tecido
+B) B) nervoso.
+C) C) epitelial.
+D) D) adiposo.
+E) E) sanguíneo.
+
+
+====================================================================================================
+QUESTÃO 37: Q129 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 46bdbe28-85f5-41bd-8e98-b7b3bbe9fc83
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Em aeroportos, por razões de segurança, os passageiros devem ter suas bagagens de mão examinadas antes do embarque, passando-as em esteiras para sua inspeção por aparelhos de raios X. Nessas inspeções, os passageiros são orientados a retirar seus computadores portáteis (notebooks ou laptops) de malas, mochilas ou bolsas para passá-los isoladamente pela esteira. Que explicação física justifica esse procedimento? A Os raios X não interagem com os componentes metálicos do computador, o que impede a formação de imagens. B Os raios X desmagnetizam o disco rígido do computador, quando refratados pelos componentes metálicos das bagagens de mão. C Os raios X aquecem os materiais metálicos encontrados em bagagens de mão, quando refletidos pelos componentes do computador. D Os raios X não atravessam os componentes densos do computador, o que impede a visualização de objetos que estão à frente ou atrás deles. E Os raios X ionizam os materiais metálicos normalmente encontrados em bagagens de mão, quando difratados pelos componentes do computador.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Os raios X não interagem com os componentes metálicos do computador, o que impede a formação de imagens. B Os raios X desmagnetizam o disco rígido do computador, quando refratados pelos componentes metálicos das bagagens de mão. C Os raios X aquecem os materiais metálicos encontrados em bagagens de mão, quando refletidos pelos componentes do computador. D Os raios X não atravessam os componentes densos do computador, o que impede a visualização de objetos que estão à frente ou atrás deles. E Os raios X ionizam os materiais metálicos normalmente encontrados em bagagens de mão, quando difratados pelos componentes do computador.
+B) B) Os raios X desmagnetizam o disco rígido do computador, quando refratados pelos componentes metálicos das bagagens de mão. C Os raios X aquecem os materiais metálicos encontrados em bagagens de mão, quando refletidos pelos componentes do computador. D Os raios X não atravessam os componentes densos do computador, o que impede a visualização de objetos que estão à frente ou atrás deles. E Os raios X ionizam os materiais metálicos normalmente encontrados em bagagens de mão, quando difratados pelos componentes do computador.
+C) C) Os raios X aquecem os materiais metálicos encontrados em bagagens de mão, quando refletidos pelos componentes do computador. D Os raios X não atravessam os componentes densos do computador, o que impede a visualização de objetos que estão à frente ou atrás deles. E Os raios X ionizam os materiais metálicos normalmente encontrados em bagagens de mão, quando difratados pelos componentes do computador.
+D) D) Os raios X não atravessam os componentes densos do computador, o que impede a visualização de objetos que estão à frente ou atrás deles. E Os raios X ionizam os materiais metálicos normalmente encontrados em bagagens de mão, quando difratados pelos componentes do computador.
+E) E) Os raios X ionizam os materiais metálicos normalmente encontrados em bagagens de mão, quando difratados pelos componentes do computador.
+
+
+====================================================================================================
+QUESTÃO 38: Q130 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 3ae2083c-9cdb-4c9c-9ed2-14c90c848b9e
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Com base em testes realizados em ratos, concluiu-se que os compostos nitrosos são substâncias mutagênicas, ou seja, produzem mutações nas células e possivelmente câncer. Esses compostos podem ser obtidos pela reação entre o nitrito de sódio, que é um conservante adicionado às carnes, e o ácido clorídrico. O ácido nitroso produzido irá reagir com compostos nitrogenados, como as aminas, dando origem aos compostos nitrosos. Em qual órgão esse processo será iniciado? A Rim. B Fígado. C Intestino. D Pâncreas. E Estômago.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Rim.
+B) B) Fígado.
+C) C) Intestino.
+D) D) Pâncreas.
+E) E) Estômago.
+
+
+====================================================================================================
+QUESTÃO 39: Q131 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 0e0bce46-1237-4123-95f7-602e7d19cdcf
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Sistemas agroflorestais (SAFs) Os sistemas agroflorestais alinham os interesses econômicos aos ecológicos. Esses sistemas podem ser usados na recuperação ambiental de áreas degradadas que se tornaram pouco produtivas, como as utilizadas por muito tempo para pastagem. Para isso, num primeiro momento, as árvores nativas são plantadas em conjunto com culturas agrícolas anuais, como feijão, mandioca, milho e abóbora, que geram renda para os proprietários da terra e incentivam a manutenção do sistema. Em um segundo momento, são introduzidas outras espécies, como trepadeiras e arbustos, de acordo com um arranjo espacial e temporal preestabelecido. Nesse processo, ocorrerão mudanças graduais na estrutura e composição das comunidades vegetais ao longo do tempo, que culminarão no aumento da diversidade do ambiente. Disponível em: www.embrapa.br. Acesso em: 9 dez. 2021 (adaptado). O conjunto dessas mudanças graduais é análogo ao processo natural denominado A rotação de culturas. B sucessão ecológica. C coevolução específica. D adaptação por seleção. E convergência adaptativa.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) rotação de culturas.
+B) B) sucessão ecológica.
+C) C) coevolução específica.
+D) D) adaptação por seleção.
+E) E) convergência adaptativa.
+
+
+====================================================================================================
+QUESTÃO 40: Q132 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: e7e97c81-8f35-4f0d-8e7c-7d11819cc870
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+As fibras musculares esqueléticas não são todas iguais. As fibras lentas, também conhecidas como fibras vermelhas, apresentam muitas mitocôndrias e são bem supridas por vasos sanguíneos. Já as fibras rápidas, ou fibras brancas, apresentam poucas mitocôndrias e recebem menor suprimento sanguíneo. Dessa forma, a distribuição das fibras nos músculos esqueléticos do corpo auxilia de forma diferenciada no desempenho físico de um atleta. SADAVA, D. et al. Vida: a ciência da biologia - volume III: plantas e animais. Porto Alegre: Artmed, 2009 (adaptado). Um atleta que sonha em disputar os Jogos Olímpicos e tem uma maior proporção de fibras brancas que fibras vermelhas teria mais vantagens na realização da prova de: A Triatlo. B Salto em altura. C Marcha atlética. D Maratona aquática. E Ciclismo em estrada. S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::2299
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Triatlo.
+B) B) Salto em altura.
+C) C) Marcha atlética.
+D) D) Maratona aquática.
+E) E) [Alternative not found]
+
+
+====================================================================================================
+QUESTÃO 41: Q133 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 9d8f39b2-2b4a-41c7-9709-7413701f1440
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O Cerrado e a Amazônia abrigam grande número de serpentes popularmente conhecidas como cobras-corais. Na Amazônia predominam as corais-verdadeiras, que são peçonhentas, enquanto no Cerrado prevalecem as falsas-corais, que não possuem peçonha. Essas espécies apresentam um padrão de coloração muito semelhante. Essa similaridade traz uma vantagem tanto para as corais falsas como para as verdadeiras. FRANÇA, F. G. R. [...] serpentes corais em ambientes campestres, savânicos e florestais da América do Sul. Brasília: UnB, 2008 (adaptado). Nas fotografias, são apresentados exemplos dessas serpentes: uma coral-verdadeira e uma falsa-coral. SILVA, L. C.; COTTA, G. A.; RESENDE, F. C. Cobra-coral: aplicativo educativo para reconhecimento das cobras-corais do estado de Minas Gerais, Brasil. Herpetologia Brasileira, n. 1, 2021 (adaptado). Qual é a vantagem dessa similaridade para as falsas-corais? A Facilita a captura de presas. B Diminui a competição por recursos. C Possibilita a geração de indivíduos híbridos. D Reduz a possibilidade de sofrerem predação. E Otimiza o encontro de parceiros reprodutivos.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) Facilita a captura de presas.
+B) B) Diminui a competição por recursos.
+C) C) Possibilita a geração de indivíduos híbridos.
+D) D) Reduz a possibilidade de sofrerem p
+E) E) Otimiza o encontro de parceiros reprodutivos.
+
+
+====================================================================================================
+QUESTÃO 42: Q134 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 2b6f7fc9-41fe-48f7-95f8-f7147a8c5a88
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O exoesqueleto dos crustáceos é formado por quitina e impregnações de sais calcários e, por isso, é mais duro quando comparado com o exoesqueleto de outros artrópodes. Esse revestimento externo confere proteção, mas, por ser duro, limita o crescimento desses animais. Para superar essa limitação, o exoesqueleto deve ser A formado somente na fase adulta do animal. B fragmentado para expansão nas áreas de articulação. C modelado continuamente para ajuste ao tamanho do corpo. D substituído por meio de mudas que ocorrem periodicamente. E impregnado por pequena quantidade de sais para sua distensão. • CIÊNCIAS DA NATUREZA E SUAS TECNOLOGIAS • PP11__22__DDiiaa__CCNNTT__RREEGG__55__AAmmaarreelloo..iinndddd 1155
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) formado somente na fase adulta do animal.
+B) B) fragmentado para expansão nas áreas de articulação.
+C) C) modelado continuamente para ajuste ao tamanho do corpo.
+D) D) substituído por meio de mudas que ocorrem periodicamente.
+E) E) impregnado por pequena quantidade de sais para sua distensão. • CIÊNCIAS DA NATUREZA
+
+
+====================================================================================================
+QUESTÃO 43: Q135 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 18f7a12b-45af-472e-9cf9-2dbd3e2892ed
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.CIENCIAS_NATUREZA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um dos exemplos mais conhecidos de herança recessiva ligada ao cromossomo X é o daltonismo. Como em qualquer distúrbio recessivo ligado ao cromossomo X, existem muito mais homens apresentando o fenótipo com esse tipo de daltonismo do que mulheres. Um casal formado por um homem não daltônico e por uma mulher gestante também não daltônica, mas portadora do gene recessivo para esse tipo de daltonismo, está esperando um bebê. Em uma das consultas de pré-natal, o casal recebeu um heredograma que contém todas as possibilidades de genótipo para esse bebê. Considere a legenda: Mulher heterozigota portadora do gene para daltonismo Mulher não daltônica Mulher daltônica Homem não daltônico Homem daltônico GRIFFITHS, A. et al. Introdução à genética. Rio de Janeiro: Guanabara Koogan, 2016 (adaptado). Qual heredograma foi recebido pelo casal? A B C D E 2º DIA • CADERNO 5 • AMARELO 15 2288//0088//22002244 1177::0022::5555
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) B C D E 2º DIA • CADERNO 5 • AMARELO 15 2288//0088//22002244 1177::0022::
+B) B) C D E 2º DIA • CADERNO 5 • AMARELO 15 2288//0088//22002244 1177::0022::
+C) C) D E 2º DIA • CADERNO 5 • AMARELO 15 2288//0088//22002244 1177::0022::
+D) D) E 2º DIA • CADERNO 5 • AMARELO 15 2288//0088//22002244 1177::0022::
+E) E) 2º DIA • CADERNO 5 • AMARELO 15 2288//0088//22002244 1177::0022::
+
+
+====================================================================================================
+QUESTÃO 44: Q136 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: b75ef0af-0064-46a1-a1fe-bc2b582e581b
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma empresa produz mochilas escolares sob encomenda. Essa empresa tem um custo total de produção, composto por um custo fixo, que não depende do número de mochilas, mais um custo variável, que é proporcional ao número de mochilas produzidas. O custo total cresce de forma linear, e a tabela apresenta esse custo para três quantidades de mochilas produzidas. Quantidade de 30 50 100 mochilas Custo total (R$) 1 050,00 1 650,00 3 150,00 O custo total, em real, para a produção de 80 mochilas será A 2 400,00. B 2 520,00. C 2 550,00. D 2 700,00. E 2 800,00.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 2 400,00.
+B) B) 2 520,00.
+C) C) 2 550,00.
+D) D) 2 700,00.
+E) E) 2 800,00.
+
+
+====================================================================================================
+QUESTÃO 45: Q137 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 4a5d7bc3-8daf-4247-ab5b-c2828239fff6
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A umidade relativa do ar é um dos indicadores utilizados na meteorologia para fazer previsões sobre o clima. O quadro apresenta as médias mensais, em porcentagem, da umidade relativa do ar em um período de seis meses consecutivos em uma cidade. Meses Maio Jun. Jul. Ago. Set. Out. Média mensal da umidade relativa 66 64 54 46 60 64 do ar (%) Nessa cidade, a mediana desses dados, em porcentagem, da umidade relativa do ar no período considerado foi A 56. B 58. C 59. D 60. E 62.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) umidade relativa do ar é um dos indicadores utilizados na meteorologia para fazer previsões sobre o clima. O quadro apresenta as médias mensais, em porcentagem, da umidade relativa do ar em um período de seis meses consecutivos em uma cidade. Meses Maio Jun. Jul. Ago. Set. Out. Média mensal da umidade relativa 66 64 54 46 60 64 do ar (%) Nessa cidade, a mediana desses dados, em porcentagem, da umidade relativa do ar no período considerado foi
+B) B) 58.
+C) C) 59.
+D) D) 60.
+E) E) 62.
+
+
+====================================================================================================
+QUESTÃO 46: Q138 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 8f9849b8-7cb9-4d73-99df-fa27ce770099
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma empresa de engenharia foi contratada para realizar um serviço no valor de R$ 71 250,00. Os sócios da empresa decidiram que 40% desse valor seria destinado ao pagamento de três engenheiros que gerenciaram o serviço. O pagamento para cada um deles será feito de forma diretamente proporcional ao total de horas trabalhadas. O número de dias e o número de horas diárias trabalhadas pelos engenheiros foram, respectivamente: • engenheiro I: 4 dias, numa jornada de 5 horas e meia por dia; • engenheiro II: 5 dias, numa jornada de 4 horas por dia; • engenheiro III: 6 dias, numa jornada de 2 horas e meia por dia. Qual a maior diferença, em real, entre os valores recebidos por esse serviço entre dois desses engenheiros? A 1 000 B 1 500 C 3 500 D 3 800 E 5 250
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 1 000
+B) B) 1 500
+C) C) 3 500
+D) D) 3 800
+E) E) 5 250
+
+
+====================================================================================================
+QUESTÃO 47: Q139 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 240600d6-0a21-42cf-9240-1481ef08c4b1
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um hospital tem 7 médicos cardiologistas e 6 médicos neurologistas em seu quadro de funcionários. Para executar determinada atividade, a direção desse hospital formará uma equipe com 5 médicos, sendo, pelo menos, 3 cardiologistas. A expressão numérica que representa o número máximo de maneiras distintas de formar essa equipe é 7! 6! A × 4! 4! 7! 6! B × 3!×4! 2!×4! 7! 6! 5! C (cid:30) (cid:30) 3!(cid:31)4! 2!(cid:31)4! 1!(cid:31)4! (cid:29) 7! 6! (cid:26) (cid:29) 7! 6! (cid:26) (cid:29) 7! 6! (cid:26) D (cid:27) (cid:30) (cid:24)(cid:31)(cid:27) (cid:30) (cid:24)(cid:31)(cid:27) (cid:30) (cid:24) (cid:28)3!(cid:31)4! 2!(cid:31)4!(cid:25) (cid:28)4!(cid:31)3! 1!(cid:31)5!(cid:25) (cid:28)5!(cid:31)2! 0!(cid:31)6!!(cid:25) (cid:30) 7! 6! (cid:27) (cid:30) 7! 6! (cid:27) (cid:30) 7! 6! (cid:27) E (cid:28) (cid:31) (cid:25)(cid:24)(cid:28) (cid:31) (cid:25)(cid:24)(cid:28) (cid:31) (cid:25) (cid:29)3!(cid:31)4! 2!(cid:31)4!(cid:26) (cid:29)4!(cid:31)3! 1!(cid:31)5!(cid:26) (cid:29)5!(cid:31)2! 0!(cid:31)6!!(cid:26) S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::3300
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) expressão numérica que representa o número máximo de maneiras distintas de formar essa equipe é 7! 6! A × 4! 4! 7! 6! B × 3!×4! 2!×4! 7! 6! 5!
+B) B) × 3!×4! 2!×4! 7! 6! 5!
+C) C) (cid:30) (cid:30) 3!(cid:31)4! 2!(cid:31)4! 1!(cid:31)4! (cid:29) 7! 6! (cid:26) (cid:29) 7! 6! (cid:26) (cid:29) 7! 6! (cid:26)
+D) D) (cid:27) (cid:30) (cid:24)(cid:31)(cid:27) (cid:30) (cid:24)(cid:31)(cid:27) (cid:30) (cid:24) (cid:28)3!(cid:31)4! 2!(cid:31)4!(cid:25) (cid:28)4!(cid:31)3! 1!(cid:31)5!(cid:25) (cid:28)5!(cid:31)2! 0!(cid:31)6!!(cid:25) (cid:30) 7! 6! (cid:27) (cid:30) 7! 6! (cid:27) (cid:30) 7! 6! (cid:27)
+E) E) (cid:28) (cid:31) (cid:25)(cid:24)(cid:28) (cid:31) (cid:25)(cid:24)(cid:28) (cid:31) (cid:25) (cid:29)3!(cid:31)4! 2!(cid:31)4!(cid:26) (cid:29)4!(cid:31)3! 1!(cid:31)5!(cid:26) (cid:29)5!(cid:31)2! 0!(cid:31)6!!(cid:26) S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::3300
+
+
+====================================================================================================
+QUESTÃO 48: Q140 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 1b0ae356-4085-400c-97f8-387e91203782
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Para melhorar o fluxo de ônibus em uma avenida que tem dois semáforos, a prefeitura reduzirá o tempo em que cada sinal ficará vermelho, que atualmente é de 15 segundos a cada 60 segundos. Admita que o instante de chegada de um ônibus a cada semáforo é aleatório. O engenheiro de tráfego da prefeitura calculou a probabilidade de um ônibus encontrar cada um deles 15 vermelho, obtendo . A partir daí, estabeleceu uma 60 mesma redução na quantidade do tempo, em segundo, em que cada sinal ficará vermelho, de maneira que a probabilidade de um ônibus encontrar ambos os 4 sinais vermelhos numa mesma viagem seja igual a , 100 considerando os eventos independentes. Para isso, a redução do tempo em que o sinal ficará vermelho, em segundo, estabelecida pelo engenheiro foi de A 1,35. B 3,00. C 9,00. D 12,60. E 13,80.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) partir daí, estabeleceu uma 60 mesma redução na quantidade do tempo, em segundo, em que cada sinal ficará vermelho, de maneira que a probabilidade de um ônibus encontrar ambos os 4 sinais vermelhos numa mesma viagem seja igual a , 100 considerando os eventos independentes. Para isso, a redução do tempo em que o sinal ficará vermelho, em segundo, estabelecida pelo engenheiro foi de
+B) B) 3,00.
+C) C) 9,00.
+D) D) 12,60.
+E) E) 13,80.
+
+
+====================================================================================================
+QUESTÃO 49: Q141 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 9e0b57e5-6722-438c-a7d4-025f7f552c40
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A densidade demográfica de uma região é definida como sendo a razão entre o número de habitantes dessa região e sua área, expressa na unidade habitantes por quilômetro quadrado. Uma região R é subdividida em várias outras, sendo uma delas a região Q. A área de Q é igual a três quartos da área de R, e o número de habitantes de Q é igual à metade do número de habitantes de R. As densidades demográficas correspondentes a essas regiões são denotadas por d(Q) e d(R). A expressão que relaciona d(Q) e d(R) é 1 A d(cid:31)Q(cid:30)(cid:29) d(cid:31)R(cid:30) 4 1 B d(cid:31)Q(cid:30)(cid:29) d(cid:31)R(cid:30) 2 3 C d(cid:31)Q(cid:30)(cid:29) d(cid:31)R(cid:30) 4 3 D d(cid:31)Q(cid:30)(cid:29) d(cid:31)R(cid:30) 2 2 E d(cid:31)Q(cid:30)(cid:29) d(cid:31)R(cid:30) 3 •
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) densidade demográfica de uma região é definida como sendo a razão entre o número de habitantes dessa região e sua área, expressa na unidade habitantes por quilômetro quadrado. Uma região R é subdividida em várias outras, sendo uma delas a região
+B) B) d(cid:31)Q(cid:30)(cid:29) d(cid:31)R(cid:30) 2
+C) C) d(cid:31)Q(cid:30)(cid:29) d(cid:31)R(cid:30) 4
+D) D) [Alternative not found]
+E) E) d(cid:31)Q(cid:30)(cid:29) d(cid:31)R(cid:30) 3 •
+
+
+====================================================================================================
+QUESTÃO 50: Q142 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 7e08e5ca-b0e8-497f-807a-b7a25cd9262b
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Atualmente, há telefones celulares com telas de diversos tamanhos e em formatos retangulares. Alguns 1 deles apresentam telas medindo 3 polegadas, com 2 determinadas especificações técnicas. Além disso, em muitos modelos, com a inclusão de novas funções no celular, suas telas ficaram maiores, sendo muito comum 5 encontrarmos atualmente telas medindo 4 polegadas, 6 conforme a figura. Disponível em: www.tecmundo.com.br. Acesso em: 5 nov. 2014 (adaptado). A diferença de tamanho, em valor absoluto, entre as medidas, em polegada, das telas do celular 2 e do celular 1, representada apenas com uma casa decimal, é A 0,1. B 0,5. C 1,0. D 1,3. E 1,8. DERNO 5 • AMARELO 17 2233//0088//22002244 1177::5566::3333
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) diferença de tamanho, em valor absoluto, entre as medidas, em polegada, das telas do celular 2 e do celular 1, representada apenas com uma casa decimal, é
+B) B) 0,5.
+C) C) 1,0.
+D) D) 1,3.
+E) E) 1,8. DERNO 5 • AMARELO 17 2233//0088//22002244 1177::5566::
+
+
+====================================================================================================
+QUESTÃO 51: Q143 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 125ffdb2-b6d0-4e8a-83a2-beaabb0220b6
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma imobiliária iniciou uma campanha de divulgação para promover a venda de apartamentos que podem ser pagos em 100 parcelas mensais. O valor da primeira delas é fixado no momento da compra, com o pagamento dessa primeira parcela. A partir da segunda parcela, o valor é determinado pela aplicação de um acréscimo percentual fixo ao valor da parcela anterior. Como atrativo, a imobiliária fará o pagamento de todas as parcelas correspondentes ao mês de aniversário do comprador. Um cliente, que faz aniversário no mês de maio, decidiu comprar um desses apartamentos por meio do financiamento oferecido pela imobiliária, e pretende escolher o mês mais adequado para realizar essa compra, de modo que o valor total dos pagamentos seja o menor possível. Qual é o mês que esse cliente deverá escolher para realizar a compra do apartamento? A Fevereiro. B Abril. C Maio. D Junho. E Agosto.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) partir da segunda parcela, o valor é determinado pela aplicação de um acréscimo percentual fixo ao valor da parcela anterior. Como atrativo, a imobiliária fará o pagamento de todas as parcelas correspondentes ao mês de aniversário do comprador. Um cliente, que faz aniversário no mês de maio, decidiu comprar um desses apartamentos por meio do financiamento oferecido pela imobiliária, e pretende escolher o mês mais adequado para realizar essa compra, de modo que o valor total dos pagamentos seja o menor possível. Qual é o mês que esse cliente deverá escolher para realizar a compra do apartamento?
+B) B) Abril.
+C) C) Maio.
+D) D) Junho.
+E) E) Agosto.
+
+
+====================================================================================================
+QUESTÃO 52: Q144 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: b5058400-fb1b-4a72-b45f-6baf5be46358
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um sistema de polias circulares e correias é um dos mecanismos responsáveis pela transmissão de movimento em máquinas rotativas. O manual de um motor traz uma figura representando um sistema composto por duas polias e uma correia de transmissão, tensionada e perfeitamente ajustada sobre as polias, de modo a não apresentar folgas nos contatos com as polias. Considere que as partes dessa correia que não ficam em contato com as polias são representadas por segmentos de reta tangentes às polias. Para substituição dessa correia, é necessária a especificação de seu comprimento. Considere 3 como valor aproximado para π. A medida do comprimento dessa correia, em centímetro, é A 54. B 60. C 66. D 68. E 72.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) medida do comprimento dessa correia, em centímetro, é
+B) B) 60.
+C) C) 66.
+D) D) 68.
+E) E) 72.
+
+
+====================================================================================================
+QUESTÃO 53: Q145 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 4b35622c-44cb-4ea2-97b9-cb275b5538de
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A prefeitura de uma cidade planeja construir três postos de saúde. Esses postos devem ser construídos em locais equidistantes entre si e de forma que as distâncias desses três postos ao hospital dessa cidade sejam iguais. Foram conseguidos três locais para a construção dos postos de saúde que apresentam as características desejadas, e que distam 10 km entre si, conforme o esquema, no qual o ponto H representa o local onde está construído o hospital; os pontos P , P e P , os postos de saúde; e esses quatro 1 2 3 pontos estão em um mesmo plano. A distância, em quilômetro, entre o hospital e cada um dos postos de saúde, é um valor entre A 2 e 3. B 4 e 5. C 5 e 6. D 7 e 8. E 8 e 9. S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::3333
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 2 e 3.
+B) B) 4 e 5.
+C) C) 5 e 6.
+D) D) 7 e 8.
+E) E) [Alternative not found]
+
+
+====================================================================================================
+QUESTÃO 54: Q146 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: d549c23b-deb0-40f0-b500-281c1f9280a7
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Projetistas de uma fábrica de amortecedores realizara semelhantes ao comportamento do gráfico de uma senoid duração de 20 minutos, sendo os 9 primeiros minutos em su restantes em superfície que simula uma estrada de chão. Para os amortecedores serem aprovados no experimen cada tipo de superfície, sejam constantes e, ainda, que a am do que sua amplitude da oscilação na estrada de chão. O tipo de gráfico que descreve o comportamento oscilatóri A B C •
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) B C •
+B) B) C •
+C) C) •
+D) D) [Alternative not found]
+E) E) [Alternative not found]
+
+
+====================================================================================================
+QUESTÃO 55: Q147 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: d1405054-5540-4930-a072-da6fd39a7682
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um jardineiro dispõe de k metros lineares de cerca ba por essa cerca, deve ter a forma de um triângulo equiláte pela forma que resulte na maior área. O jardineiro escolherá a forma de A hexágono regular, pois a área do jardim, em metro quad B hexágono regular, pois a área do jardim, em metro quad C quadrado, pois a área do jardim, em metro quadrado, se D triângulo equilátero, pois a área do jardim, em metro qua E triângulo equilátero, pois a área do jardim, em metro qua
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) hexágono regular, pois a área do jardim, em metro quad
+B) B) [Alternative not found]
+C) C) quadrado, pois a área do jardim, em metro quadrado, se
+D) D) triângulo equilátero, pois a área do jardim, em metro qua
+E) E) [Alternative not found]
+
+
+====================================================================================================
+QUESTÃO 56: Q148 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 752fade0-0b15-4828-83fd-cae919cb947e
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um aeroporto disponibiliza o serviço de transporte gratu partem simultaneamente, de hora em hora, de terminais di e o percurso total dos ônibus, de um terminal ao outro, é m diferentes partes do trecho, conforme o esquema. O alcance de cada uma das cinco câmeras é: 1 • câmera I: do percurso; 5 3 • câmera II: do percurso; 10 1 • câmera III: do percurso; 10 1 • câmera IV: do percurso; 10 3 • câmera V: do percurso. 10 Em determinado horário, o ônibus A parte do terminal 250 m/min; enquanto o ônibus B, que parte do terminal 2, rea Qual câmera registra o momento em que os ônibus A e B s A I B II C III D IV E V
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) parte do terminal 250 m/min; enquanto o ônibus B, que parte do terminal 2, rea Qual câmera registra o momento em que os ônibus A e B s A I B
+B) B) s A I B
+C) C) III D IV E
+D) D) IV E
+E) E) [Alternative not found]
+
+
+====================================================================================================
+QUESTÃO 57: Q149 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 49816f94-0a5c-492f-a35f-6b4153513eae
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+A criptografia refere-se à construção e análise de protoc Júlio César, imperador romano, utilizava um código para p se a mensagem caísse em mãos inimigas, a informação nã alfabeto era substituída pela letra três posições à frente, o pelo “F”, e assim sucessivamente. A B C D E F G H I J K L M N O P Q R S A B C D E F G H I J K L M N O P Qualquer código que tenha um padrão de substituição d ou um Código de César. Note que, para decifrar uma Cifra d pois isso define todas as demais substituições a serem feit Uma mensagem, em um alfabeto de 26 letras, foi codific de se descobrir, aleatoriamente, o padrão utilizado nessa cod nas tentativas seguintes. A probabilidade de se descobrir o padrão dessa Cifra de C 1 1 1 A + + 25 25 25 24 23 1 B + + 25 24 23 1 1 1 C × × 25 24 23 24 23 1 D × × 25 25 25 24 23 1 E × × 25 24
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) criptografia refere-se à construção e análise de protoc Júlio César, imperador romano, utilizava um código para p se a mensagem caísse em mãos inimigas, a informação nã alfabeto era substituída pela letra três posições à frente, o pelo “F”, e assim sucessivamente. A B C D E F G H I J K L M N O P Q R S A B C D E F G H I J K L M N O P Qualquer código que tenha um padrão de substituição d ou um Código de César. Note que, para decifrar uma Cifra d pois isso define todas as demais substituições a serem feit Uma mensagem, em um alfabeto de 26 letras, foi codific de se descobrir, aleatoriamente, o padrão utilizado nessa cod nas tentativas seguintes.
+B) B) C D E F G H I J K L M N O P Q R S A B C D E F G H I J K L M N O P Qualquer código que tenha um padrão de substituição d ou um Código de César. Note que, para decifrar uma Cifra d pois isso define todas as demais substituições a serem feit Uma mensagem, em um alfabeto de 26 letras, foi codific de se descobrir, aleatoriamente, o padrão utilizado nessa cod nas tentativas seguintes.
+C) C) D E F G H I J K L M N O P Q R S A B C D E F G H I J K L M N O P Qualquer código que tenha um padrão de substituição d ou um Código de César. Note que, para decifrar uma Cifra d pois isso define todas as demais substituições a serem feit Uma mensagem, em um alfabeto de 26 letras, foi codific de se descobrir, aleatoriamente, o padrão utilizado nessa cod nas tentativas seguintes.
+D) D) E F G H I J K L M N O P Q R S A B C D E F G H I J K L M N O P Qualquer código que tenha um padrão de substituição d ou um Código de César. Note que, para decifrar uma Cifra d pois isso define todas as demais substituições a serem feit Uma mensagem, em um alfabeto de 26 letras, foi codific de se descobrir, aleatoriamente, o padrão utilizado nessa cod nas tentativas seguintes.
+E) E) F G H I J K L M N O P Q R S A B C D E F G H I J K L M N O P Qualquer código que tenha um padrão de substituição d ou um Código de César. Note que, para decifrar uma Cifra d pois isso define todas as demais substituições a serem feit Uma mensagem, em um alfabeto de 26 letras, foi codific de se descobrir, aleatoriamente, o padrão utilizado nessa cod nas tentativas seguintes.
+
+
+====================================================================================================
+QUESTÃO 58: Q150 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 20b77e0e-9e52-4f72-8c97-25ec2c546e18
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Em uma região com grande incidência de terremotos, magnitudes M e M , medidos segundo a escala Richter, e l 1 2 os estudiosos do assunto, é conhecida uma expressão alg 2 M (cid:31)M (cid:30) 2 1 3 Estudos mais abrangentes observaram que o primeiro liberada foi um décimo da observada no segundo terremot O valor aproximado da magnitude M do segundo terremot 2 A 5,4. B 6,2. C 7,6. D 8,2. E 8,4. •
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 5,4.
+B) B) 6,2.
+C) C) 7,6.
+D) D) 8,2.
+E) E) 8,4. •
+
+
+====================================================================================================
+QUESTÃO 59: Q151 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: b47bc6eb-86bd-49a5-9ec6-f25124017ff4
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma indústria faz uma parceria com uma distribuidora de sucos para lançar no mercado dois tipos de embalagens. Para a fabricação dessas embalagens, a indústria dispõe de folhas de alumínio retangulares, de dimensões 10 cm por 20 cm. Cada uma dessas folhas é utilizada para formar a superfície lateral da embalagem, em formato de cilindro circular reto, que posteriormente recebe fundo e tampa circulares. A figura ilustra, dependendo de qual das duas extensões será utilizada como altura, as duas opções para formar a possível embalagem. Dentre essas duas embalagens, a de maior capacidade apresentará volume, em centímetro cúbico, igual a A 4 000 π B 2 000 π 4000 C π 1000 D π 500 E π
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 4 000 π
+B) B) [Alternative not found]
+C) C) π 1000
+D) D) π 500
+E) E) π
+
+
+====================================================================================================
+QUESTÃO 60: Q152 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 399c83e2-eb34-4817-b801-01380047e7f2
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+As receitas anuais obtidas por uma indústria no período de 2014 a 2021, em milhão de reais, foram registradas, por pontos, em um gráfico. Nele, também está representada a reta que descreve a tendência de evolução das receitas. Essa reta pode ser utilizada para estimar as receitas dos anos seguintes. A estimativa da receita, em milhão de reais, dessa indústria, para o ano de 2026, obtida a partir dessa reta de tendência, é A 7. B 8. C 9. D 10. E 11. S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::3388
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) estimativa da receita, em milhão de reais, dessa indústria, para o ano de 2026, obtida a partir dessa reta de tendência, é A 7. B 8. C 9.
+B) B) 8. C 9.
+C) C) 9.
+D) D) 10.
+E) E) 11. S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::3388
+
+
+====================================================================================================
+QUESTÃO 61: Q153 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 0276c64e-63d8-4a01-befc-29ba5a776608
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um tanque, em formato de paralelepípedo reto retângu sua base e em duas paredes opostas, sendo perpendicula Esses anteparos, de espessuras desprezíveis, estão retângulos congruentes, tendo suas alturas iguais à metade por uma entrada situada no teto, através de um duto que 12 horas para finalizar o seu enchimento. O gráfico que descreve, em cada instante, a maior altura de ao longo do enchimento do tanque, é A B C •
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) B C •
+B) B) C •
+C) C) •
+D) D) [Alternative not found]
+E) E) [Alternative not found]
+
+
+====================================================================================================
+QUESTÃO 62: Q154 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: d1cd30c2-c33b-479b-95f7-146ad89f0b71
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Contratos de vários serviços disponíveis na internet apresentam uma quantidade excessiva de informações. Isso faz com que o tempo necessário para a leitura desses contratos possa ser longo. O quadro apresenta uma amostra do tempo considerado necessário para a leitura completa do contrato de alguns serviços digitais. Tipo de Tempo necessário para a leitura serviço completa do contrato (em minuto) A 36 B 17 C 27 D 13 E 13 F 13 ROMERO, L. Não li e concordo. Superinteressante, n. 307, ago. 2012 (adaptado). O tempo médio, em minuto, necessário para a leitura completa de um contrato de serviço dentre os listados no quadro é, com uma casa decimal, aproximadamente, A 13,0. B 15,0. C 19,8. D 20,0. E 23,3.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 36 B 17 C 27 D 13 E 13 F 13 ROMERO, L. Não li e concordo. Superinteressante, n. 307, ago. 2012 (adaptado). O tempo médio, em minuto, necessário para a leitura completa de um contrato de serviço dentre os listados no quadro é, com uma casa decimal, aproximadamente,
+B) B) 17 C 27 D 13 E 13 F 13 ROMERO, L. Não li e concordo. Superinteressante, n. 307, ago. 2012 (adaptado). O tempo médio, em minuto, necessário para a leitura completa de um contrato de serviço dentre os listados no quadro é, com uma casa decimal, aproximadamente,
+C) C) 27 D 13 E 13 F 13 ROMERO, L. Não li e concordo. Superinteressante, n. 307, ago. 2012 (adaptado). O tempo médio, em minuto, necessário para a leitura completa de um contrato de serviço dentre os listados no quadro é, com uma casa decimal, aproximadamente,
+D) D) 13 E 13 F 13 ROMERO, L. Não li e concordo. Superinteressante, n. 307, ago. 2012 (adaptado). O tempo médio, em minuto, necessário para a leitura completa de um contrato de serviço dentre os listados no quadro é, com uma casa decimal, aproximadamente,
+E) E) 13 F 13 ROMERO, L. Não li e concordo. Superinteressante, n. 307, ago. 2012 (adaptado). O tempo médio, em minuto, necessário para a leitura completa de um contrato de serviço dentre os listados no quadro é, com uma casa decimal, aproximadamente,
+
+
+====================================================================================================
+QUESTÃO 63: Q156 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 78099f02-9f60-4fe2-a0dc-1d6d2dff7573
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O uso de aplicativos de transporte tem sido uma alternativa à população que busca preços mais competitivos para se locomover, principalmente nas grandes cidades. As formas usadas para determinar o valor cobrado por cada viagem variam de um aplicativo para outro, mas, em geral, o valor V a ser pago, em real, varia em função de: • tarifa base F: valor fixo, em real, cobrado no início da viagem; • tempo T: tempo, em minuto, de duração da viagem; • distância D: distância percorrida, em quilômetro. Um desses aplicativos cobra R$ 2,00 de valor fixo, acrescido de R$ 0,26 por minuto de viagem e de R$ 1,40 por quilômetro rodado. Nessas condições, a expressão que fornece o valor V a ser pago por uma viagem desse aplicativo é A 2,00F + 0,26T + 1,40D B 2,00 + 0,26T + 1,40D C 2,00 + 0,26T + D D 0,26T + 1,40D E F + T + D S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::3388
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 2,00F + 0,26T + 1,40D
+B) B) 2,00 + 0,26T + 1,40D
+C) C) 2,00 + 0,26T +
+D) D) 0,26T + 1,40D E F + T + D S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::3388
+E) E) F + T + D S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::3388
+
+
+====================================================================================================
+QUESTÃO 64: Q157 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 53f000c8-9ef9-4e7e-be02-eb4b5c7aaf94
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma piscina tem capacidade de 2 500 000 litros. Seu sistema de abastecimento foi regulado para ter uma vazão constante de 6 000 litros de água por minuto. O mesmo sistema foi instalado em uma segunda piscina, com capacidade de 2 750 000 litros, e regulado para ter uma vazão, também constante, capaz de enchê-la em um tempo 20% maior que o gasto para encher a primeira piscina. A vazão do sistema de abastecimento da segunda piscina, em litro por minuto, é A 8 250. B 7 920. C 6 545. D 5 500. E 5 280.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 8 250.
+B) B) 7 920.
+C) C) 6 545.
+D) D) 5 500.
+E) E) 5 280.
+
+
+====================================================================================================
+QUESTÃO 65: Q158 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 124e5ddf-3957-46ab-8fc4-ed92956fd99d
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma tubulação despeja sempre o mesmo volume de água por unidade de tempo em uma caixa-d’água, o que significa dizer que a vazão de água nessa tubulação é constante. Na junção dessa tubulação com a caixa-d’água, está instalada uma membrana de filtragem cujo objetivo é filtrar eventuais impurezas presentes na água, combinado a um bom fluxo de água. O fluxo (φ) de água através da superfície da membrana é diretamente proporcional à vazão de água na tubulação, medida em mililitro por segundo, e inversamente proporcional à área da superfície da membrana, medida em centímetro quadrado. A unidade de medida adequada para descrever o fluxo (φ) de água que atravessa a superfície da membrana é A mL⋅s⋅cm2 mL B ⋅cm2 s mL C cm2⋅s cm2⋅s D mL cm2 E mL⋅s •
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) mL⋅s⋅cm2 mL
+B) B) ⋅cm2 s mL
+C) C) cm2⋅s cm2⋅s
+D) D) mL cm2
+E) E) mL⋅s •
+
+
+====================================================================================================
+QUESTÃO 66: Q159 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: b1b7f866-37c5-4f38-878a-43d70ae6ec30
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Em uma loja de defensivos agrícolas, os preços de alguns produtos foram divulgados em um cartaz. Sabe-se que 1 litro de defensivo do Tipo A é suficiente para aplicação em 0,5 hectare (ha), enquanto que 1 litro de defensivo do Tipo B é suficiente para aplicação em 0,4 ha. Um agricultor precisa comprar, nessa loja, uma quantidade de litros de defensivo suficiente para aplicar em uma área de 20 ha, além de levar uma máscara para aplicação. O valor mínimo, em real, a ser gasto pelo agricultor é A 147,00. B 150,00. C 162,50. D 165,75. E 168,00.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) é suficiente para aplicação em 0,5 hectare (ha), enquanto que 1 litro de defensivo do Tipo B é suficiente para aplicação em 0,4 ha. Um agricultor precisa comprar, nessa loja, uma quantidade de litros de defensivo suficiente para aplicar em uma área de 20 ha, além de levar uma máscara para aplicação. O valor mínimo, em real, a ser gasto pelo agricultor é
+B) B) é suficiente para aplicação em 0,4 ha. Um agricultor precisa comprar, nessa loja, uma quantidade de litros de defensivo suficiente para aplicar em uma área de 20 ha, além de levar uma máscara para aplicação. O valor mínimo, em real, a ser gasto pelo agricultor é
+C) C) 162,50.
+D) D) 165,75.
+E) E) 168,00.
+
+
+====================================================================================================
+QUESTÃO 67: Q160 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 16659929-a9ec-4f67-bef2-a240b95092d6
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma doceira vende e entrega, em seu bairro, porções de 100 g de docinhos de aniversário. Atualmente, a taxa única de entrega é R$ 10,00, e o valor cobrado por uma porção é R$ 25,00. Por uma estratégia de vendas, a partir da próxima semana, a taxa única de entrega será R$ 15,00, e um novo valor será cobrado por uma porção, de maneira que o valor total a ser pago por um cliente na compra de 5 porções permaneça o mesmo. A partir da próxima semana, qual será o novo valor cobrado, em real, por uma porção? A 12,50 B 20,00 C 24,00 D 30,00 E 37,50 DERNO 5 • AMARELO 25 2288//0088//22002244 1177::0044::1155
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) partir da próxima semana, qual será o novo valor cobrado, em real, por uma porção?
+B) B) 20,00
+C) C) 24,00
+D) D) 30,00
+E) E) 37,50 DERNO 5 • AMARELO 25 2288//0088//22002244 1177::0044::1155
+
+
+====================================================================================================
+QUESTÃO 68: Q161 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: a52c03cb-33de-4149-bd1a-d5e3178083a9
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma empresa tem 400 funcionários, distribuídos em três setores: administrativo, logística e produção. O gráfico apresenta a distribuição quantitativa desses funcionários, por setor e por faixa etária. Uma viagem de férias será sorteada entre esses funcionários, de forma que todos terão igual probabilidade de serem sorteados. A maior probabilidade é que o funcionário sorteado esteja na faixa etária A entre 25 e 45 anos, pois é a faixa etária com maior quantidade de funcionários. B entre 25 e 45 anos, pois é a única faixa etária cujas porcentagens são maiores do que as porcentagens mínimas de cada setor. C até 25 anos, pois é a única faixa etária cujos percentuais associados aos setores aumentam com o aumento da quantidade de funcionários por setor. D até 25 anos, pois é a faixa etária que apresenta maior quantidade de funcionários no setor de produção, que é o setor que emprega metade dos funcionários dessa empresa. E a partir de 45 anos, pois a soma das porcentagens associadas a essa faixa etária é 110%, que é maior do que as respectivas somas associadas às outras faixas etárias, que são 105% e 85%.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) maior probabilidade é que o funcionário sorteado esteja na faixa etária
+B) B) entre 25 e 45 anos, pois é a única faixa etária cujas porcentagens são maiores do que as porcentagens mínimas de cada setor.
+C) C) até 25 anos, pois é a única faixa etária cujos percentuais associados aos setores aumentam com o aumento da quantidade de funcionários por setor.
+D) D) até 25 anos, pois é a faixa etária que apresenta maior quantidade de funcionários no setor de produção, que é o setor que emprega metade dos funcionários dessa empresa. E a partir de 45 anos, pois a soma das porcentagens associadas a essa faixa etária é 110%, que é maior do que as respectivas somas associadas às outras faixas etárias, que são 105% e 85%.
+E) E) a partir de 45 anos, pois a soma das porcentagens associadas a essa faixa etária é 110%, que é maior do que as respectivas somas associadas às outras faixas etárias, que são 105% e 85%.
+
+
+====================================================================================================
+QUESTÃO 69: Q162 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: da0e7b5f-fc94-4db9-af89-938b49edfcf4
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Em um jogo virtual para celular, um personagem pode percorrer trajetórias retilíneas voando ou se deslocando ao longo de paredes. Considere que o personagem descreve a trajetória ABCDEF, em que os pontos A, D e E estão em um plano paralelo ao que contém os pontos B e C, sendo esses dois planos ortogonais ao plano da base que contém o ponto F, conforme a figura. A projeção ortogonal, sobre o plano da base, da trajetória ABCDEF descrita pelo personagem é A D B E C S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::4411
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) projeção ortogonal, sobre o plano da base, da trajetória ABCDEF descrita pelo personagem é A D B E C S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::4411
+B) B) e C, sendo esses dois planos ortogonais ao plano da base que contém o ponto F, conforme a figura.
+C) C) S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::4411
+D) D) B E C S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::4411
+E) E) estão em um plano paralelo ao que contém os pontos B e C, sendo esses dois planos ortogonais ao plano da base que contém o ponto F, conforme a figura.
+
+
+====================================================================================================
+QUESTÃO 70: Q163 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: defd3f68-8276-4f32-9d7e-9fb91c30a170
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O tamanho mínimo que a visão humana é capaz de visualizar sem o uso de equipamento auxiliar é equivalente a 100 micrômetros (1 micrômetro = 10−3 milímetros). Uma estudante pretende visualizar e analisar hemácias do sangue humano, que medem 0,007 mm de diâmetro. Ela adquiriu um microscópio óptico que tem uma lente ocular que amplia em 10 vezes a imagem do objeto em observação, e um conjunto de lentes objetivas com estas capacidades de ampliação: • lente I: 2 vezes; • lente II: 10 vezes; • lente III: 15 vezes; • lente IV: 1,1 vez; • lente V: 1,4 vez. O funcionamento desse microscópio permite o uso da lente ocular sozinha ou a combinação dela com uma de suas lentes objetivas, proporcionando, nesse caso, um aumento de sua capacidade de ampliação final, que é dada pelo produto entre as capacidades de ampliação da ocular e da objetiva. Essa estudante pretende selecionar a lente objetiva de menor capacidade de ampliação que permita, na combinação com a ocular, visualizar hemácias do sangue humano. A lente objetiva a ser selecionada pela estudante é a A I. B II. C III. D IV. E V. •
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) lente objetiva a ser selecionada pela estudante é a A
+B) B) II.
+C) C) III.
+D) D) IV. E V. •
+E) E) V. •
+
+
+====================================================================================================
+QUESTÃO 71: Q164 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 1120d8dc-e1ab-42ae-a438-c949192f8e06
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Ao calcular a média de suas notas em 4 provas, um estudante dividiu, por engano, a soma das notas por 5. Com isso, a média obtida foi 1 unidade menor do que deveria ser, caso fosse calculada corretamente. O valor correto da média das notas desse estudante é A 4. B 5. C 6. D 19. E 21.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 4. B 5. C 6.
+B) B) 5. C 6.
+C) C) 6.
+D) D) 19.
+E) E) 21.
+
+
+====================================================================================================
+QUESTÃO 72: Q165 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 6f7c97f5-a99d-48e5-b20b-c4abd3363aa1
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Para abrir a porta de uma empresa, cada funcionário deve cadastrar uma senha utilizando um teclado alfanumérico como o representado na figura. Por exemplo: a tecla que contém o número 2 traz as letras correlacionadas A, B e C. Cada toque nessa tecla mostra, sequencialmente, os seguintes caracteres: 2, A, B e C. Para os próximos toques, essa sequência se repete. As demais teclas funcionam da mesma maneira. As senhas a serem cadastradas pelos funcionários devem conter 5 caracteres, sendo 2 algarismos distintos seguidos de 3 letras diferentes, nessa ordem. Um funcionário irá cadastrar a sua primeira senha, podendo escolher entre as teclas que apresentam os números 1, 2, 5, 7 e 0 e as respectivas letras correlacionadas, quando houver. O número de possibilidades diferentes que esse funcionário tem para cadastrar sua senha é A 11 520. B 14 400. C 18 000. D 312 000. E 390 000. DERNO 5 • AMARELO 27 2233//0088//22002244 1177::5566::4422
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 11 520.
+B) B) 14 400.
+C) C) 18 000.
+D) D) 312 000.
+E) E) [Alternative not found]
+
+
+====================================================================================================
+QUESTÃO 73: Q166 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 20a51ba9-4e7c-42ca-b892-cfee94f9e1bb
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um artesão utiliza dois tipos de componentes, X e Y, nos enfeites que produz. Ele sempre compra todos os componentes em uma mesma loja. O quadro apresenta os preços dos dois tipos de componentes nas lojas I e II. Preços dos componentes (R$) Lojas X Y I 3,00 1,00 II 2,00 4,00 Ele confeccionará enfeites formados por duas unidades do componente X e uma unidade do componente Y e efetuará a compra na loja que oferecer o menor valor total para a confecção de um enfeite. O artesão efetuará a compra na loja A I, pois o valor é R$ 7,00. B I, pois o valor é R$ 4,00. C II, pois o valor é R$ 6,00. D I, pois anuncia o componente com o menor preço. E II, pois o componente X, que é o mais utilizado, tem menor preço.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) I, pois o valor é R$ 7,00. B I, pois o valor é R$ 4,00.
+B) B) I, pois o valor é R$ 4,00.
+C) C) II, pois o valor é R$ 6,00. D I, pois anuncia o componente com o menor preço.
+D) D) I, pois anuncia o componente com o menor preço.
+E) E) II, pois o componente X, que é o mais utilizado, tem menor preço.
+
+
+====================================================================================================
+QUESTÃO 74: Q168 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: e852bbb9-fcee-4c71-b821-bbeb5648c35e
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Três grandezas (I, II e III) se relacionam entre si. Os gráficos a seguir, formados por segmentos de reta, descrevem as relações de dependência existentes entre as grandezas I e II, e entre as grandezas II e III. O valor máximo assumido pela grandeza III, quando a grandeza I varia de 1 a 3, é A 1,0. B 2,5. C 3,0. D 3,5. E 4,0. S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::4422
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 1,0.
+B) B) 2,5.
+C) C) 3,0.
+D) D) 3,5.
+E) E) 4,0. S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2233//0088//22002244 1177::5566::4422
+
+
+====================================================================================================
+QUESTÃO 75: Q169 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 0d9b8574-baee-4bbd-aa98-4aae2dfe0291
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma criança, utilizando um aplicativo, escreveu uma mensagem para enviar a um amigo. Essa mensagem foi escrita seguindo estas etapas: Etapas Visor de escrita 1ª etapa: inseriu três fi guras do tipo no visor de escrita da mensagem; 2ª etapa: copiou o que havia inserido anteriormente e colou (inseriu o que havia copiado) ao lado; 3ª etapa: copiou o que tinha no visor na 2ª etapa e colou ao lado. A criança seguiu copiando e colando, em cada etapa, o que tinha no visor na etapa imediatamente anterior, até concluir a 20ª etapa. Em seguida, enviou a mensagem. Qual foi o total de figuras contidas na mensagem enviada? A 3 × 219 B 3 × 220 C 3 × 221 D 3 × 220 − 1 E 3 × 220 −
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) criança seguiu copiando e colando, em cada etapa, o que tinha no visor na etapa imediatamente anterior, até concluir a 20ª etapa. Em seguida, enviou a mensagem. Qual foi o total de figuras contidas na mensagem enviada? A 3 × 219 B 3 × 220 C 3 × 221 D 3 × 220 − 1 E 3 × 220 −
+B) B) 3 × 220 C 3 × 221 D 3 × 220 − 1 E 3 × 220 −
+C) C) 3 × 221 D 3 × 220 − 1 E 3 × 220 −
+D) D) 3 × 220 − 1 E 3 × 220 −
+E) E) 3 × 220 −
+
+
+====================================================================================================
+QUESTÃO 76: Q170 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: ab63cf1a-69ad-4eb0-947c-947291d6d1a5
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma casa de shows terá um evento cujo custo total de produção é de R$ 34 350,00, sendo que comporta 500 pessoas. O preço do ingresso será de R$ 130,00 e, normalmente, 60% das pessoas adquirem meia-entrada, pagando R$ 65,00 pelo ingresso. Além do faturamento proveniente da venda de ingressos, a casa de shows vende, com 60% de lucro, bebidas e petiscos ao público no dia do evento. Após ter vendido todos os 500 ingressos, constatou-se que a quantidade de meias-entradas vendidas superou em 50% o que estava previsto, impactando o faturamento estimado com a venda de ingressos. No dia do evento, decidiu-se manter o percentual de 60% de lucro sobre as bebidas e petiscos, pois todo o público que comprou ingresso compareceu ao show. Com isso, espera-se ter lucro de R$ 17 000,00 nesse evento. Para que se alcance o lucro esperado, o gasto médio por pessoa com bebidas e petiscos, em real, deverá ser de A 19,50. B 28,80. C 34,00. D 52,00. E 68,70. •
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 19,50.
+B) B) 28,80.
+C) C) 34,00.
+D) D) 52,00.
+E) E) 68,70. •
+
+
+====================================================================================================
+QUESTÃO 77: Q171 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 0583d121-c64e-4040-93ba-cf29300f5eec
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Para obter um sólido de revolução (rotação de 360°° em torno de um eixo fixo), uma professora realizou as seguintes etapas: • recortou o trapézio retângulo PQRS de um material rígido; • afixou o lado PS do trapézio em uma vareta fixa retilínea (eixo de rotação); • girou o trapézio 360°° em torno da vareta e obteve um sólido de revolução. Observe a figura que apresenta o trapézio afixado na vareta e o sentido de giro. O sólido obtido foi um(a) A cone. B cilindro. C pirâmide. D tronco de cone. E tronco de pirâmide.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) cone. B cilindro.
+B) B) [Alternative not found]
+C) C) pirâmide.
+D) D) tronco de cone.
+E) E) tronco de pirâmide.
+
+
+====================================================================================================
+QUESTÃO 78: Q172 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: d3eaeaea-bc1e-4c2f-8e2f-0c4249b4b928
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O estádio do Maracanã passou por algumas modificações estruturais para a realização da Copa do Mundo de 2014, como, por exemplo, as dimensões do campo retangular. Para se adaptar aos padrões da Fifa, as dimensões do campo foram reduzidas de 110 m × 75 m para 105 m × 68 m. Disponível em: http://virgula.uol.com.br. Acesso em: 14 ago. 2013 (adaptado). Em quantos metros quadrados a área do campo do Maracanã foi reduzida? A 24 B 35 C 555 D 1 110 E 1 145 DERNO 5 • AMARELO 29 2233//0088//22002244 1177::5566::4422
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 24
+B) B) 35
+C) C) 555 D 1 110 E 1 145 DERNO 5 • AMARELO 29 2233//0088//22002244 1177::5566::4422
+D) D) 1 110 E 1 145 DERNO 5 • AMARELO 29 2233//0088//22002244 1177::5566::4422
+E) E) 1 145 DERNO 5 • AMARELO 29 2233//0088//22002244 1177::5566::4422
+
+
+====================================================================================================
+QUESTÃO 79: Q173 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 9f870d0b-1c61-4a4e-b10c-4c49620a1650
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma sala com piso no formato retangular, com lados de medidas 3 m e 6 m, será dividida em dois ambientes. Para isso, serão utilizadas colunas em formato cilíndrico, dispostas perpendicularmente ao piso e representadas na figura pelos círculos de cor azul. Os centros desses círculos estarão sobre uma reta paralela aos lados de menor medida do piso da sala. Os vãos entre duas colunas e entre uma coluna e a parede não poderão ser superiores a 15 cm. Para efetuar a compra dessas colunas, foram feitos orçamentos com base em dados fornecidos por cinco lojas. Preço por Loja Raio (cm) unidade (R$) I 5 60 II 10 70 III 12 75 IV 15 90 V 20 120 A compra será realizada na loja cujo orçamento resulte no menor valor total possível. A compra será realizada na loja A I. B II. C III. D IV. E V.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) compra será realizada na loja cujo orçamento resulte no menor valor total possível.
+B) B) II.
+C) C) III.
+D) D) IV. E
+E) E) [Alternative not found]
+
+
+====================================================================================================
+QUESTÃO 80: Q174 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: b2fbbff8-dcfd-414e-bc5a-9858250d13ef
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O arquiteto Renzo Piano exibiu a maquete da nova sede do Museu Whitney de Arte Americana, um prédio assimétrico que tem um vão aberto para a galeria principal, cuja medida da área é 1 672 m2. Considere que a escala da maquete exibida é 1 : 200. Época, n. 682, jun. 2011 (adaptado). A medida da área do vão aberto nessa maquete, em centímetro quadrado, é A 4,18. B 8,36. C 41,80. D 83,60. E 418,00.
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) medida da área do vão aberto nessa maquete, em centímetro quadrado, é
+B) B) 8,36.
+C) C) 41,80.
+D) D) 83,60.
+E) E) 418,00.
+
+
+====================================================================================================
+QUESTÃO 81: Q175 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 8b034d38-1719-43a7-aaba-c5ab4c319e8a
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+O gráfico apresenta o valor total de exportações e o valor total de importações, ao longo de um período, em bilhão de dólares. O saldo da balança comercial brasileira é dado pelo valor total de exportações menos o valor total de importações num mesmo período. Valor total de exportações e importações Disponível em: http://blogs.estadao.com.br. Acesso em: 20 fev. 2013 (adaptado). Considere que os saldos da balança comercial brasileira, nos três meses destacados no gráfico, sejam representados por: • S : saldo em junho de 2009; 1 • S : saldo em janeiro de 2010; 2 • S : saldo em junho de 2010. 3 A ordenação dos saldos S, S e S, do maior para o menor, é 1 2 3 A S , S e S . 1 3 2 B S , S e S . 2 1 3 C S , S e S . 2 3 1 D S , S e S . 3 1 2 E S , S e S . 3
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) ordenação dos saldos S, S e S, do maior para o menor, é 1 2 3 A S , S e S . 1 3 2 B S , S e S . 2 1 3 C S , S e S . 2 3 1 D S , S e S . 3 1 2 E S , S e
+B) B) S , S e S . 2 1 3 C S , S e S . 2 3 1 D S , S e S . 3 1 2 E S , S e
+C) C) S , S e S . 2 3 1 D S , S e S . 3 1 2 E S , S e
+D) D) S , S e S . 3 1 2 E S , S e
+E) E) S , S e
+
+
+====================================================================================================
+QUESTÃO 82: Q176 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: f5c777c7-ddd5-4819-a275-de51c536665c
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um instituto de pesquisa constatou que, nos últimos dez anos, o crescimento populacional de uma cidade foi de 135,25%. Qual é a representação decimal da taxa percentual desse crescimento populacional? A 13 525,0 B 135,25 C 13,525 D 1,3525 E 0,13525 S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2288//0088//22002244 1177::0044::4499
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 13 525,0
+B) B) 135,25
+C) C) 13,525
+D) D) 1,3525
+E) E) 0,13525 S TECNOLOGIAS • 2º DIA • CADERNO 5 • AMARELO • 2288//0088//22002244 1177::0044::4499
+
+
+====================================================================================================
+QUESTÃO 83: Q177 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 11f24392-40a0-4786-bc73-149926af8a5d
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Um fazendeiro pretende construir um galinheiro ocupando uma região plana de formato retangular, com lados de comprimentos L metro e C metro. Os lados serão cercados por telas de tipos diferentes. Nos lados de comprimento L metro, será utilizada uma tela cujo metro linear custa R$ 20,00, enquanto, nos outros dois lados, uma que custa R$ 15,00. O fazendeiro quer gastar, no máximo, R$ 6 000,00 na compra de toda a tela necessária para o galinheiro, e deseja que o galinheiro tenha a maior área possível. Qual será a medida, em metro, do maior lado do galinheiro? A 85 B 100 C 175 D 200 E 350
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) 85
+B) B) 100
+C) C) metro. Os lados serão cercados por telas de tipos diferentes. Nos lados de comprimento L metro, será utilizada uma tela cujo metro linear custa R$ 20,00, enquanto, nos outros dois lados, uma que custa R$ 15,00. O fazendeiro quer gastar, no máximo, R$ 6 000,00 na compra de toda a tela necessária para o galinheiro, e deseja que o galinheiro tenha a maior área possível. Qual será a medida, em metro, do maior lado do galinheiro?
+D) D) 200
+E) E) 350
+
+
+====================================================================================================
+QUESTÃO 84: Q179 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: d9d33249-cd4b-484a-b53c-d31f1adb8b09
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Uma caneca com água fervendo é retirada de um forno de micro-ondas. A temperatura T, em grau Celsius, da caneca, em função do tempo t, em minuto, pode ser modelada pela função T(t) = a + 80 bt, representada no gráfico a seguir. Os valores das constantes a e b são A a = 20; b = log(0,5) B a = 100; b = 0,5 1 C a=20; b=(0,5)10 1 (40)10 D a=20; b= 80 E a = 20; b =
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) temperatura T, em grau Celsius, da caneca, em função do tempo t, em minuto, pode ser modelada pela função T(t) = a + 80 bt, representada no gráfico a seguir. Os valores das constantes a e b são A a = 20; b = log(0,5) B a = 100; b = 0,5
+B) B) a = 100; b = 0,5
+C) C) a=20; b=(0,5)10 1 (40)10
+D) D) a=20; b= 80 E a = 20; b =
+E) E) a = 20; b =
+
+
+====================================================================================================
+QUESTÃO 85: Q180 - 2024 - DIA 2 - CD5
+====================================================================================================
+ID: 970c7105-7b12-4d27-8dd6-162cf6c3a877
+Arquivo: 2024_PV_impresso_D2_CD5.pdf
+Tipo: regular
+Matéria: Subject.MATEMATICA
+Confiança: 0.000
+Tem imagens: Não
+
+------------------------------------------------------------
+ENUNCIADO:
+------------------------------------------------------------
+Em uma empresa é comercializado um produto em embalagens em formato de cilindro circular reto, com raio medindo 3 cm, e altura medindo 15 cm. Essa empresa planeja comercializar o mesmo produto em embalagens em formato de cubo, com capacidade igual a 80% da capacidade da embalagem cilíndrica utilizada atualmente. Use 3 como valor aproximado para π. A medida da aresta da nova embalagem, em centímetro, deve ser A 6 B 18 C 6 6 D 636 E 3312 DERNO 5 • AMARELO 31 2233//0088//22002244 1177::5566::4455 a apa ul 1 elo 2 co 3 sa 4 dor 9 s 10 a apa s 12 or 11 sa 8 zul 7 za 6 elo 5 BBB0022iiiggg00uuu11rrr22rrr55iiilllAAhhhMMooosss.....iiiiinnnnndddddbbddd 3311122 01 1 Di 4°Ca 1 Az 2 Am 3 Br 4 Ro 9 Le 10 L 2 D 4°C 12 L 11 L 8 Ro 7 Az 6 Cin 5 Am 02 11224433////00006688//// 11117777::::11552266::::
+
+----------------------------------------
+ALTERNATIVAS:
+----------------------------------------
+A) A) medida da aresta da nova embalagem, em centímetro, deve ser A 6 B 18 C 6
+B) B) 18 C 6
+C) C) 6
+D) D) 636
+E) E) 3312 DERNO 5 • AMARELO 31 2233//0088//22002244 1177::5566::4455 a apa ul 1 elo 2 co 3 sa 4 dor 9 s 10 a apa s 12 or 11 sa 8 zul 7 za 6 elo 5 BBB0022iiiggg00uuu11rrr22rrr55iiilllAAhhhMMooosss.....iiiiinnnnndddddbbddd 3311122 01 1 Di 4°Ca 1 Az 2 Am 3 Br 4 Ro 9 Le 10
+
+
+====================================================================================================
+📊 ESTATÍSTICAS DO CADERNO
+====================================================================================================
+Total de questões: 85
+Questões com imagens: 0 (0.0%)
+Total de alternativas: 425
+Total de imagens: 38
+
+Distribuição por matéria:
+  Subject.CIENCIAS_NATUREZA: 43 questões (50.6%)
+  Subject.MATEMATICA: 42 questões (49.4%)
+
+====================================================================================================
+FIM DO RELATÓRIO
+====================================================================================================
