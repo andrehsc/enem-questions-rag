@@ -1,6 +1,6 @@
 # Story 6.2: Dead Letter Queue
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -221,4 +221,16 @@ Claude Opus 4.6
 
 ### Completion Notes List
 
+- dead_letter_queue.py: DeadLetterQueue class with enqueue, resolve, list_pending, get_by_id
+- dead-letter-migration.sql: idempotent CREATE TABLE with status CHECK constraint, indexes
+- pipeline_v2.py: _run_dead_letter integrates DLQ after all PDFs processed, tracks failed_layers
+- fastapi_app.py: GET/PATCH /api/v1/admin/dead-letter endpoints with pagination and resolve
+- 11 tests pass: enqueue (3), resolve (2), list_pending (3), get_by_id (2), pipeline integration (1)
+
 ### File List
+
+- src/enem_ingestion/dead_letter_queue.py (new)
+- database/dead-letter-migration.sql (new)
+- tests/test_dead_letter_queue.py (new)
+- src/enem_ingestion/pipeline_v2.py (modified — dead letter integration)
+- api/fastapi_app.py (modified — admin endpoints)

@@ -1,10 +1,10 @@
 """
-Extraction Pipeline v2 — idempotent PDF-to-DB orchestrator (Story 5.3).
+Extraction Pipeline v2 — idempotent PDF-to-DB orchestrator (Stories 5.3, 6.1, 6.2).
 
 This pipeline reads ENEM PDFs, extracts questions via pymupdf4llm,
 scores quality, and persists accepted questions to PostgreSQL with
-UPSERT semantics.  Fallback and dead-letter routing are placeholder
-hooks for Epic 6.
+UPSERT semantics.  Fallback questions are reprocessed via Azure DI
+and irrecoverable ones are routed to the dead letter queue.
 """
 
 import argparse
@@ -14,7 +14,7 @@ import os
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 import psycopg2
 from dotenv import load_dotenv
@@ -39,10 +39,14 @@ class PipelineReport:
     skipped: int = 0
     errors: int = 0
     fallback_queued: int = 0
+    fallback_recovered: int = 0
     dead_letter_queued: int = 0
     duration_seconds: float = 0.0
     fallback_questions: List[Question] = field(default_factory=list)
     dead_letter_questions: List[Question] = field(default_factory=list)
+    fallback_scores: Dict[int, float] = field(default_factory=dict)
+    # Per-PDF tracking for Azure DI fallback
+    _pdf_fallbacks: Dict[str, List[Question]] = field(default_factory=dict)
 
 
 # ------------------------------------------------------------------
@@ -56,10 +60,12 @@ class ExtractionPipelineV2:
         self,
         db_url: str,
         output_dir: str = "data/extracted_images",
+        azure_config: Optional[dict] = None,
     ):
         self._db_url = db_url
         self._extractor = Pymupdf4llmExtractor(output_dir=output_dir)
         self._scorer = ExtractionConfidenceScorer()
+        self._azure_config = azure_config
 
     # ------------------------------------------------------------------
     # Public entry point
@@ -90,6 +96,12 @@ class ExtractionPipelineV2:
         try:
             for pdf in pdfs:
                 self._process_pdf(pdf, conn, report, force)
+
+            # Azure DI fallback for questions with low confidence
+            self._run_azure_fallback(conn, report, pdfs)
+
+            # Dead letter queue for irrecoverable questions
+            self._run_dead_letter(conn, report, pdfs)
         finally:
             conn.close()
 
@@ -124,7 +136,7 @@ class ExtractionPipelineV2:
             return
 
         for q in questions:
-            self._process_question(q, conn, report, file_hash, metadata)
+            self._process_question(q, conn, report, file_hash, metadata, pdf_path)
 
     def _process_question(
         self,
@@ -133,6 +145,7 @@ class ExtractionPipelineV2:
         report: PipelineReport,
         file_hash: str,
         metadata: QuestionMetadata,
+        pdf_path: Optional[Path] = None,
     ) -> None:
         report.total_questions += 1
 
@@ -158,12 +171,113 @@ class ExtractionPipelineV2:
             )
             report.fallback_queued += 1
             report.fallback_questions.append(question)
+            report.fallback_scores[question.number] = result.score
+            if pdf_path:
+                report._pdf_fallbacks.setdefault(str(pdf_path), []).append(question)
         else:
             logger.error(
                 "[DEAD_LETTER] Q%d — confidence=%.2f", question.number, result.score,
             )
             report.dead_letter_queued += 1
             report.dead_letter_questions.append(question)
+
+    # ------------------------------------------------------------------
+    # Azure DI fallback (Epic 6 — Story 6.1)
+    # ------------------------------------------------------------------
+
+    def _run_azure_fallback(
+        self, conn, report: PipelineReport, pdfs: List[Path],
+    ) -> None:
+        """Reprocess fallback questions via Azure DI if configured."""
+        if not self._azure_config or not report.fallback_questions:
+            return
+
+        from .azure_di_fallback import AzureDIFallback
+
+        logger.info(
+            "Running Azure DI fallback for %d questions",
+            len(report.fallback_questions),
+        )
+
+        fallback = AzureDIFallback(
+            endpoint=self._azure_config.get("endpoint"),
+            key=self._azure_config.get("key"),
+            budget_limit=self._azure_config.get("budget_limit", 50.0),
+        )
+
+        for pdf_str, questions in report._pdf_fallbacks.items():
+            results = fallback.process_fallback_questions(
+                questions, pdf_str, report.fallback_scores,
+            )
+            for fb_result in results:
+                if fb_result.improved and fb_result.new_score >= self._scorer.ACCEPT_THRESHOLD:
+                    # Persist the improved question
+                    try:
+                        metadata = fb_result.question.metadata
+                        file_hash = self._hash_file(Path(pdf_str))
+                        is_new = self._persist_question(
+                            conn, fb_result.question, metadata,
+                            fb_result.new_score, file_hash,
+                            extraction_method="azure_di",
+                        )
+                        report.fallback_recovered += 1
+                        if is_new:
+                            report.new += 1
+                        else:
+                            report.updated += 1
+                    except Exception as exc:
+                        logger.error(
+                            "[ERROR] Azure DI persist Q%d: %s",
+                            fb_result.question.number, exc,
+                        )
+                        report.errors += 1
+                else:
+                    # Still not good enough → dead letter
+                    report.dead_letter_questions.append(fb_result.question)
+                    report.dead_letter_queued += 1
+
+        logger.info(
+            "Azure DI fallback: recovered=%d, cost=R$%.2f (%d pages)",
+            report.fallback_recovered,
+            fallback.cost_tracker.estimated_cost_brl,
+            fallback.cost_tracker.pages_processed,
+        )
+
+    # ------------------------------------------------------------------
+    # Dead letter queue (Epic 6 — Story 6.2)
+    # ------------------------------------------------------------------
+
+    def _run_dead_letter(
+        self, conn, report: PipelineReport, pdfs: List[Path],
+    ) -> None:
+        """Persist dead letter questions to the queue table."""
+        if not report.dead_letter_questions:
+            return
+
+        from .dead_letter_queue import DeadLetterQueue
+
+        dlq = DeadLetterQueue(conn)
+
+        for q in report.dead_letter_questions:
+            pdf_filename = f"{q.metadata.year}_PV_{q.metadata.application_type}_D{q.metadata.day}_{q.metadata.caderno}.pdf"
+            # Determine which layers failed
+            was_fallback = q.number in report.fallback_scores
+            failed_layers = ["pymupdf4llm", "azure_di"] if was_fallback else ["pymupdf4llm"]
+            score = report.fallback_scores.get(q.number, 0.0)
+
+            try:
+                dlq.enqueue(
+                    question=q,
+                    confidence=score,
+                    extraction_method=failed_layers[-1],
+                    failed_layers=failed_layers,
+                    errors=[],
+                    pdf_filename=pdf_filename,
+                )
+            except Exception as exc:
+                logger.error(
+                    "[ERROR] Dead letter enqueue Q%d: %s", q.number, exc,
+                )
 
     # ------------------------------------------------------------------
     # Persistence (raw SQL / psycopg2)
@@ -176,6 +290,7 @@ class ExtractionPipelineV2:
         metadata: QuestionMetadata,
         confidence: float,
         file_hash: str,
+        extraction_method: str = "pymupdf4llm",
     ) -> bool:
         """UPSERT a question. Returns *True* if new, *False* if updated."""
         subject_str = question.subject.value if question.subject else None
@@ -206,7 +321,7 @@ class ExtractionPipelineV2:
                 subject_str,
                 exam_meta_id,
                 confidence,
-                "pymupdf4llm",
+                extraction_method,
                 file_hash,
             ))
             row = cur.fetchone()
@@ -309,6 +424,7 @@ class ExtractionPipelineV2:
             f"  Skipped (hash) : {report.skipped}\n"
             f"  Errors         : {report.errors}\n"
             f"  Fallback queue : {report.fallback_queued}\n"
+            f"  Fallback recov.: {report.fallback_recovered}\n"
             f"  Dead letter    : {report.dead_letter_queued}\n"
             f"  Duration       : {report.duration_seconds:.1f}s\n"
             f"{'='*60}"
@@ -337,17 +453,46 @@ def main() -> None:
         default="data/extracted_images",
         help="Directory for extracted images",
     )
+    parser.add_argument(
+        "--azure-endpoint",
+        default=os.getenv("AZURE_DI_ENDPOINT"),
+        help="Azure DI endpoint (default: AZURE_DI_ENDPOINT env var)",
+    )
+    parser.add_argument(
+        "--azure-key",
+        default=os.getenv("AZURE_DI_KEY"),
+        help="Azure DI key (default: AZURE_DI_KEY env var)",
+    )
+    parser.add_argument(
+        "--azure-budget",
+        type=float,
+        default=float(os.getenv("AZURE_DI_BUDGET", "50.0")),
+        help="Azure DI budget in BRL (default: 50.0)",
+    )
     args = parser.parse_args()
 
     if not args.db_url:
         parser.error("--db-url is required (or set DATABASE_URL env var)")
+
+    # Build azure_config if endpoint + key are provided
+    azure_config = None
+    if args.azure_endpoint and args.azure_key:
+        azure_config = {
+            "endpoint": args.azure_endpoint,
+            "key": args.azure_key,
+            "budget_limit": args.azure_budget,
+        }
 
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s %(levelname)s %(name)s: %(message)s",
     )
 
-    pipeline = ExtractionPipelineV2(db_url=args.db_url, output_dir=args.output_dir)
+    pipeline = ExtractionPipelineV2(
+        db_url=args.db_url,
+        output_dir=args.output_dir,
+        azure_config=azure_config,
+    )
     pipeline.run(input_path=args.input, force=args.force)
 
 

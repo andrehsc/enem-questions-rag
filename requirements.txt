@@ -11,6 +11,9 @@ pymupdf4llm>=1.27.0
 Pillow>=10.0.0
 opencv-python>=4.12.0
 
+# Azure Document Intelligence (fallback extraction)
+azure-ai-documentintelligence>=1.0.0b4
+
 # Database
 psycopg2-binary>=2.9.11
 sqlalchemy>=2.0.0

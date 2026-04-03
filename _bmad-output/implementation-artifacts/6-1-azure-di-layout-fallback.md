@@ -1,6 +1,6 @@
 # Story 6.1: Azure DI Layout Fallback
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -181,4 +181,16 @@ Claude Opus 4.6
 
 ### Completion Notes List
 
+- azure_di_fallback.py: AzureDIFallback class with lazy client init, cost tracking, page estimation, re-scoring
+- CostTracker dataclass with budget enforcement (R$0.05/page)
+- FallbackResult dataclass for per-question outcomes
+- Markdown parsing reuses QUESTION_SPLIT_RE/QUESTION_BOLD_RE from pymupdf4llm_extractor
+- pipeline_v2.py: added azure_config param, _run_azure_fallback method, CLI args for Azure
+- 11 tests pass: cost tracker (3), fallback processing (7), pipeline backward compat (1)
+
 ### File List
+
+- src/enem_ingestion/azure_di_fallback.py (new)
+- tests/test_azure_di_fallback.py (new)
+- src/enem_ingestion/pipeline_v2.py (modified — azure_config, fallback integration, CLI args)
+- requirements.txt (modified — added azure-ai-documentintelligence>=1.0.0b4)
