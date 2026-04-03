@@ -69,10 +69,10 @@ development_status:
   epic-4-retrospective: optional
 
   # ─── Epic 5: Extração Primária — pymupdf4llm ───
-  epic-5: in-progress
-  5-1-pymupdf4llm-extractor-module: review
-  5-2-confidence-scoring-validacao-pydantic: review
-  5-3-pipeline-idempotente-v2: review
+  epic-5: done
+  5-1-pymupdf4llm-extractor-module: done
+  5-2-confidence-scoring-validacao-pydantic: done
+  5-3-pipeline-idempotente-v2: done
   epic-5-retrospective: optional
 
   # ─── Epic 6: Fallback Azure DI + Dead Letter Queue ───

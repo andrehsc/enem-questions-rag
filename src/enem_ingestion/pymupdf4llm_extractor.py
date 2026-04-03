@@ -135,15 +135,13 @@ class Pymupdf4llmExtractor:
         """Check if the PDF has scanned (image-only) pages needing OCR."""
         try:
             import pymupdf
-            doc = pymupdf.open(pdf_path)
-            for page in doc:
-                text = page.get_text("text").strip()
-                if len(text) < 50:
-                    doc.close()
-                    return True
-            doc.close()
-        except Exception:
-            pass
+            with pymupdf.open(pdf_path) as doc:
+                for page in doc:
+                    text = page.get_text("text").strip()
+                    if len(text) < 50:
+                        return True
+        except Exception as exc:
+            logger.warning("OCR detection failed for %s: %s", pdf_path, exc)
         return False
 
     # ------------------------------------------------------------------
@@ -181,21 +179,20 @@ class Pymupdf4llmExtractor:
         bboxes: List[Dict] = []
         try:
             import pymupdf
-            doc = pymupdf.open(pdf_path)
-            for page_idx, page in enumerate(doc):
-                for img in page.get_images(full=True):
-                    xref = img[0]
-                    rects = page.get_image_rects(xref)
-                    for rect in rects:
-                        bboxes.append({
-                            "page": page_idx,
-                            "x0": rect.x0,
-                            "y0": rect.y0,
-                            "x1": rect.x1,
-                            "y1": rect.y1,
-                            "xref": xref,
-                        })
-            doc.close()
+            with pymupdf.open(pdf_path) as doc:
+                for page_idx, page in enumerate(doc):
+                    for img in page.get_images(full=True):
+                        xref = img[0]
+                        rects = page.get_image_rects(xref)
+                        for rect in rects:
+                            bboxes.append({
+                                "page": page_idx,
+                                "x0": rect.x0,
+                                "y0": rect.y0,
+                                "x1": rect.x1,
+                                "y1": rect.y1,
+                                "xref": xref,
+                            })
         except Exception as exc:
             logger.warning("Failed to extract image bboxes: %s", exc)
         return bboxes

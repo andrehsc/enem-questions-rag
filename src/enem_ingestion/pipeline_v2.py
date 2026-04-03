@@ -329,11 +329,8 @@ def main() -> None:
     parser.add_argument("--force", action="store_true", help="Reprocess all PDFs")
     parser.add_argument(
         "--db-url",
-        default=os.getenv(
-            "DATABASE_URL",
-            "postgresql://enem_rag_service:enem_rag_pass@localhost:5433/teachershub_enem",
-        ),
-        help="PostgreSQL connection URL",
+        default=os.getenv("DATABASE_URL"),
+        help="PostgreSQL connection URL (default: DATABASE_URL env var)",
     )
     parser.add_argument(
         "--output-dir",
@@ -341,6 +338,9 @@ def main() -> None:
         help="Directory for extracted images",
     )
     args = parser.parse_args()
+
+    if not args.db_url:
+        parser.error("--db-url is required (or set DATABASE_URL env var)")
 
     logging.basicConfig(
         level=logging.INFO,

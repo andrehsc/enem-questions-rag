@@ -1,6 +1,6 @@
 # Story 5.3: Pipeline Idempotente v2
 
-Status: review
+Status: done
 
 ## Story
 

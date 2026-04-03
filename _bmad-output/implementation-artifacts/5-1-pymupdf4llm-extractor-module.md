@@ -1,6 +1,6 @@
 # Story 5.1: pymupdf4llm Extractor Module
 
-Status: review
+Status: done
 
 ## Story
 

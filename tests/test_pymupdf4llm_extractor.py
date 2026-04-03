@@ -242,7 +242,8 @@ class TestOCRDetection:
 
         mock_doc = MagicMock()
         mock_doc.__iter__ = MagicMock(return_value=iter([mock_page]))
-        mock_doc.close = MagicMock()
+        mock_doc.__enter__ = MagicMock(return_value=mock_doc)
+        mock_doc.__exit__ = MagicMock(return_value=False)
 
         with patch("pymupdf.open", return_value=mock_doc):
             assert extractor._detect_scanned_pages("scanned.pdf") is True
@@ -253,7 +254,8 @@ class TestOCRDetection:
 
         mock_doc = MagicMock()
         mock_doc.__iter__ = MagicMock(return_value=iter([mock_page]))
-        mock_doc.close = MagicMock()
+        mock_doc.__enter__ = MagicMock(return_value=mock_doc)
+        mock_doc.__exit__ = MagicMock(return_value=False)
 
         with patch("pymupdf.open", return_value=mock_doc):
             assert extractor._detect_scanned_pages("normal.pdf") is False

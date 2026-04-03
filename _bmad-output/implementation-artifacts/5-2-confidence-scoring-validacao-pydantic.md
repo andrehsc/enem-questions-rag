@@ -1,6 +1,6 @@
 # Story 5.2: Confidence Scoring & Validação Pydantic
 
-Status: review
+Status: done
 
 ## Story
 
