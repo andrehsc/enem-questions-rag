@@ -47,6 +47,8 @@ class PipelineReport:
     fallback_scores: Dict[int, float] = field(default_factory=dict)
     # Per-PDF tracking for Azure DI fallback
     _pdf_fallbacks: Dict[str, List[Question]] = field(default_factory=dict)
+    # Per-question issues for dead letter diagnostics
+    _dead_letter_issues: Dict[int, list] = field(default_factory=dict)
 
 
 # ------------------------------------------------------------------
@@ -180,6 +182,8 @@ class ExtractionPipelineV2:
             )
             report.dead_letter_queued += 1
             report.dead_letter_questions.append(question)
+            report.fallback_scores[question.number] = result.score
+            report._dead_letter_issues[question.number] = result.issues
 
     # ------------------------------------------------------------------
     # Azure DI fallback (Epic 6 — Story 6.1)
@@ -209,12 +213,12 @@ class ExtractionPipelineV2:
             results = fallback.process_fallback_questions(
                 questions, pdf_str, report.fallback_scores,
             )
+            file_hash = self._hash_file(Path(pdf_str))
             for fb_result in results:
                 if fb_result.improved and fb_result.new_score >= self._scorer.ACCEPT_THRESHOLD:
                     # Persist the improved question
                     try:
                         metadata = fb_result.question.metadata
-                        file_hash = self._hash_file(Path(pdf_str))
                         is_new = self._persist_question(
                             conn, fb_result.question, metadata,
                             fb_result.new_score, file_hash,
@@ -261,9 +265,10 @@ class ExtractionPipelineV2:
         for q in report.dead_letter_questions:
             pdf_filename = f"{q.metadata.year}_PV_{q.metadata.application_type}_D{q.metadata.day}_{q.metadata.caderno}.pdf"
             # Determine which layers failed
-            was_fallback = q.number in report.fallback_scores
+            was_fallback = q.number in report.fallback_scores and q not in report.fallback_questions
             failed_layers = ["pymupdf4llm", "azure_di"] if was_fallback else ["pymupdf4llm"]
             score = report.fallback_scores.get(q.number, 0.0)
+            issues = report._dead_letter_issues.get(q.number, [])
 
             try:
                 dlq.enqueue(
@@ -271,7 +276,7 @@ class ExtractionPipelineV2:
                     confidence=score,
                     extraction_method=failed_layers[-1],
                     failed_layers=failed_layers,
-                    errors=[],
+                    errors=issues,
                     pdf_filename=pdf_filename,
                 )
             except Exception as exc:

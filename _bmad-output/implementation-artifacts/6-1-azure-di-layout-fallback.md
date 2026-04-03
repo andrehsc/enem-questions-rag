@@ -1,6 +1,6 @@
 # Story 6.1: Azure DI Layout Fallback
 
-Status: review
+Status: done
 
 ## Story
 

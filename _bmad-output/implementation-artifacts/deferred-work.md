@@ -17,3 +17,9 @@
 - **test_models.py not created as separate file**: Pydantic model tests live in `tests/test_confidence_scorer.py`.
 - **Single DB connection per pipeline run**: Acceptable for batch. Consider connection pooling for production scale.
 - **Stale alternatives after UPSERT**: If question re-extracted with fewer alternatives, old ones remain. Low risk since ENEM always has 5.
+
+## Deferred from: code review of Epic 6 (2026-04-03)
+
+- **No auth on admin endpoints** [fastapi_app.py] — GET/PATCH `/api/v1/admin/dead-letter` have no authentication. Project has zero auth on any endpoint; admin auth is future scope.
+- **UUID validation on dl_id path parameter** [fastapi_app.py] — `dl_id` is passed as a raw string without UUID format validation. Invalid UUIDs will fail at the DB layer with a 503 instead of 400. Nice-to-have improvement.
+- **Missing Pydantic response models for admin endpoints** [fastapi_app.py] — Admin endpoints return raw dicts instead of typed response models. Endpoints work correctly; typed responses would improve Swagger docs.

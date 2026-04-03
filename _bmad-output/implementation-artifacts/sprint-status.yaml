@@ -76,9 +76,9 @@ development_status:
   epic-5-retrospective: optional
 
   # ─── Epic 6: Fallback Azure DI + Dead Letter Queue ───
-  epic-6: in-progress
-  6-1-azure-di-layout-fallback: review
-  6-2-dead-letter-queue: review
+  epic-6: done
+  6-1-azure-di-layout-fallback: done
+  6-2-dead-letter-queue: done
   epic-6-retrospective: optional
 
   # ─── Epic 7: Golden Set & Hybrid Search ───

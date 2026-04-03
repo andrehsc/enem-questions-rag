@@ -1,6 +1,6 @@
 # Story 6.2: Dead Letter Queue
 
-Status: review
+Status: done
 
 ## Story
 
