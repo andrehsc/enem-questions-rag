@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-02
-last_updated: 2026-04-02T22:00:00
+last_updated: 2026-04-03
 project: enem-questions-rag
 project_key: NOKEY
 tracking_system: file-system
@@ -70,9 +70,9 @@ development_status:
 
   # ─── Epic 5: Extração Primária — pymupdf4llm ───
   epic-5: in-progress
-  5-1-pymupdf4llm-extractor-module: ready-for-dev
-  5-2-confidence-scoring-validacao-pydantic: ready-for-dev
-  5-3-pipeline-idempotente-v2: ready-for-dev
+  5-1-pymupdf4llm-extractor-module: review
+  5-2-confidence-scoring-validacao-pydantic: review
+  5-3-pipeline-idempotente-v2: review
   epic-5-retrospective: optional
 
   # ─── Epic 6: Fallback Azure DI + Dead Letter Queue ───

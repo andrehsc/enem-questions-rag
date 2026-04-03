@@ -1,6 +1,6 @@
 # Story 5.2: Confidence Scoring & Validação Pydantic
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -177,8 +177,21 @@ END $$;
 
 ### Agent Model Used
 
+Claude Opus 4.6
+
 ### Debug Log References
 
 ### Completion Notes List
 
+- models.py: ENEMQuestion + ENEMAlternative Pydantic v2, from_dataclass converter, order validator
+- confidence_scorer.py: 5-criteria scoring (alts 0.30, text 0.25, seq 0.20, alt_len 0.15, pydantic 0.10), routing logic
+- extraction-v2-migration.sql: idempotent ALTER TABLE for confidence_score, extraction_method, extraction_errors
+- 17 tests pass: Pydantic validation (8), scorer (6), routing (3)
+
 ### File List
+
+- src/enem_ingestion/models.py (new)
+- src/enem_ingestion/confidence_scorer.py (new)
+- database/extraction-v2-migration.sql (new)
+- tests/test_confidence_scorer.py (new)
+- requirements.txt (modified — added pydantic>=2.0.0)

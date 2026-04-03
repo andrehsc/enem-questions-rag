@@ -1,6 +1,6 @@
 # Story 5.1: pymupdf4llm Extractor Module
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -175,8 +175,17 @@ Usar regex: `r'(?:QUESTÃO|Questão|questão)\s*(\d+)'` para split.
 
 ### Agent Model Used
 
+Claude Opus 4.6
+
 ### Debug Log References
 
 ### Completion Notes List
 
+- pymupdf4llm_extractor.py: Layout AI, to_markdown, OCR detection, image bbox, EnhancedAlternativeExtractor
+- 13 tests pass: text-only, multi-column, images, edge cases, OCR, filename integration
+
 ### File List
+
+- src/enem_ingestion/pymupdf4llm_extractor.py (new)
+- tests/test_pymupdf4llm_extractor.py (new)
+- requirements.txt (modified — added pymupdf4llm>=1.27.0)

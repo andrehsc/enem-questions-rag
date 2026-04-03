@@ -1,6 +1,6 @@
 # Story 5.3: Pipeline Idempotente v2
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -171,8 +171,18 @@ O pipeline_v2 implementa a camada 1 (file-level). A camada 2 já está implement
 
 ### Agent Model Used
 
+Claude Opus 4.6
+
 ### Debug Log References
 
 ### Completion Notes List
 
+- pipeline_v2.py: orchestrator with SHA-256 file hash, UPSERT via psycopg2, scoring+routing, PipelineReport, CLI
+- Idempotent: hash check skips, force flag overrides, ON CONFLICT UPSERT
+- Fallback/dead_letter queues as placeholder lists for Epic 6
+- 8 tests pass: routing (3), idempotency (2), report (2), hashing (1)
+
 ### File List
+
+- src/enem_ingestion/pipeline_v2.py (new)
+- tests/test_pipeline_v2.py (new)
