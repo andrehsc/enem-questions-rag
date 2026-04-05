@@ -123,6 +123,7 @@ class SemanticSearchRequest(BaseModel):
     year: Optional[int] = Field(None, description="Filtrar por ano do exame", ge=2020, le=2030)
     limit: int = Field(10, description="Máximo de resultados (1–50)", ge=1, le=50)
     include_answer: bool = Field(False, description="Incluir gabarito na resposta")
+    search_mode: str = Field("hybrid", description="Modo de busca: semantic, text, hybrid", pattern="^(semantic|text|hybrid)$")
 
 class SemanticSearchResult(BaseModel):
     question_id: int = Field(..., description="ID da questão")
@@ -1099,6 +1100,7 @@ async def search_semantic(request: SemanticSearchRequest):
             limit=request.limit,
             year=request.year,
             subject=request.subject,
+            search_mode=request.search_mode,
         )
         results = []
         for r in raw_results:

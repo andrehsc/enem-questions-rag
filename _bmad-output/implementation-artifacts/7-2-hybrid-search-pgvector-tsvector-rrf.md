@@ -1,6 +1,6 @@
 # Story 7.2: Hybrid Search — pgvector + tsvector com RRF
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -233,9 +233,23 @@ Modelo request: `SemanticSearchRequest` com `query`, `subject`, `year`, `limit`,
 ## Dev Agent Record
 
 ### Agent Model Used
+Claude Opus 4.6
 
 ### Debug Log References
+- Existing tests in test_pgvector_search.py needed `search_mode="semantic"` since default changed to `"hybrid"`
 
 ### Completion Notes List
+- Migration SQL uses `portuguese_unaccent` config (accent-insensitive) instead of plain `portuguese`
+- PgVectorSearch refactored: router `search_questions()` → `_search_semantic()`, `_search_text()`, `_search_hybrid()`
+- RRF implementation: K=60, rrf_pool=limit*3, scores normalized to 0-1
+- Hybrid fallback: if text search returns empty, returns semantic results unchanged
+- Endpoint `POST /api/v1/search/semantic` now accepts `search_mode` field (default: `hybrid`)
+- Backward compatible: existing tests pass with explicit `search_mode="semantic"`
+- 7 new tests in test_hybrid_search.py, all passing
 
 ### File List
+- `database/hybrid-search-migration.sql` — NEW: tsvector column + GIN index + trigger
+- `src/rag_features/semantic_search.py` — MODIFIED: PgVectorSearch hybrid search refactor
+- `api/fastapi_app.py` — MODIFIED: SemanticSearchRequest + endpoint updated
+- `tests/test_hybrid_search.py` — NEW: 7 hybrid search tests
+- `tests/test_pgvector_search.py` — MODIFIED: added `search_mode="semantic"` to existing tests

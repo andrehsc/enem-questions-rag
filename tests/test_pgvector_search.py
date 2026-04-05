@@ -92,7 +92,7 @@ class TestSearchQuestions:
         mock_conn.__exit__ = MagicMock(return_value=False)
         pgvector_search._engine.connect.return_value = mock_conn
 
-        results = await pgvector_search.search_questions("fotossíntese", limit=5)
+        results = await pgvector_search.search_questions("fotossíntese", limit=5, search_mode="semantic")
 
         assert len(results) == 1
         r = results[0]
@@ -122,7 +122,8 @@ class TestSearchQuestions:
         pgvector_search._engine.connect.return_value = mock_conn
 
         await pgvector_search.search_questions(
-            "fotossíntese", limit=5, subject="ciencias_natureza"
+            "fotossíntese", limit=5, subject="ciencias_natureza",
+            search_mode="semantic",
         )
 
         # Verify the SQL executed contains subject filter
@@ -148,7 +149,7 @@ class TestSearchQuestions:
         mock_conn.__exit__ = MagicMock(return_value=False)
         pgvector_search._engine.connect.return_value = mock_conn
 
-        await pgvector_search.search_questions("fotossíntese", limit=5, year=2023)
+        await pgvector_search.search_questions("fotossíntese", limit=5, year=2023, search_mode="semantic")
 
         call_args = mock_conn.execute.call_args
         sql_text = str(call_args[0][0])
@@ -196,7 +197,7 @@ class TestSearchQuestions:
         mock_conn.__exit__ = MagicMock(return_value=False)
         pgvector_search._engine.connect.return_value = mock_conn
 
-        results = await pgvector_search.search_questions("fotossíntese", limit=5)
+        results = await pgvector_search.search_questions("fotossíntese", limit=5, search_mode="semantic")
 
         assert len(results) == 1
         assert results[0]["question_id"] == 42
@@ -219,7 +220,7 @@ class TestSearchQuestions:
         mock_conn.__exit__ = MagicMock(return_value=False)
         pgvector_search._engine.connect.return_value = mock_conn
 
-        results = await pgvector_search.search_questions("algo inexistente", limit=5)
+        results = await pgvector_search.search_questions("algo inexistente", limit=5, search_mode="semantic")
 
         assert results == []
 
@@ -256,7 +257,7 @@ class TestQueryEmbeddingCache:
         mock_conn.__exit__ = MagicMock(return_value=False)
         pgvector_search._engine.connect.return_value = mock_conn
 
-        await pgvector_search.search_questions("fotossíntese", limit=5)
+        await pgvector_search.search_questions("fotossíntese", limit=5, search_mode="semantic")
 
         # OpenAI should NOT have been called
         pgvector_search._openai.embeddings.create.assert_not_called()
@@ -279,7 +280,7 @@ class TestQueryEmbeddingCache:
         mock_conn.__exit__ = MagicMock(return_value=False)
         pgvector_search._engine.connect.return_value = mock_conn
 
-        await pgvector_search.search_questions("fotossíntese", limit=5)
+        await pgvector_search.search_questions("fotossíntese", limit=5, search_mode="semantic")
 
         # OpenAI should have been called
         pgvector_search._openai.embeddings.create.assert_called_once()

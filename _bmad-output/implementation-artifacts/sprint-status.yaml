@@ -82,7 +82,7 @@ development_status:
   epic-6-retrospective: optional
 
   # ─── Epic 7: Golden Set & Hybrid Search ───
-  epic-7: in-progress
-  7-1-golden-set-de-benchmark: ready-for-dev
-  7-2-hybrid-search-pgvector-tsvector-rrf: ready-for-dev
+  epic-7: done
+  7-1-golden-set-de-benchmark: done
+  7-2-hybrid-search-pgvector-tsvector-rrf: done
   epic-7-retrospective: optional
