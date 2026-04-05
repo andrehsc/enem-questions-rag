@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-02
-last_updated: 2026-04-03
+last_updated: 2026-04-05
 project: enem-questions-rag
 project_key: NOKEY
 tracking_system: file-system
@@ -82,7 +82,7 @@ development_status:
   epic-6-retrospective: optional
 
   # ─── Epic 7: Golden Set & Hybrid Search ───
-  epic-7: backlog
-  7-1-golden-set-de-benchmark: backlog
-  7-2-hybrid-search-pgvector-tsvector-rrf: backlog
+  epic-7: in-progress
+  7-1-golden-set-de-benchmark: ready-for-dev
+  7-2-hybrid-search-pgvector-tsvector-rrf: ready-for-dev
   epic-7-retrospective: optional
