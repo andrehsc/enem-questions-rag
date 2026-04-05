@@ -166,3 +166,9 @@ Claude Opus 4.6
 - `tests/fixtures/golden_set.json` — 50 golden questions (10 linguagens, 13 humanas, 12 natureza, 13 matematica)
 - `tests/test_golden_set.py` — benchmark test suite (5 tests, all passing)
 - `pyproject.toml` — added `golden` and `benchmark` pytest markers
+
+### Review Findings
+- [x] [Review][Defer] AC1: Falta área "Redação-suporte" e distribuição desigual (12/13 vs 10/área) — deferred, golden set auto-extraído como baseline
+- [x] [Review][Defer] AC2: alternatives=[] e correct_answer=null em todas 50 — deferred, known extractor limitation
+- [x] [Review][Defer] AC2: has_images inconsistente com context_text referências — deferred, metadata impreciso
+- [x] [Review][Defer] AC6: Sem CI pipeline configurada — deferred, projeto sem CI

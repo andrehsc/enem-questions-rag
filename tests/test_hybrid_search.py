@@ -322,3 +322,87 @@ class TestSearchModeHybrid:
         assert len(results) == 1
         # RRF score (rank 1 in both = max = 1.0)
         assert results[0]["similarity_score"] == 1.0
+
+
+@pytest.mark.asyncio
+class TestPortugueseQueries:
+    """Tests with Portuguese queries: accent handling, technical terms."""
+
+    async def test_portuguese_stemming_query(self):
+        """Query with Portuguese accented word reaches text search."""
+        search = _make_pgvector_search()
+        rows = [
+            _make_db_row(
+                question_id=5, question_text="Questão sobre fotossíntese",
+                subject="ciencias_natureza", year=2023, chunk_id="c5",
+                chunk_type="full", chunk_content="A fotossíntese é o processo...",
+                text_score=0.85,
+            ),
+        ]
+        _setup_db_mock(search, rows)
+
+        results = await search.search_questions(
+            "questões sobre fotossíntese", search_mode="text",
+        )
+
+        assert len(results) == 1
+        assert results[0]["question_id"] == 5
+        assert results[0]["similarity_score"] <= 1.0
+
+    async def test_technical_term_query(self):
+        """Query with technical Portuguese term."""
+        search = _make_pgvector_search()
+        rows = [
+            _make_db_row(
+                question_id=6, question_text="Equação de segundo grau",
+                subject="matematica", year=2024, chunk_id="c6",
+                chunk_type="full", chunk_content="Resolva a equação quadrática...",
+                text_score=0.72,
+            ),
+        ]
+        _setup_db_mock(search, rows)
+
+        results = await search.search_questions(
+            "equação quadrática", search_mode="text",
+        )
+
+        assert len(results) == 1
+        assert results[0]["subject"] == "matematica"
+
+    async def test_accent_insensitive_hybrid(self):
+        """Hybrid mode works with accented PT-BR queries."""
+        search = _make_pgvector_search()
+
+        semantic_rows = [
+            _make_db_row(
+                question_id=7, question_text="Educação ambiental",
+                subject="ciencias_natureza", year=2023, chunk_id="c7",
+                chunk_type="full", chunk_content="Educação ambiental e sustentabilidade",
+                similarity_score=0.88,
+            ),
+        ]
+        text_rows = [
+            _make_db_row(
+                question_id=7, question_text="Educação ambiental",
+                subject="ciencias_natureza", year=2023, chunk_id="c7",
+                chunk_type="full", chunk_content="Educação ambiental e sustentabilidade",
+                text_score=0.90,
+            ),
+        ]
+
+        mock_conn = MagicMock()
+        mock_result_semantic = MagicMock()
+        mock_result_semantic.fetchall.return_value = semantic_rows
+        mock_result_text = MagicMock()
+        mock_result_text.fetchall.return_value = text_rows
+        mock_conn.execute.side_effect = [mock_result_semantic, mock_result_text]
+        mock_conn.__enter__ = MagicMock(return_value=mock_conn)
+        mock_conn.__exit__ = MagicMock(return_value=False)
+        search._engine.connect.return_value = mock_conn
+
+        results = await search.search_questions(
+            "educação ambiental sustentabilidade", search_mode="hybrid",
+        )
+
+        assert len(results) == 1
+        assert results[0]["similarity_score"] == 1.0  # rank 1 in both

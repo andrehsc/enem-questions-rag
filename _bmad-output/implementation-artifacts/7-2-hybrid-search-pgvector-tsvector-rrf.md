@@ -253,3 +253,12 @@ Claude Opus 4.6
 - `api/fastapi_app.py` — MODIFIED: SemanticSearchRequest + endpoint updated
 - `tests/test_hybrid_search.py` — NEW: 7 hybrid search tests
 - `tests/test_pgvector_search.py` — MODIFIED: added `search_mode="semantic"` to existing tests
+
+### Review Findings
+- [x] [Review][Patch] `ts_rank` pode retornar > 1.0 no modo text — clamp similarity_score [semantic_search.py:663]
+- [x] [Review][Patch] Fallback assimétrico: semantic vazio não faz fallback para text [semantic_search.py:687-688]
+- [x] [Review][Patch] Sem testes com queries PT-BR (acentuação) [test_hybrid_search.py]
+- [x] [Review][Defer] Hybrid faz 2 queries sequenciais — migrar para asyncio.gather [semantic_search.py] — deferred, performance optimization
+- [x] [Review][Defer] `test_cer_by_subject` não tem assertion — deferred, reporting test
+- [x] [Review][Defer] Sem benchmark recall@10 hybrid vs semantic — deferred, requer DB real
+- [x] [Review][Defer] Sem CI pipeline para golden set — deferred, projeto sem CI

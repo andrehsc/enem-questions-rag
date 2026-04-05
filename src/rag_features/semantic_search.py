@@ -660,7 +660,7 @@ class PgVectorSearch(SemanticSearchInterface):
                     "full_text": r["chunk_content"],
                     "subject": r["subject"],
                     "year": r["year"],
-                    "similarity_score": float(r["text_score"]),
+                    "similarity_score": min(float(r["text_score"]), 1.0),
                 }
 
         return list(seen.values())
@@ -686,6 +686,10 @@ class PgVectorSearch(SemanticSearchInterface):
         # If text search returns nothing, fall back to semantic-only
         if not text_results:
             return vector_results[:limit]
+
+        # If semantic search returns nothing, fall back to text-only
+        if not vector_results:
+            return text_results[:limit]
 
         # Assign ranks (1-indexed)
         vector_ranks = {r["question_id"]: i + 1 for i, r in enumerate(vector_results)}
