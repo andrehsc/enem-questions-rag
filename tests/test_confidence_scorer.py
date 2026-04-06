@@ -1,5 +1,5 @@
 """
-Tests for confidence_scorer.py and models.py (Story 5.2).
+Tests for confidence_scorer.py v2 (Story 8.3).
 """
 
 import pytest
@@ -159,7 +159,7 @@ class TestENEMQuestion:
 
 
 # ---------------------------------------------------------------------------
-# Confidence Scorer tests
+# Confidence Scorer v2 tests
 # ---------------------------------------------------------------------------
 
 class TestConfidenceScorer:
@@ -167,7 +167,7 @@ class TestConfidenceScorer:
     def test_score_perfect_question(self, scorer):
         q = _make_question(number=5, text_len=120, num_alts=5, alt_len=30)
         result = scorer.score(q)
-        assert result.score >= 0.90
+        assert result.score >= 0.85
         assert result.routing == "accept"
         assert result.passed is True
         assert result.issues == []
@@ -175,51 +175,143 @@ class TestConfidenceScorer:
     def test_score_partial_question(self, scorer):
         q = _make_question(number=5, text_len=120, num_alts=3, alt_len=30)
         result = scorer.score(q)
-        assert 0.20 <= result.score < 0.80
-        assert result.routing == "fallback"
+        assert result.score < 0.85
+        assert result.routing in ("fallback", "dead_letter")
         assert result.passed is False
 
     def test_score_corrupted_question(self, scorer):
         q = _make_question(number=999, text_len=10, num_alts=0, alt_len=0)
         result = scorer.score(q)
-        assert result.score < 0.50
+        assert result.score < 0.55
         assert result.routing == "dead_letter"
         assert result.passed is False
 
     def test_score_short_alternatives(self, scorer):
-        q = _make_question(number=5, text_len=120, num_alts=5, alt_len=2)
+        q = _make_question(number=5, text_len=120, num_alts=5, alt_len=1)
         result = scorer.score(q)
-        # Should get partial credit for alt_length
-        assert result.score > 0.50
+        # partial credit for alt_quality due to short alts
+        assert result.score > 0.30
 
     def test_issues_list_populated(self, scorer):
         q = _make_question(number=5, text_len=20, num_alts=2, alt_len=1)
         result = scorer.score(q)
         assert len(result.issues) > 0
 
-    def test_accept_threshold(self, scorer):
-        assert scorer.ACCEPT_THRESHOLD == 0.80
-        assert scorer.FALLBACK_THRESHOLD == 0.50
+    def test_v2_thresholds(self, scorer):
+        assert scorer.ACCEPT_THRESHOLD == 0.85
+        assert scorer.FALLBACK_THRESHOLD == 0.55
 
 
 # ---------------------------------------------------------------------------
-# Routing tests
+# Placeholder detection (AC: 1)
 # ---------------------------------------------------------------------------
 
-class TestRouting:
+class TestPlaceholderDetection:
+
+    def test_placeholder_in_alt_fails(self, scorer):
+        q = _make_question(number=5, text_len=120, num_alts=3, alt_len=30)
+        q.alternatives.append("D) [Alternative not found]")
+        q.alternatives.append("E) [Alternative not found]")
+        result = scorer.score(q)
+        assert "placeholder_detected" in result.issues
+        assert result.routing != "accept"
+
+    def test_pt_br_placeholder_detected(self, scorer):
+        q = _make_question(number=5, text_len=120, num_alts=4, alt_len=30)
+        q.alternatives.append("E) [Alternativa não encontrada]")
+        result = scorer.score(q)
+        assert "placeholder_detected" in result.issues
+
+
+# ---------------------------------------------------------------------------
+# Contamination detection (AC: 2)
+# ---------------------------------------------------------------------------
+
+class TestContaminationDetection:
+
+    def test_cid_tokens_detected(self, scorer):
+        q = _make_question(number=5, text_len=120, num_alts=5, alt_len=30)
+        q.text = "Texto com tokens (cid:3)(cid:10) de fontes."
+        result = scorer.score(q)
+        assert "contamination_detected" in result.issues
+
+    def test_indesign_detected(self, scorer):
+        q = _make_question(number=5, text_len=120, num_alts=5, alt_len=30)
+        q.text = "Texto com PP22__11__DDiiaa..iinndddd artefato InDesign."
+        result = scorer.score(q)
+        assert "contamination_detected" in result.issues
+
+    def test_header_detected(self, scorer):
+        q = _make_question(number=5, text_len=120, num_alts=5, alt_len=30)
+        q.text = "Texto normal com ENEM2024 17 header residual no meio."
+        result = scorer.score(q)
+        assert "contamination_detected" in result.issues
+
+    def test_clean_text_passes(self, scorer):
+        q = _make_question(number=5, text_len=120, num_alts=5, alt_len=30)
+        result = scorer.score(q)
+        assert "contamination_detected" not in result.issues
+
+
+# ---------------------------------------------------------------------------
+# Cascade detection (AC: 3)
+# ---------------------------------------------------------------------------
+
+class TestCascadeDetection:
+
+    def test_confirmed_cascade(self, scorer):
+        q = _make_question(number=5, text_len=120, num_alts=0, alt_len=0)
+        q.alternatives = [
+            "opção A opção B opção C opção D opção E",
+            "opção B opção C opção D opção E",
+            "opção C opção D opção E",
+            "opção D opção E",
+            "opção E",
+        ]
+        result = scorer.score(q)
+        assert "cascade_confirmed" in result.issues
+
+    def test_suspected_cascade(self, scorer):
+        q = _make_question(number=5, text_len=120, num_alts=0, alt_len=0)
+        q.alternatives = [
+            "x" * 500,
+            "y" * 200,
+            "z" * 100,
+            "w" * 50,
+            "v" * 30,
+        ]
+        result = scorer.score(q)
+        assert "cascade_suspected" in result.issues
+
+    def test_normal_alts_no_cascade(self, scorer):
+        q = _make_question(number=5, text_len=120, num_alts=5, alt_len=30)
+        result = scorer.score(q)
+        assert "cascade_confirmed" not in result.issues
+        assert "cascade_suspected" not in result.issues
+
+
+# ---------------------------------------------------------------------------
+# Threshold routing (AC: 5, 6)
+# ---------------------------------------------------------------------------
+
+class TestThresholdRouting:
 
     def test_accept_route(self, scorer):
         q = _make_question(number=50, text_len=200, num_alts=5, alt_len=50)
         result = scorer.score(q)
         assert result.routing == "accept"
 
-    def test_fallback_route(self, scorer):
-        # 3 alternatives => score ~0.55 (text+seq+partial_pydantic)
-        q = _make_question(number=50, text_len=200, num_alts=3, alt_len=50)
-        result = scorer.score(q)
-        assert result.routing in ("fallback", "dead_letter")
-
     def test_dead_letter_route(self, scorer):
         q = _make_question(number=999, text_len=5, num_alts=0, alt_len=0)
         result = scorer.score(q)
         assert result.routing == "dead_letter"
+
+    def test_boundary_scores(self, scorer):
+        """Verify threshold boundary behavior."""
+        # Score exactly 0.85 should accept
+        # Score exactly 0.55 should fallback
+        # Score below 0.55 should dead_letter
+        assert scorer._determine_routing(0.85) == "accept"
+        assert scorer._determine_routing(0.84) == "fallback"
+        assert scorer._determine_routing(0.55) == "fallback"
+        assert scorer._determine_routing(0.54) == "dead_letter"

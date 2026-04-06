@@ -16,6 +16,7 @@ from enum import Enum
 import pdfplumber
 
 from .text_normalizer import normalize_enem_text
+from .text_sanitizer import sanitize_enem_text
 
 logger = logging.getLogger(__name__)
 
@@ -312,10 +313,8 @@ class EnemPDFParser:
                                 letters_used.add(letter)
                                 break
                     
-                    # Pad with placeholders for missing alternatives
-                    for letter in ['A', 'B', 'C', 'D', 'E']:
-                        if letter not in letters_used:
-                            clean_alternatives.append(f"{letter}) [Alternative not found]")
+                    # No longer pad with placeholders (Story 8.2)
+                    # Missing alternatives will be caught by the confidence scorer
                     
                     # Sort to ensure correct order
                     alternatives = sorted(clean_alternatives, key=lambda x: x[0])
@@ -522,9 +521,7 @@ class EnemPDFParser:
                     # Use validated result if sufficient
                     if len(validated_alternatives) >= 4 and confidence > 0.6:
                         final_alternatives = validated_alternatives[:]
-                        while len(final_alternatives) < 5:
-                            final_alternatives.append(f"{chr(65 + len(final_alternatives))}) [Alternative not found]")
-                        
+
                         return final_alternatives[:5]
                 
                 elif guardrails_result['status'] == 'VALIDATION_FAILED':
@@ -557,11 +554,9 @@ class EnemPDFParser:
                 logger.debug(f"Q{question_number} Enhanced extractor success: {len(enhanced_result.alternatives)} alternatives "
                            f"(confidence: {enhanced_result.confidence:.2f}, strategy: {enhanced_result.strategy_used.value})")
                 
-                # Pad to 5 alternatives if needed (for compatibility)
+                # Return what we have — no placeholder padding (Story 8.2)
                 final_alternatives = enhanced_result.alternatives[:]
-                while len(final_alternatives) < 5:
-                    final_alternatives.append(f"{chr(65 + len(final_alternatives))}) [Alternative not found]")
-                    
+
                 return final_alternatives[:5]
             
             # Log what happened with enhanced extractor
@@ -945,6 +940,9 @@ class EnemPDFParser:
         
         # Apply text normalization for encoding issues (mojibake correction)
         text = normalize_enem_text(text)
+
+        # Apply content-level sanitization (Story 8.1)
+        text = sanitize_enem_text(text)
         
         # ENHANCED CLEANING FOR 2024 FORMAT ISSUES
         # Remove repetitive ENEM2024 patterns (more comprehensive)

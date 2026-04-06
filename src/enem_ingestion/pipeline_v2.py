@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import logging
 import os
+import re
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -57,6 +58,13 @@ class PipelineReport:
 
 class ExtractionPipelineV2:
     """Orchestrator: PDF → pymupdf4llm → confidence → DB."""
+
+    # Extractor decision matrix (Story 8.5): (year, day) -> preferred extractor.
+    # Default is pymupdf4llm; list only exceptions here.
+    _EXTRACTOR_MATRIX: Dict[tuple, str] = {
+        (2021, 1): 'pymupdf4llm',  # pdfplumber produces (cid:XX) tokens
+        (2021, 2): 'pymupdf4llm',
+    }
 
     def __init__(
         self,
@@ -154,15 +162,21 @@ class ExtractionPipelineV2:
         result = self._scorer.score(question)
 
         if result.routing == "accept":
+            # Content-hash dedup (Story 8.4): keep best score per hash
+            content_hash = self.compute_content_hash(
+                question.text, metadata.year, metadata.day,
+            )
             try:
                 is_new = self._persist_question(
                     conn, question, metadata, result.score, file_hash,
+                    content_hash=content_hash,
                 )
                 if is_new:
                     report.new += 1
                 else:
                     report.updated += 1
             except Exception as exc:
+                conn.rollback()
                 logger.error(
                     "[ERROR] Q%d — persist failed: %s", question.number, exc,
                 )
@@ -296,11 +310,32 @@ class ExtractionPipelineV2:
         confidence: float,
         file_hash: str,
         extraction_method: str = "pymupdf4llm",
+        content_hash: Optional[str] = None,
     ) -> bool:
-        """UPSERT a question. Returns *True* if new, *False* if updated."""
+        """UPSERT a question. Returns *True* if new, *False* if updated.
+
+        When *content_hash* is provided (Story 8.4), the pipeline checks
+        whether a higher-scoring version already exists and skips the
+        insert if so.
+        """
         subject_str = question.subject.value if question.subject else None
 
         with conn.cursor() as cur:
+            # Content-hash dedup: skip if existing has higher score
+            if content_hash:
+                cur.execute(
+                    "SELECT id, confidence_score FROM enem_questions.questions "
+                    "WHERE content_hash = %s",
+                    (content_hash,),
+                )
+                row = cur.fetchone()
+                if row and row[1] is not None and row[1] >= confidence:
+                    logger.info(
+                        "[DEDUP] Q%d hash=%s SKIP (new=%.2f vs existing=%.2f)",
+                        question.number, content_hash, confidence, row[1],
+                    )
+                    return False
+
             # Ensure exam_metadata row exists
             exam_meta_id = self._ensure_exam_metadata(cur, metadata)
 
@@ -308,8 +343,8 @@ class ExtractionPipelineV2:
                 INSERT INTO enem_questions.questions
                     (question_number, question_text, context_text, subject,
                      exam_metadata_id, confidence_score, extraction_method,
-                     ingestion_hash)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                     ingestion_hash, content_hash)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                 ON CONFLICT (exam_metadata_id, question_number)
                 DO UPDATE SET
                     question_text = EXCLUDED.question_text,
@@ -317,6 +352,7 @@ class ExtractionPipelineV2:
                     confidence_score = EXCLUDED.confidence_score,
                     extraction_method = EXCLUDED.extraction_method,
                     ingestion_hash = EXCLUDED.ingestion_hash,
+                    content_hash = EXCLUDED.content_hash,
                     updated_at = NOW()
                 RETURNING id, (xmax = 0) AS is_new
             """, (
@@ -328,6 +364,7 @@ class ExtractionPipelineV2:
                 confidence,
                 extraction_method,
                 file_hash,
+                content_hash,
             ))
             row = cur.fetchone()
             question_id = row[0]
@@ -365,8 +402,8 @@ class ExtractionPipelineV2:
 
         cur.execute("""
             INSERT INTO enem_questions.exam_metadata
-                (year, day, caderno, application_type, exam_type, pdf_filename)
-            VALUES (%s, %s, %s, %s, %s, %s)
+                (year, day, caderno, application_type, exam_type, file_type, pdf_filename)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
             RETURNING id
         """, (
             metadata.year,
@@ -374,6 +411,7 @@ class ExtractionPipelineV2:
             metadata.caderno,
             metadata.application_type,
             metadata.exam_type or "ENEM",
+            "caderno_questoes",
             pdf_filename,
         ))
         return cur.fetchone()[0]
@@ -398,6 +436,19 @@ class ExtractionPipelineV2:
                 (file_hash,),
             )
             return cur.fetchone() is not None
+
+    @staticmethod
+    def compute_content_hash(enunciado: str, year: int, day: int) -> str:
+        """Compute a stable content hash for cross-booklet deduplication.
+
+        Normalizes the enunciado text and includes year+day to avoid
+        false matches between similar questions across exam editions.
+        """
+        normalized = (enunciado or "").lower().strip()
+        normalized = re.sub(r'quest[ãa]o\s*\d+', '', normalized)
+        normalized = re.sub(r'\s+', ' ', normalized)
+        payload = f"{year}:{day}:{normalized}"
+        return hashlib.sha256(payload.encode('utf-8')).hexdigest()[:16]
 
     # ------------------------------------------------------------------
     # Reporting

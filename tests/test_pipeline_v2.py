@@ -78,8 +78,9 @@ class TestPipelineRouting:
 
         with patch.object(pipeline._extractor, "extract_questions", return_value=[q]):
             with patch.object(pipeline._scorer, "score", return_value=conf):
-                # force=True skips _hash_exists, so the first fetchone is _ensure_exam_metadata
+                # force=True skips _hash_exists; content_hash dedup check comes first
                 mock_cursor.fetchone.side_effect = [
+                    None,              # content_hash SELECT (no existing)
                     ("meta-uuid",),    # _ensure_exam_metadata
                     ("q-uuid", True),  # INSERT question RETURNING
                 ]
@@ -164,8 +165,9 @@ class TestPipelineIdempotency:
         mock_cursor = MagicMock()
         mock_conn.cursor.return_value.__enter__ = MagicMock(return_value=mock_cursor)
         mock_conn.cursor.return_value.__exit__ = MagicMock(return_value=False)
-        # force=True skips hash check; ensure_exam_meta→uuid, insert→(uuid, True)
+        # force=True skips hash check; content_hash dedup→None, ensure_exam_meta→uuid, insert→(uuid, True)
         mock_cursor.fetchone.side_effect = [
+            None,              # content_hash SELECT (no existing)
             ("uuid-meta",),
             ("uuid-q", True),
         ]
@@ -195,7 +197,7 @@ class TestPipelineReport:
         mock_cursor = MagicMock()
         mock_conn.cursor.return_value.__enter__ = MagicMock(return_value=mock_cursor)
         mock_conn.cursor.return_value.__exit__ = MagicMock(return_value=False)
-        mock_cursor.fetchone.side_effect = [("uuid-meta",), ("uuid-q", True)]
+        mock_cursor.fetchone.side_effect = [None, ("uuid-meta",), ("uuid-q", True)]
 
         pipeline = ExtractionPipelineV2(db_url="postgresql://x", output_dir=str(fake_dir / "img"))
         q = _make_question(number=1)
