@@ -10,7 +10,7 @@ import logging
 import json
 import asyncio
 import re
-from typing import List, Dict, Optional, Tuple, Set
+from typing import List, Dict, Optional, Tuple, Set, Union
 from dataclasses import dataclass
 from enum import Enum
 

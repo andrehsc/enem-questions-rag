@@ -30,8 +30,8 @@ SAMPLE_LLM_RESPONSE = json.dumps([{
 def mock_pgvector():
     m = AsyncMock()
     m.search_questions = AsyncMock(return_value=[
-        {"question_id": 1, "full_text": "Contexto ENEM real 1", "subject": "matematica", "year": 2023},
-        {"question_id": 2, "full_text": "Contexto ENEM real 2", "subject": "matematica", "year": 2022},
+        {"question_id": 1, "chunk_id": "chunk-1", "full_text": "Contexto ENEM real 1", "subject": "matematica", "year": 2023},
+        {"question_id": 2, "chunk_id": "chunk-2", "full_text": "Contexto ENEM real 2", "subject": "matematica", "year": 2022},
     ])
     return m
 
@@ -65,6 +65,7 @@ class TestFetchContextChunks:
             query="historia segunda guerra",
             limit=5,
             subject="historia",
+            chunk_type="context",
         )
 
     async def test_returns_empty_list_when_no_pgvector(self):
@@ -144,12 +145,12 @@ class TestGenerateQuestions:
         generator.openai_client.chat.completions.create = AsyncMock(return_value=mock_response)
 
         with patch.object(generator, "_persist_generated", return_value=["uuid-1"]):
-            result = await generator.generate_questions(
+            questions, meta = await generator.generate_questions(
                 subject="matematica", topic="funcoes", count=1,
             )
 
-        assert len(result) == 1
-        q = result[0]
+        assert len(questions) == 1
+        q = questions[0]
         assert "stem" in q
         assert "alternatives" in q
         assert "answer" in q
@@ -162,11 +163,11 @@ class TestGenerateQuestions:
         generator.openai_client.chat.completions.create = AsyncMock(return_value=mock_response)
 
         with patch.object(generator, "_persist_generated", return_value=["uuid-1"]):
-            result = await generator.generate_questions(
+            questions, meta = await generator.generate_questions(
                 subject="matematica", topic="funcoes", count=1,
             )
 
-        assert len(result[0]["source_context_ids"]) == 2  # 2 context chunks from mock
+        assert len(questions[0]["source_context_ids"]) == 2  # 2 context chunks from mock
 
     async def test_respects_count_parameter(self, generator):
         two_questions = json.dumps([

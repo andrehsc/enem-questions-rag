@@ -123,6 +123,7 @@ class SemanticSearchRequest(BaseModel):
     year: Optional[int] = Field(None, description="Filtrar por ano do exame", ge=2020, le=2030)
     limit: int = Field(10, description="Máximo de resultados (1–50)", ge=1, le=50)
     include_answer: bool = Field(False, description="Incluir gabarito na resposta")
+    search_mode: str = Field("hybrid", description="Modo de busca: semantic, text, hybrid", pattern="^(semantic|text|hybrid)$")
 
 class SemanticSearchResult(BaseModel):
     question_id: int = Field(..., description="ID da questão")
@@ -1099,6 +1100,7 @@ async def search_semantic(request: SemanticSearchRequest):
             limit=request.limit,
             year=request.year,
             subject=request.subject,
+            search_mode=request.search_mode,
         )
         results = []
         for r in raw_results:
@@ -1285,6 +1287,91 @@ async def generate_questions(request: QuestionGenerateRequest):
                 "data": None,
                 "meta": {},
                 "error": {"code": "GENERATION_UNAVAILABLE", "message": str(e)},
+            },
+        )
+
+
+# ---------------------------------------------------------------------------
+# Admin — Dead Letter Queue (Story 6.2)
+# ---------------------------------------------------------------------------
+
+class DeadLetterResolveRequest(BaseModel):
+    resolved_by: str = Field(..., description="Username que resolveu")
+    resolution_notes: str = Field("", description="Notas de resolução")
+
+
+@app.get("/api/v1/admin/dead-letter", tags=["Admin"])
+async def list_dead_letter(
+    status: str = "pending",
+    limit: int = 20,
+    offset: int = 0,
+):
+    """List dead letter queue entries with pagination."""
+    if limit > 100:
+        limit = 100
+
+    try:
+        import psycopg2
+
+        conn = psycopg2.connect(**DATABASE_CONFIG)
+        try:
+            from src.enem_ingestion.dead_letter_queue import DeadLetterQueue
+
+            dlq = DeadLetterQueue(conn)
+            items, total = dlq.list_pending(limit=limit, offset=offset, status=status)
+        finally:
+            conn.close()
+
+        return {
+            "data": items,
+            "meta": {"total": total, "limit": limit, "offset": offset},
+        }
+    except Exception as e:
+        logger.error(f"Dead letter list error: {e}")
+        return JSONResponse(
+            status_code=503,
+            content={
+                "data": None,
+                "meta": {},
+                "error": {"code": "DEAD_LETTER_UNAVAILABLE", "message": str(e)},
+            },
+        )
+
+
+@app.patch("/api/v1/admin/dead-letter/{dl_id}", tags=["Admin"])
+async def resolve_dead_letter(dl_id: str, body: DeadLetterResolveRequest):
+    """Mark a dead letter entry as resolved."""
+    try:
+        import psycopg2
+
+        conn = psycopg2.connect(**DATABASE_CONFIG)
+        try:
+            from src.enem_ingestion.dead_letter_queue import DeadLetterQueue
+
+            dlq = DeadLetterQueue(conn)
+            updated = dlq.resolve(dl_id, body.resolved_by, body.resolution_notes)
+        finally:
+            conn.close()
+
+        if not updated:
+            return JSONResponse(
+                status_code=404,
+                content={
+                    "data": None,
+                    "meta": {},
+                    "error": {"code": "NOT_FOUND", "message": f"Dead letter {dl_id} not found or already resolved"},
+                },
+            )
+
+        return {"data": {"id": dl_id, "status": "resolved"}, "meta": {}}
+    except Exception as e:
+        logger.error(f"Dead letter resolve error: {e}")
+        return JSONResponse(
+            status_code=503,
+            content={
+                "data": None,
+                "meta": {},
+                "error": {"code": "DEAD_LETTER_UNAVAILABLE", "message": str(e)},
             },
         )
 

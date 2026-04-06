@@ -524,6 +524,22 @@ class PgVectorSearch(SemanticSearchInterface):
         year: Optional[int] = None,
         subject: Optional[str] = None,
         chunk_type: str = "full",
+        search_mode: str = "hybrid",
+    ) -> List[Dict[str, Any]]:
+        if search_mode == "semantic":
+            return await self._search_semantic(query, limit, year, subject, chunk_type)
+        elif search_mode == "text":
+            return await self._search_text(query, limit, year, subject, chunk_type)
+        else:
+            return await self._search_hybrid(query, limit, year, subject, chunk_type)
+
+    async def _search_semantic(
+        self,
+        query: str,
+        limit: int = 10,
+        year: Optional[int] = None,
+        subject: Optional[str] = None,
+        chunk_type: str = "full",
     ) -> List[Dict[str, Any]]:
         embedding = await asyncio.to_thread(self._get_query_embedding, query)
 
@@ -583,6 +599,125 @@ class PgVectorSearch(SemanticSearchInterface):
                 }
 
         return list(seen.values())
+
+    async def _search_text(
+        self,
+        query: str,
+        limit: int = 10,
+        year: Optional[int] = None,
+        subject: Optional[str] = None,
+        chunk_type: str = "full",
+    ) -> List[Dict[str, Any]]:
+        subject_filter = "AND q.subject = :subject" if subject else ""
+        year_filter = "AND em.year = :year" if year else ""
+
+        sql = sa_text(f"""
+            SELECT
+                q.id AS question_id,
+                q.question_text,
+                q.subject,
+                em.year,
+                qc.id AS chunk_id,
+                qc.chunk_type,
+                qc.content AS chunk_content,
+                ts_rank(qc.tsv_content, plainto_tsquery('portuguese_unaccent', :query)) AS text_score
+            FROM enem_questions.question_chunks qc
+            JOIN enem_questions.questions q ON q.id = qc.question_id
+            LEFT JOIN enem_questions.exam_metadata em ON em.id = q.exam_metadata_id
+            WHERE qc.chunk_type = :chunk_type
+              AND qc.tsv_content @@ plainto_tsquery('portuguese_unaccent', :query)
+              {subject_filter}
+              {year_filter}
+            ORDER BY text_score DESC
+            LIMIT :limit_val
+        """)
+
+        params: Dict[str, Any] = {
+            "query": query,
+            "limit_val": limit,
+            "chunk_type": chunk_type,
+        }
+        if subject:
+            params["subject"] = subject
+        if year:
+            params["year"] = year
+
+        def _run_query() -> list:
+            with self._engine.connect() as conn:
+                result = conn.execute(sql, params)
+                return result.fetchall()
+
+        rows = await asyncio.to_thread(_run_query)
+
+        seen: Dict[int, Dict[str, Any]] = {}
+        for row in rows:
+            r = row._mapping
+            qid = r["question_id"]
+            if qid not in seen:
+                seen[qid] = {
+                    "question_id": qid,
+                    "chunk_id": str(r["chunk_id"]),
+                    "full_text": r["chunk_content"],
+                    "subject": r["subject"],
+                    "year": r["year"],
+                    "similarity_score": min(float(r["text_score"]), 1.0),
+                }
+
+        return list(seen.values())
+
+    async def _search_hybrid(
+        self,
+        query: str,
+        limit: int = 10,
+        year: Optional[int] = None,
+        subject: Optional[str] = None,
+        chunk_type: str = "full",
+    ) -> List[Dict[str, Any]]:
+        K = 60
+        rrf_pool = limit * 3
+
+        vector_results = await self._search_semantic(
+            query, limit=rrf_pool, year=year, subject=subject, chunk_type=chunk_type,
+        )
+        text_results = await self._search_text(
+            query, limit=rrf_pool, year=year, subject=subject, chunk_type=chunk_type,
+        )
+
+        # If text search returns nothing, fall back to semantic-only
+        if not text_results:
+            return vector_results[:limit]
+
+        # If semantic search returns nothing, fall back to text-only
+        if not vector_results:
+            return text_results[:limit]
+
+        # Assign ranks (1-indexed)
+        vector_ranks = {r["question_id"]: i + 1 for i, r in enumerate(vector_results)}
+        text_ranks = {r["question_id"]: i + 1 for i, r in enumerate(text_results)}
+
+        # Build result map from both sources
+        result_map: Dict[Any, Dict[str, Any]] = {}
+        for r in vector_results:
+            result_map[r["question_id"]] = r
+        for r in text_results:
+            if r["question_id"] not in result_map:
+                result_map[r["question_id"]] = r
+
+        # Compute RRF scores
+        all_ids = set(vector_ranks) | set(text_ranks)
+        max_rrf = 1 / (K + 1) + 1 / (K + 1)  # theoretical max (rank 1 in both)
+        rrf_scored = []
+        for qid in all_ids:
+            v_rank = vector_ranks.get(qid, rrf_pool + 1)
+            t_rank = text_ranks.get(qid, rrf_pool + 1)
+            rrf_score = 1 / (K + v_rank) + 1 / (K + t_rank)
+            normalized = rrf_score / max_rrf  # normalize to 0-1
+            entry = result_map[qid].copy()
+            entry["similarity_score"] = round(normalized, 6)
+            rrf_scored.append(entry)
+
+        rrf_scored.sort(key=lambda x: x["similarity_score"], reverse=True)
+        return rrf_scored[:limit]
 
     async def add_questions_to_index(self, questions: List[Dict[str, Any]]) -> bool:
         raise NotImplementedError(

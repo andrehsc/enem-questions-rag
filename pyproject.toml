@@ -61,3 +61,7 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "--cov=src --cov-report=html --cov-report=term-missing"
 asyncio_mode = "auto"
+markers = [
+    "golden: Golden set benchmark tests (require ENEM PDFs in data/downloads/)",
+    "benchmark: Performance benchmark tests",
+]

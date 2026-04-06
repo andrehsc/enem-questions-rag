@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-02
-last_updated: 2026-04-02T18:00:00
+last_updated: 2026-04-05
 project: enem-questions-rag
 project_key: NOKEY
 tracking_system: file-system
@@ -67,3 +67,22 @@ development_status:
   4-1-assessment-generator-feature-2: done
   4-2-question-generator-rag-feature-3: done
   epic-4-retrospective: optional
+
+  # ─── Epic 5: Extração Primária — pymupdf4llm ───
+  epic-5: done
+  5-1-pymupdf4llm-extractor-module: done
+  5-2-confidence-scoring-validacao-pydantic: done
+  5-3-pipeline-idempotente-v2: done
+  epic-5-retrospective: optional
+
+  # ─── Epic 6: Fallback Azure DI + Dead Letter Queue ───
+  epic-6: done
+  6-1-azure-di-layout-fallback: done
+  6-2-dead-letter-queue: done
+  epic-6-retrospective: optional
+
+  # ─── Epic 7: Golden Set & Hybrid Search ───
+  epic-7: done
+  7-1-golden-set-de-benchmark: done
+  7-2-hybrid-search-pgvector-tsvector-rrf: done
+  epic-7-retrospective: optional

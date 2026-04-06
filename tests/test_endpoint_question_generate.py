@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 from fastapi.testclient import TestClient
 
 
-SAMPLE_GENERATE_RESULT = [
+SAMPLE_QUESTIONS = [
     {
         "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
         "stem": "Questao sobre funcoes quadraticas no estilo ENEM...",
@@ -27,6 +27,7 @@ SAMPLE_GENERATE_RESULT = [
         "source_context_ids": ["chunk-uuid-1", "chunk-uuid-2"],
     }
 ]
+SAMPLE_GENERATE_RESULT = (SAMPLE_QUESTIONS, {"rag_context_available": True})
 
 
 class TestQuestionGenerateEndpoint:
@@ -47,7 +48,7 @@ class TestQuestionGenerateEndpoint:
         body = response.json()
         assert body["error"] is None
         assert len(body["data"]) == 1
-        assert body["data"][0]["stem"] == SAMPLE_GENERATE_RESULT[0]["stem"]
+        assert body["data"][0]["stem"] == SAMPLE_QUESTIONS[0]["stem"]
 
     def test_count_exceeds_max_returns_422(self):
         import api.fastapi_app as app_module
