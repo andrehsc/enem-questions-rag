@@ -15,17 +15,12 @@ import re
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-# Layout AI MUST be imported BEFORE pymupdf4llm
-try:
-    import pymupdf.layout  # noqa: F401 — activates Layout AI module
-except ImportError:
-    pass  # Layout AI optional; pymupdf4llm works without it
-
 import pymupdf4llm
 
 from .parser import Question, QuestionMetadata, Subject, EnemPDFParser
 from .alternative_extractor import create_enhanced_extractor
 from .text_normalizer import normalize_enem_text
+from .text_sanitizer import sanitize_enem_text, sanitize_alternative
 
 logger = logging.getLogger(__name__)
 
@@ -111,10 +106,15 @@ class Pymupdf4llmExtractor:
     # ------------------------------------------------------------------
 
     def _extract_markdown(self, pdf_path: str) -> List[Dict]:
-        """Call pymupdf4llm.to_markdown with optimal ENEM settings."""
-        image_dir = str(self._output_dir)
-        os.makedirs(image_dir, exist_ok=True)
+        """Call pymupdf4llm.to_markdown with optimal ENEM settings.
 
+        NOTE: write_images=False is required — pymupdf4llm>=1.27.2 has an infinite
+        loop bug in add_image_orphans when write_images=True.
+
+        If the extracted text contains a high ratio of garbled characters
+        (control chars, U+FFFD), falls back to Tesseract OCR page-by-page.
+        """
+        os.makedirs(str(self._output_dir), exist_ok=True)
         needs_ocr = self._detect_scanned_pages(pdf_path)
 
         chunks = pymupdf4llm.to_markdown(
@@ -122,14 +122,139 @@ class Pymupdf4llmExtractor:
             page_chunks=True,
             header=False,
             footer=False,
-            write_images=True,
-            image_path=image_dir,
-            image_format="png",
+            write_images=False,
             dpi=150,
             force_ocr=needs_ocr,
             ocr_language="por",
         )
+
+        # Check for garbled output and fallback to Tesseract OCR
+        if self._has_garbled_text(chunks):
+            logger.warning(
+                "Garbled text detected in %s — falling back to Tesseract OCR",
+                pdf_path,
+            )
+            ocr_chunks = self._tesseract_ocr_fallback(pdf_path)
+            if ocr_chunks:
+                return ocr_chunks
+
         return chunks
+
+    def _has_garbled_text(self, chunks: List[Dict]) -> bool:
+        """Check if pymupdf4llm output has excessive garbled characters."""
+        sample_text = "".join(c.get("text", "") for c in chunks[:5])
+        if not sample_text:
+            return False
+        garbled = sum(
+            1 for ch in sample_text
+            if (ord(ch) < 32 and ch not in '\n\r\t') or ord(ch) == 0xFFFD
+            or (0x80 <= ord(ch) <= 0x9F)
+        )
+        return (garbled / len(sample_text)) > 0.05
+
+    def _tesseract_ocr_fallback(self, pdf_path: str) -> List[Dict]:
+        """OCR all pages via Tesseract and return as page_chunks format.
+
+        Post-processes OCR output to fix alternative letter detection:
+        Tesseract renders circled A/B/C/D/E icons as 'A' for all letters,
+        so we detect runs of 5 lines starting with 'A' and re-assign them
+        as A through E sequentially.
+        """
+        try:
+            import pytesseract
+            import pymupdf
+            from PIL import Image
+            import io
+
+            pytesseract.pytesseract.tesseract_cmd = (
+                r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+            )
+
+            chunks = []
+            with pymupdf.open(pdf_path) as doc:
+                for page_idx in range(len(doc)):
+                    page = doc[page_idx]
+                    pix = page.get_pixmap(dpi=300)
+                    img = Image.open(io.BytesIO(pix.tobytes('png')))
+                    text = pytesseract.image_to_string(img, lang='por')
+                    text = self._fix_ocr_alternative_letters(text)
+                    chunks.append({
+                        "text": text,
+                        "metadata": {"page": page_idx},
+                    })
+
+            logger.info(
+                "Tesseract OCR completed: %d pages from %s",
+                len(chunks), Path(pdf_path).name,
+            )
+            return chunks
+        except ImportError:
+            logger.warning("pytesseract not available for OCR fallback")
+            return []
+        except Exception as exc:
+            logger.warning("Tesseract OCR fallback failed: %s", exc)
+            return []
+
+    @staticmethod
+    def _fix_ocr_alternative_letters(text: str) -> str:
+        """Fix OCR-produced alternative letters.
+
+        Tesseract renders ENEM circled-letter icons as the same letter
+        (usually 'A') for all five alternatives. This method detects runs of
+        lines starting with the same single capital letter and reassigns them
+        as A, B, C, D, E sequentially.
+
+        Tolerates blank lines and short noise lines between alternatives.
+        """
+        lines = text.split('\n')
+        result_lines = []
+        i = 0
+        while i < len(lines):
+            match = re.match(r'^([A-E])\s+(\S.{2,})', lines[i])
+            if match:
+                letter = match.group(1)
+                run_indices = [i]
+                run_texts = [match.group(2)]
+                # Scan ahead: allow blank lines or short noise between matches
+                j = i + 1
+                while j < len(lines) and len(run_texts) < 5:
+                    stripped = lines[j].strip()
+                    m = re.match(
+                        r'^' + re.escape(letter) + r'\s+(\S.{2,})', lines[j],
+                    )
+                    if m:
+                        run_indices.append(j)
+                        run_texts.append(m.group(1))
+                        j += 1
+                    elif stripped == '' or len(stripped) < 12:
+                        # Skip blank or short noise lines (OCR artifacts)
+                        j += 1
+                    else:
+                        break
+
+                if len(run_texts) >= 3:
+                    target_letters = 'ABCDE'
+                    # Output all lines up to the first run entry as-is
+                    written = set()
+                    run_pos = 0
+                    for k in range(i, j):
+                        if k in run_indices and run_pos < len(run_texts):
+                            result_lines.append(
+                                f"{target_letters[run_pos]} {run_texts[run_pos]}"
+                            )
+                            written.add(k)
+                            run_pos += 1
+                        elif k not in written:
+                            # Skip noise lines between alternatives
+                            pass
+                    i = j
+                    continue
+
+            result_lines.append(lines[i])
+            i += 1
+
+        return '\n'.join(result_lines)
+
 
     def _detect_scanned_pages(self, pdf_path: str) -> bool:
         """Check if the PDF has scanned (image-only) pages needing OCR."""
@@ -226,8 +351,10 @@ class Pymupdf4llmExtractor:
         pdf_path: str,
     ) -> Optional[Question]:
         """Build a Question dataclass from a text block."""
-        # Normalize text
+        # Normalize text (encoding/mojibake layer)
         normalized = normalize_enem_text(q_text)
+        # Sanitize text (content-level cleaning layer)
+        normalized = sanitize_enem_text(normalized)
 
         # Extract alternatives using the enhanced strategy extractor
         alt_result = self._alt_extractor.extract_alternatives(normalized)
@@ -236,6 +363,9 @@ class Pymupdf4llmExtractor:
         # If enhanced extractor failed, try simple regex fallback
         if len(alternatives) != 5:
             alternatives = self._extract_alternatives_simple(normalized)
+
+        # Sanitize each alternative individually
+        alternatives = [sanitize_alternative(a) for a in alternatives]
 
         # Separate enunciado from alternatives text
         enunciado = self._extract_enunciado(normalized)
@@ -272,6 +402,23 @@ class Pymupdf4llmExtractor:
         matches = pattern.findall(text)
         if len(matches) == 5:
             return [m[1].strip() for m in matches]
+
+        # Pattern for `- A texto` markdown list format (pymupdf4llm output)
+        md_list_pattern = re.compile(
+            r'(?:^|\n)\s*-\s+([A-E])\s+(.+?)(?=\n\s*-\s+[A-E]\s|\n\n|$)',
+            re.DOTALL,
+        )
+        md_matches = md_list_pattern.findall(text)
+        if len(md_matches) == 5:
+            return [m[1].strip() for m in md_matches]
+        if len(md_matches) >= 3:
+            return [m[1].strip() for m in md_matches]
+
+        # Pattern for single-line `- A texto - B texto` (after normalize_enem_text)
+        sl_pattern = re.compile(r'-\s+([A-E])\s+(.+?)(?=\s+-\s+[A-E]\s|$)', re.DOTALL)
+        sl_matches = sl_pattern.findall(text)
+        if len(sl_matches) >= 4:
+            return [m[1].strip() for m in sl_matches]
         return []
 
     def _extract_enunciado(self, text: str) -> str:
@@ -279,17 +426,78 @@ class Pymupdf4llmExtractor:
         # Remove alternative lines from end
         lines = text.split('\n')
         enunciado_lines = []
-        for line in lines:
+        for i, line in enumerate(lines):
             stripped = line.strip()
-            # Stop at first alternative marker: (A), **(A)**, A), etc.
+            # Stop at first alternative marker: (A), **(A)**, A), or `- A` markdown list
             if re.match(r'^\*{0,2}\(?[A-E]\)\*{0,2}\s', stripped):
+                break
+            if re.match(r'^-\s+[A-E]\s', stripped):
+                break
+            # Stop at raw alternative block (Story 9.1)
+            if re.match(r'^[A-E]\s+\S', stripped) and self._looks_like_alternative_block(lines, i):
                 break
             enunciado_lines.append(line)
 
         enunciado = '\n'.join(enunciado_lines).strip()
         # Remove image markdown references for clean text
         enunciado = re.sub(r'!\[.*?\]\(.*?\)', '', enunciado).strip()
+
+        # Also cut inline alternatives: "... text - A alt1 - B alt2 ..."
+        inline_match = re.search(r'\s-\s+[A-E]\s+\S', enunciado)
+        if inline_match:
+            enunciado = enunciado[:inline_match.start()].strip()
+
         return enunciado if len(enunciado) >= 10 else text[:500]
+
+    @staticmethod
+    def _looks_like_alternative_block(lines: List[str], start_idx: int) -> bool:
+        """Check if lines starting at start_idx form a raw alternative block.
+
+        Rules:
+        - At least 2 of the next lines start with ^[A-E]\\s+
+        - Letters are in ascending sequence (A, B, C...) without repetition
+        - Lines are short (<= 300 chars, typical for alternatives)
+        - "A" followed by a lowercase word is likely an article, not an alternative
+        - Single short/numeric alternative (e.g. "A 9.") also detected if
+          formatted alternatives (- **A)** or (A)) follow shortly after
+        """
+        letters_found = []
+        checked = 0
+        for j in range(start_idx, min(start_idx + 10, len(lines))):
+            stripped = lines[j].strip()
+            if not stripped:
+                continue
+            m = re.match(r'^([A-E])\s+(\S.*)', stripped)
+            if m and len(stripped) <= 300:
+                letter = m.group(1)
+                rest = m.group(2)
+                # "A" followed by lowercase word is likely article/text, not alternative
+                if letter == 'A' and re.match(r'[a-záéíóúãõêâôç]', rest):
+                    return False
+                # "E" followed by lowercase word is likely conjunction
+                if letter == 'E' and re.match(r'[a-záéíóúãõêâôç]', rest):
+                    if not letters_found:
+                        return False
+                letters_found.append(letter)
+            else:
+                # Check if this line is a formatted alternative (signals the block ended)
+                # Matches: "(A)", "**(A)**", "- **A)**", "- A)", etc.
+                if re.match(r'^[-\s]*\*{0,2}\(?[A-E]\)\*{0,2}\s', stripped):
+                    # We hit formatted alternatives — any raw alts before are duplicates
+                    if len(letters_found) >= 1:
+                        return True
+            checked += 1
+            if checked >= 7:
+                break
+
+        if len(letters_found) < 2:
+            return False
+
+        # Check ascending sequence without repetition
+        for k in range(len(letters_found) - 1):
+            if ord(letters_found[k + 1]) <= ord(letters_found[k]):
+                return False
+        return True
 
     def _extract_context(self, text: str) -> Optional[str]:
         """Extract texto-base (context) if it precedes the main question."""

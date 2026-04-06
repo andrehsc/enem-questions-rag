@@ -268,3 +268,101 @@
 | Regex de limpeza remove conteudo legitimo | Golden set de validacao (8.6) + testes unitarios extensivos |
 | Performance com 2 extractors por PDF | Cache hash — so re-extrai se score < threshold |
 | Dedup incorreta (questoes parecidas mas diferentes) | Hash por enunciado completo normalizado, nao so inicio |
+
+---
+
+## 7. Dev Agent Record — Implementation Status
+
+> Updated: 2026-04-06
+
+### Story 8.1 — Text Sanitizer Robusto — **DONE**
+
+| Artefato | Caminho |
+|----------|---------|
+| Text Sanitizer | `src/enem_ingestion/text_sanitizer.py` |
+| Singleton normalizer | `src/enem_ingestion/text_normalizer.py` |
+| Tests | `tests/test_text_sanitizer.py` (39 tests) |
+
+- Regex patterns for ENEM headers, area headers, InDesign artifacts, (cid:XX), markdown residual
+- `sanitize_enem_text()`, `sanitize_alternative()`, `has_contamination()` public API
+- Singleton pattern for TextSanitizer and EnemTextNormalizer
+
+### Story 8.2 — Extracao de Alternativas Robusta — **DONE**
+
+| Artefato | Caminho |
+|----------|---------|
+| Alternative Extractor (rewrite) | `src/enem_ingestion/alternative_extractor.py` |
+| Parser (placeholder removal) | `src/enem_ingestion/parser.py` |
+| pymupdf4llm extractor (sanitizer integration) | `src/enem_ingestion/pymupdf4llm_extractor.py` |
+| Tests | `tests/test_alternative_extractor_v2.py` (17 tests) |
+
+- 4 strategies: Standard, Multiline, Mathematical, DoubledLetter
+- Strategy merge (union of best per letter)
+- Cascade detection and fix via reverse differencing
+- False-positive filter: structural heuristics instead of PT-BR word list
+- Placeholder `[Alternative not found]` removed from 3 locations in parser.py
+
+### Story 8.3 — Confidence Scorer v2 — **DONE**
+
+| Artefato | Caminho |
+|----------|---------|
+| Confidence Scorer (rewrite) | `src/enem_ingestion/confidence_scorer.py` |
+| Tests | `tests/test_confidence_scorer.py` (26 tests) |
+
+- New weights: alt_count 0.20, text_quality 0.20, alt_quality 0.25, sequence 0.15, contamination 0.10, pydantic 0.10
+- Thresholds: ACCEPT >= 0.85, FALLBACK >= 0.55
+- Placeholder detection, cascade detection, contamination check via TextSanitizer
+
+### Story 8.4 — Deduplicacao Inteligente — **DONE**
+
+| Artefato | Caminho |
+|----------|---------|
+| DB Migration | `database/dedup-migration.sql` |
+| Pipeline dedup logic | `src/enem_ingestion/pipeline_v2.py` (`compute_content_hash`, `_persist_question`) |
+| Standalone dedup script | `scripts/deduplicate_existing.py` |
+| Tests | `tests/test_content_hash_dedup.py` (16 tests) |
+
+- Content hash: SHA-256 of normalized enunciado + year + day, truncated to 16 hex chars
+- Pipeline skips insert if existing question has higher confidence score
+- Standalone script backfills hashes and marks duplicates with `canonical_question_id`
+- DB adds `content_hash VARCHAR(16)` (unique index) and `canonical_question_id UUID`
+
+### Story 8.5 — Re-extracao Seletiva — **DONE**
+
+| Artefato | Caminho |
+|----------|---------|
+| Extractor decision matrix | `src/enem_ingestion/pipeline_v2.py` (`_EXTRACTOR_MATRIX`) |
+| Comparison script | `scripts/compare_extractors.py` |
+| Tests | `tests/test_extractor_comparison.py` (7 tests) |
+
+- `_EXTRACTOR_MATRIX` maps (year, day) → preferred extractor
+- Comparison script runs both extractors per PDF and generates markdown decision matrix
+- 2021 hard-coded to pymupdf4llm (pdfplumber produces cid:XX tokens)
+
+### Story 8.6 — Pipeline de Validacao e Relatorio — **DONE**
+
+| Artefato | Caminho |
+|----------|---------|
+| Audit script | `scripts/audit_extraction_quality.py` |
+| Tests | `tests/test_audit_quality.py` (24 tests) |
+
+- `detect_issues()`: placeholder, header_pollution, cid_token, indesign_artifact, markdown_artifact, cascade, short_enunciado, missing_alternatives
+- `audit_questions()`: fetches all from DB, aggregates by year/extractor
+- `generate_markdown()`: pass/fail report against configurable QualityTargets
+- Breakdown by year, extractor, top-20 most problematic questions
+
+### Test Summary
+
+| Suite | Tests | Status |
+|-------|-------|--------|
+| test_text_sanitizer.py | 39 | PASS |
+| test_alternative_extractor_v2.py | 17 | PASS |
+| test_confidence_scorer.py | 26 | PASS |
+| test_content_hash_dedup.py | 16 | PASS |
+| test_extractor_comparison.py | 7 | PASS |
+| test_audit_quality.py | 24 | PASS |
+| test_pipeline_v2.py | 10 | PASS |
+| test_enhanced_alternatives.py | 14 | PASS |
+| **Full regression** | **316 passed** | **0 new failures** |
+
+Pre-existing failures (not Epic 8): GraphQL tests (12), semantic search filter test (1), tiktoken import (4 collection errors).

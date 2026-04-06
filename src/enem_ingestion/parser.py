@@ -16,6 +16,7 @@ from enum import Enum
 import pdfplumber
 
 from .text_normalizer import normalize_enem_text
+from .text_sanitizer import sanitize_enem_text
 
 logger = logging.getLogger(__name__)
 
@@ -70,6 +71,7 @@ class Question:
     metadata: QuestionMetadata
     subject: Optional[Subject] = None
     context: Optional[str] = None  # Supporting text/images
+    guardrails_failed: bool = False  # Story 9.4: set when structural guardrails fail
 
 
 class EnemPDFParser:
@@ -289,7 +291,7 @@ class EnemPDFParser:
                     question_text = self._clean_question_text(question_text)
                     
                     # Extract alternatives with improved logic and guardrails context
-                    alternatives = self._extract_alternatives_with_context(question_text, q_num, metadata.day)
+                    alternatives, guardrails_failed = self._extract_alternatives_with_context(question_text, q_num, metadata.day)
                     
                     # For now, accept questions with at least 3 alternatives (while debugging)
                     if len(alternatives) < 3:
@@ -312,10 +314,8 @@ class EnemPDFParser:
                                 letters_used.add(letter)
                                 break
                     
-                    # Pad with placeholders for missing alternatives
-                    for letter in ['A', 'B', 'C', 'D', 'E']:
-                        if letter not in letters_used:
-                            clean_alternatives.append(f"{letter}) [Alternative not found]")
+                    # No longer pad with placeholders (Story 8.2)
+                    # Missing alternatives will be caught by the confidence scorer
                     
                     # Sort to ensure correct order
                     alternatives = sorted(clean_alternatives, key=lambda x: x[0])
@@ -331,7 +331,8 @@ class EnemPDFParser:
                         text=question_text,
                         alternatives=alternatives,
                         metadata=metadata,
-                        subject=subject
+                        subject=subject,
+                        guardrails_failed=guardrails_failed,
                     ))
                 
                 logger.info(f"Parsed {len(questions)} questions from {pdf_path}")
@@ -461,18 +462,19 @@ class EnemPDFParser:
         # If less than 30% unique words, it's probably repetitive/garbled
         return repetition_ratio < 0.3
     
-    def _extract_alternatives_with_context(self, question_text: str, question_number: int, day: int) -> List[str]:
+    def _extract_alternatives_with_context(self, question_text: str, question_number: int, day: int) -> Tuple[List[str], bool]:
         """
         Extract alternatives with structural guardrails context.
-        
+
         Args:
             question_text: Raw question text
             question_number: Actual question number (1-180)
             day: Exam day (1 or 2)
-            
+
         Returns:
-            List of exactly 5 formatted alternatives [A, B, C, D, E]
+            Tuple of (list of alternatives, guardrails_failed flag)
         """
+        guardrails_failed = False
         # Try enhanced extractor with structural guardrails
         try:
             from .alternative_extractor import create_enhanced_extractor
@@ -522,10 +524,8 @@ class EnemPDFParser:
                     # Use validated result if sufficient
                     if len(validated_alternatives) >= 4 and confidence > 0.6:
                         final_alternatives = validated_alternatives[:]
-                        while len(final_alternatives) < 5:
-                            final_alternatives.append(f"{chr(65 + len(final_alternatives))}) [Alternative not found]")
-                        
-                        return final_alternatives[:5]
+
+                        return final_alternatives[:5], guardrails_failed
                 
                 elif guardrails_result['status'] == 'VALIDATION_FAILED':
                     # Apply recovery strategy
@@ -541,13 +541,13 @@ class EnemPDFParser:
                     
                     logger.warning(f"⚡ Q{question_number} Guardrails RECOVERY: risk={risk_level}, "
                                  f"strategy={recovery['action']}")
-                    
+
                     # Check if it's critical zone (91-110) for special handling
                     if day == 2 and 91 <= question_number <= 110:
                         logger.warning(f"🔥 Q{question_number} in CRITICAL ZONE - applying enhanced recovery")
-                    
-                    # For now, continue with enhanced result but log the issue
-                    pass
+
+                    # Story 9.4: propagate guardrails failure flag
+                    guardrails_failed = True
                     
             except Exception as guardrails_error:
                 logger.warning(f"Q{question_number} Guardrails processing failed: {guardrails_error}")
@@ -557,12 +557,10 @@ class EnemPDFParser:
                 logger.debug(f"Q{question_number} Enhanced extractor success: {len(enhanced_result.alternatives)} alternatives "
                            f"(confidence: {enhanced_result.confidence:.2f}, strategy: {enhanced_result.strategy_used.value})")
                 
-                # Pad to 5 alternatives if needed (for compatibility)
+                # Return what we have — no placeholder padding (Story 8.2)
                 final_alternatives = enhanced_result.alternatives[:]
-                while len(final_alternatives) < 5:
-                    final_alternatives.append(f"{chr(65 + len(final_alternatives))}) [Alternative not found]")
-                    
-                return final_alternatives[:5]
+
+                return final_alternatives[:5], guardrails_failed
             
             # Log what happened with enhanced extractor
             logger.debug(f"Q{question_number} Enhanced extractor insufficient: {len(enhanced_result.alternatives)} alternatives "
@@ -572,7 +570,7 @@ class EnemPDFParser:
             logger.warning(f"Q{question_number} Enhanced extractor failed: {e}, falling back to legacy algorithm")
         
         # Fallback to original method without context
-        return self._extract_alternatives(question_text)
+        return self._extract_alternatives(question_text), guardrails_failed
 
     def _extract_alternatives(self, question_text: str) -> List[str]:
         """
@@ -945,6 +943,9 @@ class EnemPDFParser:
         
         # Apply text normalization for encoding issues (mojibake correction)
         text = normalize_enem_text(text)
+
+        # Apply content-level sanitization (Story 8.1)
+        text = sanitize_enem_text(text)
         
         # ENHANCED CLEANING FOR 2024 FORMAT ISSUES
         # Remove repetitive ENEM2024 patterns (more comprehensive)

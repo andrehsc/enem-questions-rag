@@ -207,6 +207,12 @@ FR-EX7: Extrair fórmulas matemáticas como LaTeX via Azure DI formula add-on
 FR-EX8: Manter associação imagem-questão via bounding box overlap do pymupdf4llm
 FR-EX9: Implementar hybrid search (pgvector + tsvector) com Reciprocal Rank Fusion em português
 FR-EX10: Pipeline deve ser idempotente (hash de conteúdo como chave, sem duplicatas na re-ingestão)
+FR-EX11: Implementar text sanitizer robusto que remove headers ENEM, artefatos InDesign, tokens (cid:XX), timestamps duplicados e markdown residual
+FR-EX12: Corrigir extração de alternativas: eliminar cascata, merge de estratégias, remover placeholders [Alternative not found], suporte a formato 2022-2023 (AA/BB)
+FR-EX13: Implementar confidence scorer v2 que detecta contaminação textual (placeholders, cid tokens, headers, InDesign) com pesos recalibrados
+FR-EX14: Implementar deduplicação inteligente de cadernos com content hash, pick-best-extraction e canonical_question_id
+FR-EX15: Implementar re-extração seletiva usando pymupdf4llm para anos com cid:XX (2021) e InDesign artifacts (2024)
+FR-EX16: Criar pipeline de validação e relatório de qualidade com métricas automáticas e auditoria por ano/dia/caderno/extrator
 
 ### NonFunctional Requirements
 
@@ -217,6 +223,11 @@ NFR-EX4: Pipeline completo em < 30 min para 500 páginas (com RTX 3060)
 NFR-EX5: Custo cloud < R$50 por execução completa (créditos Azure)
 NFR-EX6: Compliance LGPD — processamento local-first, cloud apenas para fallback
 NFR-EX7: Licenças Apache 2.0/MIT apenas — evitar GPL/AGPL sem licença comercial
+NFR-EX8: Taxa de [Alternative not found] < 2% após sanitização (atualmente 918 ocorrências)
+NFR-EX9: Zero alternativas em cascata no banco de dados (atualmente 1.782)
+NFR-EX10: Zero headers/footers de página no conteúdo final (atualmente ~2.500)
+NFR-EX11: Banco com ~900 questões únicas após deduplicação (atualmente ~4.700)
+NFR-EX12: >90% de questões limpas e utilizáveis para RAG (atualmente ~10%)
 
 ### Additional Requirements
 
@@ -243,6 +254,12 @@ NFR-EX7: Licenças Apache 2.0/MIT apenas — evitar GPL/AGPL sem licença comerc
 | FR-EX7 | Epic 6 | 6.1 |
 | FR-EX5 | Epic 7 | 7.1 |
 | FR-EX9 | Epic 7 | 7.2 |
+| FR-EX11 | Epic 8 | 8.1 |
+| FR-EX12 | Epic 8 | 8.2 |
+| FR-EX13 | Epic 8 | 8.3 |
+| FR-EX14 | Epic 8 | 8.4 |
+| FR-EX15 | Epic 8 | 8.5 |
+| FR-EX16 | Epic 8 | 8.6 |
 
 ---
 
@@ -385,3 +402,103 @@ Para melhorar a relevância de busca em queries em português.
 - [ ] Benchmark: hybrid search melhora recall@10 em ≥5% vs busca vetorial pura
 - [ ] Índice GIN em `tsv_content` para performance de busca textual
 - [ ] Testes com queries em português (acentuação, sinônimos, termos técnicos)
+
+---
+
+## Epic 8: Melhoria da Qualidade de Extração
+
+**Objetivo:** Elevar a qualidade dos dados extraídos de ~10% para >90% de questões limpas e utilizáveis, corrigindo headers/footers, alternativas em cascata, placeholders, contaminação textual e duplicatas entre cadernos.
+
+**Arquitetura:** Post-processing layers sobre o pipeline v2 existente. Nenhuma dependência de cloud nova. Refactoring dos módulos text_normalizer, alternative_extractor, confidence_scorer e pipeline_v2.
+
+**Diagnóstico base:** Análise de 4.709 entradas extraídas revelou: (cid:XX) garbled text (2.829 linhas, 2021), alternativas em cascata (1.782), [Alternative not found] (918), headers/footers no conteúdo (~2.500), artefatos InDesign (~1.200), markdown residual (1.050). Detalhes em `docs/stories/extraction-quality/PLAN-extraction-quality-improvements.md`.
+
+**Critérios de aceite do epic:**
+- Text sanitizer remove 100% dos headers ENEM, artefatos InDesign, tokens (cid:XX) e markdown residual
+- Taxa de [Alternative not found] < 2% (de 918 para <20)
+- Zero alternativas em cascata no banco
+- Confidence scorer rejeita questões com contaminação textual
+- Banco com ~900 questões únicas (deduplicação de ~4.700 entradas)
+- Relatório de qualidade automático com métricas por ano/dia/caderno/extrator
+
+### Story 8.1: Text Sanitizer Robusto
+
+Como desenvolvedor,
+Quero uma camada de sanitização pós-extração que limpe headers, footers, artefatos InDesign, tokens (cid:XX) e markdown residual,
+Para que o texto armazenado no banco esteja limpo e utilizável para RAG.
+
+**Critérios de aceite:**
+- [ ] Regex remove headers ENEM em todas variantes (CADERNO X, NEM2024, Página NN, áreas temáticas)
+- [ ] Regex remove artefatos InDesign (caracteres duplicados PP22__, timestamps duplicados)
+- [ ] Tokens (cid:XX) substituídos por espaço e espaços múltiplos colapsados
+- [ ] Artefatos markdown (## **, #) removidos do texto final
+- [ ] Singleton do normalizer (não re-instanciar a cada chamada)
+- [ ] Testes com exemplos reais de cada categoria de poluição
+
+### Story 8.2: Extração de Alternativas Robusta
+
+Como desenvolvedor,
+Quero corrigir a lógica de splitting de alternativas para eliminar cascata, merge de estratégias e placeholders,
+Para que todas as questões tenham 5 alternativas corretas ou sejam roteadas para fallback.
+
+**Critérios de aceite:**
+- [ ] Detecção e correção de alternativas em cascata (differencing)
+- [ ] Merge de estratégias: união de resultados de múltiplas estratégias
+- [ ] Placeholder [Alternative not found] nunca salvo no banco
+- [ ] False-positive filter substituído por heurística baseada em comprimento/estrutura
+- [ ] Suporte a formato 2022-2023 (AA, BB, CC, DD, EE)
+- [ ] Testes: cascata, merge, alternativas matemáticas curtas, formato dupla-letra
+
+### Story 8.3: Confidence Scorer v2
+
+Como desenvolvedor,
+Quero que o scorer detecte contaminação textual e não aprove questões com placeholders, cid tokens ou headers residuais,
+Para que apenas questões limpas sejam aceitas no banco.
+
+**Critérios de aceite:**
+- [ ] Penalização por placeholders ([Alternative not found]) em alternativas
+- [ ] Penalização por contaminação: (cid:XX), InDesign, headers ENEM, timestamps
+- [ ] Penalização por cascata: alt_A.length > 3 * alt_E.length
+- [ ] Novos pesos: alt_count 0.20, text_quality 0.20, alt_quality 0.25, sequence 0.15, contamination 0.10, pydantic 0.10
+- [ ] Threshold mais rigoroso: ACCEPT >= 0.85
+- [ ] Testes com questões contaminadas e limpas
+
+### Story 8.4: Deduplicação Inteligente de Cadernos
+
+Como desenvolvedor,
+Quero deduplicar questões entre cadernos mantendo a melhor extração,
+Para que o banco tenha ~900 questões únicas em vez de ~4.700 duplicatas.
+
+**Critérios de aceite:**
+- [ ] Hash de conteúdo do enunciado normalizado como chave de dedup
+- [ ] Na ingestão, manter a versão com maior confidence score
+- [ ] Pick-best entre pdfplumber e pymupdf4llm para mesma questão
+- [ ] Coluna `canonical_question_id` linkando duplicatas ao registro canônico
+- [ ] Migration SQL idempotente para nova coluna
+- [ ] Testes: dedup correta, pick-best, questões similares-mas-diferentes mantidas
+
+### Story 8.5: Re-extração Seletiva
+
+Como desenvolvedor,
+Quero usar pymupdf4llm como extrator para anos onde pdfplumber falha (2021 cid:XX, 2024 InDesign),
+Para recuperar texto legível em questões atualmente inutilizáveis.
+
+**Critérios de aceite:**
+- [ ] 2021: re-extração completa com pymupdf4llm (sem cid:XX)
+- [ ] 2024 Dia 2: teste de pymupdf4llm para reduzir InDesign artifacts
+- [ ] Comparador dual-extrator: rodar ambos e manter o de maior confidence média
+- [ ] Matriz de decisão extrator × ano/dia documentada
+- [ ] Questões 2021 com >= 80% de texto legível (vs ~10% atual)
+
+### Story 8.6: Pipeline de Validação e Relatório de Qualidade
+
+Como desenvolvedor,
+Quero um script de auditoria e relatório automático de qualidade pós-extração,
+Para medir o impacto das melhorias e detectar regressões.
+
+**Critérios de aceite:**
+- [ ] Script `scripts/audit_extraction_quality.py` com breakdown por ano/dia/caderno/extrator
+- [ ] Métricas: % placeholders, % headers residuais, % cascata, % cid tokens, taxa deduplicação
+- [ ] Targets: 0% placeholders, 0% headers, 0% cascata, 0% cid, ~80% dedup
+- [ ] Relatório markdown gerado automaticamente após cada execução
+- [ ] Golden set atualizado com alternativas e gabaritos validados manualmente

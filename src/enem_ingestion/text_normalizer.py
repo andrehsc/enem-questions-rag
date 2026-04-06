@@ -54,14 +54,14 @@ class EnemTextNormalizer:
         
         # Padrões regex para limpeza
         self.cleanup_patterns = [
-            # Múltiplos espaços
-            (r'\s+', ' '),
-            
+            # Múltiplos espaços horizontais (preserva newlines)
+            (r'[^\S\n]+', ' '),
+
             # Quebras de linha excessivas
             (r'\n{3,}', '\n\n'),
-            
-            # Espaços no início/fim de linhas
-            (r'^\s+|\s+$', ''),
+
+            # Espaços horizontais no início/fim de linhas
+            (r'^[ \t]+|[ \t]+$', ''),
             
             # Códigos de controle PDF
             (r'\*\d+[A-Z]+\d+\*', ''),
@@ -192,10 +192,21 @@ class EnemTextNormalizer:
         return max(0.0, improvement)
 
 
+# Singleton instance for reuse across calls
+_normalizer_instance: Optional[EnemTextNormalizer] = None
+
+
+def _get_normalizer() -> EnemTextNormalizer:
+    global _normalizer_instance
+    if _normalizer_instance is None:
+        _normalizer_instance = EnemTextNormalizer()
+    return _normalizer_instance
+
+
 # Função de conveniência para uso direto
 def normalize_enem_text(text: str) -> str:
     """Função de conveniência para normalização simples."""
-    normalizer = EnemTextNormalizer()
+    normalizer = _get_normalizer()
     result = normalizer.normalize_full(text)
     return result['normalized']
 

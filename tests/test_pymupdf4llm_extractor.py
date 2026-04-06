@@ -279,3 +279,63 @@ class TestFilenameIntegration:
         assert len(questions) >= 1
         assert questions[0].metadata.year == 2024
         assert questions[0].metadata.day == 1
+
+
+# ---------------------------------------------------------------------------
+# Tests — raw alternative block detection (Story 9.1)
+# ---------------------------------------------------------------------------
+
+class TestLooksLikeAlternativeBlock:
+
+    @pytest.fixture
+    def inst(self, extractor):
+        return extractor
+
+    @pytest.mark.parametrize("lines,start,expected", [
+        # Clear alternative block
+        (["A 4,00.", "B 4,87.", "C 5,00.", "D 5,83.", "E 6,00."], 0, True),
+        # Block starting at B (3 sequential)
+        (["B 8", "C 10", "D 12", "E 14"], 0, True),
+        # False positive: "A" as article
+        (["A família que adota é mais feliz...", "E então tudo mudou..."], 0, False),
+        # False positive: "E" as conjunction (standalone)
+        (["E então o fenômeno se manifesta..."], 0, False),
+        # Only 2 raw letters — sufficient with threshold=2
+        (["A 5", "B 8"], 0, True),
+        # Non-sequential letters
+        (["A 4,00.", "C 5,00.", "B 4,87."], 0, False),
+        # Single raw alt followed by formatted alternatives
+        (["A 9.", "", "- **A)** 9.", "- **B)** 15."], 0, True),
+        # Only 1 raw alt with no formatted alts following — insufficient
+        (["A 9.", "Some other text", "More text"], 0, False),
+    ])
+    def test_looks_like_alternative_block(self, inst, lines, start, expected):
+        assert Pymupdf4llmExtractor._looks_like_alternative_block(lines, start) == expected
+
+
+class TestExtractEnunciadoStopsAtRawAlts:
+
+    @pytest.fixture
+    def inst(self, tmp_path):
+        return Pymupdf4llmExtractor(output_dir=str(tmp_path / "images"))
+
+    def test_strips_raw_alternatives_from_enunciado(self, inst):
+        text = (
+            "Qual é o valor aproximado?\n"
+            "A 4,00.\n"
+            "B 4,87.\n"
+            "C 5,00.\n"
+            "D 5,83.\n"
+            "E 6,00."
+        )
+        result = inst._extract_enunciado(text)
+        assert "4,00" not in result
+        assert "Qual é o valor aproximado?" in result
+
+    def test_preserves_enunciado_with_article_A(self, inst):
+        text = (
+            "A família que adota é mais feliz do que a que gera filhos naturais.\n"
+            "Segundo o autor, esta afirmação é..."
+        )
+        result = inst._extract_enunciado(text)
+        assert "A família" in result

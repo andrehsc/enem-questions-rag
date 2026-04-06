@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-02
-last_updated: 2026-04-05
+last_updated: 2026-04-06
 project: enem-questions-rag
 project_key: NOKEY
 tracking_system: file-system
@@ -86,3 +86,22 @@ development_status:
   7-1-golden-set-de-benchmark: done
   7-2-hybrid-search-pgvector-tsvector-rrf: done
   epic-7-retrospective: optional
+
+  # ─── Epic 8: Qualidade de Extração — Sanitizer, Scorer v2, Dedup ───
+  epic-8: done
+  8-1-text-sanitizer-robusto: done
+  8-2-extracao-alternativas-robusta: done
+  8-3-confidence-scorer-v2: done
+  8-4-deduplicacao-inteligente-cadernos: done
+  8-5-re-extracao-seletiva: done
+  8-6-pipeline-validacao-qualidade: done
+  epic-8-retrospective: optional
+
+  # ─── Epic 9: Qualidade de Extração v2 — Pós-Ingestão 2020-2021 ───
+  epic-9: done
+  9-1-strip-alternativas-brutas-enunciado: done
+  9-2-split-alternativas-coladas: done
+  9-3-recalibrar-peso-contaminacao-scorer: done
+  9-4-ativar-guardrails-bloqueantes: done
+  9-5-limpar-identificadores-caderno-2021: done
+  epic-9-retrospective: optional
