@@ -502,3 +502,142 @@ Para medir o impacto das melhorias e detectar regressões.
 - [ ] Targets: 0% placeholders, 0% headers, 0% cascata, 0% cid, ~80% dedup
 - [ ] Relatório markdown gerado automaticamente após cada execução
 - [ ] Golden set atualizado com alternativas e gabaritos validados manualmente
+
+---
+
+## Epic 10: Pipeline de Avaliação RAG + LLM
+
+**Objetivo:** Permitir que desenvolvedores avaliem sistematicamente a qualidade da busca semântica e da geração de questões ENEM com métricas reproduzíveis, automatizadas e integradas ao workflow de testes existente.
+
+**Critérios de aceite do epic:**
+- Framework DeepEval configurado com Ollama Docker como LLM judge (custo zero)
+- Golden evaluation dataset ENEM com mínimo 30 pares query-documento + 20 questões de referência
+- Métricas de retrieval (Precision@K, Recall@K, MRR) e generation (Faithfulness, G-Eval ENEM)
+- Pipeline end-to-end com relatório Markdown e baseline para regressão
+- Suporte a 3 providers: Ollama (default), GitHub Models/Copilot (rate-limited), OpenAI API (futuro)
+
+**Stack de avaliação:**
+- **DeepEval** — framework primário, integração pytest nativa
+- **Ollama Docker** — LLM local (Llama 3), provider default, custo zero
+- **GitHub Models / Copilot** — GPT-4o via github_token, rate-limited, provider secundário
+- **OpenAI API** — futuro, pay-per-use, migração baseada em resultados
+- **RAGAS metrics** — via DeepEval wrapper (Context Precision, Context Recall)
+
+**Referência técnica:** `_bmad-output/planning-artifacts/research/technical-rag-llm-evaluation-pipeline-research-2026-04-06.md`
+
+### Story 10.1: Setup DeepEval + Ollama Docker + Golden Evaluation Dataset
+
+Como desenvolvedor,
+Quero configurar o framework DeepEval com Ollama no Docker e criar um golden evaluation dataset para RAG,
+Para que o time tenha infraestrutura de avaliação funcional com LLM local e dados de referência ENEM anotados.
+
+**Critérios de aceite:**
+
+**Given** o projeto enem-questions-rag com pytest configurado
+**When** eu adiciono DeepEval e configuro Ollama no Docker Compose
+**Then** `deepeval test run` executa com sucesso usando Ollama como LLM judge
+**And** um adapter `DeepEvalBaseLLM` para Ollama está implementado e testado
+**And** dependency adicionada em `pyproject.toml` como `[project.optional-dependencies.eval]`
+
+**Given** o golden_set.json existente (50 questões de extração)
+**When** eu crio o golden evaluation dataset para RAG
+**Then** o dataset contém no mínimo 30 pares query-documento com relevância anotada para retrieval
+**And** no mínimo 20 questões de referência com expected output para generation evaluation
+**And** o dataset está versionado em `tests/fixtures/golden_eval_dataset.json`
+
+**Given** Ollama rodando no Docker com modelo Llama 3
+**When** eu executo uma avaliação G-Eval simples
+**Then** o score é retornado em menos de 30 segundos
+**And** existe flag de configuração `EVAL_LLM_PROVIDER` para alternar entre `ollama` (default), `github-models` e `openai` (futuro)
+
+### Story 10.2: Retrieval Evaluation — Precision@K, Recall@K, MRR
+
+Como desenvolvedor,
+Quero métricas objetivas de qualidade da busca semântica hybrid (pgvector + tsvector + RRF),
+Para que eu saiba se o retriever está encontrando os chunks corretos e no ranking adequado.
+
+**Critérios de aceite:**
+
+**Given** o golden evaluation dataset com pares query-documento anotados
+**When** eu executo a avaliação de retrieval sobre o `PgVectorSearch`
+**Then** são calculados Precision@5, Recall@5, MRR e Hit Rate para cada query
+**And** os resultados são agregados em scores médios com desvio padrão
+
+**Given** o PgVectorSearch com 3 modos (semantic, text, hybrid)
+**When** eu executo a avaliação nos 3 modos
+**Then** um relatório comparativo mostra scores por modo de busca
+**And** identifica qual modo tem melhor performance
+
+**Given** DeepEval com RAGAS Context Precision e Context Recall configurados
+**When** eu avalio o retrieval com métricas LLM-based (via Ollama)
+**Then** Context Precision e Context Recall são calculados para cada query do golden set
+**And** os scores são salvos em JSON para comparação futura
+
+### Story 10.3: Generation Evaluation — Faithfulness + G-Eval ENEM Rubric
+
+Como desenvolvedor,
+Quero avaliar se as questões geradas pelo RAG são fiéis ao contexto recuperado e seguem o padrão ENEM,
+Para que eu saiba se o question_generator produz conteúdo de qualidade pedagógica.
+
+**Critérios de aceite:**
+
+**Given** o RAGQuestionGenerator gerando questões a partir de chunks do pgvector
+**When** eu avalio a saída com DeepEval FaithfulnessMetric
+**Then** o score de faithfulness é calculado (claims suportados / total claims)
+**And** o reason field explica quais claims foram considerados não-fiéis
+
+**Given** uma rubric ENEM custom com escala 1-4 (1=irrelevante, 2=parcial, 3=adequada, 4=excelente)
+**When** eu avalio a questão gerada com G-Eval usando a rubric
+**Then** o score reflete qualidade pedagógica: formato ENEM (5 alternativas A-E), enunciado claro, alternativas plausíveis
+**And** chain-of-thought do judge é salvo para auditoria
+
+**Given** o golden evaluation dataset com 20 questões de referência
+**When** eu executo Faithfulness + G-Eval ENEM em todas as questões
+**Then** um relatório consolidado lista score médio, piores casos, e distribuição
+**And** a avaliação completa executa em menos de 10 minutos com Ollama
+
+### Story 10.4: Pipeline End-to-End de Avaliação + Relatórios
+
+Como desenvolvedor,
+Quero um pipeline que execute a avaliação completa (retrieval + generation) e produza um relatório legível,
+Para que eu tenha visibilidade end-to-end da qualidade do sistema RAG com um único comando.
+
+**Critérios de aceite:**
+
+**Given** as métricas de retrieval (Story 10.2) e generation (Story 10.3) implementadas
+**When** eu executo `python -m scripts.run_rag_evaluation`
+**Then** o pipeline executa avaliação de retrieval e generation sequencialmente
+**And** um relatório Markdown é gerado em `reports/rag-evaluation-{date}.md`
+
+**Given** o relatório de avaliação gerado
+**When** eu examino o conteúdo
+**Then** contém: resumo executivo, scores por métrica, comparativo de modos de busca, piores cases, e recommendations
+**And** inclui tabelas formatadas e scores com 2 casas decimais
+
+**Given** a configuração `EVAL_LLM_PROVIDER`
+**When** eu executo o pipeline com `--provider github-models`
+**Then** a avaliação roda com GPT-4o via GitHub Models como judge
+**And** o relatório indica qual LLM foi usado como judge e seus rate limits
+
+### Story 10.5: Regression Baseline + Comparação entre Runs
+
+Como desenvolvedor,
+Quero um baseline de scores salvo e comparação automática entre rodadas de avaliação,
+Para que eu detecte regressões de qualidade ao fazer mudanças no pipeline RAG.
+
+**Critérios de aceite:**
+
+**Given** um relatório de avaliação gerado pela Story 10.4
+**When** eu executo `python -m scripts.run_rag_evaluation --save-baseline`
+**Then** os scores são salvos em `tests/fixtures/eval_baseline.json` com timestamp e provider
+
+**Given** um baseline existente
+**When** eu executo uma nova avaliação
+**Then** o relatório inclui coluna "Delta vs Baseline" para cada métrica
+**And** métricas que caíram mais de 5% são destacadas como WARNING
+**And** métricas que caíram mais de 15% são destacadas como CRITICAL
+
+**Given** o pipeline de avaliação integrado ao pytest
+**When** eu executo `pytest tests/test_rag_evaluation.py`
+**Then** os testes de avaliação rodam como parte da suite normal
+**And** falham se alguma métrica estiver abaixo do threshold mínimo definido no baseline
