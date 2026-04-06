@@ -252,6 +252,35 @@ class TestContaminationDetection:
         result = scorer.score(q)
         assert "contamination_detected" not in result.issues
 
+    def test_contaminated_question_below_085(self, scorer):
+        """Story 9.3: contaminated question scores < 0.85 → fallback."""
+        q = _make_question(number=5, text_len=120, num_alts=5, alt_len=30)
+        q.text = "Texto normal com ENEM2024 17 header residual " + "x" * 80
+        result = scorer.score(q)
+        assert result.score < 0.85
+        assert result.routing != "accept"
+
+    def test_raw_alternatives_in_enunciado_detected(self, scorer):
+        """Story 9.3: raw alternatives in enunciado → contamination."""
+        q = _make_question(number=5, text_len=120, num_alts=5, alt_len=30)
+        q.text = "Qual é o valor?\nA 4,00.\nB 4,87.\nC 5,00.\nD 5,83.\nE 6,00."
+        result = scorer.score(q)
+        assert "raw_alternatives_in_enunciado" in result.issues
+
+    def test_guardrails_failed_penalized(self, scorer):
+        """Story 9.4: guardrails_failed → contamination score 0."""
+        q = _make_question(number=5, text_len=120, num_alts=5, alt_len=30)
+        q.guardrails_failed = True
+        result = scorer.score(q)
+        assert "guardrails_validation_failed" in result.issues
+        assert result.score < 0.85
+
+    def test_guardrails_not_failed_no_impact(self, scorer):
+        """Story 9.4: guardrails_failed=False has no impact."""
+        q = _make_question(number=5, text_len=120, num_alts=5, alt_len=30)
+        result = scorer.score(q)
+        assert "guardrails_validation_failed" not in result.issues
+
 
 # ---------------------------------------------------------------------------
 # Cascade detection (AC: 3)

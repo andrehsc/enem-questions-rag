@@ -1,6 +1,6 @@
 # Story 9.1: Strip de Alternativas Brutas do Enunciado
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -107,10 +107,11 @@ Do relatório `relatorio-extracao-completo-2026-04-06.md`, ~70+ questões aceita
 ## Dev Agent Record
 
 ### Agent Model Used
-(pending)
+Claude Opus 4.6
 
 ### Completion Notes List
-(pending)
+Added `_looks_like_alternative_block()` heuristic and new stop condition in `_extract_enunciado()`. Handles false positives (article "A", conjunction "E"). 8 new tests pass.
 
 ### File List
-(pending)
+- `src/enem_ingestion/pymupdf4llm_extractor.py`
+- `tests/test_pymupdf4llm_extractor.py`

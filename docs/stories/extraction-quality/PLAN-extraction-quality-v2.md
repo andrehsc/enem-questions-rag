@@ -398,8 +398,8 @@ O sanitizer atual tem regex que exige "Página \d+" no final do padrão LC.
 
 > Updated: 2026-04-06
 
-### Story 9.1 — Strip de Alternativas Brutas do Enunciado — **TODO**
-### Story 9.2 — Split de Alternativas Coladas — **TODO**
-### Story 9.3 — Recalibrar Peso de Contaminação — **TODO**
-### Story 9.4 — Ativar Guardrails como Bloqueantes — **TODO**
-### Story 9.5 — Limpar Identificadores de Caderno (2021) — **TODO**
+### Story 9.1 — Strip de Alternativas Brutas do Enunciado — **DONE**
+### Story 9.2 — Split de Alternativas Coladas — **DONE**
+### Story 9.3 — Recalibrar Peso de Contaminação — **DONE**
+### Story 9.4 — Ativar Guardrails como Bloqueantes — **DONE**
+### Story 9.5 — Limpar Identificadores de Caderno (2021) — **DONE**

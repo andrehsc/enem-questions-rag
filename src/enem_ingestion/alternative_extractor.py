@@ -360,6 +360,18 @@ class EnhancedAlternativeExtractor:
                     raw_matches=fixed,
                 )
 
+        # Split merged alternatives (Story 9.2)
+        if best_result.raw_matches:
+            split = _split_merged_alternatives(best_result.raw_matches)
+            if split != best_result.raw_matches:
+                best_result = ExtractedAlternatives(
+                    alternatives=_dict_to_list(split),
+                    confidence=best_result.confidence,
+                    strategy_used=best_result.strategy_used,
+                    issues_found=best_result.issues_found + ["merged_alternatives_split"],
+                    raw_matches=split,
+                )
+
         return best_result
 
     def extract_alternatives_legacy_compatible(self, question_text: str) -> List[str]:
@@ -379,6 +391,52 @@ class EnhancedAlternativeExtractor:
             if candidates:
                 merged[letter] = max(candidates, key=lambda x: x[1])[0]
         return merged
+
+
+# ------------------------------------------------------------------ #
+# Split merged alternatives (Story 9.2)
+# ------------------------------------------------------------------ #
+
+def _split_merged_alternatives(alternatives: Dict[str, str]) -> Dict[str, str]:
+    """Split alternatives merged on the same line (e.g., "D texto1. E texto2.").
+
+    Works in multiple passes to handle 3+ merged alts (C→D→E).
+    Only splits when the next expected letter is missing from the dict.
+    """
+    result = dict(alternatives)
+    letters = 'ABCDE'
+
+    # Multiple passes to handle chained merges (e.g., C contains D and E)
+    for _pass in range(3):
+        changed = False
+        for idx in range(3, -1, -1):  # D, C, B, A
+            curr = letters[idx]
+            next_l = letters[idx + 1] if idx + 1 < 5 else None
+            if curr not in result or next_l is None:
+                continue
+            if next_l in result:
+                continue  # next letter already exists
+
+            text = result[curr]
+            split_re = re.compile(
+                rf'(.+?)\s+{next_l}\s+(\S.{{1,}})$'
+            )
+            m = split_re.match(text)
+            if m:
+                candidate_curr = m.group(1).strip()
+                candidate_next = m.group(2).strip()
+                first_word_after = candidate_next.split()[0] if candidate_next else ""
+                if (len(first_word_after) > 8 and first_word_after[0].islower()
+                        and not re.search(r'\d', first_word_after)):
+                    continue
+                if candidate_curr and candidate_next:
+                    result[curr] = candidate_curr
+                    result[next_l] = candidate_next
+                    changed = True
+        if not changed:
+            break
+
+    return result
 
 
 # ------------------------------------------------------------------ #

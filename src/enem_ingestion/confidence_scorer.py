@@ -38,12 +38,12 @@ class ConfidenceResult:
 class ExtractionConfidenceScorer:
     """Score extraction quality and route questions accordingly.
 
-    Weights (total = 1.0) — v2:
+    Weights (total = 1.0) — v3 (Epic 9):
         alt_count       0.20 — exactly 5 alternatives A-E
-        text_quality    0.20 — enunciado >= 50 chars, readable
+        text_quality    0.15 — enunciado >= 50 chars, readable
         alt_quality     0.25 — no placeholder, no cascade, each alt >= 3 chars
-        sequence        0.15 — question_number in expected range
-        contamination   0.10 — no cid, no InDesign, no headers
+        sequence        0.10 — question_number in expected range
+        contamination   0.20 — no cid, no InDesign, no headers, no raw alts in enunciado
         pydantic        0.10 — full Pydantic validation passes
     """
 
@@ -102,10 +102,10 @@ class ExtractionConfidenceScorer:
 
     @staticmethod
     def _score_text_quality(question: Question, issues: List[str]) -> float:
-        """0.20 — enunciado >= 50 chars."""
+        """0.15 — enunciado >= 50 chars."""
         text = question.text or ""
         if len(text) >= 50:
-            return 0.20
+            return 0.15
         issues.append(f"text_too_short={len(text)}")
         return 0.0
 
@@ -144,19 +144,34 @@ class ExtractionConfidenceScorer:
 
     @staticmethod
     def _score_sequence(question: Question, issues: List[str]) -> float:
-        """0.15 — question_number in expected range."""
+        """0.10 — question_number in expected range."""
         if 1 <= question.number <= 180:
-            return 0.15
+            return 0.10
         issues.append(f"number_out_of_range={question.number}")
         return 0.0
 
     def _score_contamination(self, question: Question, issues: List[str]) -> float:
-        """0.10 — no cid, InDesign, headers in text or alternatives."""
+        """0.20 — no cid, InDesign, headers, guardrails failure, or raw alts in enunciado."""
+        # Check guardrails (Story 9.4)
+        if getattr(question, 'guardrails_failed', False):
+            issues.append("guardrails_validation_failed")
+            logger.info("[GUARDRAILS_BLOCKED] Q%d — guardrails_failed, score penalty applied", question.number)
+            return 0.0
+
+        # Check text contamination
         full_text = (question.text or "") + " " + " ".join(question.alternatives)
         if self._sanitizer.has_contamination(full_text):
             issues.append("contamination_detected")
             return 0.0
-        return 0.10
+
+        # Check raw alternatives in enunciado (Story 9.3)
+        raw_alt_pattern = re.compile(r'^[A-E]\s+\S.{2,}', re.MULTILINE)
+        raw_matches = raw_alt_pattern.findall(question.text or "")
+        if len(raw_matches) >= 3:
+            issues.append("raw_alternatives_in_enunciado")
+            return 0.0
+
+        return 0.20
 
     @staticmethod
     def _score_pydantic(question: Question, issues: List[str]) -> float:

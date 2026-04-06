@@ -1,6 +1,6 @@
 # Story 9.5: Limpar Identificadores de Caderno (2021)
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -127,10 +127,11 @@ Do relatório `relatorio-extracao-completo-2026-04-06.md`:
 ## Dev Agent Record
 
 ### Agent Model Used
-(pending)
+Claude Opus 4.6
 
 ### Completion Notes List
-(pending)
+Added OCR "enem2o02/" pattern (`enem\d*o+\d*/?`) and 2021 LC header without "Pagina" to text_sanitizer. All 8 new tests pass.
 
 ### File List
-(pending)
+- `src/enem_ingestion/text_sanitizer.py`
+- `tests/test_text_sanitizer.py`

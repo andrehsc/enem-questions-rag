@@ -98,10 +98,10 @@ development_status:
   epic-8-retrospective: optional
 
   # ─── Epic 9: Qualidade de Extração v2 — Pós-Ingestão 2020-2021 ───
-  epic-9: in-progress
-  9-1-strip-alternativas-brutas-enunciado: ready-for-dev
-  9-2-split-alternativas-coladas: ready-for-dev
-  9-3-recalibrar-peso-contaminacao-scorer: ready-for-dev
-  9-4-ativar-guardrails-bloqueantes: ready-for-dev
-  9-5-limpar-identificadores-caderno-2021: ready-for-dev
+  epic-9: done
+  9-1-strip-alternativas-brutas-enunciado: done
+  9-2-split-alternativas-coladas: done
+  9-3-recalibrar-peso-contaminacao-scorer: done
+  9-4-ativar-guardrails-bloqueantes: done
+  9-5-limpar-identificadores-caderno-2021: done
   epic-9-retrospective: optional

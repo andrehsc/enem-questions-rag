@@ -35,6 +35,8 @@ class TextSanitizer:
                 r'DERNO\s*\d+\s*[.\s]+(?:AZUL|AMARELO|AMARELA|BRANCO|BRANCA|VERDE|ROSA|CINZA)\w*\s*-?',
                 # "LC - 1º dia | Caderno 1 - AZUL - Página 5"
                 r'(?:LC|MT|CN|CH)\s*-\s*\d+[°ºo]?\s*dia\s*\|\s*Caderno\s*\d+.*?(?:Página|Pagina)\s*\d+',
+                # "6 LC - 1º dia | Caderno 1 - AZUL - 1º Aplicação" (2021 format without "Página")
+                r'\d+\s+(?:LC|MT|CN|CH)\s*-\s*\d+[°ºo]?\s*dia\s*\|\s*Caderno\s*\d+\s*-\s*(?:AZUL|AMARELO|AMARELA|BRANCO|BRANCA|VERDE|ROSA|CINZA)\s*-\s*\d*[aª°ºo]?\s*(?:Aplicação|Aplicacao)',
                 # "4 - ROSA - 1a Aplicação"
                 r'\d+\s*-\s*(?:ROSA|AZUL|AMARELO|AMARELA|BRANCO|BRANCA|VERDE|CINZA)\s*-\s*\d*[aª]?\s*(?:Aplicação|Aplicacao)',
                 # "Página 25" standalone page marker
@@ -51,8 +53,10 @@ class TextSanitizer:
                 # "4202 MENE" / "MENE 2024" (reversed)
                 r'4202\s*MENE',
                 r'MENE\s*\d{4}',
-                # OCR artifacts: "enem2o02/", "enenm"-02/"
+                # OCR artifacts: "enenm"-02/"
                 r'enenn?m[\W\d]*\d+/?',
+                # OCR artifacts with "o" substituting "0": "enem2o02/", "enem2o2/"
+                r'enem\d*o+\d*/?',
             ]
         ]
 

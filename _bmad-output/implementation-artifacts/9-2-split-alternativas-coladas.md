@@ -1,6 +1,6 @@
 # Story 9.2: Split de Alternativas Coladas na Mesma Linha
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -124,10 +124,11 @@ Texto legítimo pode conter "E" maiúsculo como conjunção: "Platão E Aristót
 ## Dev Agent Record
 
 ### Agent Model Used
-(pending)
+Claude Opus 4.6
 
 ### Completion Notes List
-(pending)
+Added `_split_merged_alternatives()` with multi-pass approach for 3+ merged alts. Integrated after cascade fix in orchestrator. False-positive protection via word-length heuristic. 9 new tests pass.
 
 ### File List
-(pending)
+- `src/enem_ingestion/alternative_extractor.py`
+- `tests/test_alternative_extractor.py` (new)

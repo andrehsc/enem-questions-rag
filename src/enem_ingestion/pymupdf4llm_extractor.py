@@ -426,12 +426,15 @@ class Pymupdf4llmExtractor:
         # Remove alternative lines from end
         lines = text.split('\n')
         enunciado_lines = []
-        for line in lines:
+        for i, line in enumerate(lines):
             stripped = line.strip()
             # Stop at first alternative marker: (A), **(A)**, A), or `- A` markdown list
             if re.match(r'^\*{0,2}\(?[A-E]\)\*{0,2}\s', stripped):
                 break
             if re.match(r'^-\s+[A-E]\s', stripped):
+                break
+            # Stop at raw alternative block (Story 9.1)
+            if re.match(r'^[A-E]\s+\S', stripped) and self._looks_like_alternative_block(lines, i):
                 break
             enunciado_lines.append(line)
 
@@ -445,6 +448,47 @@ class Pymupdf4llmExtractor:
             enunciado = enunciado[:inline_match.start()].strip()
 
         return enunciado if len(enunciado) >= 10 else text[:500]
+
+    @staticmethod
+    def _looks_like_alternative_block(lines: List[str], start_idx: int) -> bool:
+        """Check if lines starting at start_idx form a raw alternative block.
+
+        Rules:
+        - At least 3 of the next 5 non-empty lines start with ^[A-E]\\s+
+        - Letters are in ascending sequence (A, B, C...) without repetition
+        - Lines are short (<= 300 chars, typical for alternatives)
+        - "A" followed by a lowercase word is likely an article, not an alternative
+        """
+        letters_found = []
+        checked = 0
+        for j in range(start_idx, min(start_idx + 10, len(lines))):
+            stripped = lines[j].strip()
+            if not stripped:
+                continue
+            m = re.match(r'^([A-E])\s+(\S.*)', stripped)
+            if m and len(stripped) <= 300:
+                letter = m.group(1)
+                rest = m.group(2)
+                # "A" followed by lowercase word is likely article/text, not alternative
+                if letter == 'A' and re.match(r'[a-záéíóúãõêâôç]', rest):
+                    return False
+                # "E" followed by lowercase word is likely conjunction
+                if letter == 'E' and re.match(r'[a-záéíóúãõêâôç]', rest):
+                    if not letters_found:
+                        return False
+                letters_found.append(letter)
+            checked += 1
+            if checked >= 5:
+                break
+
+        if len(letters_found) < 3:
+            return False
+
+        # Check ascending sequence without repetition
+        for k in range(len(letters_found) - 1):
+            if ord(letters_found[k + 1]) <= ord(letters_found[k]):
+                return False
+        return True
 
     def _extract_context(self, text: str) -> Optional[str]:
         """Extract texto-base (context) if it precedes the main question."""

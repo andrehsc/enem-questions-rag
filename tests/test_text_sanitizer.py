@@ -239,6 +239,33 @@ class TestIdempotency:
 # Edge cases
 # ------------------------------------------------------------------
 
+# ------------------------------------------------------------------
+# 2021 Caderno artifacts (Story 9.5)
+# ------------------------------------------------------------------
+
+class TestCaderno2021Artifacts:
+    @pytest.mark.parametrize("input_text,expected", [
+        ("texto enem2o02/ continuação", "texto continuação"),
+        ("texto enem2o2/ continuação", "texto continuação"),
+        ("6 LC - 1º dia | Caderno 1 - AZUL - 1º Aplicação", ""),
+        ("20 LC - 1º dia | Caderno 2 - AMARELO - 1º Aplicação", ""),
+        ("15 CN - 2º dia | Caderno 5 - AMARELO - 1ª Aplicação", ""),
+    ])
+    def test_sanitize_caderno_2021_artifacts(self, input_text, expected):
+        assert sanitize_enem_text(input_text).strip() == expected
+
+    def test_has_contamination_enem_ocr_logo(self):
+        assert TextSanitizer().has_contamination("texto enem2o02/ test")
+
+    def test_has_contamination_lc_header_2021(self):
+        assert TextSanitizer().has_contamination("6 LC - 1º dia | Caderno 1 - AZUL - 1º Aplicação")
+
+    def test_existing_headers_still_removed(self):
+        """Regression: existing patterns not broken."""
+        assert sanitize_enem_text("NEM2024 17 texto").strip() == "texto"
+        assert sanitize_enem_text("LC - 1º dia | Caderno 1 - AZUL - Página 5").strip() == ""
+
+
 class TestEdgeCases:
     def test_empty_string(self):
         assert sanitize_enem_text("") == ""

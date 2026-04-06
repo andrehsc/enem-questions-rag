@@ -1,6 +1,6 @@
 # Story 9.4: Ativar Guardrails como Bloqueantes
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -119,10 +119,12 @@ Questão com guardrails falho + contaminação e tudo mais OK:
 ## Dev Agent Record
 
 ### Agent Model Used
-(pending)
+Claude Opus 4.6
 
 ### Completion Notes List
-(pending)
+Added `guardrails_failed` field to Question dataclass. Changed `_extract_alternatives_with_context()` to return tuple with flag. Propagated flag to scorer via `_score_contamination()`. 2 new tests pass.
 
 ### File List
-(pending)
+- `src/enem_ingestion/parser.py`
+- `src/enem_ingestion/confidence_scorer.py`
+- `tests/test_confidence_scorer.py`

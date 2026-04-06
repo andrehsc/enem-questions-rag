@@ -1,6 +1,6 @@
 # Story 9.3: Recalibrar Peso de Contaminação no Scorer
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -111,10 +111,11 @@ class ExtractionConfidenceScorer:
 ## Dev Agent Record
 
 ### Agent Model Used
-(pending)
+Claude Opus 4.6
 
 ### Completion Notes List
-(pending)
+Redistributed weights (text_quality 0.20->0.15, sequence 0.15->0.10, contamination 0.10->0.20). Added raw-alternatives-in-enunciado detection. Contaminated questions now score 0.80 (fallback). 4 new tests pass.
 
 ### File List
-(pending)
+- `src/enem_ingestion/confidence_scorer.py`
+- `tests/test_confidence_scorer.py`
