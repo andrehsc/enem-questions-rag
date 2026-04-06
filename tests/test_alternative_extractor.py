@@ -37,12 +37,33 @@ class TestSplitMergedAlternatives:
         assert result["D"] == "1 e 3."
         assert result["C"] == "1 e 2."
 
-    def test_no_split_when_e_exists(self):
-        """Don't split D if E already exists."""
+    def test_no_split_when_e_exists_different_content(self):
+        """Don't split D if E already exists and content doesn't match."""
         alts = {"A": "x", "B": "y", "C": "z", "D": "something E else", "E": "original"}
         result = _split_merged_alternatives(alts)
         assert result["D"] == "something E else"
         assert result["E"] == "original"
+
+    def test_clean_contaminated_d_when_e_exists(self):
+        """Clean D text when E already exists and D ends with E's content."""
+        alts = {"A": "x", "B": "y", "C": "z", "D": "70,0 E 76,5", "E": "76,5"}
+        result = _split_merged_alternatives(alts)
+        assert result["D"] == "70,0"
+        assert result["E"] == "76,5"
+
+    def test_clean_contaminated_d_when_e_exists_decimal(self):
+        """Clean D="30. E 34." when E="34." already exists."""
+        alts = {"A": "x", "B": "y", "C": "z", "D": "30. E 34.", "E": "34."}
+        result = _split_merged_alternatives(alts)
+        assert result["D"] == "30."
+        assert result["E"] == "34."
+
+    def test_clean_contaminated_d_when_e_exists_full(self):
+        """Clean D="52. E 60." when E="60." already exists."""
+        alts = {"A": "x", "B": "y", "C": "z", "D": "52. E 60.", "E": "60."}
+        result = _split_merged_alternatives(alts)
+        assert result["D"] == "52."
+        assert result["E"] == "60."
 
     def test_no_false_positive_conjunction(self):
         """Don't split on 'E' that's a conjunction in long text."""
@@ -64,3 +85,21 @@ class TestSplitMergedAlternatives:
         result = _split_merged_alternatives(alts)
         assert result["C"] == "5,00."
         assert result["D"] == "5,83."
+
+
+# ---------------------------------------------------------------------------
+# _clean_alternative_text tests — trailing dash artifact
+# ---------------------------------------------------------------------------
+
+class TestCleanAlternativeText:
+
+    def test_trailing_dash_removed(self):
+        from src.enem_ingestion.alternative_extractor import _clean_alternative_text
+        assert _clean_alternative_text("10 -") == "10"
+        assert _clean_alternative_text("18. -") == "18."
+        assert _clean_alternative_text("15. -") == "15."
+
+    def test_clean_preserves_normal_text(self):
+        from src.enem_ingestion.alternative_extractor import _clean_alternative_text
+        assert _clean_alternative_text("auto-regulação") == "auto-regulação"
+        assert _clean_alternative_text("pré-industrial") == "pré-industrial"

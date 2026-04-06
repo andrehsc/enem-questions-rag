@@ -454,10 +454,12 @@ class Pymupdf4llmExtractor:
         """Check if lines starting at start_idx form a raw alternative block.
 
         Rules:
-        - At least 3 of the next 5 non-empty lines start with ^[A-E]\\s+
+        - At least 2 of the next lines start with ^[A-E]\\s+
         - Letters are in ascending sequence (A, B, C...) without repetition
         - Lines are short (<= 300 chars, typical for alternatives)
         - "A" followed by a lowercase word is likely an article, not an alternative
+        - Single short/numeric alternative (e.g. "A 9.") also detected if
+          formatted alternatives (- **A)** or (A)) follow shortly after
         """
         letters_found = []
         checked = 0
@@ -477,11 +479,18 @@ class Pymupdf4llmExtractor:
                     if not letters_found:
                         return False
                 letters_found.append(letter)
+            else:
+                # Check if this line is a formatted alternative (signals the block ended)
+                # Matches: "(A)", "**(A)**", "- **A)**", "- A)", etc.
+                if re.match(r'^[-\s]*\*{0,2}\(?[A-E]\)\*{0,2}\s', stripped):
+                    # We hit formatted alternatives — any raw alts before are duplicates
+                    if len(letters_found) >= 1:
+                        return True
             checked += 1
-            if checked >= 5:
+            if checked >= 7:
                 break
 
-        if len(letters_found) < 3:
+        if len(letters_found) < 2:
             return False
 
         # Check ascending sequence without repetition

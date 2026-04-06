@@ -300,10 +300,14 @@ class TestLooksLikeAlternativeBlock:
         (["A família que adota é mais feliz...", "E então tudo mudou..."], 0, False),
         # False positive: "E" as conjunction (standalone)
         (["E então o fenômeno se manifesta..."], 0, False),
-        # Only 2 letters — insufficient
-        (["A 4,00.", "B 4,87."], 0, False),
+        # Only 2 raw letters — sufficient with threshold=2
+        (["A 5", "B 8"], 0, True),
         # Non-sequential letters
         (["A 4,00.", "C 5,00.", "B 4,87."], 0, False),
+        # Single raw alt followed by formatted alternatives
+        (["A 9.", "", "- **A)** 9.", "- **B)** 15."], 0, True),
+        # Only 1 raw alt with no formatted alts following — insufficient
+        (["A 9.", "Some other text", "More text"], 0, False),
     ])
     def test_looks_like_alternative_block(self, inst, lines, start, expected):
         assert Pymupdf4llmExtractor._looks_like_alternative_block(lines, start) == expected

@@ -154,6 +154,8 @@ class TextSanitizer:
         # Additional trailing cleanup for alternatives
         # Remove trailing page numbers like " 25" at end
         text = re.sub(r'\s+\d{1,3}\s*$', '', text)
+        # Remove trailing " -" artifact from PDF column boundaries
+        text = re.sub(r'\s+-\s*$', '', text)
 
         return text.strip()
 

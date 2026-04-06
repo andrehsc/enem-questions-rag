@@ -401,7 +401,9 @@ def _split_merged_alternatives(alternatives: Dict[str, str]) -> Dict[str, str]:
     """Split alternatives merged on the same line (e.g., "D texto1. E texto2.").
 
     Works in multiple passes to handle 3+ merged alts (C→D→E).
-    Only splits when the next expected letter is missing from the dict.
+    Splits when the next expected letter is missing from the dict,
+    AND also cleans contaminated text when both letters exist
+    (e.g., D="70,0 E 76,5" when E="76,5" already present).
     """
     result = dict(alternatives)
     letters = 'ABCDE'
@@ -414,24 +416,40 @@ def _split_merged_alternatives(alternatives: Dict[str, str]) -> Dict[str, str]:
             next_l = letters[idx + 1] if idx + 1 < 5 else None
             if curr not in result or next_l is None:
                 continue
-            if next_l in result:
-                continue  # next letter already exists
 
             text = result[curr]
             split_re = re.compile(
                 rf'(.+?)\s+{next_l}\s+(\S.{{1,}})$'
             )
             m = split_re.match(text)
-            if m:
-                candidate_curr = m.group(1).strip()
-                candidate_next = m.group(2).strip()
-                first_word_after = candidate_next.split()[0] if candidate_next else ""
-                if (len(first_word_after) > 8 and first_word_after[0].islower()
-                        and not re.search(r'\d', first_word_after)):
-                    continue
-                if candidate_curr and candidate_next:
+            if not m:
+                continue
+
+            candidate_curr = m.group(1).strip()
+            candidate_next = m.group(2).strip()
+            first_word_after = candidate_next.split()[0] if candidate_next else ""
+
+            # Heuristic: skip if next word is long lowercase (likely prose, not alt)
+            if (len(first_word_after) > 8 and first_word_after[0].islower()
+                    and not re.search(r'\d', first_word_after)):
+                continue
+
+            if not candidate_curr or not candidate_next:
+                continue
+
+            if next_l not in result:
+                # Next letter missing — standard split
+                result[curr] = candidate_curr
+                result[next_l] = candidate_next
+                changed = True
+            else:
+                # Next letter already exists — clean contamination from current
+                # Only trim if the extracted next matches existing text
+                existing_next = result[next_l].strip()
+                if (candidate_next == existing_next
+                        or existing_next.startswith(candidate_next)
+                        or candidate_next.startswith(existing_next)):
                     result[curr] = candidate_curr
-                    result[next_l] = candidate_next
                     changed = True
         if not changed:
             break
@@ -503,6 +521,8 @@ def _clean_alternative_text(text: str) -> str:
     text = re.sub(r'[.]{2,}$', '', text)
     text = re.sub(r'^[.\s]+', '', text)
     text = re.sub(r'(ENEM2024|4202MENE|\d{2}::\d{2}::\d{2})', '', text)
+    # Remove trailing " -" or " - " artifact from PDF column boundaries
+    text = re.sub(r'\s+-\s*$', '', text)
     text = re.sub(r'\s+', ' ', text)
     return text.strip()
 
