@@ -195,37 +195,50 @@ class Pymupdf4llmExtractor:
             logger.warning("Tesseract OCR fallback failed: %s", exc)
             return []
 
+    # Characters that Tesseract renders for ENEM circled-letter icons
+    _OCR_CIRCLE_CHARS = frozenset('O®©')
+
     @staticmethod
     def _fix_ocr_alternative_letters(text: str) -> str:
         """Fix OCR-produced alternative letters.
 
         Tesseract renders ENEM circled-letter icons as the same letter
-        (usually 'A') for all five alternatives. This method detects runs of
-        lines starting with the same single capital letter and reassigns them
-        as A, B, C, D, E sequentially.
+        (usually 'A') for all five alternatives, or as 'O' / '®' / '©'
+        (the circle shape) for 2021 CFF-font PDFs.  This method detects
+        runs of lines starting with the same single capital letter (or
+        any mix of circle-like characters) and reassigns them as
+        A, B, C, D, E sequentially.
 
         Tolerates blank lines and short noise lines between alternatives.
         """
+        circle = Pymupdf4llmExtractor._OCR_CIRCLE_CHARS
+        # Pattern: single A-E letter OR circle char, followed by space + text
+        _alt_re = re.compile(r'^([A-EO®©])\s+(\S.{2,})')
+
         lines = text.split('\n')
         result_lines = []
         i = 0
         while i < len(lines):
-            match = re.match(r'^([A-E])\s+(\S.{2,})', lines[i])
+            match = _alt_re.match(lines[i])
             if match:
                 letter = match.group(1)
+                is_circle = letter in circle
                 run_indices = [i]
                 run_texts = [match.group(2)]
                 # Scan ahead: allow blank lines or short noise between matches
                 j = i + 1
                 while j < len(lines) and len(run_texts) < 5:
                     stripped = lines[j].strip()
-                    m = re.match(
-                        r'^' + re.escape(letter) + r'\s+(\S.{2,})', lines[j],
-                    )
+                    m = _alt_re.match(lines[j])
                     if m:
-                        run_indices.append(j)
-                        run_texts.append(m.group(1))
-                        j += 1
+                        next_letter = m.group(1)
+                        # Accept if same letter, or both are circle chars
+                        if next_letter == letter or (is_circle and next_letter in circle):
+                            run_indices.append(j)
+                            run_texts.append(m.group(2))
+                            j += 1
+                        else:
+                            break
                     elif stripped == '' or len(stripped) < 12:
                         # Skip blank or short noise lines (OCR artifacts)
                         j += 1
@@ -234,19 +247,13 @@ class Pymupdf4llmExtractor:
 
                 if len(run_texts) >= 3:
                     target_letters = 'ABCDE'
-                    # Output all lines up to the first run entry as-is
-                    written = set()
                     run_pos = 0
                     for k in range(i, j):
                         if k in run_indices and run_pos < len(run_texts):
                             result_lines.append(
                                 f"{target_letters[run_pos]} {run_texts[run_pos]}"
                             )
-                            written.add(k)
                             run_pos += 1
-                        elif k not in written:
-                            # Skip noise lines between alternatives
-                            pass
                     i = j
                     continue
 
@@ -355,6 +362,8 @@ class Pymupdf4llmExtractor:
         normalized = normalize_enem_text(q_text)
         # Sanitize text (content-level cleaning layer)
         normalized = sanitize_enem_text(normalized)
+        # Normalize bold-formatted alternative letters (2022-2023 INEP template)
+        normalized = self._normalize_bold_alternatives(normalized)
 
         # Extract alternatives using the enhanced strategy extractor
         alt_result = self._alt_extractor.extract_alternatives(normalized)
@@ -448,6 +457,23 @@ class Pymupdf4llmExtractor:
             enunciado = enunciado[:inline_match.start()].strip()
 
         return enunciado if len(enunciado) >= 10 else text[:500]
+
+    @staticmethod
+    def _normalize_bold_alternatives(text: str) -> str:
+        """Normalize bold-formatted alternative letters to plain format.
+
+        2022-2023 INEP PDFs render alternative letters with a two-layer
+        BundesbahnPiStd font that pymupdf4llm converts to bold markdown:
+        ``- **A** texto`` instead of ``- A texto``.
+
+        This normalization allows all existing regex patterns to match.
+        """
+        return re.sub(
+            r'^(\s*-\s+)\*\*([A-E])\*\*(\s)',
+            r'\1\2\3',
+            text,
+            flags=re.MULTILINE,
+        )
 
     @staticmethod
     def _looks_like_alternative_block(lines: List[str], start_idx: int) -> bool:

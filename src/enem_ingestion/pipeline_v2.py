@@ -98,7 +98,9 @@ class ExtractionPipelineV2:
         start = time.time()
         report = PipelineReport()
 
-        pdfs = sorted(Path(input_path).glob("*.pdf"))
+        pdfs = sorted(
+            p for p in Path(input_path).rglob("*.pdf") if "_PV_" in p.name
+        )
         report.total_pdfs = len(pdfs)
         logger.info("Found %d PDFs in %s", len(pdfs), input_path)
 
