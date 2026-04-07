@@ -1,6 +1,6 @@
 # Story 10.3: Generation Evaluation — Faithfulness + G-Eval ENEM Rubric
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

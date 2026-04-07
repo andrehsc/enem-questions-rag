@@ -110,7 +110,7 @@ development_status:
   epic-10: in-progress
   10-1-setup-deepeval-ollama-golden-dataset: done
   10-2-retrieval-evaluation-precision-recall-mrr: done
-  10-3-generation-evaluation-faithfulness-geval: ready-for-dev
+  10-3-generation-evaluation-faithfulness-geval: done
   10-4-pipeline-e2e-avaliacao-relatorios: ready-for-dev
   10-5-regression-baseline-comparacao-runs: ready-for-dev
   epic-10-retrospective: optional
