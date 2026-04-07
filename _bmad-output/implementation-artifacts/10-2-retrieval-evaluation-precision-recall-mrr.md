@@ -1,6 +1,6 @@
 # Story 10.2: Retrieval Evaluation — Precision@K, Recall@K, MRR
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
