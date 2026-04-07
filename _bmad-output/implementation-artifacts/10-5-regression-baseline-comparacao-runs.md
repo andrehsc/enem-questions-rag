@@ -1,6 +1,6 @@
 # Story 10.5: Regression Baseline + Comparação entre Runs
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

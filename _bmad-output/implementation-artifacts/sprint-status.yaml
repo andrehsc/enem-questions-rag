@@ -107,10 +107,10 @@ development_status:
   epic-9-retrospective: optional
 
   # ─── Epic 10: Pipeline de Avaliação RAG + LLM ───
-  epic-10: in-progress
+  epic-10: done
   10-1-setup-deepeval-ollama-golden-dataset: done
   10-2-retrieval-evaluation-precision-recall-mrr: done
   10-3-generation-evaluation-faithfulness-geval: done
   10-4-pipeline-e2e-avaliacao-relatorios: done
-  10-5-regression-baseline-comparacao-runs: ready-for-dev
+  10-5-regression-baseline-comparacao-runs: done
   epic-10-retrospective: optional
