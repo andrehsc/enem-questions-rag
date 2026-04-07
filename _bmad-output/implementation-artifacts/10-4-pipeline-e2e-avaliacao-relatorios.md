@@ -1,6 +1,6 @@
 # Story 10.4: Pipeline End-to-End de Avaliação + Relatórios
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
