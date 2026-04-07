@@ -43,6 +43,10 @@ dev = [
     "flake8>=6.0.0",
     "mypy>=1.5.0",
 ]
+eval = [
+    "deepeval>=2.0",
+    "httpx>=0.27.0",
+]
 
 [tool.black]
 line-length = 88
@@ -64,4 +68,5 @@ asyncio_mode = "auto"
 markers = [
     "golden: Golden set benchmark tests (require ENEM PDFs in data/downloads/)",
     "benchmark: Performance benchmark tests",
+    "eval: RAG evaluation tests (require Ollama running via Docker)",
 ]

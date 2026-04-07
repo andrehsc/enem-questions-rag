@@ -1,6 +1,6 @@
 # Story 10.1: Setup DeepEval + Ollama Docker + Golden Evaluation Dataset
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 

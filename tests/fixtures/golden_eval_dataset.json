@@ -1,0 +1,412 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "created": "2026-04-06",
+    "description": "Golden evaluation dataset for ENEM RAG pipeline. Contains retrieval pairs (query→expected docs) and generation references (topic→expected question format).",
+    "source": "Derived from golden_set.json v3.0 (50 questions, 2020-2024)",
+    "counts": {
+      "retrieval_pairs": 32,
+      "generation_references": 20
+    }
+  },
+  "retrieval_pairs": [
+    {
+      "id": "ret-001",
+      "query": "febre amarela tragédia Mariana meio ambiente",
+      "expected_question_ids": ["gs-001"],
+      "expected_db_ids": ["ff43609e-8a94-45ab-8c19-a70467166d92"],
+      "expected_subjects": ["ciencias_humanas"],
+      "expected_years": [2020]
+    },
+    {
+      "id": "ret-002",
+      "query": "biografia histórica indivíduo história social",
+      "expected_question_ids": ["gs-002"],
+      "expected_db_ids": ["c80c7b74-4c9a-4c98-a757-753dd3528f8d"],
+      "expected_subjects": ["ciencias_humanas"],
+      "expected_years": [2020]
+    },
+    {
+      "id": "ret-003",
+      "query": "tráfico coolies imigração trabalho forçado",
+      "expected_question_ids": ["gs-003"],
+      "expected_db_ids": ["aedde90e-f758-4212-922a-c5240fd0db9a"],
+      "expected_subjects": ["ciencias_humanas"],
+      "expected_years": [2020]
+    },
+    {
+      "id": "ret-004",
+      "query": "patrimônio cultural preservação mensagem espiritual passado",
+      "expected_question_ids": ["gs-011", "gs-012", "gs-013"],
+      "expected_db_ids": ["6ee48ee1-49d1-4cd5-871d-47563263ffa0", "2d2bdf5b-ee5c-44c3-9b52-137aca9973e5", "24e3f9ad-3f55-4329-af2d-91798a8d17db"],
+      "expected_subjects": ["ciencias_humanas"],
+      "expected_years": [2021]
+    },
+    {
+      "id": "ret-005",
+      "query": "fome Itália 536 origem natural",
+      "expected_question_ids": ["gs-021"],
+      "expected_db_ids": ["0f904851-f319-434b-bc02-427c26b69a44"],
+      "expected_subjects": ["ciencias_humanas"],
+      "expected_years": [2022]
+    },
+    {
+      "id": "ret-006",
+      "query": "lei educacional Brasil história educação",
+      "expected_question_ids": ["gs-022"],
+      "expected_db_ids": ["e9ab5280-338b-4bac-ab78-348b7ce7dce4"],
+      "expected_subjects": ["ciencias_humanas"],
+      "expected_years": [2022]
+    },
+    {
+      "id": "ret-007",
+      "query": "Cavalgada Sant'Ana devoção vaqueiros",
+      "expected_question_ids": ["gs-031", "gs-032"],
+      "expected_db_ids": ["8eedd226-3a88-4a54-aac8-a2848a75c3e9", "3244b678-95e3-420e-b612-e6bfe928d335"],
+      "expected_subjects": ["ciencias_humanas"],
+      "expected_years": [2023]
+    },
+    {
+      "id": "ret-008",
+      "query": "mudança temperatura média anual simulação clima",
+      "expected_question_ids": ["gs-033"],
+      "expected_db_ids": ["a61e69b8-e9bb-48c1-8eaf-74e4c7a2b606"],
+      "expected_subjects": ["ciencias_humanas"],
+      "expected_years": [2023]
+    },
+    {
+      "id": "ret-009",
+      "query": "poluição amostras água rio pontos coleta",
+      "expected_question_ids": ["gs-004"],
+      "expected_db_ids": ["3a34db66-a0b4-49ae-9658-4c30e9725e07"],
+      "expected_subjects": ["ciencias_natureza"],
+      "expected_years": [2020]
+    },
+    {
+      "id": "ret-010",
+      "query": "crescimento frota veículos circulação mundo",
+      "expected_question_ids": ["gs-005"],
+      "expected_db_ids": ["c4ba71ec-88d2-4fe1-9da5-ff80532d1204"],
+      "expected_subjects": ["ciencias_natureza"],
+      "expected_years": [2020]
+    },
+    {
+      "id": "ret-011",
+      "query": "treliças ferro peso toneladas estrutura",
+      "expected_question_ids": ["gs-006"],
+      "expected_db_ids": ["bca60048-844f-47c2-8954-fef8e8f5cb99"],
+      "expected_subjects": ["ciencias_natureza"],
+      "expected_years": [2020]
+    },
+    {
+      "id": "ret-012",
+      "query": "ilhas de calor São Paulo temperatura urbana",
+      "expected_question_ids": ["gs-014"],
+      "expected_db_ids": ["07e674c2-e554-449f-824d-7d5187ebaca7"],
+      "expected_subjects": ["ciencias_natureza"],
+      "expected_years": [2021]
+    },
+    {
+      "id": "ret-013",
+      "query": "polvo mimético padrões cromáticos comportamento",
+      "expected_question_ids": ["gs-015", "gs-016"],
+      "expected_db_ids": ["47cb276f-cf94-4440-b5d2-02759eb94dea", "acd1c56a-82c4-46d5-a3f4-bfa5a9f46022"],
+      "expected_subjects": ["ciencias_natureza"],
+      "expected_years": [2021]
+    },
+    {
+      "id": "ret-014",
+      "query": "teoria seleção natural Darwin evolução",
+      "expected_question_ids": ["gs-024", "gs-025"],
+      "expected_db_ids": ["371a39fd-eb72-4411-b7ce-52c59e3e4827", "60fc03b2-15c9-4677-8f3c-79884c38ea22"],
+      "expected_subjects": ["ciencias_natureza"],
+      "expected_years": [2022]
+    },
+    {
+      "id": "ret-015",
+      "query": "composto aromático química orgânica",
+      "expected_question_ids": ["gs-026"],
+      "expected_db_ids": ["145c6e6a-b188-4612-b436-f980fbbe9066"],
+      "expected_subjects": ["ciencias_natureza"],
+      "expected_years": [2022]
+    },
+    {
+      "id": "ret-016",
+      "query": "solos amazônicos silicato agricultura",
+      "expected_question_ids": ["gs-034"],
+      "expected_db_ids": ["62f3e449-368e-4e61-96ce-7182f987000b"],
+      "expected_subjects": ["ciencias_natureza"],
+      "expected_years": [2023]
+    },
+    {
+      "id": "ret-017",
+      "query": "toxicidade cianeto ATP produção",
+      "expected_question_ids": ["gs-035"],
+      "expected_db_ids": ["eb22385d-ef45-4381-abeb-e50a3b5aaaf5"],
+      "expected_subjects": ["ciencias_natureza"],
+      "expected_years": [2023]
+    },
+    {
+      "id": "ret-018",
+      "query": "segurança transporte empresa avaliação",
+      "expected_question_ids": ["gs-036"],
+      "expected_db_ids": ["cdfce419-dead-4524-82c6-9d5287aeb302"],
+      "expected_subjects": ["ciencias_natureza"],
+      "expected_years": [2023]
+    },
+    {
+      "id": "ret-019",
+      "query": "hidroxiapatita química odontologia cálcio",
+      "expected_question_ids": ["gs-044"],
+      "expected_db_ids": ["9c32c6a6-7b96-4b78-b749-f12d981ec48c"],
+      "expected_subjects": ["ciencias_natureza"],
+      "expected_years": [2024]
+    },
+    {
+      "id": "ret-020",
+      "query": "Calvin balanço soltar física movimento",
+      "expected_question_ids": ["gs-046"],
+      "expected_db_ids": ["f75be124-3871-4a12-9b7b-5143dc4ba376"],
+      "expected_subjects": ["ciencias_natureza"],
+      "expected_years": [2024]
+    },
+    {
+      "id": "ret-021",
+      "query": "libertad palabras lenguaje español",
+      "expected_question_ids": ["gs-007"],
+      "expected_db_ids": ["541d5a08-304e-4a58-9230-a894b44f5418"],
+      "expected_subjects": ["linguagens"],
+      "expected_years": [2020]
+    },
+    {
+      "id": "ret-022",
+      "query": "violencia bella arte relatos literatura espanhol",
+      "expected_question_ids": ["gs-008"],
+      "expected_db_ids": ["5e03cd82-9cd8-4910-bce0-c5f0fd48af6c"],
+      "expected_subjects": ["linguagens"],
+      "expected_years": [2020]
+    },
+    {
+      "id": "ret-023",
+      "query": "mito estiagem seca nordeste",
+      "expected_question_ids": ["gs-017"],
+      "expected_db_ids": ["b3c8675d-68ee-4343-872b-5d65f9f05e25"],
+      "expected_subjects": ["linguagens"],
+      "expected_years": [2021]
+    },
+    {
+      "id": "ret-024",
+      "query": "Itaguaí alienista Machado de Assis",
+      "expected_question_ids": ["gs-018"],
+      "expected_db_ids": ["6ac4ba23-d469-4783-9057-d6bb25cb5a44"],
+      "expected_subjects": ["linguagens"],
+      "expected_years": [2021]
+    },
+    {
+      "id": "ret-025",
+      "query": "ruivo olhos azuis chapéu jogo adivinhação",
+      "expected_question_ids": ["gs-027"],
+      "expected_db_ids": ["37dcc8a5-f101-4775-a5ef-e6bbf2caf839"],
+      "expected_subjects": ["linguagens"],
+      "expected_years": [2022]
+    },
+    {
+      "id": "ret-026",
+      "query": "cronista crônica meditado literatura",
+      "expected_question_ids": ["gs-028"],
+      "expected_db_ids": ["b69d8e74-f413-47cc-bc57-611e4a09616e"],
+      "expected_subjects": ["linguagens"],
+      "expected_years": [2022]
+    },
+    {
+      "id": "ret-027",
+      "query": "manifestações populares massa fenômeno matemática",
+      "expected_question_ids": ["gs-009", "gs-010"],
+      "expected_db_ids": ["3399c539-43f8-4df2-b710-d0b81738981d", "5bc787c3-f648-4ea8-85e9-4255963289e8"],
+      "expected_subjects": ["matematica"],
+      "expected_years": [2020]
+    },
+    {
+      "id": "ret-028",
+      "query": "Copa do Brasil times campeões futebol",
+      "expected_question_ids": ["gs-019"],
+      "expected_db_ids": ["0b3215c5-b546-4aac-9c11-cddd286ef42b"],
+      "expected_subjects": ["matematica"],
+      "expected_years": [2021]
+    },
+    {
+      "id": "ret-029",
+      "query": "Cifra César criptografia método código",
+      "expected_question_ids": ["gs-020"],
+      "expected_db_ids": ["f1ba29f2-0bce-4b8d-9711-d9669d632e69"],
+      "expected_subjects": ["matematica"],
+      "expected_years": [2021]
+    },
+    {
+      "id": "ret-030",
+      "query": "preço promocional geladeira loja desconto",
+      "expected_question_ids": ["gs-029"],
+      "expected_db_ids": ["3dae8e7f-2f39-43ba-8f59-5182f603fde3"],
+      "expected_subjects": ["matematica"],
+      "expected_years": [2022]
+    },
+    {
+      "id": "ret-031",
+      "query": "atividades físicas caminhar correr nadar",
+      "expected_question_ids": ["gs-039"],
+      "expected_db_ids": ["ee4f74c7-bcf0-451a-a3ac-b6018a2098ed"],
+      "expected_subjects": ["matematica"],
+      "expected_years": [2023]
+    },
+    {
+      "id": "ret-032",
+      "query": "porta empresa funcionário código senha",
+      "expected_question_ids": ["gs-049"],
+      "expected_db_ids": ["6b685ab3-9222-4692-8815-f3b157fb6e52"],
+      "expected_subjects": ["matematica"],
+      "expected_years": [2024]
+    }
+  ],
+  "generation_references": [
+    {
+      "id": "gen-001",
+      "input_topic": "meio ambiente e febre amarela",
+      "input_subject": "ciencias_humanas",
+      "source_question_id": "gs-001",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro", "texto_base_presente"]
+    },
+    {
+      "id": "gen-002",
+      "input_topic": "história e biografia",
+      "input_subject": "ciencias_humanas",
+      "source_question_id": "gs-002",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro"]
+    },
+    {
+      "id": "gen-003",
+      "input_topic": "imigração e trabalho forçado",
+      "input_subject": "ciencias_humanas",
+      "source_question_id": "gs-003",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro"]
+    },
+    {
+      "id": "gen-004",
+      "input_topic": "patrimônio cultural e preservação",
+      "input_subject": "ciencias_humanas",
+      "source_question_id": "gs-011",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro", "texto_base_presente"]
+    },
+    {
+      "id": "gen-005",
+      "input_topic": "mudanças climáticas e temperatura global",
+      "input_subject": "ciencias_humanas",
+      "source_question_id": "gs-033",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro"]
+    },
+    {
+      "id": "gen-006",
+      "input_topic": "poluição da água e análise química",
+      "input_subject": "ciencias_natureza",
+      "source_question_id": "gs-004",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro", "conteudo_cientifico"]
+    },
+    {
+      "id": "gen-007",
+      "input_topic": "crescimento frota veículos e poluição",
+      "input_subject": "ciencias_natureza",
+      "source_question_id": "gs-005",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro", "conteudo_cientifico"]
+    },
+    {
+      "id": "gen-008",
+      "input_topic": "ilhas de calor urbano fenômeno térmico",
+      "input_subject": "ciencias_natureza",
+      "source_question_id": "gs-014",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro", "conteudo_cientifico"]
+    },
+    {
+      "id": "gen-009",
+      "input_topic": "seleção natural e evolução biológica",
+      "input_subject": "ciencias_natureza",
+      "source_question_id": "gs-024",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro", "conteudo_cientifico"]
+    },
+    {
+      "id": "gen-010",
+      "input_topic": "compostos aromáticos e química orgânica",
+      "input_subject": "ciencias_natureza",
+      "source_question_id": "gs-026",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro", "conteudo_cientifico"]
+    },
+    {
+      "id": "gen-011",
+      "input_topic": "solos amazônicos e agricultura",
+      "input_subject": "ciencias_natureza",
+      "source_question_id": "gs-034",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro", "conteudo_cientifico"]
+    },
+    {
+      "id": "gen-012",
+      "input_topic": "toxicidade cianeto e cadeia respiratória",
+      "input_subject": "ciencias_natureza",
+      "source_question_id": "gs-035",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro", "conteudo_cientifico"]
+    },
+    {
+      "id": "gen-013",
+      "input_topic": "hidroxiapatita e odontologia",
+      "input_subject": "ciencias_natureza",
+      "source_question_id": "gs-044",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro", "conteudo_cientifico"]
+    },
+    {
+      "id": "gen-014",
+      "input_topic": "linguagem e liberdade expressão espanhol",
+      "input_subject": "linguagens",
+      "source_question_id": "gs-007",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro"]
+    },
+    {
+      "id": "gen-015",
+      "input_topic": "crônica gênero literário",
+      "input_subject": "linguagens",
+      "source_question_id": "gs-028",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro"]
+    },
+    {
+      "id": "gen-016",
+      "input_topic": "variação linguística regional mandioca",
+      "input_subject": "linguagens",
+      "source_question_id": "gs-038",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro"]
+    },
+    {
+      "id": "gen-017",
+      "input_topic": "lutas femininas universo masculino esporte",
+      "input_subject": "linguagens",
+      "source_question_id": "gs-047",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro"]
+    },
+    {
+      "id": "gen-018",
+      "input_topic": "probabilidade e combinatória Copa do Brasil",
+      "input_subject": "matematica",
+      "source_question_id": "gs-019",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro", "calculo_correto"]
+    },
+    {
+      "id": "gen-019",
+      "input_topic": "criptografia cifra César matemática discreta",
+      "input_subject": "matematica",
+      "source_question_id": "gs-020",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro", "calculo_correto"]
+    },
+    {
+      "id": "gen-020",
+      "input_topic": "porcentagem desconto preço promoção",
+      "input_subject": "matematica",
+      "source_question_id": "gs-029",
+      "evaluation_criteria": ["formato_enem", "5_alternativas", "enunciado_claro", "calculo_correto"]
+    }
+  ]
+}
